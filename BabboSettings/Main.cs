@@ -11,6 +11,7 @@ namespace BabboSettings {
     public class Settings : UnityModManager.ModSettings {
 
         public bool ENABLE_POST = true;
+        public float FOV = 60;
 
         public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
         public float TAA_sharpness = new TemporalAntialiasing().sharpness;
@@ -18,8 +19,6 @@ namespace BabboSettings {
         public float TAA_stationary = new TemporalAntialiasing().stationaryBlending;
         public float TAA_motion = new TemporalAntialiasing().motionBlending;
         public SubpixelMorphologicalAntialiasing SMAA = new SubpixelMorphologicalAntialiasing();
-
-        public float FOV = 60;
 
         public AmbientOcclusion AO = new AmbientOcclusion();
         public AutoExposure EXPO = new AutoExposure();
@@ -37,7 +36,8 @@ namespace BabboSettings {
         }
 
         public override void Save(UnityModManager.ModEntry modEntry) {
-            UnityModManager.ModSettings.Save<Settings>(this, modEntry);
+            Main.settingsGUI.Save();
+            Save(this, modEntry);
         }
     }
 
@@ -46,9 +46,12 @@ namespace BabboSettings {
         public static Settings settings;
         public static HarmonyInstance harmonyInstance;
         public static string modId = "BabboSettings";
+        public static SettingsGUI settingsGUI;
+        private static UnityModManager.ModEntry modEntry;
 
         static bool Load(UnityModManager.ModEntry modEntry) {
-            settings = Settings.Load<Settings>(modEntry);
+            Main.modEntry = modEntry;
+            settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
             modEntry.OnSaveGUI = OnSaveGUI;
             modEntry.OnToggle = OnToggle;
 
@@ -56,13 +59,14 @@ namespace BabboSettings {
         }
 
         static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
+            Main.modEntry = modEntry;
             if (enabled == value) return true;
             enabled = value;
 
             if (enabled) {
                 harmonyInstance = HarmonyInstance.Create(modEntry.Info.Id);
                 harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
-                ModMenu.Instance.gameObject.AddComponent<SettingsGUI>();
+                settingsGUI = ModMenu.Instance.gameObject.AddComponent<SettingsGUI>();
             }
             else {
                 harmonyInstance.UnpatchAll(harmonyInstance.Id);
@@ -72,6 +76,10 @@ namespace BabboSettings {
         }
 
         static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
+            settings.Save(modEntry);
+        }
+
+        internal static void Save() {
             settings.Save(modEntry);
         }
     }

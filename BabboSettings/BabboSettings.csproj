@@ -39,6 +39,7 @@
     <None Include="Resources\Info.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SettingsGUI2.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsGUI.cs" />
@@ -50,6 +51,7 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\references\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>..\references\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
