@@ -8,6 +8,7 @@ namespace BabboSettings {
 	internal partial class SettingsGUI : MonoBehaviour {
 
 		private bool reading_main = true;
+		private bool fast_apply = false;
 
 		// Settings stuff
 		private Camera main;
@@ -26,6 +27,7 @@ namespace BabboSettings {
 		private ColorGrading GAME_COLOR; // NOT SERIALIZABLE
 		private DepthOfField GAME_DOF;
 		private Grain GAME_GRAIN;
+		private LensDistortion GAME_LENS;
 		private MotionBlur GAME_BLUR;
 		private ScreenSpaceReflections GAME_REFL;
 		private Vignette GAME_VIGN;
@@ -70,8 +72,9 @@ namespace BabboSettings {
 			GUILayout.BeginVertical();
 			{
 				if (reading_main) {
-					if(Main.settings!=null) TO_READ = DeepClone(Main.settings);
+					TO_READ = DeepClone(Main.settings);
 					reading_main = false;
+					log("Done reading main");
 				}
 				else {
 					TO_READ.ENABLE_POST = post_volume.enabled;
@@ -92,11 +95,12 @@ namespace BabboSettings {
 					TO_READ.COLOR_saturation = GAME_COLOR.saturation.value;
 					TO_READ.DOF = GAME_DOF;
 					TO_READ.GRAIN = GAME_GRAIN;
+					TO_READ.LENS = GAME_LENS;
 					TO_READ.BLUR = GAME_BLUR;
 					TO_READ.REFL = GAME_REFL;
 					TO_READ.VIGN = GAME_VIGN;
 				}
-				
+
 				// Post in general
 				{
 					post_volume.enabled = GUILayout.Toggle(TO_READ.ENABLE_POST, "Enable post processing");
@@ -104,7 +108,7 @@ namespace BabboSettings {
 
 				// Field Of View
 				{
-					GUILayout.Label("Field Of View");
+					GUILayout.Label("Field Of View: " + TO_READ.FOV);
 					main.fieldOfView = GUILayout.HorizontalSlider(TO_READ.FOV, 30, 110);
 				}
 
@@ -119,18 +123,18 @@ namespace BabboSettings {
 					else if (post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) {
 						GUILayout.BeginHorizontal();
 						{
-							GUILayout.Label("sharpness");
+							GUILayout.Label("sharpness: " + TO_READ.TAA_sharpness);
 							GAME_TAA.sharpness = GUILayout.HorizontalSlider(TO_READ.TAA_sharpness, 0, 3);
-							GUILayout.Label("jitter spread");
+							GUILayout.Label("jitter spread: " + TO_READ.TAA_jitter);
 							GAME_TAA.jitterSpread = GUILayout.HorizontalSlider(TO_READ.TAA_jitter, 0, 1);
 						}
 						GUILayout.EndHorizontal();
 						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						{
-							GUILayout.Label("stationary blending");
+							GUILayout.Label("stationary blending: " + TO_READ.TAA_stationary);
 							GAME_TAA.stationaryBlending = GUILayout.HorizontalSlider(TO_READ.TAA_stationary, 0, 1);
-							GUILayout.Label("motion blending");
+							GUILayout.Label("motion blending: " + TO_READ.TAA_motion);
 							GAME_TAA.motionBlending = GUILayout.HorizontalSlider(TO_READ.TAA_motion, 0, 1);
 						}
 						GUILayout.EndHorizontal();
@@ -160,12 +164,20 @@ namespace BabboSettings {
 					// Automatic Exposure
 					{
 						GAME_EXPO.enabled.Override(GUILayout.Toggle(TO_READ.EXPO.enabled.value, "Automatic Exposure"));
+						if (GAME_EXPO.enabled.value) {
+							GUILayout.Label("Compensation: " + TO_READ.EXPO.keyValue.value);
+							GAME_EXPO.keyValue.Override(GUILayout.HorizontalSlider(TO_READ.EXPO.keyValue.value, 0, 4));
+						}
 					}
 
 					// Bloom
 					{
 						GUILayout.FlexibleSpace();
 						GAME_BLOOM.enabled.Override(GUILayout.Toggle(TO_READ.BLOOM.enabled.value, "Bloom"));
+						if (GAME_BLOOM.enabled.value) {
+							GUILayout.Label("Intensity: " + TO_READ.BLOOM.intensity.value);
+							GAME_BLOOM.intensity.Override(GUILayout.HorizontalSlider(TO_READ.BLOOM.intensity.value, 0, 4));
+						}
 						GUILayout.FlexibleSpace();
 					}
 
@@ -173,23 +185,62 @@ namespace BabboSettings {
 					{
 						GUILayout.FlexibleSpace();
 						GAME_CA.enabled.Override(GUILayout.Toggle(TO_READ.CA.enabled.value, "Chromatic aberration"));
+						if (GAME_CA.enabled.value) {
+							GUILayout.Label("Intensity: " + TO_READ.CA.intensity.value);
+							GAME_CA.intensity.Override(GUILayout.HorizontalSlider(TO_READ.CA.intensity.value, 0, 1));
+						}
 						GUILayout.FlexibleSpace();
 					}
 
 					// Color Grading
 					{
 						GAME_COLOR.enabled.Override(GUILayout.Toggle(TO_READ.COLOR_enabled, "Color Grading"));
-						GAME_COLOR.saturation.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_saturation, -100, 100));
+						if (GAME_COLOR.enabled.value) {
+							GAME_COLOR.saturation.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_saturation, -100, 100));
+							GAME_COLOR.contrast.Override(0);
+						}
 					}
 
 					// Depth Of Field
 					{
 						GAME_DOF.enabled.Override(GUILayout.Toggle(TO_READ.DOF.enabled.value, "Depth Of Field"));
+						if (GAME_DOF.enabled.value) {
+							GUILayout.Label("focus distance: " + TO_READ.DOF.focusDistance.value);
+							GAME_DOF.focusDistance.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focusDistance.value, 0, 20));
+							GUILayout.Label("aperture: " + TO_READ.DOF.aperture.value);
+							GAME_DOF.aperture.Override(GUILayout.HorizontalSlider(TO_READ.DOF.aperture.value, 0.1f, 32));
+							GUILayout.Label("focal length: " + TO_READ.DOF.focalLength.value);
+							GAME_DOF.focalLength.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focalLength.value, 1, 300));
+						}
 					}
 
 					// Grain
 					{
 						GAME_GRAIN.enabled.Override(GUILayout.Toggle(TO_READ.GRAIN.enabled.value, "Grain"));
+						if (GAME_GRAIN.enabled.value) {
+							GAME_GRAIN.colored.Override(GUILayout.Toggle(TO_READ.GRAIN.colored.value, "colored"));
+							GUILayout.Label("intensity: " + TO_READ.GRAIN.intensity.value);
+							GAME_GRAIN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.intensity.value, 0, 1));
+							GUILayout.Label("size: " + TO_READ.GRAIN.size.value);
+							GAME_GRAIN.size.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.size.value, 0.3f, 3));
+							GUILayout.Label("luminance contribution: " + TO_READ.GRAIN.lumContrib.value);
+							GAME_GRAIN.lumContrib.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.lumContrib.value, 0, 1));
+						}
+					}
+
+					// Lens Distortion
+					{
+						GAME_LENS.enabled.Override(GUILayout.Toggle(TO_READ.LENS.enabled.value, "Lens distortion"));
+						if (GAME_LENS.enabled.value) {
+							GUILayout.Label("Intensity: " + TO_READ.LENS.intensity.value);
+							GAME_LENS.intensity.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensity.value, -100, 100));
+							GUILayout.Label("X: " + TO_READ.LENS.intensityX.value);
+							GAME_LENS.intensityX.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityX.value, 0, 1));
+							GUILayout.Label("Y: " + TO_READ.LENS.intensityY.value);
+							GAME_LENS.intensityY.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityY.value, 0, 1));
+							GUILayout.Label("Scale: " + TO_READ.LENS.scale.value);
+							GAME_LENS.scale.Override(GUILayout.HorizontalSlider(TO_READ.LENS.scale.value, 0.1f, 5));
+						}
 					}
 
 					// Motion Blur
@@ -198,10 +249,10 @@ namespace BabboSettings {
 						GAME_BLUR.enabled.Override(GUILayout.Toggle(TO_READ.BLUR.enabled.value, "Motion blur"));
 						if (TO_READ.BLUR.enabled.value) {
 							GUILayout.BeginHorizontal();
-							GUILayout.Label("Shutter angle");
+							GUILayout.Label("Shutter angle: " + GAME_BLUR.shutterAngle.value);
 							GAME_BLUR.shutterAngle.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.shutterAngle, 0, 360)));
-							GUILayout.Label("Sample count");
-							GAME_BLUR.sampleCount.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.sampleCount, 0, 32)));
+							GUILayout.Label("Sample count: " + GAME_BLUR.sampleCount.value);
+							GAME_BLUR.sampleCount.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.sampleCount, 4, 32)));
 							GUILayout.EndHorizontal();
 						}
 						GUILayout.FlexibleSpace();
@@ -217,6 +268,7 @@ namespace BabboSettings {
 						GAME_VIGN.enabled.Override(GUILayout.Toggle(TO_READ.VIGN.enabled.value, "Vignette"));
 					}
 				}
+
 				// link to repo?
 				if (GUILayout.Button("by Babbo Elu")) {
 					GUILayout.FlexibleSpace();
@@ -233,6 +285,11 @@ namespace BabboSettings {
 				}
 			}
 			GUILayout.EndVertical();
+
+			if (fast_apply) {
+				fast_apply = false;
+				Close();
+			}
 		}
 
 		private void getSettings() {
@@ -274,6 +331,10 @@ namespace BabboSettings {
 					log("Not found blur");
 					GAME_BLUR = post_volume.profile.AddSettings<MotionBlur>();
 				}
+				if((GAME_LENS = post_volume.profile.GetSetting<LensDistortion>()) == null) {
+					log("Not foudn lens");
+					GAME_LENS = post_volume.profile.AddSettings<LensDistortion>();
+				}
 				if ((GAME_REFL = post_volume.profile.GetSetting<ScreenSpaceReflections>()) == null) {
 					log("Not found refl");
 					GAME_REFL = post_volume.profile.AddSettings<ScreenSpaceReflections>();
@@ -294,6 +355,10 @@ namespace BabboSettings {
 			log("Found all AAs");
 
 			reading_main = true;
+			if (!showUI) {
+				fast_apply = true;
+				Open();
+			}
 
 			log("Done reading post_layer and post_volume settings");
 		}

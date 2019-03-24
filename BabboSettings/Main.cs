@@ -28,6 +28,7 @@ namespace BabboSettings {
 		public float COLOR_saturation = 0;
 		public DepthOfField DOF = new DepthOfField();
 		public Grain GRAIN = new Grain();
+		public LensDistortion LENS = new LensDistortion();
 		public MotionBlur BLUR = new MotionBlur();
 		public ScreenSpaceReflections REFL = new ScreenSpaceReflections();
 		public Vignette VIGN = new Vignette();

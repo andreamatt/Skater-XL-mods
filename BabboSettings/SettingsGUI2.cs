@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityModManagerNet;
@@ -138,27 +137,33 @@ namespace BabboSettings {
 
 		public void Save() {
 			log("Called SettingsGUI.save()");
-			Main.settings.ENABLE_POST = post_volume.enabled;
-			Main.settings.FOV = main.fieldOfView;
+			if (reading_main) {
+				log("Cannot save while reading main");
+			}
+			else {
+				Main.settings.ENABLE_POST = post_volume.enabled;
+				Main.settings.FOV = main.fieldOfView;
 
-			Main.settings.AA_MODE = post_layer.antialiasingMode;
-			Main.settings.TAA_sharpness = post_layer.temporalAntialiasing.sharpness;
-			Main.settings.TAA_jitter = post_layer.temporalAntialiasing.jitterSpread;
-			Main.settings.TAA_stationary = post_layer.temporalAntialiasing.stationaryBlending;
-			Main.settings.TAA_motion = post_layer.temporalAntialiasing.motionBlending;
-			Main.settings.SMAA = DeepClone(GAME_SMAA);
+				Main.settings.AA_MODE = post_layer.antialiasingMode;
+				Main.settings.TAA_sharpness = post_layer.temporalAntialiasing.sharpness;
+				Main.settings.TAA_jitter = post_layer.temporalAntialiasing.jitterSpread;
+				Main.settings.TAA_stationary = post_layer.temporalAntialiasing.stationaryBlending;
+				Main.settings.TAA_motion = post_layer.temporalAntialiasing.motionBlending;
+				Main.settings.SMAA = DeepClone(GAME_SMAA);
 
-			Main.settings.AO = DeepClone(GAME_AO);
-			Main.settings.EXPO = DeepClone(GAME_EXPO);
-			Main.settings.BLOOM = DeepClone(GAME_BLOOM);
-			Main.settings.CA = DeepClone(GAME_CA);
-			Main.settings.COLOR_enabled = GAME_COLOR.enabled.value;
-			Main.settings.COLOR_saturation = GAME_COLOR.saturation.value;
-			Main.settings.DOF = DeepClone(GAME_DOF);
-			Main.settings.GRAIN = DeepClone(GAME_GRAIN);
-			Main.settings.BLUR = DeepClone(GAME_BLUR);
-			Main.settings.REFL = DeepClone(GAME_REFL);
-			Main.settings.VIGN = DeepClone(GAME_VIGN);
+				Main.settings.AO = DeepClone(GAME_AO);
+				Main.settings.EXPO = DeepClone(GAME_EXPO);
+				Main.settings.BLOOM = DeepClone(GAME_BLOOM);
+				Main.settings.CA = DeepClone(GAME_CA);
+				Main.settings.COLOR_enabled = GAME_COLOR.enabled.value;
+				Main.settings.COLOR_saturation = GAME_COLOR.saturation.value;
+				Main.settings.DOF = DeepClone(GAME_DOF);
+				Main.settings.GRAIN = DeepClone(GAME_GRAIN);
+				Main.settings.LENS = DeepClone(GAME_LENS);
+				Main.settings.BLUR = DeepClone(GAME_BLUR);
+				Main.settings.REFL = DeepClone(GAME_REFL);
+				Main.settings.VIGN = DeepClone(GAME_VIGN);
+			}
 		}
 	}
 }
