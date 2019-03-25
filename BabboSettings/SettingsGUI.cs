@@ -116,7 +116,7 @@ namespace BabboSettings {
 				{
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("Field Of View: " + TO_READ.FOV);
-					main.fieldOfView = GUILayout.HorizontalSlider(TO_READ.FOV, 30, 110);
+					main.fieldOfView = GUILayout.HorizontalSlider(TO_READ.FOV, 30, 110, sliderStyle, thumbStyle);
 					GUILayout.EndHorizontal();
 					if (GUILayout.Button("Reset")) {
 						Main.settings.FOV = 60;
@@ -135,9 +135,9 @@ namespace BabboSettings {
 						GUILayout.BeginHorizontal();
 						{
 							GUILayout.Label("sharpness: " + TO_READ.TAA_sharpness);
-							GAME_TAA.sharpness = GUILayout.HorizontalSlider(TO_READ.TAA_sharpness, 0, 3);
+							GAME_TAA.sharpness = GUILayout.HorizontalSlider(TO_READ.TAA_sharpness, 0, 3, sliderStyle, thumbStyle);
 							GUILayout.Label("jitter spread: " + TO_READ.TAA_jitter);
-							GAME_TAA.jitterSpread = GUILayout.HorizontalSlider(TO_READ.TAA_jitter, 0, 1);
+							GAME_TAA.jitterSpread = GUILayout.HorizontalSlider(TO_READ.TAA_jitter, 0, 1, sliderStyle, thumbStyle);
 						}
 						GUILayout.EndHorizontal();
 						GUILayout.FlexibleSpace();
@@ -190,7 +190,7 @@ namespace BabboSettings {
 						if (GAME_EXPO.enabled.value && sp_EXPO) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Compensation: " + TO_READ.EXPO.keyValue.value);
-							GAME_EXPO.keyValue.Override(GUILayout.HorizontalSlider(TO_READ.EXPO.keyValue.value, 0, 4));
+							GAME_EXPO.keyValue.Override(GUILayout.HorizontalSlider(TO_READ.EXPO.keyValue.value, 0, 4, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.EXPO = new AutoExposure();
@@ -211,7 +211,7 @@ namespace BabboSettings {
 						if (GAME_BLOOM.enabled.value && sp_BLOOM) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + TO_READ.BLOOM.intensity.value);
-							GAME_BLOOM.intensity.Override(GUILayout.HorizontalSlider(TO_READ.BLOOM.intensity.value, 0, 4));
+							GAME_BLOOM.intensity.Override(GUILayout.HorizontalSlider(TO_READ.BLOOM.intensity.value, 0, 4, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.BLOOM = new Bloom();
@@ -232,7 +232,7 @@ namespace BabboSettings {
 						if (GAME_CA.enabled.value && sp_CA) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + TO_READ.CA.intensity.value);
-							GAME_CA.intensity.Override(GUILayout.HorizontalSlider(TO_READ.CA.intensity.value, 0, 1));
+							GAME_CA.intensity.Override(GUILayout.HorizontalSlider(TO_READ.CA.intensity.value, 0, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.CA = new ChromaticAberration();
@@ -253,19 +253,19 @@ namespace BabboSettings {
 						if (GAME_COLOR.enabled.value && sp_COLOR) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Temperature: " + TO_READ.COLOR_temperature);
-							GAME_COLOR.temperature.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_temperature, -100, 100));
+							GAME_COLOR.temperature.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_temperature, -100, 100, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Post-exposure: " + TO_READ.COLOR_post_exposure);
-							GAME_COLOR.postExposure.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_post_exposure, 0, 5));
+							GAME_COLOR.postExposure.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_post_exposure, 0, 5, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Saturation: " + TO_READ.COLOR_saturation);
-							GAME_COLOR.saturation.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_saturation, -100, 100));
+							GAME_COLOR.saturation.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_saturation, -100, 100, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Contrast: " + TO_READ.COLOR_contrast);
-							GAME_COLOR.contrast.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_contrast, -100, 100));
+							GAME_COLOR.contrast.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_contrast, -100, 100, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								// NEED TO ADD RESET ONE BY ONE
@@ -286,15 +286,15 @@ namespace BabboSettings {
 						if (GAME_DOF.enabled.value && sp_DOF) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("focus distance: " + TO_READ.DOF.focusDistance.value);
-							GAME_DOF.focusDistance.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focusDistance.value, 0, 20));
+							GAME_DOF.focusDistance.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focusDistance.value, 0, 20, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("aperture: " + TO_READ.DOF.aperture.value);
-							GAME_DOF.aperture.Override(GUILayout.HorizontalSlider(TO_READ.DOF.aperture.value, 0.1f, 32));
+							GAME_DOF.aperture.Override(GUILayout.HorizontalSlider(TO_READ.DOF.aperture.value, 0.1f, 32, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("focal length: " + TO_READ.DOF.focalLength.value);
-							GAME_DOF.focalLength.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focalLength.value, 1, 300));
+							GAME_DOF.focalLength.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focalLength.value, 1, 300, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.DOF = new DepthOfField();
@@ -318,15 +318,15 @@ namespace BabboSettings {
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("intensity: " + TO_READ.GRAIN.intensity.value);
-							GAME_GRAIN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.intensity.value, 0, 1));
+							GAME_GRAIN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.intensity.value, 0, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("size: " + TO_READ.GRAIN.size.value);
-							GAME_GRAIN.size.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.size.value, 0.3f, 3));
+							GAME_GRAIN.size.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.size.value, 0.3f, 3, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("luminance contribution: " + TO_READ.GRAIN.lumContrib.value);
-							GAME_GRAIN.lumContrib.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.lumContrib.value, 0, 1));
+							GAME_GRAIN.lumContrib.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.lumContrib.value, 0, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.GRAIN = new Grain();
@@ -347,19 +347,19 @@ namespace BabboSettings {
 						if (GAME_LENS.enabled.value && sp_LENS) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + TO_READ.LENS.intensity.value);
-							GAME_LENS.intensity.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensity.value, -100, 100));
+							GAME_LENS.intensity.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensity.value, -100, 100, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("X: " + TO_READ.LENS.intensityX.value);
-							GAME_LENS.intensityX.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityX.value, 0, 1));
+							GAME_LENS.intensityX.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityX.value, 0, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Y: " + TO_READ.LENS.intensityY.value);
-							GAME_LENS.intensityY.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityY.value, 0, 1));
+							GAME_LENS.intensityY.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityY.value, 0, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Scale: " + TO_READ.LENS.scale.value);
-							GAME_LENS.scale.Override(GUILayout.HorizontalSlider(TO_READ.LENS.scale.value, 0.1f, 5));
+							GAME_LENS.scale.Override(GUILayout.HorizontalSlider(TO_READ.LENS.scale.value, 0.1f, 5, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.LENS = new LensDistortion();
@@ -380,11 +380,11 @@ namespace BabboSettings {
 						if (GAME_BLUR.enabled.value && sp_BLUR) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Shutter angle: " + GAME_BLUR.shutterAngle.value);
-							GAME_BLUR.shutterAngle.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.shutterAngle, 0, 360)));
+							GAME_BLUR.shutterAngle.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.shutterAngle, 0, 360, sliderStyle, thumbStyle)));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Sample count: " + GAME_BLUR.sampleCount.value);
-							GAME_BLUR.sampleCount.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.sampleCount, 4, 32)));
+							GAME_BLUR.sampleCount.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.sampleCount, 4, 32, sliderStyle, thumbStyle)));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.BLUR = new MotionBlur();
@@ -424,15 +424,15 @@ namespace BabboSettings {
 							GAME_VIGN.mode.Override(VignetteMode.Classic);
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + GAME_VIGN.intensity.value);
-							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.intensity.value, 0, 1));
+							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.intensity.value, 0, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Smoothness: " + GAME_VIGN.smoothness.value);
-							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.smoothness.value, 0.1f, 1));
+							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.smoothness.value, 0.1f, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Roundness: " + GAME_VIGN.roundness.value);
-							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.roundness.value, 0, 1));
+							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.roundness.value, 0, 1, sliderStyle, thumbStyle));
 							GUILayout.EndHorizontal();
 							GUILayout.BeginHorizontal();
 							GAME_VIGN.rounded.Override(GUILayout.Toggle(TO_READ.VIGN.rounded.value, "Rounded"));

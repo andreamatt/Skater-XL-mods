@@ -18,6 +18,8 @@ namespace BabboSettings {
 		private GUIStyle columnStyle = GUIStyle.none;
 		private GUIStyle boxStyle;
 		private GUIStyle toggleStyle;
+		private GUIStyle sliderStyle;
+		private GUIStyle thumbStyle;
 		private readonly int largeFontSize = 28;
 		private readonly int medFontSize = 18;
 		private readonly int smallFontSize = 14;
@@ -92,6 +94,14 @@ namespace BabboSettings {
 			spoilerBtnStyle = new GUIStyle(GUI.skin.button) {
 				fixedWidth = 100
 			};
+
+			sliderStyle = new GUIStyle(GUI.skin.horizontalSlider) {
+				fixedWidth = 200
+			};
+
+			thumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb) {
+
+			};
 		}
 
 		private void Open() {
@@ -122,6 +132,10 @@ namespace BabboSettings {
 
 			if (showUI) {
 				windowRect = GUILayout.Window(GUIUtility.GetControlID(FocusType.Passive), windowRect, RenderWindow, "Graphic Settings by Babbo", windowStyle, GUILayout.Width(600)); // no windowStyle?
+			}
+
+			if(DateTime.Now.Second % 2 == 0) {
+				Main.Save();
 			}
 		}
 
