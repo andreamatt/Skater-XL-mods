@@ -18,6 +18,7 @@ XLShredLib required.
 
 ## How to use
 
+Start the game on High/VeryHigh/Ultra. Lower settings might not work.
 Open/close the UI using **Backspace**.
 The mod saves settings every time the UI closes.
 
