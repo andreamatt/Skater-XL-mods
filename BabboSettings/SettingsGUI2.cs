@@ -156,7 +156,10 @@ namespace BabboSettings {
 				Main.settings.BLOOM = DeepClone(GAME_BLOOM);
 				Main.settings.CA = DeepClone(GAME_CA);
 				Main.settings.COLOR_enabled = GAME_COLOR.enabled.value;
+				Main.settings.COLOR_temperature = GAME_COLOR.temperature.value;
+				Main.settings.COLOR_post_exposure = GAME_COLOR.postExposure.value;
 				Main.settings.COLOR_saturation = GAME_COLOR.saturation.value;
+				Main.settings.COLOR_contrast = GAME_COLOR.contrast.value;
 				Main.settings.DOF = DeepClone(GAME_DOF);
 				Main.settings.GRAIN = DeepClone(GAME_GRAIN);
 				Main.settings.LENS = DeepClone(GAME_LENS);

@@ -25,7 +25,10 @@ namespace BabboSettings {
 		public Bloom BLOOM = new Bloom();
 		public ChromaticAberration CA = new ChromaticAberration();
 		public bool COLOR_enabled = true;
+		public float COLOR_temperature = 0;
+		public float COLOR_post_exposure = 0;
 		public float COLOR_saturation = 0;
+		public float COLOR_contrast = 0;
 		public DepthOfField DOF = new DepthOfField();
 		public Grain GRAIN = new Grain();
 		public LensDistortion LENS = new LensDistortion();
