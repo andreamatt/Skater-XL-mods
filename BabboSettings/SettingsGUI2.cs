@@ -11,25 +11,15 @@ namespace BabboSettings {
 		private bool showUI = false;
 		private GameObject master;
 		private bool setUp;
-		private Rect windowRect = new Rect(50f, 50f, 800f, 0f);
+		private Rect windowRect = new Rect(50f, 50f, 600f, 0f);
 		private GUIStyle windowStyle;
 		private GUIStyle spoilerBtnStyle;
-		private GUIStyle columnLeftStyle = GUIStyle.none;
-		private GUIStyle columnStyle = GUIStyle.none;
-		private GUIStyle boxStyle;
-		private GUIStyle toggleStyle;
 		private GUIStyle sliderStyle;
 		private GUIStyle thumbStyle;
-		private readonly int largeFontSize = 28;
-		private readonly int medFontSize = 18;
-		private readonly int smallFontSize = 14;
-		private readonly int spacing = 14;
 		private readonly Color windowColor = new Color(0.2f, 0.2f, 0.2f);
-		private readonly Color largeFontColor = Color.red;
-		private readonly Color smallFontColor = Color.yellow;
-		private GUIStyle fontLarge;
-		private GUIStyle fontMed;
-		private GUIStyle fontSmall;
+		private string separator;
+		private GUIStyle separatorStyle;
+		private Vector2 scrollPosition = new Vector2();
 
 
 		public SettingsGUI() {
@@ -52,44 +42,12 @@ namespace BabboSettings {
 			DontDestroyOnLoad(gameObject);
 			master = GameObject.Find("Master Prefab");
 			DontDestroyOnLoad(master);
-
-			fontLarge = new GUIStyle() {
-				fontSize = largeFontSize
-			};
-			fontLarge.normal.textColor = largeFontColor;
-			fontMed = new GUIStyle() {
-				fontSize = medFontSize
-			};
-			fontMed.normal.textColor = largeFontColor;
-			fontSmall = new GUIStyle() {
-				fontSize = smallFontSize,
-				padding = new RectOffset(1, 0, 2, 0)
-			};
-			fontSmall.normal.textColor = smallFontColor;
-
+			
 			windowStyle = new GUIStyle(GUI.skin.window) {
 				padding = new RectOffset(10, 10, 25, 10),
 				contentOffset = new Vector2(0, -23.0f)
 			};
-
-			boxStyle = new GUIStyle(GUI.skin.box) {
-				padding = new RectOffset(14, 14, 24, 9),
-				contentOffset = new Vector2(0, -20f)
-			};
-
-			columnLeftStyle.margin.right = spacing;
-
-			toggleStyle = new GUIStyle(GUI.skin.toggle) {
-				fontSize = smallFontSize,
-				margin = new RectOffset(0, 0, 0, 0),
-				padding = new RectOffset(20, 0, 2, 0),
-				contentOffset = new Vector2(0, 0)
-			};
-			toggleStyle.normal.textColor = toggleStyle.active.textColor = toggleStyle.hover.textColor = largeFontColor;
-			toggleStyle.onNormal.textColor = toggleStyle.onActive.textColor = toggleStyle.onHover.textColor = smallFontColor;
-			toggleStyle.padding.left = 20;
-			toggleStyle.imagePosition = ImagePosition.TextOnly;
-
+			
 			spoilerBtnStyle = new GUIStyle(GUI.skin.button) {
 				fixedWidth = 100
 			};
@@ -99,8 +57,15 @@ namespace BabboSettings {
 			};
 
 			thumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb) {
-
+				
 			};
+
+			separatorStyle = new GUIStyle(GUI.skin.label) {
+				
+			};
+			separatorStyle.normal.textColor = Color.gray;
+
+			separator = new string('_', 53);
 		}
 
 		private void Open() {
@@ -130,7 +95,7 @@ namespace BabboSettings {
 			}
 
 			if (showUI) {
-				windowRect = GUILayout.Window(GUIUtility.GetControlID(FocusType.Passive), windowRect, RenderWindow, "Graphic Settings by Babbo", windowStyle, GUILayout.Width(600)); // no windowStyle?
+				windowRect = GUILayout.Window(GUIUtility.GetControlID(FocusType.Passive), windowRect, RenderWindow, "Graphic Settings by Babbo", windowStyle, GUILayout.Width(400));
 				if (DateTime.Now.Second % 2 == 0) {
 					//Main.Save();
 				}

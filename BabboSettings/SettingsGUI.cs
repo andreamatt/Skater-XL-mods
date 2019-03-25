@@ -38,7 +38,7 @@ namespace BabboSettings {
 		private string[] ao_mode = { "SAO", "MSVO" };
 		private string[] refl_presets = { "Low", "Lower", "Medium", "High", "Higher", "Ultra", "Overkill" };
 
-		private bool sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
+		private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
 
 		private void Update() {
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
@@ -72,7 +72,7 @@ namespace BabboSettings {
 
 			GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
-			GUILayout.BeginVertical();
+			scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(700));
 			{
 				if (reading_main) {
 					TO_READ = DeepClone(Main.settings);
@@ -111,7 +111,7 @@ namespace BabboSettings {
 				{
 					post_volume.enabled = GUILayout.Toggle(TO_READ.ENABLE_POST, "Enable post processing");
 				}
-
+				GUILayout.Label(separator, separatorStyle);
 				// Field Of View
 				{
 					GUILayout.BeginHorizontal();
@@ -122,20 +122,22 @@ namespace BabboSettings {
 						main.fieldOfView = 60;
 					}
 				}
-
+				GUILayout.Label(separator, separatorStyle);
 				// AntiAliasing
 				{
 					GUILayout.Label("AntiAliasing");
 					post_layer.antialiasingMode = (Antialiasing)(GUILayout.SelectionGrid((int)TO_READ.AA_MODE, aa_names, aa_names.Length));
-					if ((post_layer.antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing) || fast_apply) {
+					sp_AA = GUILayout.Button(sp_AA ? "hide" : "show" , spoilerBtnStyle) ? !sp_AA : sp_AA;
+					if ((sp_AA && post_layer.antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing) || fast_apply) {
 						GAME_SMAA.quality = (SubpixelMorphologicalAntialiasing.Quality)GUILayout.SelectionGrid((int)TO_READ.SMAA.quality, smaa_quality, smaa_quality.Length);
 					}
-					if ((post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) || fast_apply) {
+					if ((sp_AA && post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) || fast_apply) {
 						GUILayout.BeginHorizontal();
 						GUILayout.Label("sharpness: " + TO_READ.TAA_sharpness);
 						GAME_TAA.sharpness = GUILayout.HorizontalSlider(TO_READ.TAA_sharpness, 0, 3, sliderStyle, thumbStyle);
 						GUILayout.EndHorizontal();
 						GUILayout.BeginHorizontal();
+
 						GUILayout.Label("jitter spread: " + TO_READ.TAA_jitter);
 						GAME_TAA.jitterSpread = GUILayout.HorizontalSlider(TO_READ.TAA_jitter, 0, 1, sliderStyle, thumbStyle);
 						GUILayout.EndHorizontal();
@@ -152,14 +154,13 @@ namespace BabboSettings {
 						}
 					}
 				}
-
+				GUILayout.Label(separator, separatorStyle);
 				if (TO_READ.ENABLE_POST) {
 					// Ambient Occlusion
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_AO.enabled.Override(GUILayout.Toggle(TO_READ.AO.enabled.value, "Ambient occlusion"));
-						if (GAME_AO.enabled.value) sp_AO = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_AO : sp_AO;
+						if (GAME_AO.enabled.value) sp_AO = GUILayout.Button(sp_AO ? "hide" : "show" , spoilerBtnStyle) ? !sp_AO : sp_AO;
 						GUILayout.EndHorizontal();
 						if ((GAME_AO.enabled.value && sp_AO) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -172,15 +173,13 @@ namespace BabboSettings {
 								GAME_AO = reset<AmbientOcclusion>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Automatic Exposure
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_EXPO.enabled.Override(GUILayout.Toggle(TO_READ.EXPO.enabled.value, "Automatic Exposure"));
-						if (GAME_EXPO.enabled.value) sp_EXPO = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_EXPO : sp_EXPO;
+						if (GAME_EXPO.enabled.value) sp_EXPO = GUILayout.Button(sp_EXPO ? "hide" : "show" , spoilerBtnStyle) ? !sp_EXPO : sp_EXPO;
 						GUILayout.EndHorizontal();
 						if ((GAME_EXPO.enabled.value && sp_EXPO) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -191,15 +190,13 @@ namespace BabboSettings {
 								GAME_EXPO = reset<AutoExposure>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Bloom
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_BLOOM.enabled.Override(GUILayout.Toggle(TO_READ.BLOOM.enabled.value, "Bloom"));
-						if (GAME_BLOOM.enabled.value) sp_BLOOM = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_BLOOM : sp_BLOOM;
+						if (GAME_BLOOM.enabled.value) sp_BLOOM = GUILayout.Button(sp_BLOOM ? "hide" : "show" , spoilerBtnStyle) ? !sp_BLOOM : sp_BLOOM;
 						GUILayout.EndHorizontal();
 						if ((GAME_BLOOM.enabled.value && sp_BLOOM) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -210,15 +207,13 @@ namespace BabboSettings {
 								GAME_BLOOM = reset<Bloom>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Chromatic aberration
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_CA.enabled.Override(GUILayout.Toggle(TO_READ.CA.enabled.value, "Chromatic aberration"));
-						if (GAME_CA.enabled.value) sp_CA = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_CA : sp_CA;
+						if (GAME_CA.enabled.value) sp_CA = GUILayout.Button(sp_CA ? "hide" : "show" , spoilerBtnStyle) ? !sp_CA : sp_CA;
 						GUILayout.EndHorizontal();
 						if ((GAME_CA.enabled.value && sp_CA) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -229,15 +224,13 @@ namespace BabboSettings {
 								GAME_CA = reset<ChromaticAberration>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Color Grading
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_COLOR.enabled.Override(GUILayout.Toggle(TO_READ.COLOR_enabled, "Color Grading"));
-						if (GAME_COLOR.enabled.value) sp_COLOR = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_COLOR : sp_COLOR;
+						if (GAME_COLOR.enabled.value) sp_COLOR = GUILayout.Button(sp_COLOR ? "hide" : "show" , spoilerBtnStyle) ? !sp_COLOR : sp_COLOR;
 						GUILayout.EndHorizontal();
 						if ((GAME_COLOR.enabled.value && sp_COLOR) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -264,15 +257,13 @@ namespace BabboSettings {
 								GAME_COLOR.contrast.Override(0);
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Depth Of Field
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_DOF.enabled.Override(GUILayout.Toggle(TO_READ.DOF.enabled.value, "Depth Of Field"));
-						if (GAME_DOF.enabled.value) sp_DOF = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_DOF : sp_DOF;
+						if (GAME_DOF.enabled.value) sp_DOF = GUILayout.Button(sp_DOF ? "hide" : "show" , spoilerBtnStyle) ? !sp_DOF : sp_DOF;
 						GUILayout.EndHorizontal();
 						if ((GAME_DOF.enabled.value && sp_DOF) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -291,15 +282,13 @@ namespace BabboSettings {
 								GAME_DOF = reset<DepthOfField>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Grain
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_GRAIN.enabled.Override(GUILayout.Toggle(TO_READ.GRAIN.enabled.value, "Grain"));
-						if (GAME_GRAIN.enabled.value) sp_GRAIN = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_GRAIN : sp_GRAIN;
+						if (GAME_GRAIN.enabled.value) sp_GRAIN = GUILayout.Button(sp_GRAIN ? "hide" : "show" , spoilerBtnStyle) ? !sp_GRAIN : sp_GRAIN;
 						GUILayout.EndHorizontal();
 						if ((GAME_GRAIN.enabled.value && sp_GRAIN) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -321,15 +310,13 @@ namespace BabboSettings {
 								GAME_GRAIN = reset<Grain>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Lens Distortion
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_LENS.enabled.Override(GUILayout.Toggle(TO_READ.LENS.enabled.value, "Lens distortion"));
-						if (GAME_LENS.enabled.value) sp_LENS = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_LENS : sp_LENS;
+						if (GAME_LENS.enabled.value) sp_LENS = GUILayout.Button(sp_LENS ? "hide" : "show" , spoilerBtnStyle) ? !sp_LENS : sp_LENS;
 						GUILayout.EndHorizontal();
 						if ((GAME_LENS.enabled.value && sp_LENS) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -352,15 +339,13 @@ namespace BabboSettings {
 								GAME_LENS = reset<LensDistortion>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Motion Blur
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_BLUR.enabled.Override(GUILayout.Toggle(TO_READ.BLUR.enabled.value, "Motion blur"));
-						if (GAME_BLUR.enabled.value) sp_BLUR = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_BLUR : sp_BLUR;
+						if (GAME_BLUR.enabled.value) sp_BLUR = GUILayout.Button(sp_BLUR ? "hide" : "show" , spoilerBtnStyle) ? !sp_BLUR : sp_BLUR;
 						GUILayout.EndHorizontal();
 						if ((GAME_BLUR.enabled.value && sp_BLUR) || fast_apply) {
 							GUILayout.BeginHorizontal();
@@ -375,15 +360,13 @@ namespace BabboSettings {
 								GAME_BLUR = reset<MotionBlur>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Screen Space Reflections
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_REFL.enabled.Override(GUILayout.Toggle(TO_READ.REFL.enabled.value, "Reflections"));
-						if (GAME_REFL.enabled.value) sp_REFL = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_REFL : sp_REFL;
+						if (GAME_REFL.enabled.value) sp_REFL = GUILayout.Button(sp_REFL ? "hide" : "show" , spoilerBtnStyle) ? !sp_REFL : sp_REFL;
 						GUILayout.EndHorizontal();
 						if ((GAME_REFL.enabled.value && sp_REFL) || fast_apply) {
 							GAME_REFL.preset.Override((ScreenSpaceReflectionPreset)GUILayout.SelectionGrid((int)GAME_REFL.preset.value, refl_presets, refl_presets.Length));
@@ -391,15 +374,13 @@ namespace BabboSettings {
 								GAME_REFL = reset<ScreenSpaceReflections>();
 							}
 						}
-						GUILayout.FlexibleSpace();
 					}
-
+					GUILayout.Label(separator, separatorStyle);
 					// Vignette
 					{
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
 						GAME_VIGN.enabled.Override(GUILayout.Toggle(TO_READ.VIGN.enabled.value, "Vignette"));
-						if (GAME_VIGN.enabled.value) sp_VIGN = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_VIGN : sp_VIGN;
+						if (GAME_VIGN.enabled.value) sp_VIGN = GUILayout.Button(sp_VIGN ? "hide" : "show" , spoilerBtnStyle) ? !sp_VIGN : sp_VIGN;
 						GUILayout.EndHorizontal();
 						if ((GAME_VIGN.enabled.value && sp_VIGN) || fast_apply) {
 							GAME_VIGN.mode.Override(VignetteMode.Classic);
@@ -422,22 +403,20 @@ namespace BabboSettings {
 							}
 							GUILayout.EndHorizontal();
 						}
-						GUILayout.FlexibleSpace();
 					}
+					GUILayout.Label(separator, separatorStyle);
 				}
 
 				// link to repo?
 				if (GUILayout.Button("by Babbo Elu")) {
-					GUILayout.FlexibleSpace();
 					Application.OpenURL("http://github.com/andreamatt/BabboSettings");
 				}
-
+				GUILayout.Label(separator, separatorStyle);
 				if (GUILayout.Button("Close")) {
-					GUILayout.FlexibleSpace();
 					Close();
 				}
 			}
-			GUILayout.EndVertical();
+			GUILayout.EndScrollView();
 
 			if (fast_apply) {
 				fast_apply = false;
