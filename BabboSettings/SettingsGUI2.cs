@@ -132,10 +132,9 @@ namespace BabboSettings {
 
 			if (showUI) {
 				windowRect = GUILayout.Window(GUIUtility.GetControlID(FocusType.Passive), windowRect, RenderWindow, "Graphic Settings by Babbo", windowStyle, GUILayout.Width(600)); // no windowStyle?
-			}
-
-			if(DateTime.Now.Second % 2 == 0) {
-				Main.Save();
+				if (DateTime.Now.Second % 2 == 0) {
+					//Main.Save();
+				}
 			}
 		}
 
