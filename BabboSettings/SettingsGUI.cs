@@ -116,7 +116,7 @@ namespace BabboSettings {
 				{
 					GUILayout.BeginHorizontal();
 					GUILayout.Label("Field Of View: " + TO_READ.FOV);
-					main.fieldOfView = GUILayout.HorizontalSlider(TO_READ.FOV, 30, 110, sliderStyle, thumbStyle);
+					main.fieldOfView = GUILayout.HorizontalSlider(TO_READ.FOV, 1, 179, sliderStyle, thumbStyle);
 					GUILayout.EndHorizontal();
 					if (GUILayout.Button("Reset")) {
 						main.fieldOfView = 60;
@@ -163,6 +163,10 @@ namespace BabboSettings {
 						if (GAME_AO.enabled.value) sp_AO = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_AO : sp_AO;
 						GUILayout.EndHorizontal();
 						if ((GAME_AO.enabled.value && sp_AO) || fast_apply) {
+							GUILayout.BeginHorizontal();
+							GUILayout.Label("Intensity: " + GAME_AO.intensity.value);
+							GAME_AO.intensity.Override(GUILayout.HorizontalSlider(TO_READ.AO.intensity.value, 0, 1, sliderStyle, thumbStyle));
+							GUILayout.EndHorizontal();
 							GAME_AO.quality.Override((AmbientOcclusionQuality)GUILayout.SelectionGrid((int)TO_READ.AO.quality.value, ao_quality, ao_quality.Length));
 							GAME_AO.mode.Override((AmbientOcclusionMode)GUILayout.SelectionGrid((int)TO_READ.AO.mode.value, ao_mode, ao_mode.Length));
 							if (GUILayout.Button("Reset")) {
