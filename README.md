@@ -6,7 +6,7 @@ Should work with any map.
 
 Works inside replay editor.
 
-![Showcase](https://i.imgur.com/njSRcIa.jpg)
+![Showcase](https://i.imgur.com/KlKgLER.png)
 
 ## Installation
 

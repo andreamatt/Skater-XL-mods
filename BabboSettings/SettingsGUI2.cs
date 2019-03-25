@@ -38,10 +38,9 @@ namespace BabboSettings {
 
 		public void Start() {
 			getSettings();
-			Open();
 		}
 
-		void log(string s) {
+		public static void log(string s) {
 			UnityModManager.Logger.Log(s);
 		}
 
