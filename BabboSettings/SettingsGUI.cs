@@ -132,24 +132,23 @@ namespace BabboSettings {
 					}
 					if ((post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) || fast_apply) {
 						GUILayout.BeginHorizontal();
-						{
-							GUILayout.Label("sharpness: " + TO_READ.TAA_sharpness);
-							GAME_TAA.sharpness = GUILayout.HorizontalSlider(TO_READ.TAA_sharpness, 0, 3, sliderStyle, thumbStyle);
-							GUILayout.Label("jitter spread: " + TO_READ.TAA_jitter);
-							GAME_TAA.jitterSpread = GUILayout.HorizontalSlider(TO_READ.TAA_jitter, 0, 1, sliderStyle, thumbStyle);
-						}
+						GUILayout.Label("sharpness: " + TO_READ.TAA_sharpness);
+						GAME_TAA.sharpness = GUILayout.HorizontalSlider(TO_READ.TAA_sharpness, 0, 3, sliderStyle, thumbStyle);
 						GUILayout.EndHorizontal();
-						GUILayout.FlexibleSpace();
 						GUILayout.BeginHorizontal();
-						{
-							GUILayout.Label("stationary blending: " + TO_READ.TAA_stationary);
-							GAME_TAA.stationaryBlending = GUILayout.HorizontalSlider(TO_READ.TAA_stationary, 0, 1);
-							GUILayout.Label("motion blending: " + TO_READ.TAA_motion);
-							GAME_TAA.motionBlending = GUILayout.HorizontalSlider(TO_READ.TAA_motion, 0, 1);
-						}
+						GUILayout.Label("jitter spread: " + TO_READ.TAA_jitter);
+						GAME_TAA.jitterSpread = GUILayout.HorizontalSlider(TO_READ.TAA_jitter, 0, 1, sliderStyle, thumbStyle);
+						GUILayout.EndHorizontal();
+						GUILayout.BeginHorizontal();
+						GUILayout.Label("stationary blending: " + TO_READ.TAA_stationary);
+						GAME_TAA.stationaryBlending = GUILayout.HorizontalSlider(TO_READ.TAA_stationary, 0, 1, sliderStyle, thumbStyle);
+						GUILayout.EndHorizontal();
+						GUILayout.BeginHorizontal();
+						GUILayout.Label("motion blending: " + TO_READ.TAA_motion);
+						GAME_TAA.motionBlending = GUILayout.HorizontalSlider(TO_READ.TAA_motion, 0, 1, sliderStyle, thumbStyle);
 						GUILayout.EndHorizontal();
 						if (GUILayout.Button("Default TAA")) {
-							GAME_TAA = new TemporalAntialiasing();
+							GAME_TAA = post_layer.temporalAntialiasing = new TemporalAntialiasing();
 						}
 					}
 				}
