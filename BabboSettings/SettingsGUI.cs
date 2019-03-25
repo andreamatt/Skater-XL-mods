@@ -38,6 +38,8 @@ namespace BabboSettings {
 		private string[] ao_mode = { "SAO", "MSVO" };
 		private string[] refl_presets = { "Low", "Lower", "Medium", "High", "Higher", "Ultra", "Overkill" };
 
+		private bool sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
+
 		private void Update() {
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
 			if (keyUp) {
@@ -112,8 +114,10 @@ namespace BabboSettings {
 
 				// Field Of View
 				{
+					GUILayout.BeginHorizontal();
 					GUILayout.Label("Field Of View: " + TO_READ.FOV);
 					main.fieldOfView = GUILayout.HorizontalSlider(TO_READ.FOV, 30, 110);
+					GUILayout.EndHorizontal();
 					if (GUILayout.Button("Reset")) {
 						Main.settings.FOV = 60;
 						reading_main = true;
@@ -122,7 +126,6 @@ namespace BabboSettings {
 
 				// AntiAliasing
 				{
-					GUILayout.Space(5);
 					GUILayout.Label("AntiAliasing");
 					post_layer.antialiasingMode = (Antialiasing)(GUILayout.SelectionGrid((int)TO_READ.AA_MODE, aa_names, aa_names.Length));
 					if (post_layer.antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing) {
@@ -155,19 +158,22 @@ namespace BabboSettings {
 							reading_main = true;
 						}
 					}
-					GUILayout.FlexibleSpace();
 				}
 
 				if (TO_READ.ENABLE_POST) {
 					// Ambiental Occlusion
 					{
 						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_AO.enabled.Override(GUILayout.Toggle(TO_READ.AO.enabled.value, "Ambiental occlusion"));
-						if (GAME_AO.enabled.value) {
+						if(GAME_AO.enabled.value) sp_AO = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_AO : sp_AO;
+						GUILayout.EndHorizontal();
+						if (GAME_AO.enabled.value && sp_AO) {
 							GAME_AO.quality.Override((AmbientOcclusionQuality)GUILayout.SelectionGrid((int)TO_READ.AO.quality.value, ao_quality, ao_quality.Length));
 							GAME_AO.mode.Override((AmbientOcclusionMode)GUILayout.SelectionGrid((int)TO_READ.AO.mode.value, ao_mode, ao_mode.Length));
 							if (GUILayout.Button("Reset")) {
 								Main.settings.AO = new AmbientOcclusion();
+								Main.settings.AO.enabled.Override(GAME_AO.enabled.value);
 								reading_main = true;
 							}
 						}
@@ -176,26 +182,40 @@ namespace BabboSettings {
 
 					// Automatic Exposure
 					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_EXPO.enabled.Override(GUILayout.Toggle(TO_READ.EXPO.enabled.value, "Automatic Exposure"));
-						if (GAME_EXPO.enabled.value) {
+						if (GAME_EXPO.enabled.value) sp_EXPO = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_EXPO : sp_EXPO;
+						GUILayout.EndHorizontal();
+						if (GAME_EXPO.enabled.value && sp_EXPO) {
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Compensation: " + TO_READ.EXPO.keyValue.value);
 							GAME_EXPO.keyValue.Override(GUILayout.HorizontalSlider(TO_READ.EXPO.keyValue.value, 0, 4));
+							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.EXPO = new AutoExposure();
+								Main.settings.EXPO.enabled.Override(GAME_EXPO.enabled.value);
 								reading_main = true;
 							}
 						}
+						GUILayout.FlexibleSpace();
 					}
 
 					// Bloom
 					{
 						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_BLOOM.enabled.Override(GUILayout.Toggle(TO_READ.BLOOM.enabled.value, "Bloom"));
-						if (GAME_BLOOM.enabled.value) {
+						if (GAME_BLOOM.enabled.value) sp_BLOOM = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_BLOOM : sp_BLOOM;
+						GUILayout.EndHorizontal();
+						if (GAME_BLOOM.enabled.value && sp_BLOOM) {
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + TO_READ.BLOOM.intensity.value);
 							GAME_BLOOM.intensity.Override(GUILayout.HorizontalSlider(TO_READ.BLOOM.intensity.value, 0, 4));
+							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.BLOOM = new Bloom();
+								Main.settings.BLOOM.enabled.Override(GAME_BLOOM.enabled.value);
 								reading_main = true;
 							}
 						}
@@ -205,12 +225,18 @@ namespace BabboSettings {
 					// Chromatic aberration
 					{
 						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_CA.enabled.Override(GUILayout.Toggle(TO_READ.CA.enabled.value, "Chromatic aberration"));
-						if (GAME_CA.enabled.value) {
+						if (GAME_CA.enabled.value) sp_CA = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_CA : sp_CA;
+						GUILayout.EndHorizontal();
+						if (GAME_CA.enabled.value && sp_CA) {
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + TO_READ.CA.intensity.value);
 							GAME_CA.intensity.Override(GUILayout.HorizontalSlider(TO_READ.CA.intensity.value, 0, 1));
+							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.CA = new ChromaticAberration();
+								Main.settings.CA.enabled.Override(GAME_CA.enabled.value);
 								reading_main = true;
 							}
 						}
@@ -219,91 +245,150 @@ namespace BabboSettings {
 
 					// Color Grading
 					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_COLOR.enabled.Override(GUILayout.Toggle(TO_READ.COLOR_enabled, "Color Grading"));
-						if (GAME_COLOR.enabled.value) {
+						if (GAME_COLOR.enabled.value) sp_COLOR = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_COLOR : sp_COLOR;
+						GUILayout.EndHorizontal();
+						if (GAME_COLOR.enabled.value && sp_COLOR) {
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Temperature: " + TO_READ.COLOR_temperature);
 							GAME_COLOR.temperature.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_temperature, -100, 100));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Post-exposure: " + TO_READ.COLOR_post_exposure);
 							GAME_COLOR.postExposure.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_post_exposure, 0, 5));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Saturation: " + TO_READ.COLOR_saturation);
 							GAME_COLOR.saturation.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_saturation, -100, 100));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Contrast: " + TO_READ.COLOR_contrast);
 							GAME_COLOR.contrast.Override(GUILayout.HorizontalSlider(TO_READ.COLOR_contrast, -100, 100));
+							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								// NEED TO ADD RESET ONE BY ONE
 								Main.settings.COLOR_temperature = Main.settings.COLOR_post_exposure = Main.settings.COLOR_saturation = Main.settings.COLOR_contrast = 0;
 								reading_main = true;
 							}
 						}
+						GUILayout.FlexibleSpace();
 					}
 
 					// Depth Of Field
 					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_DOF.enabled.Override(GUILayout.Toggle(TO_READ.DOF.enabled.value, "Depth Of Field"));
-						if (GAME_DOF.enabled.value) {
+						if (GAME_DOF.enabled.value) sp_DOF = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_DOF : sp_DOF;
+						GUILayout.EndHorizontal();
+						if (GAME_DOF.enabled.value && sp_DOF) {
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("focus distance: " + TO_READ.DOF.focusDistance.value);
 							GAME_DOF.focusDistance.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focusDistance.value, 0, 20));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("aperture: " + TO_READ.DOF.aperture.value);
 							GAME_DOF.aperture.Override(GUILayout.HorizontalSlider(TO_READ.DOF.aperture.value, 0.1f, 32));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("focal length: " + TO_READ.DOF.focalLength.value);
 							GAME_DOF.focalLength.Override(GUILayout.HorizontalSlider(TO_READ.DOF.focalLength.value, 1, 300));
+							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.DOF = new DepthOfField();
+								Main.settings.DOF.enabled.Override(GAME_DOF.enabled.value);
 								reading_main = true;
 							}
 						}
+						GUILayout.FlexibleSpace();
 					}
 
 					// Grain
 					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_GRAIN.enabled.Override(GUILayout.Toggle(TO_READ.GRAIN.enabled.value, "Grain"));
-						if (GAME_GRAIN.enabled.value) {
+						if (GAME_GRAIN.enabled.value) sp_GRAIN = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_GRAIN : sp_GRAIN;
+						GUILayout.EndHorizontal();
+						if (GAME_GRAIN.enabled.value && sp_GRAIN) {
+							GUILayout.BeginHorizontal();
 							GAME_GRAIN.colored.Override(GUILayout.Toggle(TO_READ.GRAIN.colored.value, "colored"));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("intensity: " + TO_READ.GRAIN.intensity.value);
 							GAME_GRAIN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.intensity.value, 0, 1));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("size: " + TO_READ.GRAIN.size.value);
 							GAME_GRAIN.size.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.size.value, 0.3f, 3));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("luminance contribution: " + TO_READ.GRAIN.lumContrib.value);
 							GAME_GRAIN.lumContrib.Override(GUILayout.HorizontalSlider(TO_READ.GRAIN.lumContrib.value, 0, 1));
+							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.GRAIN = new Grain();
+								Main.settings.GRAIN.enabled.Override(GAME_GRAIN.enabled.value);
 								reading_main = true;
 							}
 						}
+						GUILayout.FlexibleSpace();
 					}
 
 					// Lens Distortion
 					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_LENS.enabled.Override(GUILayout.Toggle(TO_READ.LENS.enabled.value, "Lens distortion"));
-						if (GAME_LENS.enabled.value) {
+						if (GAME_LENS.enabled.value) sp_LENS = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_LENS : sp_LENS;
+						GUILayout.EndHorizontal();
+						if (GAME_LENS.enabled.value && sp_LENS) {
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + TO_READ.LENS.intensity.value);
 							GAME_LENS.intensity.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensity.value, -100, 100));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("X: " + TO_READ.LENS.intensityX.value);
 							GAME_LENS.intensityX.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityX.value, 0, 1));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Y: " + TO_READ.LENS.intensityY.value);
 							GAME_LENS.intensityY.Override(GUILayout.HorizontalSlider(TO_READ.LENS.intensityY.value, 0, 1));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Scale: " + TO_READ.LENS.scale.value);
 							GAME_LENS.scale.Override(GUILayout.HorizontalSlider(TO_READ.LENS.scale.value, 0.1f, 5));
+							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.LENS = new LensDistortion();
+								Main.settings.LENS.enabled.Override(GAME_LENS.enabled.value);
 								reading_main = true;
 							}
 						}
+						GUILayout.FlexibleSpace();
 					}
 
 					// Motion Blur
 					{
 						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_BLUR.enabled.Override(GUILayout.Toggle(TO_READ.BLUR.enabled.value, "Motion blur"));
-						if (TO_READ.BLUR.enabled.value) {
+						if (GAME_BLUR.enabled.value) sp_BLUR = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_BLUR : sp_BLUR;
+						GUILayout.EndHorizontal();
+						if (GAME_BLUR.enabled.value && sp_BLUR) {
 							GUILayout.BeginHorizontal();
 							GUILayout.Label("Shutter angle: " + GAME_BLUR.shutterAngle.value);
 							GAME_BLUR.shutterAngle.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.shutterAngle, 0, 360)));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Sample count: " + GAME_BLUR.sampleCount.value);
 							GAME_BLUR.sampleCount.Override((int)Math.Floor(GUILayout.HorizontalSlider(TO_READ.BLUR.sampleCount, 4, 32)));
 							GUILayout.EndHorizontal();
 							if (GUILayout.Button("Reset")) {
 								Main.settings.BLUR = new MotionBlur();
+								Main.settings.BLUR.enabled.Override(GAME_BLUR.enabled.value);
 								reading_main = true;
 							}
 						}
@@ -312,33 +397,53 @@ namespace BabboSettings {
 
 					// Screen Space Reflections
 					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_REFL.enabled.Override(GUILayout.Toggle(TO_READ.REFL.enabled.value, "Reflections"));
-						if (GAME_REFL.enabled.value) {
+						if (GAME_REFL.enabled.value) sp_REFL = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_REFL : sp_REFL;
+						GUILayout.EndHorizontal();
+						if (GAME_REFL.enabled.value && sp_REFL) {
 							GAME_REFL.preset.Override((ScreenSpaceReflectionPreset)GUILayout.SelectionGrid((int)GAME_REFL.preset.value, refl_presets, refl_presets.Length));
 							if (GUILayout.Button("Reset")) {
 								Main.settings.REFL = new ScreenSpaceReflections();
+								Main.settings.REFL.enabled.Override(GAME_REFL.enabled.value);
 								reading_main = true;
 							}
 						}
+						GUILayout.FlexibleSpace();
 					}
 
 					// Vignette
 					{
+						GUILayout.FlexibleSpace();
+						GUILayout.BeginHorizontal();
 						GAME_VIGN.enabled.Override(GUILayout.Toggle(TO_READ.VIGN.enabled.value, "Vignette"));
-						if (GAME_VIGN.enabled.value) {
+						if (GAME_VIGN.enabled.value) sp_VIGN = GUILayout.Button("show/hide", spoilerBtnStyle) ? !sp_VIGN : sp_VIGN;
+						GUILayout.EndHorizontal();
+						if (GAME_VIGN.enabled.value && sp_VIGN) {
 							GAME_VIGN.mode.Override(VignetteMode.Classic);
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Intensity: " + GAME_VIGN.intensity.value);
 							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.intensity.value, 0, 1));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Smoothness: " + GAME_VIGN.smoothness.value);
 							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.smoothness.value, 0.1f, 1));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GUILayout.Label("Roundness: " + GAME_VIGN.roundness.value);
 							GAME_VIGN.intensity.Override(GUILayout.HorizontalSlider(TO_READ.VIGN.roundness.value, 0, 1));
+							GUILayout.EndHorizontal();
+							GUILayout.BeginHorizontal();
 							GAME_VIGN.rounded.Override(GUILayout.Toggle(TO_READ.VIGN.rounded.value, "Rounded"));
 							if (GUILayout.Button("Reset")) {
 								Main.settings.VIGN = new Vignette();
+								Main.settings.VIGN.enabled.Override(GAME_VIGN.enabled.value);
 								reading_main = true;
 							}
+							GUILayout.EndHorizontal();
 						}
+						GUILayout.FlexibleSpace();
 					}
 				}
 

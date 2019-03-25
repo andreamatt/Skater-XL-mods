@@ -24,7 +24,7 @@ namespace BabboSettings {
 		public AutoExposure EXPO = new AutoExposure();
 		public Bloom BLOOM = new Bloom();
 		public ChromaticAberration CA = new ChromaticAberration();
-		public bool COLOR_enabled = true;
+		public bool COLOR_enabled = false;
 		public float COLOR_temperature = 0;
 		public float COLOR_post_exposure = 0;
 		public float COLOR_saturation = 0;

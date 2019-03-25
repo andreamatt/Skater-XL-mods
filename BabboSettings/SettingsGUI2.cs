@@ -13,6 +13,7 @@ namespace BabboSettings {
 		private bool setUp;
 		private Rect windowRect = new Rect(50f, 50f, 800f, 0f);
 		private GUIStyle windowStyle;
+		private GUIStyle spoilerBtnStyle;
 		private GUIStyle columnLeftStyle = GUIStyle.none;
 		private GUIStyle columnStyle = GUIStyle.none;
 		private GUIStyle boxStyle;
@@ -85,10 +86,12 @@ namespace BabboSettings {
 			};
 			toggleStyle.normal.textColor = toggleStyle.active.textColor = toggleStyle.hover.textColor = largeFontColor;
 			toggleStyle.onNormal.textColor = toggleStyle.onActive.textColor = toggleStyle.onHover.textColor = smallFontColor;
-
-
 			toggleStyle.padding.left = 20;
 			toggleStyle.imagePosition = ImagePosition.TextOnly;
+
+			spoilerBtnStyle = new GUIStyle(GUI.skin.button) {
+				fixedWidth = 100
+			};
 		}
 
 		private void Open() {
