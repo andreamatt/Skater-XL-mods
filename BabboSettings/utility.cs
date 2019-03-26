@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
-using UnityModManagerNet;
+using UnityEngine.Rendering.PostProcessing;
 using XLShredLib;
 
 namespace BabboSettings {
@@ -20,18 +20,19 @@ namespace BabboSettings {
 		private string separator;
 		private GUIStyle separatorStyle;
 		private Vector2 scrollPosition = new Vector2();
+		private GUIStyle usingStyle;
 
 
-		public SettingsGUI() {
+		internal SettingsGUI() {
 
 		}
 
-		public void Start() {
+		internal void Start() {
 			getSettings();
 		}
 
-		public static void log(string s) {
-			UnityModManager.Logger.Log(s);
+		internal void log(string s) {
+			Main.log(s);
 		}
 
 		void show(string s) {
@@ -42,12 +43,12 @@ namespace BabboSettings {
 			DontDestroyOnLoad(gameObject);
 			master = GameObject.Find("Master Prefab");
 			DontDestroyOnLoad(master);
-			
+
 			windowStyle = new GUIStyle(GUI.skin.window) {
 				padding = new RectOffset(10, 10, 25, 10),
 				contentOffset = new Vector2(0, -23.0f)
 			};
-			
+
 			spoilerBtnStyle = new GUIStyle(GUI.skin.button) {
 				fixedWidth = 100
 			};
@@ -57,15 +58,19 @@ namespace BabboSettings {
 			};
 
 			thumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb) {
-				
+
 			};
 
 			separatorStyle = new GUIStyle(GUI.skin.label) {
-				
+
 			};
 			separatorStyle.normal.textColor = Color.gray;
 
 			separator = new string('_', 53);
+
+			usingStyle = new GUIStyle(GUI.skin.label);
+			usingStyle.normal.textColor = Color.red;
+			usingStyle.fontSize = 16;
 		}
 
 		private void Open() {
@@ -93,12 +98,23 @@ namespace BabboSettings {
 					DontDestroyOnLoad(master);
 				}
 			}
-
+			if (post_volume == null) {
+				log("Post volume is null (probably map changed)");
+				post_volume = FindObjectOfType<PostProcessVolume>();
+				if (post_volume == null) {
+					log("Post volume not found => creating");
+					GameObject post_vol_go = new GameObject();
+					post_vol_go.layer = 8;
+					post_volume = post_vol_go.AddComponent<PostProcessVolume>();
+					post_volume.profile = new PostProcessProfile();
+					post_volume.isGlobal = true;
+					log("Now a & e:" + post_volume.isActiveAndEnabled);
+					log("Has profile: " + post_volume.HasInstantiatedProfile());
+				}
+				getSettings();
+			}
 			if (showUI) {
 				windowRect = GUILayout.Window(GUIUtility.GetControlID(FocusType.Passive), windowRect, RenderWindow, "Graphic Settings by Babbo", windowStyle, GUILayout.Width(400));
-				if (DateTime.Now.Second % 2 == 0) {
-					//Main.Save();
-				}
 			}
 		}
 
@@ -113,40 +129,6 @@ namespace BabboSettings {
 				log(ex.Message);
 			}
 			return (T)formatter.Deserialize(ms);
-		}
-
-		public void Save() {
-			log("Called SettingsGUI.save()");
-			if (reading_main) {
-				log("Cannot save while reading main");
-			}
-			else {
-				Main.settings.ENABLE_POST = post_volume.enabled;
-				Main.settings.FOV = main.fieldOfView;
-
-				Main.settings.AA_MODE = post_layer.antialiasingMode;
-				Main.settings.TAA_sharpness = post_layer.temporalAntialiasing.sharpness;
-				Main.settings.TAA_jitter = post_layer.temporalAntialiasing.jitterSpread;
-				Main.settings.TAA_stationary = post_layer.temporalAntialiasing.stationaryBlending;
-				Main.settings.TAA_motion = post_layer.temporalAntialiasing.motionBlending;
-				Main.settings.SMAA = DeepClone(GAME_SMAA);
-
-				Main.settings.AO = DeepClone(GAME_AO);
-				Main.settings.EXPO = DeepClone(GAME_EXPO);
-				Main.settings.BLOOM = DeepClone(GAME_BLOOM);
-				Main.settings.CA = DeepClone(GAME_CA);
-				Main.settings.COLOR_enabled = GAME_COLOR.enabled.value;
-				Main.settings.COLOR_temperature = GAME_COLOR.temperature.value;
-				Main.settings.COLOR_post_exposure = GAME_COLOR.postExposure.value;
-				Main.settings.COLOR_saturation = GAME_COLOR.saturation.value;
-				Main.settings.COLOR_contrast = GAME_COLOR.contrast.value;
-				Main.settings.DOF = DeepClone(GAME_DOF);
-				Main.settings.GRAIN = DeepClone(GAME_GRAIN);
-				Main.settings.LENS = DeepClone(GAME_LENS);
-				Main.settings.BLUR = DeepClone(GAME_BLUR);
-				Main.settings.REFL = DeepClone(GAME_REFL);
-				Main.settings.VIGN = DeepClone(GAME_VIGN);
-			}
 		}
 	}
 }
