@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.PostProcessing.PostProcessLayer;
 
 namespace BabboSettings {
@@ -36,7 +37,6 @@ namespace BabboSettings {
 		private bool choosing_name, changing_preset;
 		private string name_text = "";
 		private bool focus_player = true;
-		private Preset map_preset;
 
 		private void Update() {
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
@@ -531,7 +531,7 @@ namespace BabboSettings {
 			GAME_TAA = post_layer.temporalAntialiasing;
 			GAME_SMAA = post_layer.subpixelMorphologicalAntialiasing;
 
-			map_preset = new Preset(Main.map_name);
+			Preset map_preset = new Preset(SceneManager.GetActiveScene().name + " (Original)");
 			SaveTo(map_preset);
 			Main.presets[map_preset.name] = map_preset;
 			Main.select(Main.settings.presetName);
