@@ -32,7 +32,7 @@ namespace BabboSettings {
 		public string name = "no_name";
 
 		public bool ENABLE_POST = true;
-		public float FOV = 90;
+		public float FOV = 60;
 		public bool FOCUS_PLAYER = true;
 
 		public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
