@@ -454,74 +454,82 @@ namespace BabboSettings {
 
 		private void getSettings() {
 			post_layer = Camera.main.GetComponent<PostProcessLayer>();
-
+			if (post_layer == null) {
+				log("Null post layer");
+			}
+			if (post_layer.enabled == false) {
+				post_layer.enabled = true;
+				log("post_layer was disabled,");
+			}
 			post_volume = FindObjectOfType<PostProcessVolume>();
 			if (post_volume != null) {
+				string not_found = "";
 				if ((GAME_AO = post_volume.profile.GetSetting<AmbientOcclusion>()) == null) {
-					log("Not found ao");
+					not_found += "ao,";
 					GAME_AO = post_volume.profile.AddSettings<AmbientOcclusion>();
 					GAME_AO.enabled.Override(false);
 				}
 				if ((GAME_EXPO = post_volume.profile.GetSetting<AutoExposure>()) == null) {
-					log("Not found expo");
+					not_found += "expo,";
 					GAME_EXPO = post_volume.profile.AddSettings<AutoExposure>();
 					GAME_EXPO.enabled.Override(false);
 				}
 				if ((GAME_BLOOM = post_volume.profile.GetSetting<Bloom>()) == null) {
-					log("Not found bloom");
+					not_found += "bloom,";
 					GAME_BLOOM = post_volume.profile.AddSettings<Bloom>();
 					GAME_BLOOM.enabled.Override(false);
 				}
 				if ((GAME_CA = post_volume.profile.GetSetting<ChromaticAberration>()) == null) {
-					log("Not found ca");
+					not_found += "ca,";
 					GAME_CA = post_volume.profile.AddSettings<ChromaticAberration>();
 					GAME_CA.enabled.Override(false);
 				}
 				if ((GAME_COLOR = post_volume.profile.GetSetting<ColorGrading>()) == null) {
-					log("Not found color");
+					not_found += "color,";
 					GAME_COLOR = post_volume.profile.AddSettings<ColorGrading>();
 					GAME_COLOR.enabled.Override(false);
 				}
 				if ((GAME_DOF = post_volume.profile.GetSetting<DepthOfField>()) == null) {
-					log("Not found dof");
+					not_found += "dof,";
 					GAME_DOF = post_volume.profile.AddSettings<DepthOfField>();
 					GAME_DOF.enabled.Override(false);
 				}
 				if ((GAME_GRAIN = post_volume.profile.GetSetting<Grain>()) == null) {
-					log("Not found grain");
+					not_found += "grain,";
 					GAME_GRAIN = post_volume.profile.AddSettings<Grain>();
 					GAME_GRAIN.enabled.Override(false);
 				}
 				if ((GAME_BLUR = post_volume.profile.GetSetting<MotionBlur>()) == null) {
-					log("Not found blur");
+					not_found += "blur,";
 					GAME_BLUR = post_volume.profile.AddSettings<MotionBlur>();
 					GAME_BLUR.enabled.Override(false);
 				}
 				if ((GAME_LENS = post_volume.profile.GetSetting<LensDistortion>()) == null) {
-					log("Not foudn lens");
+					not_found += "lens,";
 					GAME_LENS = post_volume.profile.AddSettings<LensDistortion>();
 					GAME_LENS.enabled.Override(false);
 				}
 				if ((GAME_REFL = post_volume.profile.GetSetting<ScreenSpaceReflections>()) == null) {
-					log("Not found refl");
+					not_found += "refl,";
 					GAME_REFL = post_volume.profile.AddSettings<ScreenSpaceReflections>();
 					GAME_REFL.enabled.Override(false);
 				}
 				if ((GAME_VIGN = post_volume.profile.GetSetting<Vignette>()) == null) {
-					log("Not found vign");
+					not_found += "vign,";
 					GAME_VIGN = post_volume.profile.AddSettings<Vignette>();
 					GAME_VIGN.enabled.Override(false);
+				}
+				if (not_found.Length > 0) {
+					log("Not found: " + not_found);
 				}
 			}
 			else {
 				log("Post_volume is null in getSettings");
 			}
-			log("Searched all effects");
 
 			GAME_FXAA = post_layer.fastApproximateAntialiasing;
 			GAME_TAA = post_layer.temporalAntialiasing;
 			GAME_SMAA = post_layer.subpixelMorphologicalAntialiasing;
-			log("Found all AAs");
 
 			map_preset = new Preset(Main.map_name);
 			SaveTo(map_preset);
@@ -529,7 +537,7 @@ namespace BabboSettings {
 			Main.select(Main.settings.presetName);
 			Apply(Main.selectedPreset);
 
-			log("Done reading post_layer and post_volume settings");
+			log("Done getSettings");
 		}
 	}
 }
