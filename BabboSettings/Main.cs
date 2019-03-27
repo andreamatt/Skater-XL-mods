@@ -33,6 +33,7 @@ namespace BabboSettings {
 
 		public bool ENABLE_POST = true;
 		public float FOV = 90;
+		public bool FOCUS_PLAYER = true;
 
 		public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
 		public float TAA_sharpness = new TemporalAntialiasing().sharpness;

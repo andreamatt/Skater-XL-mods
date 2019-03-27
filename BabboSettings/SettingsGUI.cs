@@ -49,7 +49,7 @@ namespace BabboSettings {
 				}
 			}
 			if (focus_player) {
-				//GAME_DOF.focusDistance.Override(Vector3.Distance(PlayerController.Instance.skaterController.skaterTransform.position, main.transform.position));
+				GAME_DOF.focusDistance.Override(Vector3.Distance(PlayerController.Instance.skaterController.skaterTransform.position, Camera.main.transform.position));
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace BabboSettings {
 
 			GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
-			scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(700));
+			scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
 			{
 				if (choosing_name) {
 					name_text = GUILayout.TextField(name_text);
@@ -93,28 +93,30 @@ namespace BabboSettings {
 					}
 				}
 				else {
-					GUILayout.BeginHorizontal();
-					GUILayout.Label("Preset: ");
-					GUILayout.Label(Main.settings.presetName, usingStyle);
-					GUILayout.EndHorizontal();
-					GUILayout.BeginHorizontal();
-					if (GUILayout.Button("Save as new preset")) {
-						choosing_name = true;
-						name_text = "";
+					{
+						GUILayout.BeginHorizontal();
+						GUILayout.Label("Preset: ");
+						GUILayout.Label(Main.settings.presetName, usingStyle);
+						GUILayout.EndHorizontal();
+						GUILayout.BeginHorizontal();
+						if (GUILayout.Button("Save as new preset")) {
+							choosing_name = true;
+							name_text = "";
+						}
+						if (GUILayout.Button("Change preset")) {
+							changing_preset = true;
+						}
+						GUILayout.EndHorizontal();
+						GUILayout.BeginHorizontal();
+						if (GUILayout.Button("Save")) {
+							Main.Save();
+						}
+						if (GUILayout.Button("Save and close")) {
+							Close();
+						}
+						GUILayout.EndHorizontal();
 					}
-					if (GUILayout.Button("Change preset")) {
-						changing_preset = true;
-					}
-					GUILayout.EndHorizontal();
-					GUILayout.BeginHorizontal();
-					if (GUILayout.Button("Save")) {
-						Main.Save();
-					}
-					if (GUILayout.Button("Save and close")) {
-						Close();
-					}
-					GUILayout.EndHorizontal();
-
+					GUILayout.Label(separator, separatorStyle);
 					// Post in general
 					{
 						post_volume.enabled = GUILayout.Toggle(post_volume.enabled, "Enable post processing");
@@ -280,9 +282,12 @@ namespace BabboSettings {
 							if (GAME_DOF.enabled.value) sp_DOF = GUILayout.Button(sp_DOF ? "hide" : "show", spoilerBtnStyle) ? !sp_DOF : sp_DOF;
 							GUILayout.EndHorizontal();
 							if (GAME_DOF.enabled.value && sp_DOF) {
+								focus_player = GUILayout.Toggle(focus_player, "Focus player");
 								GUILayout.BeginHorizontal();
 								GUILayout.Label("focus distance: " + GAME_DOF.focusDistance.value);
-								GAME_DOF.focusDistance.Override(GUILayout.HorizontalSlider(GAME_DOF.focusDistance.value, 0, 20, sliderStyle, thumbStyle));
+								if (!focus_player) {
+									GAME_DOF.focusDistance.Override(GUILayout.HorizontalSlider(GAME_DOF.focusDistance.value, 0, 20, sliderStyle, thumbStyle));
+								}
 								GUILayout.EndHorizontal();
 								GUILayout.BeginHorizontal();
 								GUILayout.Label("aperture: " + GAME_DOF.aperture.value);

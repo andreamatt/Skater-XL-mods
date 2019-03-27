@@ -64,9 +64,10 @@ namespace BabboSettings {
 			separatorStyle = new GUIStyle(GUI.skin.label) {
 
 			};
-			separatorStyle.normal.textColor = Color.gray;
+			separatorStyle.normal.textColor = Color.red;
+			separatorStyle.fontSize = 4;
 
-			separator = new string('_', 53);
+			separator = new string('_', 188);
 
 			usingStyle = new GUIStyle(GUI.skin.label);
 			usingStyle.normal.textColor = Color.red;

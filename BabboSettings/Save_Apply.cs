@@ -13,6 +13,7 @@ namespace BabboSettings {
 				if (Camera.main == null) throw new Exception("maincamera is null");
 				preset.ENABLE_POST = post_volume.enabled;
 				preset.FOV = Camera.main.fieldOfView;
+				preset.FOCUS_PLAYER = focus_player;
 
 				preset.AA_MODE = post_layer.antialiasingMode;
 				preset.TAA_sharpness = post_layer.temporalAntialiasing.sharpness;
@@ -110,6 +111,7 @@ namespace BabboSettings {
 				GAME_DOF.focusDistance.Override(preset.DOF.focusDistance.value);
 				GAME_DOF.aperture.Override(preset.DOF.aperture.value);
 				GAME_DOF.focalLength.Override(preset.DOF.focalLength.value);
+				focus_player = preset.FOCUS_PLAYER;
 			}
 
 			// Grain
