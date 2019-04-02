@@ -32,6 +32,8 @@ namespace BabboSettings {
 		private string[] ao_quality = { "Lowest", "Low", "Medium", "High", "Ultra" };
 		private string[] ao_mode = { "SAO", "MSVO" };
 		private string[] refl_presets = { "Low", "Lower", "Medium", "High", "Higher", "Ultra", "Overkill" };
+		private string[] vsync_names = { "Disabled", "Full", "Half" };
+		private string[] screen_modes = { "Exclusive", "Full", "Maximized", "Windowed" };
 
 		private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
 		private bool choosing_name, changing_preset;
@@ -131,6 +133,22 @@ namespace BabboSettings {
 						if (GUILayout.Button("Reset")) {
 							Camera.main.fieldOfView = 60;
 						}
+					}
+					GUILayout.Label(separator, separatorStyle);
+					// VSync
+					{
+						GUILayout.BeginHorizontal();
+						GUILayout.Label("Vsync");
+						QualitySettings.vSyncCount = GUILayout.SelectionGrid(QualitySettings.vSyncCount, vsync_names, vsync_names.Length);
+						GUILayout.EndHorizontal();
+					}
+					GUILayout.Label(separator, separatorStyle);
+					// Fullscreen
+					{
+						GUILayout.BeginHorizontal();
+						GUILayout.Label("Fullscreen");
+						Screen.fullScreenMode = (FullScreenMode)GUILayout.SelectionGrid((int)Screen.fullScreenMode, screen_modes, screen_modes.Length);
+						GUILayout.EndHorizontal();
 					}
 					GUILayout.Label(separator, separatorStyle);
 					// AntiAliasing

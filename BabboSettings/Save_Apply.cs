@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 
 namespace BabboSettings {
 	internal partial class SettingsGUI : MonoBehaviour {
@@ -14,6 +13,8 @@ namespace BabboSettings {
 				preset.ENABLE_POST = post_volume.enabled;
 				preset.FOV = Camera.main.fieldOfView;
 				preset.FOCUS_PLAYER = focus_player;
+				preset.VSYNC = QualitySettings.vSyncCount;
+				preset.SCREEN_MODE = (int)Screen.fullScreenMode;
 
 				preset.AA_MODE = post_layer.antialiasingMode;
 				preset.TAA_sharpness = post_layer.temporalAntialiasing.sharpness;
@@ -56,6 +57,16 @@ namespace BabboSettings {
 			// Field Of View
 			{
 				Camera.main.fieldOfView = preset.FOV;
+			}
+
+			// Vsync
+			{
+				preset.VSYNC = QualitySettings.vSyncCount;
+			}
+
+			// Fullscreen 
+			{
+				preset.SCREEN_MODE = (int)Screen.fullScreenMode;
 			}
 
 			// AntiAliasing
