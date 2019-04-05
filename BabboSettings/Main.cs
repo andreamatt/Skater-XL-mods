@@ -49,10 +49,16 @@ namespace BabboSettings {
 		public Bloom BLOOM = new Bloom();
 		public ChromaticAberration CA = new ChromaticAberration();
 		public bool COLOR_enabled = false;
+		public Tonemapper COLOR_tonemapper = Tonemapper.Neutral;
 		public float COLOR_temperature = 0;
+		public float COLOR_tint = 0;
 		public float COLOR_post_exposure = 0;
+		public float COLOR_hueShift = 0;
 		public float COLOR_saturation = 0;
 		public float COLOR_contrast = 0;
+		public float COLOR_lift = 0;
+		public float COLOR_gamma = -0.5f;
+		public float COLOR_gain = 1;
 		public DepthOfField DOF = new DepthOfField();
 		public Grain GRAIN = new Grain();
 		public LensDistortion LENS = new LensDistortion();

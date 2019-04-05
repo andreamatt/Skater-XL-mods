@@ -12,6 +12,8 @@ namespace BabboSettings {
 		private string[] refl_presets = { "Low", "Lower", "Medium", "High", "Higher", "Ultra", "Overkill" };
 		private string[] vsync_names = { "Disabled", "Full", "Half" };
 		private string[] screen_modes = { "Exclusive", "Full", "Maximized", "Windowed" };
+		private string[] tonemappers = { "None", "Neutral", "ACES" };
+		private string[] max_blur = { "Small", "Medium", "Large", "Very large" };
 		private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
 		private bool choosing_name, changing_preset;
 		private string name_text = "";
@@ -165,6 +167,8 @@ namespace BabboSettings {
 								EndHorizontal();
 								if (GAME_BLOOM.enabled.value && sp_BLOOM) {
 									GAME_BLOOM.intensity.Override(Slider("Intensity", GAME_BLOOM.intensity.value, 0, 4));
+									GAME_BLOOM.threshold.Override(Slider("Threshold", GAME_BLOOM.threshold.value, 0, 4));
+									GAME_BLOOM.diffusion.Override(Slider("Diffusion", GAME_BLOOM.diffusion.value, 1, 10));
 									GAME_BLOOM.fastMode.Override(GUILayout.Toggle(GAME_BLOOM.fastMode.value, "Fast mode"));
 									if (Button("Reset")) GAME_BLOOM = reset<Bloom>();
 								}
@@ -190,16 +194,33 @@ namespace BabboSettings {
 								if (GAME_COLOR.enabled.value) sp_COLOR = Spoiler(sp_COLOR ? "hide" : "show") ? !sp_COLOR : sp_COLOR;
 								EndHorizontal();
 								if (GAME_COLOR.enabled.value && sp_COLOR) {
+									BeginHorizontal();
+									Label("Tonemapper: ");
+									GAME_COLOR.tonemapper.Override((Tonemapper)GUILayout.SelectionGrid((int)GAME_COLOR.tonemapper.value, tonemappers, tonemappers.Length));
+									EndHorizontal();
 									GAME_COLOR.temperature.Override(Slider("Temperature", GAME_COLOR.temperature.value, -100, 100));
+									GAME_COLOR.tint.Override(Slider("Tint", GAME_COLOR.tint.value, -100, 100));
 									GAME_COLOR.postExposure.Override(Slider("Post-exposure", GAME_COLOR.postExposure.value, 0, 5));
+									GAME_COLOR.hueShift.Override(Slider("Hue shift", GAME_COLOR.hueShift.value, -180, 180));
 									GAME_COLOR.saturation.Override(Slider("Saturation", GAME_COLOR.saturation.value, -100, 100));
 									GAME_COLOR.contrast.Override(Slider("Contrast", GAME_COLOR.contrast.value, -100, 100));
+									float lift = Slider("Lift", GAME_COLOR.lift.value.z, -1, 1);
+									GAME_COLOR.lift.Override(new Vector4(lift, lift, lift, lift));
+									float gamma = Slider("Gamma", GAME_COLOR.gamma.value.z, -1, 3);
+									GAME_COLOR.gamma.Override(new Vector4(gamma, gamma, gamma, gamma));
+									float gain = Slider("Gain", GAME_COLOR.gain.value.z, 0, 2);
+									GAME_COLOR.gain.Override(new Vector4(gain, gain, gain, gain));
 									if (Button("Reset")) {
-										// NEED TO ADD RESET ONE BY ONE
+										// NEED TO RESET ONE BY ONE
 										GAME_COLOR.temperature.Override(0);
+										GAME_COLOR.tint.Override(0);
 										GAME_COLOR.postExposure.Override(0);
+										GAME_COLOR.hueShift.Override(0);
 										GAME_COLOR.saturation.Override(0);
 										GAME_COLOR.contrast.Override(0);
+										GAME_COLOR.lift.Override(Vector4.zero);
+										GAME_COLOR.gamma.Override(new Vector4(-0.5f, -0.5f, -0.5f, -0.5f));
+										GAME_COLOR.gain.Override(Vector4.one);
 									}
 								}
 							}
@@ -220,6 +241,10 @@ namespace BabboSettings {
 									}
 									GAME_DOF.aperture.Override(Slider("Aperture", GAME_DOF.aperture.value, 0.1f, 32));
 									GAME_DOF.focalLength.Override(Slider("Focal length", GAME_DOF.focalLength.value, 1, 300));
+									BeginHorizontal();
+									Label("Max blur size: ");
+									GAME_DOF.kernelSize.Override((KernelSize)GUILayout.SelectionGrid((int)GAME_DOF.kernelSize.value, max_blur, max_blur.Length));
+									EndHorizontal();
 									if (Button("Reset")) GAME_DOF = reset<DepthOfField>();
 								}
 							}
@@ -262,7 +287,7 @@ namespace BabboSettings {
 								EndHorizontal();
 								if (GAME_BLUR.enabled.value && sp_BLUR) {
 									GAME_BLUR.shutterAngle.Override(Slider("Shutter angle", GAME_BLUR.shutterAngle, 0, 360));
-									GAME_BLUR.sampleCount.Override(Slider("Sample count", GAME_BLUR.sampleCount, 4, 32));
+									GAME_BLUR.sampleCount.Override(SliderInt("Sample count", GAME_BLUR.sampleCount, 4, 32));
 									if (Button("Reset")) GAME_BLUR = reset<MotionBlur>();
 								}
 							}

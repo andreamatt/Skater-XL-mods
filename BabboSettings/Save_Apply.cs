@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace BabboSettings {
 	internal partial class SettingsGUI : MonoBehaviour {
@@ -28,10 +29,16 @@ namespace BabboSettings {
 				preset.BLOOM = DeepClone(GAME_BLOOM);
 				preset.CA = DeepClone(GAME_CA);
 				preset.COLOR_enabled = GAME_COLOR.enabled.value;
+				preset.COLOR_tonemapper = GAME_COLOR.tonemapper.value;
 				preset.COLOR_temperature = GAME_COLOR.temperature.value;
+				preset.COLOR_tint = GAME_COLOR.tint.value;
 				preset.COLOR_post_exposure = GAME_COLOR.postExposure.value;
+				preset.COLOR_hueShift = GAME_COLOR.hueShift.value;
 				preset.COLOR_saturation = GAME_COLOR.saturation.value;
 				preset.COLOR_contrast = GAME_COLOR.contrast.value;
+				preset.COLOR_lift = GAME_COLOR.lift.value.z;
+				preset.COLOR_gamma = GAME_COLOR.gamma.value.z;
+				preset.COLOR_gain = GAME_COLOR.gain.value.z;
 				preset.DOF = DeepClone(GAME_DOF);
 				preset.GRAIN = DeepClone(GAME_GRAIN);
 				preset.LENS = DeepClone(GAME_LENS);
@@ -97,6 +104,8 @@ namespace BabboSettings {
 			{
 				GAME_BLOOM.enabled.Override(preset.BLOOM.enabled.value);
 				GAME_BLOOM.intensity.Override(preset.BLOOM.intensity.value);
+				GAME_BLOOM.threshold.Override(preset.BLOOM.threshold.value);
+				GAME_BLOOM.diffusion.Override(preset.BLOOM.diffusion.value);
 				GAME_BLOOM.fastMode.Override(preset.BLOOM.fastMode.value);
 			}
 
@@ -109,11 +118,18 @@ namespace BabboSettings {
 
 			// Color Grading
 			{
+				GAME_COLOR.gradingMode.Override(GradingMode.HighDefinitionRange);
 				GAME_COLOR.enabled.Override(preset.COLOR_enabled);
+				GAME_COLOR.tonemapper.Override(preset.COLOR_tonemapper);
 				GAME_COLOR.temperature.Override(preset.COLOR_temperature);
+				GAME_COLOR.tint.Override(preset.COLOR_tint);
 				GAME_COLOR.postExposure.Override(preset.COLOR_post_exposure);
+				GAME_COLOR.hueShift.Override(preset.COLOR_hueShift);
 				GAME_COLOR.saturation.Override(preset.COLOR_saturation);
 				GAME_COLOR.contrast.Override(preset.COLOR_contrast);
+				GAME_COLOR.lift.Override(new Vector4(preset.COLOR_lift, preset.COLOR_lift, preset.COLOR_lift, preset.COLOR_lift));
+				GAME_COLOR.gamma.Override(new Vector4(preset.COLOR_gamma, preset.COLOR_gamma, preset.COLOR_gamma, preset.COLOR_gamma));
+				GAME_COLOR.gain.Override(new Vector4(preset.COLOR_gain, preset.COLOR_gain, preset.COLOR_gain, preset.COLOR_gain));
 			}
 
 			// Depth Of Field
@@ -122,6 +138,7 @@ namespace BabboSettings {
 				GAME_DOF.focusDistance.Override(preset.DOF.focusDistance.value);
 				GAME_DOF.aperture.Override(preset.DOF.aperture.value);
 				GAME_DOF.focalLength.Override(preset.DOF.focalLength.value);
+				GAME_DOF.kernelSize.Override(preset.DOF.kernelSize.value);
 				focus_player = preset.FOCUS_PLAYER;
 			}
 
@@ -159,7 +176,7 @@ namespace BabboSettings {
 			// Vignette
 			{
 				GAME_VIGN.enabled.Override(preset.VIGN.enabled.value);
-				GAME_VIGN.mode.Override(preset.VIGN.mode.value);
+				GAME_VIGN.mode.Override(VignetteMode.Classic);
 				GAME_VIGN.intensity.Override(preset.VIGN.intensity.value);
 				GAME_VIGN.smoothness.Override(preset.VIGN.smoothness.value);
 				GAME_VIGN.roundness.Override(preset.VIGN.roundness.value);

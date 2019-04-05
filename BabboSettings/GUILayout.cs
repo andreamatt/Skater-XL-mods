@@ -30,7 +30,7 @@ namespace BabboSettings {
 			EndHorizontal();
 			return res;
 		}
-		private int Slider(string name, int current, int min, int max) {
+		private int SliderInt(string name, int current, int min, int max) {
 			BeginHorizontal();
 			Label(name + ": " + current);
 			float res = GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle);

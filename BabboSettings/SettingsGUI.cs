@@ -43,9 +43,16 @@ namespace BabboSettings {
 		}
 
 		private void LateUpdate() {
-			//follow();
-			if (use_pov) {
-				pov();
+			switch (cameraMode) {
+				case CameraMode.POV:
+					pov();
+					break;
+				case CameraMode.Follow:
+					follow();
+					break;
+				case CameraMode.Low:
+				case CameraMode.Normal:
+					break;
 			}
 		}
 		
