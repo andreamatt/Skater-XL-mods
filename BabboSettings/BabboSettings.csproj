@@ -39,6 +39,9 @@
     <None Include="Resources\Info.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CameraController.cs" />
+    <Compile Include="GUILayout.cs" />
+    <Compile Include="RenderWindow.cs" />
     <Compile Include="Save_Apply.cs" />
     <Compile Include="utility.cs" />
     <Compile Include="Main.cs" />
@@ -56,11 +59,19 @@
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>..\references\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\references\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\references\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>..\references\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\references\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="XLShredLib">
       <HintPath>..\references\XLShredLib.dll</HintPath>
