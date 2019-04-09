@@ -50,31 +50,26 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony12">
-      <HintPath>..\references\0Harmony12.dll</HintPath>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityModManager\0Harmony12.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\references\Assembly-CSharp.dll</HintPath>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>..\references\Unity.Postprocessing.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\references\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\references\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\references\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\references\UnityEngine.PhysicsModule.dll</HintPath>
+    <Reference Include="UnityModManager">
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityModManager\UnityModManager.dll</HintPath>
     </Reference>
     <Reference Include="XLShredLib">
-      <HintPath>..\references\XLShredLib.dll</HintPath>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\Mods\blendermf.XLShredMenu\XLShredLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityModManagerNet;
+using XLShredLib;
 
 namespace BabboSettings {
 
@@ -14,6 +15,28 @@ namespace BabboSettings {
 	public class Settings : UnityModManager.ModSettings {
 
 		public string presetName = Main.default_name;
+
+		// Basic
+		public bool ENABLE_POST = true;
+		public int VSYNC = 1;
+		public int SCREEN_MODE = 0;
+
+		// AA
+		public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
+		public float TAA_sharpness = new TemporalAntialiasing().sharpness;
+		public float TAA_jitter = new TemporalAntialiasing().jitterSpread;
+		public float TAA_stationary = new TemporalAntialiasing().stationaryBlending;
+		public float TAA_motion = new TemporalAntialiasing().motionBlending;
+		public SubpixelMorphologicalAntialiasing SMAA = new SubpixelMorphologicalAntialiasing();
+
+		// Camera
+		public CameraMode CAMERA = CameraMode.Normal;
+		public float NORMAL_FOV = 60;
+		public float LOW_FOV = 70;
+		public float FOLLOW_FOV = 60;
+		public Vector3 FOLLOW_SHIFT = Vector3.zero;
+		public float POV_FOV = 60;
+		public Vector3 POV_SHIFT = Vector3.zero;
 
 		public Settings() {
 		}
@@ -31,19 +54,7 @@ namespace BabboSettings {
 	public class Preset {
 		public string name = "no_name";
 
-		public bool ENABLE_POST = true;
-		public float FOV = 60;
-		public bool FOCUS_PLAYER = true;
-		public int VSYNC = 1;
-		public int SCREEN_MODE = 0;
-
-		public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
-		public float TAA_sharpness = new TemporalAntialiasing().sharpness;
-		public float TAA_jitter = new TemporalAntialiasing().jitterSpread;
-		public float TAA_stationary = new TemporalAntialiasing().stationaryBlending;
-		public float TAA_motion = new TemporalAntialiasing().motionBlending;
-		public SubpixelMorphologicalAntialiasing SMAA = new SubpixelMorphologicalAntialiasing();
-
+		// Effects
 		public AmbientOcclusion AO = new AmbientOcclusion();
 		public AutoExposure EXPO = new AutoExposure();
 		public Bloom BLOOM = new Bloom();
@@ -60,6 +71,7 @@ namespace BabboSettings {
 		public float COLOR_gamma = -0.5f;
 		public float COLOR_gain = 1;
 		public DepthOfField DOF = new DepthOfField();
+		public bool FOCUS_PLAYER = true;
 		public Grain GRAIN = new Grain();
 		public LensDistortion LENS = new LensDistortion();
 		public MotionBlur BLUR = new MotionBlur();
@@ -87,12 +99,14 @@ namespace BabboSettings {
 		}
 	}
 
+
 	static class Main {
 		public static bool enabled;
+		public static bool canSave = false;
 		public static Settings settings;
 		public static HarmonyInstance harmonyInstance;
 		public static string modId = "BabboSettings";
-		public static SettingsGUI settingsGUI = new GameObject().AddComponent<SettingsGUI>();
+		public static SettingsGUI settingsGUI;
 		public static UnityModManager.ModEntry modEntry;
 		public static Dictionary<string, Preset> presets = new Dictionary<string, Preset>();
 		public static Preset selectedPreset;
@@ -138,10 +152,12 @@ namespace BabboSettings {
 			if (enabled) {
 				harmonyInstance = HarmonyInstance.Create(modEntry.Info.Id);
 				harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+				settingsGUI = ModMenu.Instance.gameObject.AddComponent<SettingsGUI>();
 			}
 			else {
-				Save();
 				harmonyInstance.UnpatchAll(harmonyInstance.Id);
+				settingsGUI = null;
+				UnityEngine.Object.Destroy(ModMenu.Instance.gameObject.GetComponent<SettingsGUI>());
 			}
 			return true;
 		}
@@ -173,7 +189,9 @@ namespace BabboSettings {
 					}
 				}
 			}
+			log("presave, aamode: " + settings.AA_MODE);
 			settings.Save();
+			log("aftersave, aamode: " + settings.AA_MODE);
 		}
 
 		static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
@@ -181,18 +199,30 @@ namespace BabboSettings {
 		}
 
 		internal static void Save() {
-			try {
-				settings.Save();
-				settingsGUI.SaveTo(selectedPreset);
-				log("Done saving in main");
-			}
-			catch (Exception ex) {
-				log("Failed saving in main, probably closed game with mod open: " + ex.Message);
+			if (canSave) {
+				settingsGUI.SaveToSettings();
+				settingsGUI.SaveToPreset(selectedPreset);
+				try {
+					log("Done saving in main");
+				}
+				catch (Exception ex) {
+					log("Failed saving in main, probably closed game with mod open: " + ex.Message);
+				}
+			} else {
+				log("Cannot save yet");
 			}
 		}
 
 		internal static void log(string s) {
 			UnityModManager.Logger.Log(s);
 		}
+	}
+
+	public enum CameraMode {
+		Normal,
+		Low,
+		Follow,
+		POV,
+		Skate
 	}
 }

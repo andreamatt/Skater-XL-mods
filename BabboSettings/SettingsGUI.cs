@@ -42,20 +42,6 @@ namespace BabboSettings {
 			}
 		}
 
-		private void LateUpdate() {
-			switch (cameraMode) {
-				case CameraMode.POV:
-					pov();
-					break;
-				case CameraMode.Follow:
-					follow();
-					break;
-				case CameraMode.Low:
-				case CameraMode.Normal:
-					break;
-			}
-		}
-		
 		private T reset<T>() where T : PostProcessEffectSettings {
 			bool enabled = post_volume.profile.GetSetting<T>().enabled.value;
 			post_volume.profile.RemoveSettings<T>();
@@ -144,10 +130,14 @@ namespace BabboSettings {
 			GAME_SMAA = post_layer.subpixelMorphologicalAntialiasing;
 
 			Preset map_preset = new Preset(SceneManager.GetActiveScene().name + " (Original)");
-			SaveTo(map_preset);
+			SaveToPreset(map_preset);
 			Main.presets[map_preset.name] = map_preset;
 			Main.select(Main.settings.presetName);
-			Apply(Main.selectedPreset);
+			ApplySettings();
+			ApplyPreset(Main.selectedPreset);
+
+			// After applying, can now save
+			Main.canSave = true;
 
 			log("Done getSettings");
 		}

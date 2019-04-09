@@ -25,13 +25,7 @@ namespace BabboSettings {
 		}
 		private SelectedTab selectedTab = SelectedTab.Basic;
 		private string[] tab_names = { "Basic", "Effects", "Camera" };
-		private enum CameraMode {
-			Normal,
-			Low,
-			Follow,
-			POV
-		}
-		private string[] camera_names = { "Normal", "Low", "Follow", "POV" };
+		private string[] camera_names = { "Normal", "Low", "Follow", "POV", "Skate" };
 
 		void RenderWindow(int windowID) {
 			if (Event.current.type == EventType.Repaint) windowRect.height = 0;
@@ -49,7 +43,7 @@ namespace BabboSettings {
 							log("Preset already exists");
 						}
 						Preset new_preset = new Preset(name_text);
-						SaveTo(new_preset);
+						SaveToPreset(new_preset);
 						Main.presets[new_preset.name] = new_preset;
 						Main.select(name_text);
 					}
@@ -61,9 +55,9 @@ namespace BabboSettings {
 				else if (changing_preset) {
 					foreach (var preset in Main.presets) {
 						if (Button(preset.Key)) {
-							SaveTo(Main.selectedPreset);
+							SaveToPreset(Main.selectedPreset);
 							Main.select(preset.Key);
-							Apply(Main.selectedPreset);
+							ApplyPreset(Main.selectedPreset);
 							changing_preset = false;
 						}
 					}
@@ -81,14 +75,6 @@ namespace BabboSettings {
 						// Post in general
 						{
 							post_volume.enabled = GUILayout.Toggle(post_volume.enabled, "Enable post processing");
-						}
-						Separator();
-						// Field Of View
-						{
-							Camera.main.fieldOfView = Slider("Field of View", Camera.main.fieldOfView, 1, 179);
-							if (Button("Reset")) {
-								Camera.main.fieldOfView = 60;
-							}
 						}
 						Separator();
 						// VSync
@@ -311,7 +297,6 @@ namespace BabboSettings {
 								if (GAME_VIGN.enabled.value) sp_VIGN = Spoiler(sp_VIGN ? "hide" : "show") ? !sp_VIGN : sp_VIGN;
 								EndHorizontal();
 								if (GAME_VIGN.enabled.value && sp_VIGN) {
-									GAME_VIGN.mode.Override(VignetteMode.Classic);
 									GAME_VIGN.intensity.Override(Slider("Intensity", GAME_VIGN.intensity.value, 0, 1));
 									GAME_VIGN.smoothness.Override(Slider("Smoothness", GAME_VIGN.smoothness.value, 0.1f, 1));
 									GAME_VIGN.roundness.Override(Slider("Roundness", GAME_VIGN.roundness.value, 0, 1));
@@ -327,22 +312,51 @@ namespace BabboSettings {
 						}
 					}
 					else if (selectedTab == SelectedTab.Camera) {
+						// Modes
 						cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraMode, camera_names, camera_names.Length);
 						if (cameraMode == CameraMode.Normal) {
+							normal_fov = Slider("Field of View", normal_fov, 1, 179);
+							if (Button("Reset")) {
+								normal_fov = 60;
+							}
 						}
 						else if (cameraMode == CameraMode.Low) {
+							Label("WORKS ONLY WHEN PLAYER IS MOVING");
+							low_fov = Slider("Field of View", low_fov, 1, 179);
+							if (Button("Reset")) {
+								low_fov = 60;
+							}
 						}
 						else if (cameraMode == CameraMode.Follow) {
+							Label("WORKS ONLY WHEN PLAYER IS MOVING");
+							follow_fov = Slider("Field of View", follow_fov, 1, 179);
+							if (Button("Reset")) {
+								follow_fov = 60;
+							}
+							Separator();
+							Label("Move camera: ");
+							moving_thresh = Slider("Moving threshold", moving_thresh, 0, 3);
 							follow_shift.x = Slider("x", follow_shift.x, -2, 2);
 							follow_shift.y = Slider("y", follow_shift.y, -2, 2);
 							follow_shift.z = Slider("z", follow_shift.z, -2, 2);
-							if (Button("Reset")) follow_shift = new Vector3();
+							if (Button("Reset to player")) follow_shift = new Vector3();
 						}
 						else if (cameraMode == CameraMode.POV) {
-							follow_shift.x = Slider("x", pov_shift.x, -2, 2);
-							follow_shift.y = Slider("y", pov_shift.y, -2, 2);
-							follow_shift.z = Slider("z", pov_shift.z, -2, 2);
-							if (Button("Reset")) pov_shift = new Vector3();
+							pov_fov = Slider("Field of View", pov_fov, 1, 179);
+							if (Button("Reset")) {
+								pov_fov = 60;
+							}
+							Separator();
+							Label("Move camera: ");
+							pov_shift.x = Slider("x", pov_shift.x, -2, 2);
+							pov_shift.y = Slider("y", pov_shift.y, -2, 2);
+							pov_shift.z = Slider("z", pov_shift.z, -2, 2);
+							if (Button("Reset to head")) pov_shift = new Vector3();
+						} else if(cameraMode == CameraMode.Skate) {
+							Label("Move camera: ");
+							skate_shift.x = Slider("x", skate_shift.x, -2, 2);
+							skate_shift.y = Slider("y", skate_shift.y, -2, 2);
+							skate_shift.z = Slider("z", skate_shift.z, -2, 2);
 						}
 					}
 
