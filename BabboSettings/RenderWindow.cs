@@ -14,6 +14,7 @@ namespace BabboSettings {
 		private string[] screen_modes = { "Exclusive", "Full", "Maximized", "Windowed" };
 		private string[] tonemappers = { "None", "Neutral", "ACES" };
 		private string[] max_blur = { "Small", "Medium", "Large", "Very large" };
+		private string[] focus_modes = { "Custom", "Player", "Skate" };
 		private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
 		private bool choosing_name, changing_preset;
 		private string name_text = "";
@@ -218,12 +219,14 @@ namespace BabboSettings {
 								if (GAME_DOF.enabled.value) sp_DOF = Spoiler(sp_DOF ? "hide" : "show") ? !sp_DOF : sp_DOF;
 								EndHorizontal();
 								if (GAME_DOF.enabled.value && sp_DOF) {
-									focus_player = GUILayout.Toggle(focus_player, "Focus player");
-									if (focus_player) {
-										Label("focus distance: " + GAME_DOF.focusDistance.value.ToString("0.00"));
-									}
-									else {
+									var new_mode = (FocusMode)GUILayout.SelectionGrid((int)focus_mode, focus_modes, focus_modes.Length);
+									if (new_mode != focus_mode) GAME_DOF.focusDistance = Main.selectedPreset.DOF.focusDistance;
+									focus_mode = new_mode;
+									if (focus_mode==FocusMode.Custom) {
 										GAME_DOF.focusDistance.Override(Slider("Focus distance", GAME_DOF.focusDistance.value, 0, 20));
+									}
+									else { 
+										Label("focus distance: " + GAME_DOF.focusDistance.value.ToString("0.00"));
 									}
 									GAME_DOF.aperture.Override(Slider("Aperture", GAME_DOF.aperture.value, 0.1f, 32));
 									GAME_DOF.focalLength.Override(Slider("Focal length", GAME_DOF.focalLength.value, 1, 300));
@@ -321,14 +324,12 @@ namespace BabboSettings {
 							}
 						}
 						else if (cameraMode == CameraMode.Low) {
-							Label("WORKS ONLY WHEN PLAYER IS MOVING");
 							low_fov = Slider("Field of View", low_fov, 1, 179);
 							if (Button("Reset")) {
 								low_fov = 60;
 							}
 						}
 						else if (cameraMode == CameraMode.Follow) {
-							Label("WORKS ONLY WHEN PLAYER IS MOVING");
 							follow_fov = Slider("Field of View", follow_fov, 1, 179);
 							if (Button("Reset")) {
 								follow_fov = 60;
@@ -353,10 +354,16 @@ namespace BabboSettings {
 							pov_shift.z = Slider("z", pov_shift.z, -2, 2);
 							if (Button("Reset to head")) pov_shift = new Vector3();
 						} else if(cameraMode == CameraMode.Skate) {
+							skate_fov = Slider("Field of View", skate_fov, 1, 179);
+							if (Button("Reset")) {
+								skate_fov = 60;
+							}
+							Separator();
 							Label("Move camera: ");
 							skate_shift.x = Slider("x", skate_shift.x, -2, 2);
 							skate_shift.y = Slider("y", skate_shift.y, -2, 2);
 							skate_shift.z = Slider("z", skate_shift.z, -2, 2);
+							if (Button("Reset to skate")) skate_shift = new Vector3();
 						}
 					}
 

@@ -29,6 +29,8 @@ namespace BabboSettings {
 				Main.settings.FOLLOW_SHIFT = follow_shift;
 				Main.settings.POV_FOV = pov_fov;
 				Main.settings.POV_SHIFT = pov_shift;
+				Main.settings.SKATE_FOV = skate_fov;
+				Main.settings.SKATE_SHIFT = skate_shift;
 
 				Main.settings.Save();
 			}
@@ -62,7 +64,7 @@ namespace BabboSettings {
 				preset.COLOR_gamma = GAME_COLOR.gamma.value.z;
 				preset.COLOR_gain = GAME_COLOR.gain.value.z;
 				preset.DOF = DeepClone(GAME_DOF);
-				preset.FOCUS_PLAYER = focus_player;
+				preset.FOCUS_MODE = focus_mode;
 				preset.GRAIN = DeepClone(GAME_GRAIN);
 				preset.LENS = DeepClone(GAME_LENS);
 				preset.BLUR = DeepClone(GAME_BLUR);
@@ -82,8 +84,8 @@ namespace BabboSettings {
 			// Basic
 			{
 				post_volume.enabled = Main.settings.ENABLE_POST;
-				Main.settings.VSYNC = QualitySettings.vSyncCount;
-				Main.settings.SCREEN_MODE = (int)Screen.fullScreenMode;
+				QualitySettings.vSyncCount = Main.settings.VSYNC;
+				Screen.fullScreenMode = (FullScreenMode)Main.settings.SCREEN_MODE;
 
 				// AntiAliasing
 				{
@@ -105,6 +107,8 @@ namespace BabboSettings {
 				follow_shift = Main.settings.FOLLOW_SHIFT;
 				pov_fov = Main.settings.POV_FOV;
 				pov_shift = Main.settings.POV_SHIFT;
+				skate_fov = Main.settings.SKATE_FOV;
+				skate_shift = Main.settings.SKATE_SHIFT;
 			}
 
 			log("Applied settings");
@@ -168,7 +172,7 @@ namespace BabboSettings {
 					GAME_DOF.aperture.Override(preset.DOF.aperture.value);
 					GAME_DOF.focalLength.Override(preset.DOF.focalLength.value);
 					GAME_DOF.kernelSize.Override(preset.DOF.kernelSize.value);
-					focus_player = preset.FOCUS_PLAYER;
+					focus_mode = preset.FOCUS_MODE;
 				}
 
 				// Grain
@@ -212,7 +216,7 @@ namespace BabboSettings {
 					GAME_VIGN.rounded.Override(preset.VIGN.rounded.value);
 				}
 			}
-			
+
 			log("Applied " + preset.name);
 		}
 	}

@@ -8,7 +8,6 @@ namespace BabboSettings {
 		// Settings stuff
 		private PostProcessLayer post_layer;
 		private PostProcessVolume post_volume;
-		private bool focus_player = true;
 		private CameraMode cameraMode = CameraMode.Normal;
 
 		private FastApproximateAntialiasing GAME_FXAA;
@@ -21,6 +20,7 @@ namespace BabboSettings {
 		private ChromaticAberration GAME_CA;
 		private ColorGrading GAME_COLOR; // NOT SERIALIZABLE
 		private DepthOfField GAME_DOF;
+		private FocusMode focus_mode = FocusMode.Custom;
 		private Grain GAME_GRAIN;
 		private LensDistortion GAME_LENS;
 		private MotionBlur GAME_BLUR;
@@ -36,9 +36,6 @@ namespace BabboSettings {
 				else {
 					Close();
 				}
-			}
-			if (focus_player) {
-				GAME_DOF.focusDistance.Override(Vector3.Distance(PlayerController.Instance.skaterController.skaterTransform.position, Camera.main.transform.position));
 			}
 		}
 

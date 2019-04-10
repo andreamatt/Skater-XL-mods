@@ -37,6 +37,8 @@ namespace BabboSettings {
 		public Vector3 FOLLOW_SHIFT = Vector3.zero;
 		public float POV_FOV = 60;
 		public Vector3 POV_SHIFT = Vector3.zero;
+		public float SKATE_FOV = 60;
+		public Vector3 SKATE_SHIFT = Vector3.zero;
 
 		public Settings() {
 		}
@@ -71,7 +73,7 @@ namespace BabboSettings {
 		public float COLOR_gamma = -0.5f;
 		public float COLOR_gain = 1;
 		public DepthOfField DOF = new DepthOfField();
-		public bool FOCUS_PLAYER = true;
+		public FocusMode FOCUS_MODE = FocusMode.Custom;
 		public Grain GRAIN = new Grain();
 		public LensDistortion LENS = new LensDistortion();
 		public MotionBlur BLUR = new MotionBlur();
@@ -216,13 +218,5 @@ namespace BabboSettings {
 		internal static void log(string s) {
 			UnityModManager.Logger.Log(s);
 		}
-	}
-
-	public enum CameraMode {
-		Normal,
-		Low,
-		Follow,
-		POV,
-		Skate
 	}
 }

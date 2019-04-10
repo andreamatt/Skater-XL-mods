@@ -132,4 +132,18 @@ namespace BabboSettings {
 			return (T)formatter.Deserialize(ms);
 		}
 	}
+
+	public enum CameraMode {
+		Normal,
+		Low,
+		Follow,
+		POV,
+		Skate
+	}
+
+	public enum FocusMode {
+		Custom,
+		Player,
+		Skate
+	}
 }
