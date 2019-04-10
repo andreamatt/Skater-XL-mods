@@ -76,12 +76,12 @@ namespace BabboSettings {
 
 		private void Open() {
 			showUI = true;
-			ModMenu.Instance.RegisterShowCursor(Main.modId, () => 3);
+			ModMenu.Instance.ShowCursor(Main.modId);
 		}
 
 		private void Close() {
 			showUI = false;
-			ModMenu.Instance.UnregisterShowCursor(Main.modId);
+			ModMenu.Instance.HideCursor(Main.modId);
 			Main.Save();
 		}
 
