@@ -23,18 +23,18 @@ namespace BabboSettings {
 		private void EndHorizontal() {
 			GUILayout.EndHorizontal();
 		}
-		private float Slider(string name, float current, float min, float max) {
-			BeginHorizontal();
+		private float Slider(string name, float current, float min, float max, bool horizontal=true) {
+			if(horizontal) BeginHorizontal();
 			Label(name + ": " + current.ToString("0.00"));
 			float res = GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle);
-			EndHorizontal();
+			if (horizontal) EndHorizontal();
 			return res;
 		}
-		private int SliderInt(string name, int current, int min, int max) {
-			BeginHorizontal();
+		private int SliderInt(string name, int current, int min, int max, bool horizontal = true) {
+			if (horizontal) BeginHorizontal();
 			Label(name + ": " + current);
 			float res = GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle);
-			EndHorizontal();
+			if (horizontal) EndHorizontal();
 			return Mathf.FloorToInt(res);
 		}
 	}

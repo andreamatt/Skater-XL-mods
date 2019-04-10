@@ -15,7 +15,7 @@ namespace BabboSettings {
 		private string[] tonemappers = { "None", "Neutral", "ACES" };
 		private string[] max_blur = { "Small", "Medium", "Large", "Very large" };
 		private string[] focus_modes = { "Custom", "Player", "Skate" };
-		private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
+		private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_COLOR_ADV, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
 		private bool choosing_name, changing_preset;
 		private string name_text = "";
 
@@ -191,12 +191,39 @@ namespace BabboSettings {
 									GAME_COLOR.hueShift.Override(Slider("Hue shift", GAME_COLOR.hueShift.value, -180, 180));
 									GAME_COLOR.saturation.Override(Slider("Saturation", GAME_COLOR.saturation.value, -100, 100));
 									GAME_COLOR.contrast.Override(Slider("Contrast", GAME_COLOR.contrast.value, -100, 100));
-									float lift = Slider("Lift", GAME_COLOR.lift.value.z, -1, 1);
-									GAME_COLOR.lift.Override(new Vector4(lift, lift, lift, lift));
-									float gamma = Slider("Gamma", GAME_COLOR.gamma.value.z, -1, 3);
-									GAME_COLOR.gamma.Override(new Vector4(gamma, gamma, gamma, gamma));
-									float gain = Slider("Gain", GAME_COLOR.gain.value.z, 0, 2);
-									GAME_COLOR.gain.Override(new Vector4(gain, gain, gain, gain));
+
+									Label(" ");
+									BeginHorizontal();
+									Label("Advanced");
+									sp_COLOR_ADV = Spoiler(sp_COLOR_ADV ? "hide" : "show") ? !sp_COLOR_ADV : sp_COLOR_ADV;
+									EndHorizontal();
+									if (sp_COLOR_ADV) {
+										Label("Lift");
+										Vector4 lift = new Vector4();
+										lift.x = Slider("r", GAME_COLOR.lift.value.x, -2, 2);
+										lift.y = Slider("g", GAME_COLOR.lift.value.y, -2, 2);
+										lift.z = Slider("b", GAME_COLOR.lift.value.z, -2, 2);
+										lift.w = Slider("w", GAME_COLOR.lift.value.w, -2, 2);
+										GAME_COLOR.lift.Override(lift);
+
+										Label("Gamma");
+										Vector4 gamma = new Vector4();
+										gamma.x = Slider("r", GAME_COLOR.gamma.value.x, -2, 2);
+										gamma.y = Slider("g", GAME_COLOR.gamma.value.y, -2, 2);
+										gamma.z = Slider("b", GAME_COLOR.gamma.value.z, -2, 2);
+										gamma.w = Slider("w", GAME_COLOR.gamma.value.w, -2, 2);
+										GAME_COLOR.gamma.Override(gamma);
+
+										Label("Gain");
+										Vector4 gain = new Vector4();
+										gain.x = Slider("r", GAME_COLOR.gain.value.x, -2, 2);
+										gain.y = Slider("g", GAME_COLOR.gain.value.y, -2, 2);
+										gain.z = Slider("b", GAME_COLOR.gain.value.z, -2, 2);
+										gain.w = Slider("w", GAME_COLOR.gain.value.w, -2, 2);
+										GAME_COLOR.gain.Override(gain);
+									}
+									Label(" ");
+
 									if (Button("Reset")) {
 										// NEED TO RESET ONE BY ONE
 										GAME_COLOR.temperature.Override(0);
@@ -205,9 +232,9 @@ namespace BabboSettings {
 										GAME_COLOR.hueShift.Override(0);
 										GAME_COLOR.saturation.Override(0);
 										GAME_COLOR.contrast.Override(0);
-										GAME_COLOR.lift.Override(Vector4.zero);
-										GAME_COLOR.gamma.Override(new Vector4(-0.5f, -0.5f, -0.5f, -0.5f));
-										GAME_COLOR.gain.Override(Vector4.one);
+										GAME_COLOR.lift.Override(new Vector4(1, 1, 1, 0));
+										GAME_COLOR.gamma.Override(new Vector4(1, 1, 1, 0));
+										GAME_COLOR.gain.Override(new Vector4(1, 1, 1, 0));
 									}
 								}
 							}
@@ -222,10 +249,10 @@ namespace BabboSettings {
 									var new_mode = (FocusMode)GUILayout.SelectionGrid((int)focus_mode, focus_modes, focus_modes.Length);
 									if (new_mode != focus_mode) GAME_DOF.focusDistance = Main.selectedPreset.DOF.focusDistance;
 									focus_mode = new_mode;
-									if (focus_mode==FocusMode.Custom) {
+									if (focus_mode == FocusMode.Custom) {
 										GAME_DOF.focusDistance.Override(Slider("Focus distance", GAME_DOF.focusDistance.value, 0, 20));
 									}
-									else { 
+									else {
 										Label("focus distance: " + GAME_DOF.focusDistance.value.ToString("0.00"));
 									}
 									GAME_DOF.aperture.Override(Slider("Aperture", GAME_DOF.aperture.value, 0.1f, 32));
@@ -336,7 +363,6 @@ namespace BabboSettings {
 							}
 							Separator();
 							Label("Move camera: ");
-							moving_thresh = Slider("Moving threshold", moving_thresh, 0, 3);
 							follow_shift.x = Slider("x", follow_shift.x, -2, 2);
 							follow_shift.y = Slider("y", follow_shift.y, -2, 2);
 							follow_shift.z = Slider("z", follow_shift.z, -2, 2);
@@ -353,7 +379,8 @@ namespace BabboSettings {
 							pov_shift.y = Slider("y", pov_shift.y, -2, 2);
 							pov_shift.z = Slider("z", pov_shift.z, -2, 2);
 							if (Button("Reset to head")) pov_shift = new Vector3();
-						} else if(cameraMode == CameraMode.Skate) {
+						}
+						else if (cameraMode == CameraMode.Skate) {
 							skate_fov = Slider("Field of View", skate_fov, 1, 179);
 							if (Button("Reset")) {
 								skate_fov = 60;

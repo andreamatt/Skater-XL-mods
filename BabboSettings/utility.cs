@@ -100,17 +100,17 @@ namespace BabboSettings {
 				}
 			}
 			if (post_volume == null) {
-				log("Post volume is null (probably map changed)");
+				if (Main.settings.DEBUG) log("Post volume is null (probably map changed)");
 				post_volume = FindObjectOfType<PostProcessVolume>();
 				if (post_volume == null) {
-					log("Post volume not found => creating");
+					if (Main.settings.DEBUG) log("Post volume not found => creating");
 					GameObject post_vol_go = new GameObject();
 					post_vol_go.layer = 8;
 					post_volume = post_vol_go.AddComponent<PostProcessVolume>();
 					post_volume.profile = new PostProcessProfile();
 					post_volume.isGlobal = true;
-					log("Now a & e:" + post_volume.isActiveAndEnabled);
-					log("Has profile: " + post_volume.HasInstantiatedProfile());
+					if (Main.settings.DEBUG) log("Now a & e:" + post_volume.isActiveAndEnabled);
+					if (Main.settings.DEBUG) log("Has profile: " + post_volume.HasInstantiatedProfile());
 				}
 				getSettings();
 			}

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace BabboSettings {
 	internal partial class SettingsGUI : MonoBehaviour {
@@ -17,36 +18,45 @@ namespace BabboSettings {
 		private Transform tra = new GameObject().transform;
 		private HeadIK headIK = FindObjectOfType<HeadIK>();
 		private Transform actualCam = PlayerController.Instance.cameraController._actualCam;
-		private float moving_thresh = 0.3f;
 
 		private float interpol = 1;
 		private float interpol2 = 1;
 
 		private void follow(float fov, Vector3 shift) {
-			Camera.main.fieldOfView = fov;
-			var pos = PlayerController.Instance.skaterController.skaterTransform.position;
-			pos.y = (pos.y + PlayerController.Instance.boardController.boardTransform.position.y) / 2;
-			tra.position = pos;
-			tra.rotation = actualCam.rotation;
-			Vector3 true_shift = shift;
-			if (SettingsManager.Instance.stance == SettingsManager.Stance.Goofy) {
-				true_shift.x *= -1;
-			}
-			if (PlayerController.Instance.IsSwitch) {
-				true_shift.x *= -1;
-			}
-			true_shift.x = Mathf.Lerp(old_true_shift_x, true_shift.x, 0.02f);
-			old_true_shift_x = true_shift.x;
-			tra.position = tra.TransformPoint(true_shift);
+			try {
+				Camera.main.fieldOfView = fov;
+				var pos = PlayerController.Instance.skaterController.skaterTransform.position;
+				pos.y = (pos.y + PlayerController.Instance.boardController.boardTransform.position.y) / 2;
+				if (tra == null) {
+					if(Main.settings.DEBUG) log("Null transform in follow");
+					tra = new GameObject().transform;
+				}
+				tra.position = pos;
+				tra.rotation = actualCam.rotation;
+				Vector3 true_shift = shift;
+				if (SettingsManager.Instance.stance == SettingsManager.Stance.Goofy) {
+					true_shift.x *= -1;
+				}
+				if (PlayerController.Instance.IsSwitch) {
+					true_shift.x *= -1;
+				}
+				true_shift.x = Mathf.Lerp(old_true_shift_x, true_shift.x, 0.02f);
+				old_true_shift_x = true_shift.x;
+				tra.position = tra.TransformPoint(true_shift);
+				
+				// if too low, high up a bit
+				pos = tra.position;
+				pos.y = Mathf.Max(tra.position.y, PlayerController.Instance.boardController.boardTransform.position.y + 0.2f);
 
-			// if too low, high up a bit
-			pos = tra.position;
-			pos.y = Mathf.Max(tra.position.y, PlayerController.Instance.boardController.boardTransform.position.y + 0.2f);
+				actualCam.position = Vector3.Lerp(old_pos, pos, 0.7f);
+				actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, 0.7f);
+				old_pos = actualCam.position;
+				old_rot = actualCam.rotation;
 
-			actualCam.position = Vector3.Lerp(old_pos, pos, 0.7f);
-			actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, 0.7f);
-			old_pos = actualCam.position;
-			old_rot = actualCam.rotation;
+			}
+			catch (Exception e) {
+				log("Failed follow, ex: " + e);
+			}
 		}
 
 		private void pov() {

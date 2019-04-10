@@ -2,7 +2,7 @@
   "Id": "BabboSettings",
   "DisplayName": "BabboSettings",
   "Author": "Babbo Elu",
-  "Version": "0.4.1",
+  "Version": "0.4.2",
   "ManagerVersion": "0.15.0",
   "Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
   "AssemblyName": "BabboSettings.dll",

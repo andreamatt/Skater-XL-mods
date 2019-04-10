@@ -15,6 +15,7 @@ namespace BabboSettings {
 	public class Settings : UnityModManager.ModSettings {
 
 		public string presetName = Main.default_name;
+		public bool DEBUG = false;
 
 		// Basic
 		public bool ENABLE_POST = true;
@@ -69,9 +70,9 @@ namespace BabboSettings {
 		public float COLOR_hueShift = 0;
 		public float COLOR_saturation = 0;
 		public float COLOR_contrast = 0;
-		public float COLOR_lift = 0;
-		public float COLOR_gamma = -0.5f;
-		public float COLOR_gain = 1;
+		public Vector4 COLOR_lift = new Vector4(1, 1, 1, 0);
+		public Vector4 COLOR_gamma = new Vector4(1, 1, 1, 0);
+		public Vector4 COLOR_gain = new Vector4(1, 1, 1, 0);
 		public DepthOfField DOF = new DepthOfField();
 		public FocusMode FOCUS_MODE = FocusMode.Custom;
 		public Grain GRAIN = new Grain();
@@ -168,10 +169,10 @@ namespace BabboSettings {
 			if (presets.ContainsKey(s)) {
 				selectedPreset = presets[s];
 				settings.presetName = s;
-				log("Switched to preset " + s);
+				if (settings.DEBUG) log("Switched to preset " + s);
 			}
 			else {
-				log("Preset " + s + " not found");
+				if (settings.DEBUG) log("Preset " + s + " not found");
 				if (presets.ContainsKey(default_name)) {
 					selectedPreset = presets[default_name];
 					settings.presetName = default_name;
@@ -191,32 +192,30 @@ namespace BabboSettings {
 					}
 				}
 			}
-			log("presave, aamode: " + settings.AA_MODE);
 			settings.Save();
-			log("aftersave, aamode: " + settings.AA_MODE);
 		}
 
 		static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
-			Save();
 		}
 
 		internal static void Save() {
 			if (canSave) {
-				settingsGUI.SaveToSettings();
-				settingsGUI.SaveToPreset(selectedPreset);
 				try {
-					log("Done saving in main");
+					settingsGUI.SaveToSettings();
+					settingsGUI.SaveToPreset(selectedPreset);
+					if (settings.DEBUG) log("Done saving in main");
 				}
 				catch (Exception ex) {
 					log("Failed saving in main, probably closed game with mod open: " + ex.Message);
 				}
-			} else {
+			}
+			else {
 				log("Cannot save yet");
 			}
 		}
 
 		internal static void log(string s) {
-			UnityModManager.Logger.Log(s);
+			UnityModManager.Logger.Log("[BabboSettings] " + s);
 		}
 	}
 }

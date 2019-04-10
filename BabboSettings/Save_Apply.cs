@@ -5,7 +5,7 @@ using UnityEngine.Rendering.PostProcessing;
 namespace BabboSettings {
 	internal partial class SettingsGUI : MonoBehaviour {
 		internal void SaveToSettings() {
-			log("Saving to settings");
+			if(Main.settings.DEBUG) log("Saving to settings");
 			try {
 				if (post_layer == null) throw new Exception("Post_layer is null");
 				if (post_volume == null) throw new Exception("Post_volume is null");
@@ -37,11 +37,11 @@ namespace BabboSettings {
 			catch (Exception e) {
 				throw new Exception("Failed saving to settings, ex: " + e);
 			}
-			log("Saved settings");
+			if (Main.settings.DEBUG) log("Saved settings");
 		}
 
 		internal void SaveToPreset(Preset preset) {
-			log("Saving to " + preset.name);
+			if (Main.settings.DEBUG) log("Saving to " + preset.name);
 			try {
 				if (preset == null) throw new Exception("preset is null");
 				if (post_layer == null) throw new Exception("Post_layer is null");
@@ -60,9 +60,9 @@ namespace BabboSettings {
 				preset.COLOR_hueShift = GAME_COLOR.hueShift.value;
 				preset.COLOR_saturation = GAME_COLOR.saturation.value;
 				preset.COLOR_contrast = GAME_COLOR.contrast.value;
-				preset.COLOR_lift = GAME_COLOR.lift.value.z;
-				preset.COLOR_gamma = GAME_COLOR.gamma.value.z;
-				preset.COLOR_gain = GAME_COLOR.gain.value.z;
+				preset.COLOR_lift = GAME_COLOR.lift.value;
+				preset.COLOR_gamma = GAME_COLOR.gamma.value;
+				preset.COLOR_gain = GAME_COLOR.gain.value;
 				preset.DOF = DeepClone(GAME_DOF);
 				preset.FOCUS_MODE = focus_mode;
 				preset.GRAIN = DeepClone(GAME_GRAIN);
@@ -76,11 +76,11 @@ namespace BabboSettings {
 			catch (Exception e) {
 				throw new Exception("Failed saving to preset, ex: " + e);
 			}
-			log("Saved to " + preset.name);
+			if (Main.settings.DEBUG) log("Saved to " + preset.name);
 		}
 
 		internal void ApplySettings() {
-			log("Applying settings");
+			if (Main.settings.DEBUG) log("Applying settings");
 			// Basic
 			{
 				post_volume.enabled = Main.settings.ENABLE_POST;
@@ -111,11 +111,11 @@ namespace BabboSettings {
 				skate_shift = Main.settings.SKATE_SHIFT;
 			}
 
-			log("Applied settings");
+			if (Main.settings.DEBUG) log("Applied settings");
 		}
 
 		internal void ApplyPreset(Preset preset) {
-			log("Applying " + preset.name);
+			if (Main.settings.DEBUG) log("Applying " + preset.name);
 
 			// Effects
 			{
@@ -160,9 +160,9 @@ namespace BabboSettings {
 					GAME_COLOR.hueShift.Override(preset.COLOR_hueShift);
 					GAME_COLOR.saturation.Override(preset.COLOR_saturation);
 					GAME_COLOR.contrast.Override(preset.COLOR_contrast);
-					GAME_COLOR.lift.Override(new Vector4(preset.COLOR_lift, preset.COLOR_lift, preset.COLOR_lift, preset.COLOR_lift));
-					GAME_COLOR.gamma.Override(new Vector4(preset.COLOR_gamma, preset.COLOR_gamma, preset.COLOR_gamma, preset.COLOR_gamma));
-					GAME_COLOR.gain.Override(new Vector4(preset.COLOR_gain, preset.COLOR_gain, preset.COLOR_gain, preset.COLOR_gain));
+					GAME_COLOR.lift.Override(preset.COLOR_lift);
+					GAME_COLOR.gamma.Override(preset.COLOR_gamma);
+					GAME_COLOR.gain.Override(preset.COLOR_gain);
 				}
 
 				// Depth Of Field
@@ -217,7 +217,7 @@ namespace BabboSettings {
 				}
 			}
 
-			log("Applied " + preset.name);
+			if (Main.settings.DEBUG) log("Applied " + preset.name);
 		}
 	}
 }

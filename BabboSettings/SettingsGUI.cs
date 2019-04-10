@@ -50,11 +50,11 @@ namespace BabboSettings {
 		private void getSettings() {
 			post_layer = Camera.main.GetComponent<PostProcessLayer>();
 			if (post_layer == null) {
-				log("Null post layer");
+				if (Main.settings.DEBUG) log("Null post layer");
 			}
 			if (post_layer.enabled == false) {
 				post_layer.enabled = true;
-				log("post_layer was disabled,");
+				if (Main.settings.DEBUG) log("post_layer was disabled");
 			}
 			post_volume = FindObjectOfType<PostProcessVolume>();
 			if (post_volume != null) {
@@ -119,7 +119,7 @@ namespace BabboSettings {
 				}
 			}
 			else {
-				log("Post_volume is null in getSettings");
+				if (Main.settings.DEBUG) log("Post_volume is null in getSettings");
 			}
 
 			GAME_FXAA = post_layer.fastApproximateAntialiasing;
@@ -136,7 +136,7 @@ namespace BabboSettings {
 			// After applying, can now save
 			Main.canSave = true;
 
-			log("Done getSettings");
+			if (Main.settings.DEBUG) log("Done getSettings");
 		}
 	}
 }
