@@ -55,7 +55,7 @@ namespace BabboSettings {
 			actualCam.rotation = headIK.head.rotation;
 			actualCam.position = actualCam.TransformPoint(pov_shift);
 			old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, 1);
-			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, 0.06f);
+			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, 0.10f);
 		}
 
 		private void skate_pov() {
