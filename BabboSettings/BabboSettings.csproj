@@ -39,8 +39,10 @@
     <None Include="Resources\Info.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CameraController.cs" />
+    <Compile Include="Patches\RespawnPatches.cs" />
+    <Compile Include="CustomCameraController.cs" />
     <Compile Include="GUILayout.cs" />
+    <Compile Include="Patches\PlayerControllerPatches.cs" />
     <Compile Include="RenderWindow.cs" />
     <Compile Include="Save_Apply.cs" />
     <Compile Include="utility.cs" />
@@ -59,11 +61,19 @@
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityModManager">
       <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\UnityModManager\UnityModManager.dll</HintPath>

@@ -15,7 +15,7 @@ namespace BabboSettings {
 	public class Settings : UnityModManager.ModSettings {
 
 		public string presetName = Main.default_name;
-		public bool DEBUG = false;
+		public bool DEBUG = true;
 
 		// Basic
 		public bool ENABLE_POST = true;
@@ -38,6 +38,7 @@ namespace BabboSettings {
 		public Vector3 FOLLOW_SHIFT = Vector3.zero;
 		public float POV_FOV = 60;
 		public Vector3 POV_SHIFT = Vector3.zero;
+        public float POV_SMOOTH = 0.10f;
 		public float SKATE_FOV = 60;
 		public Vector3 SKATE_SHIFT = Vector3.zero;
 

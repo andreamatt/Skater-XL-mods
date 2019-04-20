@@ -22,15 +22,16 @@ namespace BabboSettings {
 				Main.settings.TAA_motion = post_layer.temporalAntialiasing.motionBlending;
 				Main.settings.SMAA = DeepClone(GAME_SMAA);
 
-				Main.settings.CAMERA = cameraMode;
-				Main.settings.NORMAL_FOV = normal_fov;
-				Main.settings.LOW_FOV = low_fov;
-				Main.settings.FOLLOW_FOV = follow_fov;
-				Main.settings.FOLLOW_SHIFT = follow_shift;
-				Main.settings.POV_FOV = pov_fov;
-				Main.settings.POV_SHIFT = pov_shift;
-				Main.settings.SKATE_FOV = skate_fov;
-				Main.settings.SKATE_SHIFT = skate_shift;
+				Main.settings.CAMERA = cameraController.cameraMode;
+				Main.settings.NORMAL_FOV = cameraController.normal_fov;
+				Main.settings.LOW_FOV = cameraController.low_fov;
+				Main.settings.FOLLOW_FOV = cameraController.follow_fov;
+				Main.settings.FOLLOW_SHIFT = cameraController.follow_shift;
+				Main.settings.POV_FOV = cameraController.pov_fov;
+                Main.settings.POV_SMOOTH = cameraController.pov_smooth;
+				Main.settings.POV_SHIFT = cameraController.pov_shift;
+				Main.settings.SKATE_FOV = cameraController.skate_fov;
+				Main.settings.SKATE_SHIFT = cameraController.skate_shift;
 
 				Main.settings.Save();
 			}
@@ -40,7 +41,7 @@ namespace BabboSettings {
 			if (Main.settings.DEBUG) log("Saved settings");
 		}
 
-		internal void SaveToPreset(Preset preset) {
+        internal void SaveToPreset(Preset preset) {
 			if (Main.settings.DEBUG) log("Saving to " + preset.name);
 			try {
 				if (preset == null) throw new Exception("preset is null");
@@ -100,15 +101,16 @@ namespace BabboSettings {
 
 			// Camera
 			{
-				cameraMode = Main.settings.CAMERA;
-				normal_fov = Main.settings.NORMAL_FOV;
-				low_fov = Main.settings.LOW_FOV;
-				follow_fov = Main.settings.FOLLOW_FOV;
-				follow_shift = Main.settings.FOLLOW_SHIFT;
-				pov_fov = Main.settings.POV_FOV;
-				pov_shift = Main.settings.POV_SHIFT;
-				skate_fov = Main.settings.SKATE_FOV;
-				skate_shift = Main.settings.SKATE_SHIFT;
+                cameraController.cameraMode = Main.settings.CAMERA;
+                cameraController.normal_fov = Main.settings.NORMAL_FOV;
+                cameraController.low_fov = Main.settings.LOW_FOV;
+                cameraController.follow_fov = Main.settings.FOLLOW_FOV;
+                cameraController.follow_shift = Main.settings.FOLLOW_SHIFT;
+                cameraController.pov_fov = Main.settings.POV_FOV;
+                cameraController.pov_smooth = Main.settings.POV_SMOOTH;
+                cameraController.pov_shift = Main.settings.POV_SHIFT;
+                cameraController.skate_fov = Main.settings.SKATE_FOV;
+                cameraController.skate_shift = Main.settings.SKATE_SHIFT;
 			}
 
 			if (Main.settings.DEBUG) log("Applied settings");

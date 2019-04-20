@@ -131,7 +131,19 @@ namespace BabboSettings {
 			}
 			return (T)formatter.Deserialize(ms);
 		}
-	}
+
+        public bool isSwitch() {
+            return cameraController.isSwitch();
+        }
+
+        internal void SetJustRespawned() {
+            cameraController.just_respawned = true;
+        }
+
+        public void SetSpawnSwitch() {
+            cameraController.spawn_switch = isSwitch();
+        }
+    }
 
 	public enum CameraMode {
 		Normal,
