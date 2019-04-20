@@ -168,7 +168,7 @@ namespace BabboSettings {
                     //log("Grand: " + grandchild.name);
                     for (int k = 0; k < grandchild.childCount; k++) {
                         var grandgrandchild = grandchild.GetChild(k);
-                        log("Grandgrand: " + grandgrandchild.name);
+                        //log("Grandgrand: " + grandgrandchild.name);
                         if (toHide_names.Contains(grandgrandchild.name)) {
                             toHide.Add(grandgrandchild.gameObject);
                         }
@@ -189,12 +189,14 @@ namespace BabboSettings {
                 var materials = obj.GetComponent<SkinnedMeshRenderer>().materials;
                 for (int k = 0; k < materials.Length; k++) {
                     var mat = materials[k];
-                    log("Obj: " + obj.name + ", mat: " + mat.name);
+                    //log("Obj: " + obj.name + ", mat: " + mat.name);
                     if (mat_names.Contains(mat.name)) {
                         cameraController.head_materials.Add(mat);
                     }
                 }
             }
+
+            cameraController.mainCamera = Camera.main;
 
             if (Main.settings.DEBUG) log("Done getSettings");
         }

@@ -349,18 +349,28 @@ namespace BabboSettings {
                             if (Button("Reset")) {
                                 cameraController.normal_fov = 60;
                             }
+                            Separator();
+                            cameraController.normal_clip = Slider("Near clipping", cameraController.normal_clip, 0.01f, 1);
+                            Separator();
+                            Label("Responsiveness");
+                            cameraController.normal_react = Slider("Position", cameraController.normal_react, 0, 1);
+                            cameraController.normal_react_rot = Slider("Rotation", cameraController.normal_react_rot, 0, 1);
                         }
                         else if (cameraController.cameraMode == CameraMode.Low) {
-                            cameraController.low_fov = Slider("Field of View", cameraController.low_fov, 1, 179);
-                            if (Button("Reset")) {
-                                cameraController.low_fov = 60;
-                            }
+                            Label("No controls here");
+                            Label("If you want them, use follow cam");
                         }
                         else if (cameraController.cameraMode == CameraMode.Follow) {
                             cameraController.follow_fov = Slider("Field of View", cameraController.follow_fov, 1, 179);
                             if (Button("Reset")) {
                                 cameraController.follow_fov = 60;
                             }
+                            Separator();
+                            cameraController.follow_clip = Slider("Near clipping", cameraController.follow_clip, 0.01f, 1);
+                            Separator();
+                            Label("Responsiveness");
+                            cameraController.follow_react = Slider("Position", cameraController.follow_react, 0, 1);
+                            cameraController.follow_react_rot = Slider("Rotation", cameraController.follow_react_rot, 0, 1);
                             Separator();
                             Label("Move camera: ");
                             cameraController.follow_shift.x = Slider("x", cameraController.follow_shift.x, -2, 2);
@@ -374,9 +384,14 @@ namespace BabboSettings {
                                 cameraController.pov_fov = 60;
                             }
                             Separator();
+                            cameraController.hide_head = GUILayout.Toggle(cameraController.hide_head, "Hide head");
+                            cameraController.pov_clip = Slider("Near clipping", cameraController.pov_clip, 0.01f, 1);
+                            Separator();
+                            Label("Responsiveness");
+                            cameraController.pov_react = Slider("Position", cameraController.pov_react, 0, 1);
+                            cameraController.pov_react_rot = Slider("Rotation", cameraController.pov_react_rot, 0, 1);
+                            Separator();
                             Label("Move camera: ");
-                            Camera.main.nearClipPlane = Slider("Near clipping", Camera.main.nearClipPlane, 0, 1);
-                            cameraController.pov_smooth = Slider("Smoothness", cameraController.pov_smooth, 0, 1);
                             cameraController.pov_shift.x = Slider("x", cameraController.pov_shift.x, -2, 2);
                             cameraController.pov_shift.y = Slider("y", cameraController.pov_shift.y, -2, 2);
                             cameraController.pov_shift.z = Slider("z", cameraController.pov_shift.z, -2, 2);
@@ -387,6 +402,12 @@ namespace BabboSettings {
                             if (Button("Reset")) {
                                 cameraController.skate_fov = 60;
                             }
+                            Separator();
+                            cameraController.skate_clip = Slider("Near clipping", cameraController.skate_clip, 0.01f, 1);
+                            Separator();
+                            Label("Responsiveness");
+                            cameraController.skate_react = Slider("Position", cameraController.skate_react, 0, 1);
+                            cameraController.skate_react_rot = Slider("Rotation", cameraController.skate_react_rot, 0, 1);
                             Separator();
                             Label("Move camera: ");
                             cameraController.skate_shift.x = Slider("x", cameraController.skate_shift.x, -2, 2);
@@ -425,8 +446,6 @@ namespace BabboSettings {
                 }
             }
             GUILayout.EndScrollView();
-
-            if (Main.settings.DEBUG) log("End renderWindow");
         }
     }
 }

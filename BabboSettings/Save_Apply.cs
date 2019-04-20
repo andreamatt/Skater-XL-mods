@@ -23,15 +23,25 @@ namespace BabboSettings {
 				Main.settings.SMAA = DeepClone(GAME_SMAA);
 
 				Main.settings.CAMERA = cameraController.cameraMode;
-				Main.settings.NORMAL_FOV = cameraController.normal_fov;
-				Main.settings.LOW_FOV = cameraController.low_fov;
-				Main.settings.FOLLOW_FOV = cameraController.follow_fov;
-				Main.settings.FOLLOW_SHIFT = cameraController.follow_shift;
-				Main.settings.POV_FOV = cameraController.pov_fov;
-                Main.settings.POV_SMOOTH = cameraController.pov_smooth;
-				Main.settings.POV_SHIFT = cameraController.pov_shift;
-				Main.settings.SKATE_FOV = cameraController.skate_fov;
-				Main.settings.SKATE_SHIFT = cameraController.skate_shift;
+                Main.settings.NORMAL_FOV = cameraController.normal_fov;
+                Main.settings.NORMAL_REACT = cameraController.normal_react;
+                Main.settings.NORMAL_REACT_ROT = cameraController.normal_react_rot;
+                Main.settings.NORMAL_CLIP = cameraController.normal_clip;
+                Main.settings.FOLLOW_FOV = cameraController.follow_fov;
+                Main.settings.FOLLOW_REACT = cameraController.follow_react;
+                Main.settings.FOLLOW_REACT_ROT= cameraController.follow_react_rot;
+                Main.settings.FOLLOW_CLIP = cameraController.follow_clip;
+                Main.settings.FOLLOW_SHIFT = cameraController.follow_shift;
+                Main.settings.POV_FOV = cameraController.pov_fov;
+                Main.settings.POV_REACT = cameraController.pov_react;
+                Main.settings.POV_REACT_ROT = cameraController.pov_react_rot;
+                Main.settings.POV_CLIP = cameraController.pov_clip;
+                Main.settings.POV_SHIFT = cameraController.pov_shift;
+                Main.settings.SKATE_FOV = cameraController.skate_fov;
+                Main.settings.SKATE_REACT = cameraController.skate_react;
+                Main.settings.SKATE_REACT_ROT = cameraController.skate_react_rot;
+                Main.settings.SKATE_CLIP = cameraController.skate_clip;
+                Main.settings.SKATE_SHIFT = cameraController.skate_shift;
 
 				Main.settings.Save();
 			}
@@ -103,15 +113,25 @@ namespace BabboSettings {
 			{
                 cameraController.cameraMode = Main.settings.CAMERA;
                 cameraController.normal_fov = Main.settings.NORMAL_FOV;
-                cameraController.low_fov = Main.settings.LOW_FOV;
+                cameraController.normal_react = Main.settings.NORMAL_REACT;
+                cameraController.normal_react_rot = Main.settings.NORMAL_REACT_ROT;
+                cameraController.normal_clip = Main.settings.NORMAL_CLIP;
                 cameraController.follow_fov = Main.settings.FOLLOW_FOV;
+                cameraController.follow_react = Main.settings.FOLLOW_REACT;
+                cameraController.follow_react_rot = Main.settings.FOLLOW_REACT_ROT;
+                cameraController.follow_clip = Main.settings.FOLLOW_CLIP;
                 cameraController.follow_shift = Main.settings.FOLLOW_SHIFT;
                 cameraController.pov_fov = Main.settings.POV_FOV;
-                cameraController.pov_smooth = Main.settings.POV_SMOOTH;
+                cameraController.pov_react = Main.settings.POV_REACT;
+                cameraController.pov_react_rot = Main.settings.POV_REACT_ROT;
+                cameraController.pov_clip = Main.settings.POV_CLIP;
                 cameraController.pov_shift = Main.settings.POV_SHIFT;
                 cameraController.skate_fov = Main.settings.SKATE_FOV;
+                cameraController.skate_react = Main.settings.SKATE_REACT;
+                cameraController.skate_react_rot = Main.settings.SKATE_REACT_ROT;
+                cameraController.skate_clip = Main.settings.SKATE_CLIP;
                 cameraController.skate_shift = Main.settings.SKATE_SHIFT;
-			}
+            }
 
 			if (Main.settings.DEBUG) log("Applied settings");
 		}

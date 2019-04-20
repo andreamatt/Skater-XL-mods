@@ -33,14 +33,25 @@ namespace BabboSettings {
 		// Camera
 		public CameraMode CAMERA = CameraMode.Normal;
 		public float NORMAL_FOV = 60;
-		public float LOW_FOV = 70;
+        internal float NORMAL_REACT = 0.90f;
+        internal float NORMAL_REACT_ROT = 0.90f;
+        internal float NORMAL_CLIP = 0.01f;
 		public float FOLLOW_FOV = 60;
-		public Vector3 FOLLOW_SHIFT = Vector3.zero;
+        internal float FOLLOW_REACT = 0.70f;
+        internal float FOLLOW_REACT_ROT = 0.70f;
+        internal float FOLLOW_CLIP = 0.01f;
+        public Vector3 FOLLOW_SHIFT = Vector3.zero;
 		public float POV_FOV = 60;
-		public Vector3 POV_SHIFT = Vector3.zero;
-        public float POV_SMOOTH = 0.10f;
+        internal float POV_REACT = 0;
+        internal float POV_REACT_ROT = 0.07f;
+        internal float POV_CLIP = 0.01f;
+        internal bool HIDE_HEAD = true;
+        public Vector3 POV_SHIFT = Vector3.zero;
 		public float SKATE_FOV = 60;
-		public Vector3 SKATE_SHIFT = Vector3.zero;
+        internal float SKATE_REACT = 0.90f;
+        internal float SKATE_REACT_ROT = 0.90f;
+        internal float SKATE_CLIP = 0.01f;
+        public Vector3 SKATE_SHIFT = Vector3.zero;
 
 		public Settings() {
 		}
