@@ -22,7 +22,7 @@ namespace BabboSettings {
         internal float follow_react_rot = 0.70f;
         internal float follow_clip = 0.01f;
         internal float pov_fov = 60;
-        internal float pov_react = 0;
+        internal float pov_react = 1;
         internal float pov_react_rot = 0.07f;
         internal float pov_clip = 0.01f;
         internal bool hide_head = true;

@@ -133,15 +133,15 @@ namespace BabboSettings {
 		}
 
         public bool isSwitch() {
-            return cameraController.isSwitch();
+            return customCameraController.isSwitch();
         }
 
         internal void SetJustRespawned() {
-            cameraController.just_respawned = true;
+            customCameraController.just_respawned = true;
         }
 
         public void SetSpawnSwitch() {
-            cameraController.spawn_switch = isSwitch();
+            customCameraController.spawn_switch = isSwitch();
         }
     }
 

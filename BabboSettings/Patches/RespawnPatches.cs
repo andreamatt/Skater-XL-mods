@@ -1,5 +1,4 @@
-﻿
-using Harmony12;
+﻿using Harmony12;
 
 namespace BabboSettings.Patches {
 

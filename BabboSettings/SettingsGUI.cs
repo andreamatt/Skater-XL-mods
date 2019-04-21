@@ -9,7 +9,7 @@ namespace BabboSettings {
         // Settings stuff
         private PostProcessLayer post_layer;
         private PostProcessVolume post_volume;
-        private CustomCameraController cameraController = XLShredLib.ModMenu.Instance.gameObject.AddComponent<CustomCameraController>();
+        private CustomCameraController customCameraController = XLShredLib.ModMenu.Instance.gameObject.AddComponent<CustomCameraController>();
 
         private FastApproximateAntialiasing GAME_FXAA;
         private TemporalAntialiasing GAME_TAA; // NOT SERIALIZABLE
@@ -182,21 +182,21 @@ namespace BabboSettings {
                 "UniqueShaders_hat_mat (Instance)", "GenericShaders_lacrima_mat (Instance)",
                 "GenericShaders_lashes_mat (Instance)", "GenericShaders_tear_mat (Instance)"
             });
-            cameraController.standard_shader = Shader.Find("Standard");
-            cameraController.head_shader = Shader.Find("shaderStandard");
-            cameraController.head_materials = new List<Material>();
+            customCameraController.standard_shader = Shader.Find("Standard");
+            customCameraController.head_shader = Shader.Find("shaderStandard");
+            customCameraController.head_materials = new List<Material>();
             foreach (var obj in toHide) {
                 var materials = obj.GetComponent<SkinnedMeshRenderer>().materials;
                 for (int k = 0; k < materials.Length; k++) {
                     var mat = materials[k];
                     //log("Obj: " + obj.name + ", mat: " + mat.name);
                     if (mat_names.Contains(mat.name)) {
-                        cameraController.head_materials.Add(mat);
+                        customCameraController.head_materials.Add(mat);
                     }
                 }
             }
 
-            cameraController.mainCamera = Camera.main;
+            customCameraController.mainCamera = Camera.main;
 
             if (Main.settings.DEBUG) log("Done getSettings");
         }
