@@ -5,7 +5,7 @@ using UnityEngine.Rendering.PostProcessing;
 namespace BabboSettings {
 	internal partial class SettingsGUI : MonoBehaviour {
 		internal void SaveToSettings() {
-			if(Main.settings.DEBUG) log("Saving to settings");
+			if (Main.settings.DEBUG) log("Saving to settings");
 			try {
 				if (post_layer == null) throw new Exception("Post_layer is null");
 				if (post_volume == null) throw new Exception("Post_volume is null");
@@ -23,25 +23,25 @@ namespace BabboSettings {
 				Main.settings.SMAA = DeepClone(GAME_SMAA);
 
 				Main.settings.CAMERA = customCameraController.cameraMode;
-                Main.settings.NORMAL_FOV = customCameraController.normal_fov;
-                Main.settings.NORMAL_REACT = customCameraController.normal_react;
-                Main.settings.NORMAL_REACT_ROT = customCameraController.normal_react_rot;
-                Main.settings.NORMAL_CLIP = customCameraController.normal_clip;
-                Main.settings.FOLLOW_FOV = customCameraController.follow_fov;
-                Main.settings.FOLLOW_REACT = customCameraController.follow_react;
-                Main.settings.FOLLOW_REACT_ROT= customCameraController.follow_react_rot;
-                Main.settings.FOLLOW_CLIP = customCameraController.follow_clip;
-                Main.settings.FOLLOW_SHIFT = customCameraController.follow_shift;
-                Main.settings.POV_FOV = customCameraController.pov_fov;
-                Main.settings.POV_REACT = customCameraController.pov_react;
-                Main.settings.POV_REACT_ROT = customCameraController.pov_react_rot;
-                Main.settings.POV_CLIP = customCameraController.pov_clip;
-                Main.settings.POV_SHIFT = customCameraController.pov_shift;
-                Main.settings.SKATE_FOV = customCameraController.skate_fov;
-                Main.settings.SKATE_REACT = customCameraController.skate_react;
-                Main.settings.SKATE_REACT_ROT = customCameraController.skate_react_rot;
-                Main.settings.SKATE_CLIP = customCameraController.skate_clip;
-                Main.settings.SKATE_SHIFT = customCameraController.skate_shift;
+				Main.settings.NORMAL_FOV = customCameraController.normal_fov;
+				Main.settings.NORMAL_REACT = customCameraController.normal_react;
+				Main.settings.NORMAL_REACT_ROT = customCameraController.normal_react_rot;
+				Main.settings.NORMAL_CLIP = customCameraController.normal_clip;
+				Main.settings.FOLLOW_FOV = customCameraController.follow_fov;
+				Main.settings.FOLLOW_REACT = customCameraController.follow_react;
+				Main.settings.FOLLOW_REACT_ROT = customCameraController.follow_react_rot;
+				Main.settings.FOLLOW_CLIP = customCameraController.follow_clip;
+				Main.settings.FOLLOW_SHIFT = customCameraController.follow_shift;
+				Main.settings.POV_FOV = customCameraController.pov_fov;
+				Main.settings.POV_REACT = customCameraController.pov_react;
+				Main.settings.POV_REACT_ROT = customCameraController.pov_react_rot;
+				Main.settings.POV_CLIP = customCameraController.pov_clip;
+				Main.settings.POV_SHIFT = customCameraController.pov_shift;
+				Main.settings.SKATE_FOV = customCameraController.skate_fov;
+				Main.settings.SKATE_REACT = customCameraController.skate_react;
+				Main.settings.SKATE_REACT_ROT = customCameraController.skate_react_rot;
+				Main.settings.SKATE_CLIP = customCameraController.skate_clip;
+				Main.settings.SKATE_SHIFT = customCameraController.skate_shift;
 
 				Main.settings.Save();
 			}
@@ -51,7 +51,7 @@ namespace BabboSettings {
 			if (Main.settings.DEBUG) log("Saved settings");
 		}
 
-        internal void SaveToPreset(Preset preset) {
+		internal void SaveToPreset(Preset preset) {
 			if (Main.settings.DEBUG) log("Saving to " + preset.name);
 			try {
 				if (preset == null) throw new Exception("preset is null");
@@ -111,27 +111,27 @@ namespace BabboSettings {
 
 			// Camera
 			{
-                customCameraController.cameraMode = Main.settings.CAMERA;
-                customCameraController.normal_fov = Main.settings.NORMAL_FOV;
-                customCameraController.normal_react = Main.settings.NORMAL_REACT;
-                customCameraController.normal_react_rot = Main.settings.NORMAL_REACT_ROT;
-                customCameraController.normal_clip = Main.settings.NORMAL_CLIP;
-                customCameraController.follow_fov = Main.settings.FOLLOW_FOV;
-                customCameraController.follow_react = Main.settings.FOLLOW_REACT;
-                customCameraController.follow_react_rot = Main.settings.FOLLOW_REACT_ROT;
-                customCameraController.follow_clip = Main.settings.FOLLOW_CLIP;
-                customCameraController.follow_shift = Main.settings.FOLLOW_SHIFT;
-                customCameraController.pov_fov = Main.settings.POV_FOV;
-                customCameraController.pov_react = Main.settings.POV_REACT;
-                customCameraController.pov_react_rot = Main.settings.POV_REACT_ROT;
-                customCameraController.pov_clip = Main.settings.POV_CLIP;
-                customCameraController.pov_shift = Main.settings.POV_SHIFT;
-                customCameraController.skate_fov = Main.settings.SKATE_FOV;
-                customCameraController.skate_react = Main.settings.SKATE_REACT;
-                customCameraController.skate_react_rot = Main.settings.SKATE_REACT_ROT;
-                customCameraController.skate_clip = Main.settings.SKATE_CLIP;
-                customCameraController.skate_shift = Main.settings.SKATE_SHIFT;
-            }
+				customCameraController.cameraMode = Main.settings.CAMERA;
+				customCameraController.normal_fov = Main.settings.NORMAL_FOV;
+				customCameraController.normal_react = Main.settings.NORMAL_REACT;
+				customCameraController.normal_react_rot = Main.settings.NORMAL_REACT_ROT;
+				customCameraController.normal_clip = Main.settings.NORMAL_CLIP;
+				customCameraController.follow_fov = Main.settings.FOLLOW_FOV;
+				customCameraController.follow_react = Main.settings.FOLLOW_REACT;
+				customCameraController.follow_react_rot = Main.settings.FOLLOW_REACT_ROT;
+				customCameraController.follow_clip = Main.settings.FOLLOW_CLIP;
+				customCameraController.follow_shift = Main.settings.FOLLOW_SHIFT;
+				customCameraController.pov_fov = Main.settings.POV_FOV;
+				customCameraController.pov_react = Main.settings.POV_REACT;
+				customCameraController.pov_react_rot = Main.settings.POV_REACT_ROT;
+				customCameraController.pov_clip = Main.settings.POV_CLIP;
+				customCameraController.pov_shift = Main.settings.POV_SHIFT;
+				customCameraController.skate_fov = Main.settings.SKATE_FOV;
+				customCameraController.skate_react = Main.settings.SKATE_REACT;
+				customCameraController.skate_react_rot = Main.settings.SKATE_REACT_ROT;
+				customCameraController.skate_clip = Main.settings.SKATE_CLIP;
+				customCameraController.skate_shift = Main.settings.SKATE_SHIFT;
+			}
 
 			if (Main.settings.DEBUG) log("Applied settings");
 		}

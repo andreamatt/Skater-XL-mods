@@ -23,8 +23,8 @@ namespace BabboSettings {
 		private void EndHorizontal() {
 			GUILayout.EndHorizontal();
 		}
-		private float Slider(string name, float current, float min, float max, bool horizontal=true) {
-			if(horizontal) BeginHorizontal();
+		private float Slider(string name, float current, float min, float max, bool horizontal = true) {
+			if (horizontal) BeginHorizontal();
 			Label(name + ": " + current.ToString("0.00"));
 			float res = GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle);
 			if (horizontal) EndHorizontal();
