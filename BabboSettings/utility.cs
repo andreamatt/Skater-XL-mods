@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 using XLShredLib;
 
 namespace BabboSettings {
@@ -142,6 +143,10 @@ namespace BabboSettings {
 
 		public void SetSpawnSwitch() {
 			customCameraController.spawn_switch = isSwitch();
+		}
+
+		internal bool isMapPresetSelected() {
+			return Main.selectedPreset.name == SceneManager.GetActiveScene().name + " (Original)";
 		}
 	}
 

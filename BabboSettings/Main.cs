@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.SceneManagement;
 using UnityModManagerNet;
 using XLShredLib;
 
@@ -21,6 +22,7 @@ namespace BabboSettings {
 		public bool ENABLE_POST = true;
 		public int VSYNC = 1;
 		public int SCREEN_MODE = 0;
+		public bool MAP_PRESET_SELECTED = true;
 
 		// AA
 		public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
@@ -150,7 +152,13 @@ namespace BabboSettings {
 				}
 			}
 			try {
-				select(settings.presetName);
+				if (settings.MAP_PRESET_SELECTED) {
+					select(SceneManager.GetActiveScene().name + " (Original)");
+				}
+				else {
+					select(settings.presetName);
+					settingsGUI.map_preset_selected = settingsGUI.isMapPresetSelected();
+				}
 			}
 			catch (Exception e) {
 				log("Failed Main.Load: " + e);
@@ -204,7 +212,7 @@ namespace BabboSettings {
 					}
 				}
 			}
-			settings.Save();
+			settingsGUI.SaveToSettings();
 		}
 
 		static void OnSaveGUI(UnityModManager.ModEntry modEntry) {

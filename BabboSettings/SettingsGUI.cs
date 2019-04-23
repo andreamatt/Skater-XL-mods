@@ -28,6 +28,8 @@ namespace BabboSettings {
 		private ScreenSpaceReflections GAME_REFL;
 		private Vignette GAME_VIGN;
 
+		internal bool map_preset_selected = false;
+
 		private void Update() {
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
 			if (keyUp) {
@@ -141,7 +143,13 @@ namespace BabboSettings {
 			Preset map_preset = new Preset(SceneManager.GetActiveScene().name + " (Original)");
 			SaveToPreset(map_preset);
 			Main.presets[map_preset.name] = map_preset;
-			Main.select(Main.settings.presetName);
+			if (map_preset_selected) {
+				Main.select(map_preset.name);
+			}
+			else {
+				Main.select(Main.settings.presetName);
+				map_preset_selected = isMapPresetSelected();
+			}
 			if (Main.settings.DEBUG) log("Before applying");
 			ApplySettings();
 			ApplyPreset(Main.selectedPreset);
@@ -149,8 +157,6 @@ namespace BabboSettings {
 
 			// After applying, can now save
 			Main.canSave = true;
-
-			Open();
 
 			Transform skater_transform = PlayerController.Instance.skaterController.transform;
 			List<GameObject> toHide = new List<GameObject>();

@@ -14,6 +14,7 @@ namespace BabboSettings {
 				Main.settings.ENABLE_POST = post_volume.enabled;
 				Main.settings.VSYNC = QualitySettings.vSyncCount;
 				Main.settings.SCREEN_MODE = (int)Screen.fullScreenMode;
+				Main.settings.MAP_PRESET_SELECTED = map_preset_selected = isMapPresetSelected();
 
 				Main.settings.AA_MODE = post_layer.antialiasingMode;
 				Main.settings.TAA_sharpness = post_layer.temporalAntialiasing.sharpness;
@@ -97,6 +98,7 @@ namespace BabboSettings {
 				post_volume.enabled = Main.settings.ENABLE_POST;
 				QualitySettings.vSyncCount = Main.settings.VSYNC;
 				Screen.fullScreenMode = (FullScreenMode)Main.settings.SCREEN_MODE;
+				map_preset_selected = Main.settings.MAP_PRESET_SELECTED;
 
 				// AntiAliasing
 				{
