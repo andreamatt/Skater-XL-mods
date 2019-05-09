@@ -247,7 +247,7 @@ namespace BabboSettings {
 								EndHorizontal();
 								if (GAME_DOF.enabled.value && sp_DOF) {
 									var new_mode = (FocusMode)GUILayout.SelectionGrid((int)focus_mode, focus_modes, focus_modes.Length);
-									if (new_mode != focus_mode) GAME_DOF.focusDistance = Main.selectedPreset.DOF.focusDistance;
+									if (new_mode != focus_mode) GAME_DOF.focusDistance.Override(Main.selectedPreset.DOF.focusDistance.value);
 									focus_mode = new_mode;
 									if (focus_mode == FocusMode.Custom) {
 										GAME_DOF.focusDistance.Override(Slider("Focus distance", GAME_DOF.focusDistance.value, 0, 20));

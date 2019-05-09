@@ -45,11 +45,11 @@ namespace BabboSettings {
 		private void LateUpdate() {
 			if (focus_mode == FocusMode.Player) {
 				Vector3 player_pos = PlayerController.Instance.skaterController.skaterTransform.position;
-				GAME_DOF.focusDistance.Override(Vector3.Distance(player_pos, Camera.main.transform.position));
+				GAME_DOF.focusDistance.Override(Vector3.Distance(player_pos, customCameraController.mainCamera.transform.position));
 			}
 			else if (focus_mode == FocusMode.Skate) {
 				Vector3 skate_pos = PlayerController.Instance.boardController.boardTransform.position;
-				GAME_DOF.focusDistance.Override(Vector3.Distance(skate_pos, Camera.main.transform.position));
+				GAME_DOF.focusDistance.Override(Vector3.Distance(skate_pos, customCameraController.mainCamera.transform.position));
 			}
 		}
 
