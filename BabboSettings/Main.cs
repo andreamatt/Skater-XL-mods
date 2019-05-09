@@ -133,6 +133,7 @@ namespace BabboSettings {
 		static bool Load(UnityModManager.ModEntry modEntry) {
 			Main.modEntry = modEntry;
 			settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
+			settingsGUI = ModMenu.Instance.gameObject.AddComponent<SettingsGUI>();
 			modEntry.OnSaveGUI = OnSaveGUI;
 			modEntry.OnToggle = OnToggle;
 
@@ -175,7 +176,7 @@ namespace BabboSettings {
 			if (enabled) {
 				harmonyInstance = HarmonyInstance.Create(modEntry.Info.Id);
 				harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
-				settingsGUI = ModMenu.Instance.gameObject.AddComponent<SettingsGUI>();
+				if (settingsGUI == null) settingsGUI = ModMenu.Instance.gameObject.AddComponent<SettingsGUI>();
 			}
 			else {
 				harmonyInstance.UnpatchAll(harmonyInstance.Id);
@@ -212,7 +213,7 @@ namespace BabboSettings {
 					}
 				}
 			}
-			settingsGUI.SaveToSettings();
+			settings.Save();
 		}
 
 		static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
