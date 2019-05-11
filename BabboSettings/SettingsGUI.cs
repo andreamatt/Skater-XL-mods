@@ -28,7 +28,7 @@ namespace BabboSettings {
 		private ScreenSpaceReflections GAME_REFL;
 		private Vignette GAME_VIGN;
 
-		internal bool map_preset_selected = false;
+		private Preset map_preset;
 
 		private void Update() {
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
@@ -140,19 +140,17 @@ namespace BabboSettings {
 			GAME_TAA = post_layer.temporalAntialiasing;
 			GAME_SMAA = post_layer.subpixelMorphologicalAntialiasing;
 
-			Preset map_preset = new Preset(SceneManager.GetActiveScene().name + " (Original)");
-			SaveToPreset(map_preset);
+			bool map_preset_enabled = false;
+			if (Main.presets.ContainsKey(Main.map_name)) map_preset_enabled = Main.presets[Main.map_name].enabled;
+			map_preset = new Preset(Main.map_name);
+			map_preset.enabled = map_preset_enabled;
+			UpdateMapPreset(map_preset);
 			Main.presets[map_preset.name] = map_preset;
-			if (map_preset_selected) {
-				Main.select(map_preset.name);
-			}
-			else {
-				Main.select(Main.settings.presetName);
-				map_preset_selected = isMapPresetSelected();
-			}
+			if (!Main.settings.presetOrder.Contains(Main.map_name)) Main.settings.presetOrder.Add(Main.map_name);
+
 			if (Main.settings.DEBUG) log("Before applying");
 			ApplySettings();
-			ApplyPreset(Main.selectedPreset);
+			ApplyPresets();
 			if (Main.settings.DEBUG) log("Before after");
 
 			// After applying, can now save

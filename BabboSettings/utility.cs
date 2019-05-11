@@ -144,10 +144,6 @@ namespace BabboSettings {
 		public void SetSpawnSwitch() {
 			customCameraController.spawn_switch = isSwitch();
 		}
-
-		internal bool isMapPresetSelected() {
-			return Main.selectedPreset.name == SceneManager.GetActiveScene().name + " (Original)";
-		}
 	}
 
 	public enum CameraMode {

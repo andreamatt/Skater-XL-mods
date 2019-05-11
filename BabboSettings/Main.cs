@@ -15,14 +15,13 @@ namespace BabboSettings {
 	[Serializable]
 	public class Settings : UnityModManager.ModSettings {
 
-		public string presetName = Main.default_name;
+		public List<string> presetOrder = new List<string>();
 		public bool DEBUG = true;
 
 		// Basic
 		public bool ENABLE_POST = true;
 		public int VSYNC = 1;
 		public int SCREEN_MODE = 0;
-		public bool MAP_PRESET_SELECTED = true;
 
 		// AA
 		public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
@@ -70,6 +69,7 @@ namespace BabboSettings {
 	[Serializable]
 	public class Preset {
 		public string name = "no_name";
+		public bool enabled = true;
 
 		// Effects
 		public AmbientOcclusion AO = new AmbientOcclusion();
@@ -80,7 +80,7 @@ namespace BabboSettings {
 		public Tonemapper COLOR_tonemapper = Tonemapper.Neutral;
 		public float COLOR_temperature = 0;
 		public float COLOR_tint = 0;
-		public float COLOR_post_exposure = 0;
+		public float COLOR_postExposure = 0;
 		public float COLOR_hueShift = 0;
 		public float COLOR_saturation = 0;
 		public float COLOR_contrast = 0;
@@ -96,10 +96,26 @@ namespace BabboSettings {
 		public Vignette VIGN = new Vignette();
 
 		public Preset() {
+			DisableAll();
 		}
 
 		public Preset(string name) {
+			DisableAll();
 			this.name = name;
+		}
+
+		public void DisableAll() {
+			AO.enabled.Override(false);
+			EXPO.enabled.Override(false);
+			BLOOM.enabled.Override(false);
+			CA.enabled.Override(false);
+			COLOR_enabled = false;
+			DOF.enabled.Override(false);
+			GRAIN.enabled.Override(false);
+			LENS.enabled.Override(false);
+			BLUR.enabled.Override(false);
+			REFL.enabled.Override(false);
+			VIGN.enabled.Override(false);
 		}
 
 		public void Save() {
@@ -126,7 +142,6 @@ namespace BabboSettings {
 		public static SettingsGUI settingsGUI;
 		public static UnityModManager.ModEntry modEntry;
 		public static Dictionary<string, Preset> presets = new Dictionary<string, Preset>();
-		public static Preset selectedPreset;
 		public static string map_name = "Map";
 		public static string default_name = "Default";
 
@@ -145,6 +160,9 @@ namespace BabboSettings {
 					var stream = File.OpenRead(filePath);
 					var result = (Preset)serializer.Deserialize(stream);
 					presets.Add(result.name, result);
+					if (!settings.presetOrder.Contains(result.name)) {
+						settings.presetOrder.Add(result.name);
+					}
 					stream.Close();
 					log("preset: " + result.name + " loaded");
 				}
@@ -152,19 +170,12 @@ namespace BabboSettings {
 					log($"ex: {e}");
 				}
 			}
-			try {
-				if (settings.MAP_PRESET_SELECTED) {
-					select(SceneManager.GetActiveScene().name + " (Original)");
-				}
-				else {
-					select(settings.presetName);
-					settingsGUI.map_preset_selected = settingsGUI.isMapPresetSelected();
+			foreach(var presetName in settings.presetOrder.ToArray()) {
+				if (!presets.ContainsKey(presetName)) {
+					settings.presetOrder.Remove(presetName);
 				}
 			}
-			catch (Exception e) {
-				log("Failed Main.Load: " + e);
-			}
-
+			// apply them?
 			return true;
 		}
 
@@ -186,36 +197,6 @@ namespace BabboSettings {
 			return true;
 		}
 
-		internal static void select(string s) {
-			if (presets.ContainsKey(s)) {
-				selectedPreset = presets[s];
-				settings.presetName = s;
-				if (settings.DEBUG) log("Switched to preset " + s);
-			}
-			else {
-				if (settings.DEBUG) log("Preset " + s + " not found");
-				if (presets.ContainsKey(default_name)) {
-					selectedPreset = presets[default_name];
-					settings.presetName = default_name;
-				}
-				else {
-					try {
-						var defaultP = new Preset(default_name);
-						var writer = new StreamWriter($"{modEntry.Path}{default_name}.preset.xml");
-						var serializer = new XmlSerializer(typeof(Preset));
-						serializer.Serialize(writer, defaultP);
-						selectedPreset = defaultP;
-						settings.presetName = defaultP.name;
-						presets.Add(defaultP.name, defaultP);
-					}
-					catch (Exception e) {
-						log("Error creating " + default_name + " preset: " + e);
-					}
-				}
-			}
-			settings.Save();
-		}
-
 		static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
 		}
 
@@ -223,7 +204,9 @@ namespace BabboSettings {
 			if (canSave) {
 				try {
 					settingsGUI.SaveToSettings();
-					settingsGUI.SaveToPreset(selectedPreset);
+					foreach(var preset in presets.Values) {
+						preset.Save();
+					}
 					if (settings.DEBUG) log("Done saving in main");
 				}
 				catch (Exception ex) {
