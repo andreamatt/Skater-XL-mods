@@ -3,7 +3,6 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.SceneManagement;
 using XLShredLib;
 
 namespace BabboSettings {

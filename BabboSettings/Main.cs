@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.SceneManagement;
 using UnityModManagerNet;
 using XLShredLib;
 
@@ -72,10 +71,10 @@ namespace BabboSettings {
 		public bool enabled = true;
 
 		// Effects
-		public AmbientOcclusion AO = new AmbientOcclusion();
-		public AutoExposure EXPO = new AutoExposure();
-		public Bloom BLOOM = new Bloom();
-		public ChromaticAberration CA = new ChromaticAberration();
+		public AmbientOcclusion AO = ScriptableObject.CreateInstance<AmbientOcclusion>();
+		public AutoExposure EXPO = ScriptableObject.CreateInstance<AutoExposure>();
+		public Bloom BLOOM = ScriptableObject.CreateInstance<Bloom>();
+		public ChromaticAberration CA = ScriptableObject.CreateInstance<ChromaticAberration>();
 		public bool COLOR_enabled = false;
 		public Tonemapper COLOR_tonemapper = Tonemapper.Neutral;
 		public float COLOR_temperature = 0;
@@ -87,13 +86,13 @@ namespace BabboSettings {
 		public Vector4 COLOR_lift = new Vector4(1, 1, 1, 0);
 		public Vector4 COLOR_gamma = new Vector4(1, 1, 1, 0);
 		public Vector4 COLOR_gain = new Vector4(1, 1, 1, 0);
-		public DepthOfField DOF = new DepthOfField();
+		public DepthOfField DOF = ScriptableObject.CreateInstance<DepthOfField>();
 		public FocusMode FOCUS_MODE = FocusMode.Custom;
-		public Grain GRAIN = new Grain();
-		public LensDistortion LENS = new LensDistortion();
-		public MotionBlur BLUR = new MotionBlur();
-		public ScreenSpaceReflections REFL = new ScreenSpaceReflections();
-		public Vignette VIGN = new Vignette();
+		public Grain GRAIN = ScriptableObject.CreateInstance<Grain>();
+		public LensDistortion LENS = ScriptableObject.CreateInstance<LensDistortion>();
+		public MotionBlur BLUR = ScriptableObject.CreateInstance<MotionBlur>();
+		public ScreenSpaceReflections REFL = ScriptableObject.CreateInstance<ScreenSpaceReflections>();
+		public Vignette VIGN = ScriptableObject.CreateInstance<Vignette>();
 
 		public Preset() {
 			DisableAll();
