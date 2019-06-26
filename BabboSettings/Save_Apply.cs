@@ -20,7 +20,7 @@ namespace BabboSettings {
 				Main.settings.TAA_jitter = post_layer.temporalAntialiasing.jitterSpread;
 				Main.settings.TAA_stationary = post_layer.temporalAntialiasing.stationaryBlending;
 				Main.settings.TAA_motion = post_layer.temporalAntialiasing.motionBlending;
-				Main.settings.SMAA = DeepClone(GAME_SMAA);
+				JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(GAME_SMAA), Main.settings.SMAA);
 
 				Main.settings.CAMERA = customCameraController.cameraMode;
 				Main.settings.NORMAL_FOV = customCameraController.normal_fov;

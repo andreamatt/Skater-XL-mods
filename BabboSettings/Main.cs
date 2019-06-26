@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -69,11 +70,16 @@ namespace BabboSettings {
 	public class Preset {
 		public string name = "no_name";
 		public bool enabled = true;
+		public string[] serialized_effects = new string[10];
 
 		// Effects
+		[NonSerialized]
 		public AmbientOcclusion AO = ScriptableObject.CreateInstance<AmbientOcclusion>();
+		[NonSerialized]
 		public AutoExposure EXPO = ScriptableObject.CreateInstance<AutoExposure>();
+		[NonSerialized]
 		public Bloom BLOOM = ScriptableObject.CreateInstance<Bloom>();
+		[NonSerialized]
 		public ChromaticAberration CA = ScriptableObject.CreateInstance<ChromaticAberration>();
 		public bool COLOR_enabled = false;
 		public Tonemapper COLOR_tonemapper = Tonemapper.Neutral;
@@ -86,12 +92,18 @@ namespace BabboSettings {
 		public Vector4 COLOR_lift = new Vector4(1, 1, 1, 0);
 		public Vector4 COLOR_gamma = new Vector4(1, 1, 1, 0);
 		public Vector4 COLOR_gain = new Vector4(1, 1, 1, 0);
+		[NonSerialized]
 		public DepthOfField DOF = ScriptableObject.CreateInstance<DepthOfField>();
 		public FocusMode FOCUS_MODE = FocusMode.Custom;
+		[NonSerialized]
 		public Grain GRAIN = ScriptableObject.CreateInstance<Grain>();
+		[NonSerialized]
 		public LensDistortion LENS = ScriptableObject.CreateInstance<LensDistortion>();
+		[NonSerialized]
 		public MotionBlur BLUR = ScriptableObject.CreateInstance<MotionBlur>();
+		[NonSerialized]
 		public ScreenSpaceReflections REFL = ScriptableObject.CreateInstance<ScreenSpaceReflections>();
+		[NonSerialized]
 		public Vignette VIGN = ScriptableObject.CreateInstance<Vignette>();
 
 		public Preset() {
@@ -117,16 +129,50 @@ namespace BabboSettings {
 			VIGN.enabled.Override(false);
 		}
 
+		internal void Serialize() {
+			serialized_effects[0] = JsonUtility.ToJson(AO, true);
+			serialized_effects[1] = JsonUtility.ToJson(EXPO, true);
+			serialized_effects[2] = JsonUtility.ToJson(BLOOM, true);
+			serialized_effects[3] = JsonUtility.ToJson(CA, true);
+			serialized_effects[4] = JsonUtility.ToJson(DOF, true);
+			serialized_effects[5] = JsonUtility.ToJson(GRAIN, true);
+			serialized_effects[6] = JsonUtility.ToJson(LENS, true);
+			serialized_effects[7] = JsonUtility.ToJson(BLUR, true);
+			serialized_effects[8] = JsonUtility.ToJson(REFL, true);
+			serialized_effects[9] = JsonUtility.ToJson(VIGN, true);
+		}
+
+		internal void Deserialize() {
+			JsonUtility.FromJsonOverwrite(serialized_effects[0], AO);
+			JsonUtility.FromJsonOverwrite(serialized_effects[1], EXPO);
+			JsonUtility.FromJsonOverwrite(serialized_effects[2], BLOOM);
+			JsonUtility.FromJsonOverwrite(serialized_effects[3], CA);
+			JsonUtility.FromJsonOverwrite(serialized_effects[4], DOF);
+			JsonUtility.FromJsonOverwrite(serialized_effects[5], GRAIN);
+			JsonUtility.FromJsonOverwrite(serialized_effects[6], LENS);
+			JsonUtility.FromJsonOverwrite(serialized_effects[7], BLUR);
+			JsonUtility.FromJsonOverwrite(serialized_effects[8], REFL);
+			JsonUtility.FromJsonOverwrite(serialized_effects[9], VIGN);
+		}
+
 		public void Save() {
 			var filepath = Main.modEntry.Path;
 			try {
 				using (var writer = new StreamWriter($"{filepath}{name}.preset.json")) {
+					Serialize();
 					writer.WriteLine(JsonUtility.ToJson(this, true));
 				}
 			}
 			catch (Exception e) {
 				Main.log($"Can't save {filepath}{name} preset. ex: {e.Message}");
 			}
+		}
+
+		static public Preset Load(string json) {
+			var p = new Preset();
+			JsonUtility.FromJsonOverwrite(json, p);
+			p.Deserialize();
+			return p;
 		}
 	}
 
@@ -153,14 +199,15 @@ namespace BabboSettings {
 			// convert xml presets to json
 			string[] xmlPaths = Directory.GetFiles(modEntry.Path, "*.preset.xml");
 			var serializer = new XmlSerializer(typeof(Preset));
-			foreach(var xmlPath in xmlPaths) {
+			foreach (var xmlPath in xmlPaths) {
 				try {
 					var stream = File.OpenRead(xmlPath);
 					var result = (Preset)serializer.Deserialize(stream);
 					stream.Close();
 					File.Delete(xmlPath);
 					result.Save();
-				} catch(Exception e) {
+				}
+				catch (Exception e) {
 					log($"Cannot convert {xmlPath} to Json. Ex: {e}");
 				}
 			}
@@ -170,7 +217,7 @@ namespace BabboSettings {
 			foreach (var filePath in filePaths) {
 				try {
 					var json = File.ReadAllText(filePath);
-					var result = JsonUtility.FromJson<Preset>(json);
+					var result = Preset.Load(json);
 					presets.Add(result.name, result);
 					if (!settings.presetOrder.Contains(result.name)) {
 						settings.presetOrder.Add(result.name);
@@ -181,6 +228,16 @@ namespace BabboSettings {
 					log($"ex: {e}");
 				}
 			}
+
+			if (settings.presetOrder.ToArray().Length == 0) {
+				var def_p = new Preset(default_name);
+				def_p.Save();
+				presets.Add(def_p.name, def_p);
+				if (!settings.presetOrder.Contains(def_p.name)) {
+					settings.presetOrder.Add(def_p.name);
+				}
+			}
+
 			foreach (var presetName in settings.presetOrder.ToArray()) {
 				if (!presets.ContainsKey(presetName)) {
 					settings.presetOrder.Remove(presetName);

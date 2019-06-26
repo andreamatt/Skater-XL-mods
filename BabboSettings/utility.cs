@@ -119,8 +119,10 @@ namespace BabboSettings {
 			}
 		}
 
-		private T DeepClone<T>(T obj) {
-			return JsonUtility.FromJson<T>(JsonUtility.ToJson(obj));
+		private T DeepClone<T>(T obj) where T : ScriptableObject{
+			var t = ScriptableObject.CreateInstance<T>();
+			JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(obj), t);
+			return t;
 		}
 
 		public bool isSwitch() {
