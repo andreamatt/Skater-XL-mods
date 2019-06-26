@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using XLShredLib;
 
@@ -119,7 +116,7 @@ namespace BabboSettings {
 			}
 		}
 
-		private T DeepClone<T>(T obj) where T : ScriptableObject{
+		private T DeepClone<T>(T obj) where T : ScriptableObject {
 			var t = ScriptableObject.CreateInstance<T>();
 			JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(obj), t);
 			return t;

@@ -63,17 +63,7 @@ namespace BabboSettings {
 				preset.EXPO = DeepClone(GAME_EXPO);
 				preset.BLOOM = DeepClone(GAME_BLOOM);
 				preset.CA = DeepClone(GAME_CA);
-				preset.COLOR_enabled = GAME_COLOR.enabled.value;
-				preset.COLOR_tonemapper = GAME_COLOR.tonemapper.value;
-				preset.COLOR_temperature = GAME_COLOR.temperature.value;
-				preset.COLOR_tint = GAME_COLOR.tint.value;
-				preset.COLOR_postExposure = GAME_COLOR.postExposure.value;
-				preset.COLOR_hueShift = GAME_COLOR.hueShift.value;
-				preset.COLOR_saturation = GAME_COLOR.saturation.value;
-				preset.COLOR_contrast = GAME_COLOR.contrast.value;
-				preset.COLOR_lift = GAME_COLOR.lift.value;
-				preset.COLOR_gamma = GAME_COLOR.gamma.value;
-				preset.COLOR_gain = GAME_COLOR.gain.value;
+				preset.COLOR = DeepClone(GAME_COLOR);
 				preset.DOF = DeepClone(GAME_DOF);
 				preset.FOCUS_MODE = focus_mode;
 				preset.GRAIN = DeepClone(GAME_GRAIN);
@@ -188,19 +178,19 @@ namespace BabboSettings {
 			}
 
 			// Color Grading
-			if (preset.COLOR_enabled) {
+			if (preset.COLOR.enabled) {
 				GAME_COLOR.gradingMode.Override(GradingMode.HighDefinitionRange);
-				GAME_COLOR.enabled.Override(preset.COLOR_enabled);
-				GAME_COLOR.tonemapper.Override(preset.COLOR_tonemapper);
-				GAME_COLOR.temperature.Override(preset.COLOR_temperature);
-				GAME_COLOR.tint.Override(preset.COLOR_tint);
-				GAME_COLOR.postExposure.Override(preset.COLOR_postExposure);
-				GAME_COLOR.hueShift.Override(preset.COLOR_hueShift);
-				GAME_COLOR.saturation.Override(preset.COLOR_saturation);
-				GAME_COLOR.contrast.Override(preset.COLOR_contrast);
-				GAME_COLOR.lift.Override(preset.COLOR_lift);
-				GAME_COLOR.gamma.Override(preset.COLOR_gamma);
-				GAME_COLOR.gain.Override(preset.COLOR_gain);
+				GAME_COLOR.enabled.Override(preset.COLOR.enabled.value);
+				GAME_COLOR.tonemapper.Override(preset.COLOR.tonemapper.value);
+				GAME_COLOR.temperature.Override(preset.COLOR.temperature.value);
+				GAME_COLOR.tint.Override(preset.COLOR.tint.value);
+				GAME_COLOR.postExposure.Override(preset.COLOR.postExposure.value);
+				GAME_COLOR.hueShift.Override(preset.COLOR.hueShift.value);
+				GAME_COLOR.saturation.Override(preset.COLOR.saturation.value);
+				GAME_COLOR.contrast.Override(preset.COLOR.contrast.value);
+				GAME_COLOR.lift.Override(preset.COLOR.lift.value);
+				GAME_COLOR.gamma.Override(preset.COLOR.gamma.value);
+				GAME_COLOR.gain.Override(preset.COLOR.gain.value);
 			}
 
 			// Depth Of Field

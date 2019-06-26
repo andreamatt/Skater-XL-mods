@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BabboSettings {
 	internal class CustomCameraController : MonoBehaviour {
-		internal Camera mainCamera;
+		internal Camera mainCamera = Camera.main;
 		internal CameraMode cameraMode = CameraMode.Normal;
 
 		internal Vector3 follow_shift = new Vector3();

@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityModManagerNet;
@@ -70,7 +68,9 @@ namespace BabboSettings {
 	public class Preset {
 		public string name = "no_name";
 		public bool enabled = true;
-		public string[] serialized_effects = new string[10];
+		public string[] serialized_effects = new string[11];
+
+		public FocusMode FOCUS_MODE = FocusMode.Custom;
 
 		// Effects
 		[NonSerialized]
@@ -81,20 +81,10 @@ namespace BabboSettings {
 		public Bloom BLOOM = ScriptableObject.CreateInstance<Bloom>();
 		[NonSerialized]
 		public ChromaticAberration CA = ScriptableObject.CreateInstance<ChromaticAberration>();
-		public bool COLOR_enabled = false;
-		public Tonemapper COLOR_tonemapper = Tonemapper.Neutral;
-		public float COLOR_temperature = 0;
-		public float COLOR_tint = 0;
-		public float COLOR_postExposure = 0;
-		public float COLOR_hueShift = 0;
-		public float COLOR_saturation = 0;
-		public float COLOR_contrast = 0;
-		public Vector4 COLOR_lift = new Vector4(1, 1, 1, 0);
-		public Vector4 COLOR_gamma = new Vector4(1, 1, 1, 0);
-		public Vector4 COLOR_gain = new Vector4(1, 1, 1, 0);
+		[NonSerialized]
+		public ColorGrading COLOR = ScriptableObject.CreateInstance<ColorGrading>();
 		[NonSerialized]
 		public DepthOfField DOF = ScriptableObject.CreateInstance<DepthOfField>();
-		public FocusMode FOCUS_MODE = FocusMode.Custom;
 		[NonSerialized]
 		public Grain GRAIN = ScriptableObject.CreateInstance<Grain>();
 		[NonSerialized]
@@ -120,7 +110,7 @@ namespace BabboSettings {
 			EXPO.enabled.Override(false);
 			BLOOM.enabled.Override(false);
 			CA.enabled.Override(false);
-			COLOR_enabled = false;
+			COLOR.enabled.Override(false);
 			DOF.enabled.Override(false);
 			GRAIN.enabled.Override(false);
 			LENS.enabled.Override(false);
@@ -134,12 +124,13 @@ namespace BabboSettings {
 			serialized_effects[1] = JsonUtility.ToJson(EXPO, true);
 			serialized_effects[2] = JsonUtility.ToJson(BLOOM, true);
 			serialized_effects[3] = JsonUtility.ToJson(CA, true);
-			serialized_effects[4] = JsonUtility.ToJson(DOF, true);
-			serialized_effects[5] = JsonUtility.ToJson(GRAIN, true);
-			serialized_effects[6] = JsonUtility.ToJson(LENS, true);
-			serialized_effects[7] = JsonUtility.ToJson(BLUR, true);
-			serialized_effects[8] = JsonUtility.ToJson(REFL, true);
-			serialized_effects[9] = JsonUtility.ToJson(VIGN, true);
+			serialized_effects[4] = JsonUtility.ToJson(COLOR, true);
+			serialized_effects[5] = JsonUtility.ToJson(DOF, true);
+			serialized_effects[6] = JsonUtility.ToJson(GRAIN, true);
+			serialized_effects[7] = JsonUtility.ToJson(LENS, true);
+			serialized_effects[8] = JsonUtility.ToJson(BLUR, true);
+			serialized_effects[9] = JsonUtility.ToJson(REFL, true);
+			serialized_effects[10] = JsonUtility.ToJson(VIGN, true);
 		}
 
 		internal void Deserialize() {
@@ -147,12 +138,13 @@ namespace BabboSettings {
 			JsonUtility.FromJsonOverwrite(serialized_effects[1], EXPO);
 			JsonUtility.FromJsonOverwrite(serialized_effects[2], BLOOM);
 			JsonUtility.FromJsonOverwrite(serialized_effects[3], CA);
-			JsonUtility.FromJsonOverwrite(serialized_effects[4], DOF);
-			JsonUtility.FromJsonOverwrite(serialized_effects[5], GRAIN);
-			JsonUtility.FromJsonOverwrite(serialized_effects[6], LENS);
-			JsonUtility.FromJsonOverwrite(serialized_effects[7], BLUR);
-			JsonUtility.FromJsonOverwrite(serialized_effects[8], REFL);
-			JsonUtility.FromJsonOverwrite(serialized_effects[9], VIGN);
+			JsonUtility.FromJsonOverwrite(serialized_effects[4], COLOR);
+			JsonUtility.FromJsonOverwrite(serialized_effects[5], DOF);
+			JsonUtility.FromJsonOverwrite(serialized_effects[6], GRAIN);
+			JsonUtility.FromJsonOverwrite(serialized_effects[7], LENS);
+			JsonUtility.FromJsonOverwrite(serialized_effects[8], BLUR);
+			JsonUtility.FromJsonOverwrite(serialized_effects[9], REFL);
+			JsonUtility.FromJsonOverwrite(serialized_effects[10], VIGN);
 		}
 
 		public void Save() {
@@ -195,22 +187,6 @@ namespace BabboSettings {
 			settingsGUI = ModMenu.Instance.gameObject.AddComponent<SettingsGUI>();
 			modEntry.OnSaveGUI = OnSaveGUI;
 			modEntry.OnToggle = OnToggle;
-
-			// convert xml presets to json
-			string[] xmlPaths = Directory.GetFiles(modEntry.Path, "*.preset.xml");
-			var serializer = new XmlSerializer(typeof(Preset));
-			foreach (var xmlPath in xmlPaths) {
-				try {
-					var stream = File.OpenRead(xmlPath);
-					var result = (Preset)serializer.Deserialize(stream);
-					stream.Close();
-					File.Delete(xmlPath);
-					result.Save();
-				}
-				catch (Exception e) {
-					log($"Cannot convert {xmlPath} to Json. Ex: {e}");
-				}
-			}
 
 			// load presets
 			string[] filePaths = Directory.GetFiles(modEntry.Path, "*.preset.json");

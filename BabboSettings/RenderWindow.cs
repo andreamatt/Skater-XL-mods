@@ -118,20 +118,20 @@ namespace BabboSettings {
 						// Color Grading
 						{
 							BeginHorizontal();
-							edited_preset.COLOR_enabled = GUILayout.Toggle(edited_preset.COLOR_enabled, "Color Grading");
-							if (edited_preset.COLOR_enabled) sp_COLOR = Spoiler(sp_COLOR ? "hide" : "show") ? !sp_COLOR : sp_COLOR;
+							edited_preset.COLOR.enabled.Override(GUILayout.Toggle(edited_preset.COLOR.enabled.value, "Color Grading"));
+							if (edited_preset.COLOR.enabled) sp_COLOR = Spoiler(sp_COLOR ? "hide" : "show") ? !sp_COLOR : sp_COLOR;
 							EndHorizontal();
-							if (edited_preset.COLOR_enabled && sp_COLOR) {
+							if (edited_preset.COLOR.enabled && sp_COLOR) {
 								BeginHorizontal();
 								Label("Tonemapper: ");
-								edited_preset.COLOR_tonemapper = (Tonemapper)GUILayout.SelectionGrid((int)edited_preset.COLOR_tonemapper, tonemappers, tonemappers.Length);
+								edited_preset.COLOR.tonemapper.Override((Tonemapper)GUILayout.SelectionGrid((int)edited_preset.COLOR.tonemapper.value, tonemappers, tonemappers.Length));
 								EndHorizontal();
-								edited_preset.COLOR_temperature = Slider("Temperature", edited_preset.COLOR_temperature, -100, 100);
-								edited_preset.COLOR_tint = Slider("Tint", edited_preset.COLOR_tint, -100, 100);
-								edited_preset.COLOR_postExposure = Slider("Post-exposure", edited_preset.COLOR_postExposure, 0, 5);
-								edited_preset.COLOR_hueShift = Slider("Hue shift", edited_preset.COLOR_hueShift, -180, 180);
-								edited_preset.COLOR_saturation = Slider("Saturation", edited_preset.COLOR_saturation, -100, 100);
-								edited_preset.COLOR_contrast = Slider("Contrast", edited_preset.COLOR_contrast, -100, 100);
+								edited_preset.COLOR.temperature.Override(Slider("Temperature", edited_preset.COLOR.temperature.value, -100, 100));
+								edited_preset.COLOR.tint.Override(Slider("Tint", edited_preset.COLOR.tint.value, -100, 100));
+								edited_preset.COLOR.postExposure.Override(Slider("Post-exposure", edited_preset.COLOR.postExposure.value, 0, 5));
+								edited_preset.COLOR.hueShift.Override(Slider("Hue shift", edited_preset.COLOR.hueShift.value, -180, 180));
+								edited_preset.COLOR.saturation.Override(Slider("Saturation", edited_preset.COLOR.saturation.value, -100, 100));
+								edited_preset.COLOR.contrast.Override(Slider("Contrast", edited_preset.COLOR.contrast.value, -100, 100));
 
 								Label(" ");
 								BeginHorizontal();
@@ -140,43 +140,26 @@ namespace BabboSettings {
 								EndHorizontal();
 								if (sp_COLOR_ADV) {
 									Label("Lift");
-									Vector4 lift = new Vector4();
-									lift.x = Slider("r", edited_preset.COLOR_lift.x, -2, 2);
-									lift.y = Slider("g", edited_preset.COLOR_lift.y, -2, 2);
-									lift.z = Slider("b", edited_preset.COLOR_lift.z, -2, 2);
-									lift.w = Slider("w", edited_preset.COLOR_lift.w, -2, 2);
-									edited_preset.COLOR_lift = lift;
+									edited_preset.COLOR.lift.value.x = Slider("r", edited_preset.COLOR.lift.value.x, -2, 2);
+									edited_preset.COLOR.lift.value.y = Slider("g", edited_preset.COLOR.lift.value.y, -2, 2);
+									edited_preset.COLOR.lift.value.z = Slider("b", edited_preset.COLOR.lift.value.z, -2, 2);
+									edited_preset.COLOR.lift.value.w = Slider("w", edited_preset.COLOR.lift.value.w, -2, 2);
 
 									Label("Gamma");
-									Vector4 gamma = new Vector4();
-									gamma.x = Slider("r", edited_preset.COLOR_gamma.x, -2, 2);
-									gamma.y = Slider("g", edited_preset.COLOR_gamma.y, -2, 2);
-									gamma.z = Slider("b", edited_preset.COLOR_gamma.z, -2, 2);
-									gamma.w = Slider("w", edited_preset.COLOR_gamma.w, -2, 2);
-									edited_preset.COLOR_gamma = gamma;
+									edited_preset.COLOR.gamma.value.x = Slider("r", edited_preset.COLOR.gamma.value.x, -2, 2);
+									edited_preset.COLOR.gamma.value.y = Slider("g", edited_preset.COLOR.gamma.value.y, -2, 2);
+									edited_preset.COLOR.gamma.value.z = Slider("b", edited_preset.COLOR.gamma.value.z, -2, 2);
+									edited_preset.COLOR.gamma.value.w = Slider("w", edited_preset.COLOR.gamma.value.w, -2, 2);
 
 									Label("Gain");
-									Vector4 gain = new Vector4();
-									gain.x = Slider("r", edited_preset.COLOR_gain.x, -2, 2);
-									gain.y = Slider("g", edited_preset.COLOR_gain.y, -2, 2);
-									gain.z = Slider("b", edited_preset.COLOR_gain.z, -2, 2);
-									gain.w = Slider("w", edited_preset.COLOR_gain.w, -2, 2);
-									edited_preset.COLOR_gain = gain;
+									edited_preset.COLOR.gain.value.x = Slider("r", edited_preset.COLOR.gain.value.x, -2, 2);
+									edited_preset.COLOR.gain.value.y = Slider("g", edited_preset.COLOR.gain.value.y, -2, 2);
+									edited_preset.COLOR.gain.value.z = Slider("b", edited_preset.COLOR.gain.value.z, -2, 2);
+									edited_preset.COLOR.gain.value.w = Slider("w", edited_preset.COLOR.gain.value.w, -2, 2);
 								}
 								Label(" ");
 
-								if (Button("Reset")) {
-									// NEED TO RESET ONE BY ONE
-									edited_preset.COLOR_temperature = 0;
-									edited_preset.COLOR_tint = 0;
-									edited_preset.COLOR_postExposure = 0;
-									edited_preset.COLOR_hueShift = 0;
-									edited_preset.COLOR_saturation = 0;
-									edited_preset.COLOR_contrast = 0;
-									edited_preset.COLOR_lift = new Vector4(1, 1, 1, 0);
-									edited_preset.COLOR_gamma = new Vector4(1, 1, 1, 0);
-									edited_preset.COLOR_gain = new Vector4(1, 1, 1, 0);
-								}
+								if (Button("Reset")) edited_preset.COLOR = reset<ColorGrading>();
 							}
 						}
 						Separator();
