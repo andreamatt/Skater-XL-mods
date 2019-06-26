@@ -120,13 +120,12 @@ namespace BabboSettings {
 		public void Save() {
 			var filepath = Main.modEntry.Path;
 			try {
-				var writer = new StreamWriter($"{filepath}{name}.preset.xml");
-				var serializer = new XmlSerializer(typeof(Preset));
-				serializer.Serialize(writer, this);
-				writer.Close();
+				using (var writer = new StreamWriter($"{filepath}{name}.preset.json")) {
+					writer.WriteLine(JsonUtility.ToJson(this, true));
+				}
 			}
 			catch (Exception e) {
-				Main.log($"Can't save {filepath}. ex: {e.Message}");
+				Main.log($"Can't save {filepath}{name} preset. ex: {e.Message}");
 			}
 		}
 	}
@@ -151,25 +150,38 @@ namespace BabboSettings {
 			modEntry.OnSaveGUI = OnSaveGUI;
 			modEntry.OnToggle = OnToggle;
 
-			// load presets
+			// convert xml presets to json
+			string[] xmlPaths = Directory.GetFiles(modEntry.Path, "*.preset.xml");
 			var serializer = new XmlSerializer(typeof(Preset));
-			string[] filePaths = Directory.GetFiles(modEntry.Path, "*.preset.xml");
+			foreach(var xmlPath in xmlPaths) {
+				try {
+					var stream = File.OpenRead(xmlPath);
+					var result = (Preset)serializer.Deserialize(stream);
+					stream.Close();
+					File.Delete(xmlPath);
+					result.Save();
+				} catch(Exception e) {
+					log($"Cannot convert {xmlPath} to Json. Ex: {e}");
+				}
+			}
+
+			// load presets
+			string[] filePaths = Directory.GetFiles(modEntry.Path, "*.preset.json");
 			foreach (var filePath in filePaths) {
 				try {
-					var stream = File.OpenRead(filePath);
-					var result = (Preset)serializer.Deserialize(stream);
+					var json = File.ReadAllText(filePath);
+					var result = JsonUtility.FromJson<Preset>(json);
 					presets.Add(result.name, result);
 					if (!settings.presetOrder.Contains(result.name)) {
 						settings.presetOrder.Add(result.name);
 					}
-					stream.Close();
 					log("preset: " + result.name + " loaded");
 				}
 				catch (Exception e) {
 					log($"ex: {e}");
 				}
 			}
-			foreach(var presetName in settings.presetOrder.ToArray()) {
+			foreach (var presetName in settings.presetOrder.ToArray()) {
 				if (!presets.ContainsKey(presetName)) {
 					settings.presetOrder.Remove(presetName);
 				}
@@ -203,7 +215,7 @@ namespace BabboSettings {
 			if (canSave) {
 				try {
 					settingsGUI.SaveToSettings();
-					foreach(var preset in presets.Values) {
+					foreach (var preset in presets.Values) {
 						preset.Save();
 					}
 					if (settings.DEBUG) log("Done saving in main");

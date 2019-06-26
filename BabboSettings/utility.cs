@@ -120,16 +120,7 @@ namespace BabboSettings {
 		}
 
 		private T DeepClone<T>(T obj) {
-			var ms = new MemoryStream();
-			var formatter = new XmlSerializer(typeof(T));
-			try {
-				formatter.Serialize(ms, obj);
-				ms.Position = 0;
-			}
-			catch (Exception ex) {
-				log(ex.Message);
-			}
-			return (T)formatter.Deserialize(ms);
+			return JsonUtility.FromJson<T>(JsonUtility.ToJson(obj));
 		}
 
 		public bool isSwitch() {
