@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReplayEditor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -123,10 +124,8 @@ namespace BabboSettings
 
             MapPreset.Instance.GetMapEffects();
 
-            Logger.Debug("Before applying");
             PresetsManager.Instance.ApplySettings();
             PresetsManager.Instance.ApplyPresets();
-            Logger.Debug("Before after");
 
             // After applying, can now save
             Main.canSave = true;
@@ -162,12 +161,24 @@ namespace BabboSettings
         }
 
         public void LateUpdate() {
+            Vector3 player_pos;
+            Vector3 skate_pos;
+
+            if (ReplayEditorController.Instance == null || !ReplayEditorController.Instance.isActiveAndEnabled) {
+                player_pos = PlayerController.Instance.skaterController.skaterTransform.position;
+                skate_pos = PlayerController.Instance.boardController.boardTransform.position;
+            }
+            else {
+                if (CustomCameraController.Instance.replay_skater == null) {
+                    CustomCameraController.Instance.GetReplaySkater();
+                }
+                player_pos = CustomCameraController.Instance.replay_skater.position;
+                skate_pos = CustomCameraController.Instance.replay_skateboard.position;
+            }
             if (focus_mode == FocusMode.Player) {
-                Vector3 player_pos = PlayerController.Instance.skaterController.skaterTransform.position;
                 DOF.focusDistance.Override(Vector3.Distance(player_pos, cameraController.mainCamera.transform.position));
             }
             else if (focus_mode == FocusMode.Skate) {
-                Vector3 skate_pos = PlayerController.Instance.boardController.boardTransform.position;
                 DOF.focusDistance.Override(Vector3.Distance(skate_pos, cameraController.mainCamera.transform.position));
             }
         }

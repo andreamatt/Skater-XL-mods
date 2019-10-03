@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReplayEditor;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,22 +10,40 @@ namespace BabboSettings
         #region Singleton
         private static readonly Lazy<CustomCameraController> _Instance = new Lazy<CustomCameraController>(() => new CustomCameraController());
 
-        private CustomCameraController() { }
+        private CustomCameraController() {
+            mainCamera = Camera.main;
+        }
 
         public static CustomCameraController Instance {
             get => _Instance.Value;
         }
         #endregion
 
-        public Camera mainCamera = Camera.main;
-        public CameraMode cameraMode = CameraMode.Normal;
+        #region Utilities
+        public Camera mainCamera { get; private set; }
+        private Vector3 old_pos = new Vector3();
+        private Quaternion old_rot = new Quaternion();
+        private Transform tra = new GameObject().transform;
+        private HeadIK headIK = UnityEngine.Object.FindObjectOfType<HeadIK>();
+        private Transform actualCam = PlayerController.Instance.cameraController._actualCam;
+        private Transform switch_transform = new GameObject().transform;
+        private bool last_is_switch = false;
+        public bool spawn_switch = false;
+        public bool just_respawned = true;
+        private List<Material> head_materials = new List<Material>();
+        private Shader standard_shader;
+        private Shader head_shader;
 
+        public Transform replay_skater;
+        public Transform replay_skateboard;
+        #endregion
+
+        #region Parameters
+        public CameraMode cameraMode = CameraMode.Normal;
         public Vector3 follow_shift = new Vector3();
         public Vector3 pov_shift = new Vector3();
         private Vector3 low_shift = new Vector3(0.6f, -0.2f, -0.9f);
         public Vector3 skate_shift = new Vector3();
-        public Vector3 old_pos = new Vector3();
-        public Quaternion old_rot = new Quaternion();
         public float old_true_shift_x = 0;
         public float normal_fov = 60;
         public float normal_react = 0.90f;
@@ -38,21 +57,15 @@ namespace BabboSettings
         public float pov_react = 1;
         public float pov_react_rot = 0.07f;
         public float pov_clip = 0.01f;
+        public Vector3 pov_rot_shift = new Vector3(-100, 13, 73);
         public bool hide_head = true;
         public float skate_fov = 60;
         public float skate_react = 0.90f;
         public float skate_react_rot = 0.90f;
         public float skate_clip = 0.01f;
-        public Transform tra = new GameObject().transform;
-        public HeadIK headIK = UnityEngine.Object.FindObjectOfType<HeadIK>();
-        public Transform actualCam = PlayerController.Instance.cameraController._actualCam;
-        public Transform switch_transform = new GameObject().transform;
-        public bool last_is_switch = false;
-        public bool spawn_switch = false;
-        public bool just_respawned = true;
-        public List<Material> head_materials = new List<Material>();
-        public Shader standard_shader;
-        public Shader head_shader;
+        #endregion
+
+        #region Camera modes
 
         private void low() {
             mainCamera.nearClipPlane = 0.01f;
@@ -116,7 +129,7 @@ namespace BabboSettings
             mainCamera.nearClipPlane = pov_clip;
             mainCamera.fieldOfView = pov_fov;
             actualCam.position = headIK.head.position;
-            actualCam.rotation = headIK.head.rotation;
+            actualCam.rotation = headIK.head.rotation * Quaternion.Euler(pov_rot_shift);
             actualCam.position = actualCam.TransformPoint(pov_shift);
             old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, pov_react);
             old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, pov_react_rot);
@@ -137,6 +150,23 @@ namespace BabboSettings
             mainCamera.fieldOfView = normal_fov;
             old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, normal_react);
             old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, normal_react_rot);
+        }
+
+        #endregion
+
+        public void GetReplaySkater() {
+            var playback_root = GameObject.Find("Playback Skater Root");
+            if (playback_root != null) {
+                for (int i = 0; i < playback_root.transform.childCount; i++) {
+                    Logger.Debug($"Playback_root child: {playback_root.transform.GetChild(i).name}");
+                    var child = playback_root.transform.GetChild(i);
+                    if (child.name == "NewSkater") replay_skater = child;
+                    else if (child.name == "Skateboard") replay_skateboard = child;
+                }
+            }
+            else {
+                Logger.Debug("Playback_root not found");
+            }
         }
 
         public void GetHeadMaterials() {
@@ -189,22 +219,24 @@ namespace BabboSettings
         }
 
         public void FixedUpdate() {
-            switch (cameraMode) {
-                case CameraMode.Normal:
-                    normal();
-                    break;
-                case CameraMode.Low:
-                    low();
-                    break;
-                case CameraMode.Follow:
-                    follow();
-                    break;
-                case CameraMode.POV:
-                    //pov(); doesn't work on fixed, probably because of animations
-                    break;
-                case CameraMode.Skate:
-                    skate_pov();
-                    break;
+            if (ReplayEditorController.Instance == null || !ReplayEditorController.Instance.isActiveAndEnabled) {
+                switch (cameraMode) {
+                    case CameraMode.Normal:
+                        normal();
+                        break;
+                    case CameraMode.Low:
+                        low();
+                        break;
+                    case CameraMode.Follow:
+                        follow();
+                        break;
+                    case CameraMode.POV:
+                        //pov(); doesn't work on fixed, probably because of animations
+                        break;
+                    case CameraMode.Skate:
+                        skate_pov();
+                        break;
+                }
             }
         }
 

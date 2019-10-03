@@ -44,7 +44,6 @@ namespace BabboSettings
         }
 
         private void ApplyPreset(Preset preset) {
-            Logger.Debug("Applying " + preset.name);
 
             // Ambient Occlusion
             if (preset.AO.enabled.value) {
@@ -145,7 +144,6 @@ namespace BabboSettings
                 effects.VIGN.rounded.Override(preset.VIGN.rounded.value);
             }
 
-            Logger.Debug("Applied " + preset.name);
         }
 
         public void SaveToSettings() {

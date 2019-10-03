@@ -74,8 +74,8 @@ namespace BabboSettings
 
         private void SetUp() {
             if (master == null) {
-                if (GameObject.Find("Master Prefab")) {
-                    master = GameObject.Find("Master Prefab");
+                master = GameObject.Find("New Master Prefab");
+                if (master != null) {
                     UnityEngine.Object.DontDestroyOnLoad(master);
                 }
             }
@@ -141,6 +141,10 @@ namespace BabboSettings
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
             {
+                //customCameraController.pov_rot_shift.x = Slider("X", customCameraController.pov_rot_shift.x, -180, 180);
+                //customCameraController.pov_rot_shift.y = Slider("Y", customCameraController.pov_rot_shift.y, -180, 180);
+                //customCameraController.pov_rot_shift.z = Slider("Z", customCameraController.pov_rot_shift.z, -180, 180);
+
                 if (choosing_name) {
                     name_text = GUILayout.TextField(name_text);
                     BeginHorizontal();
