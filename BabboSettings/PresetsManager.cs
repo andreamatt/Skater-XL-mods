@@ -24,6 +24,8 @@ namespace BabboSettings
         private CustomCameraController customCameraController { get => CustomCameraController.Instance; }
 
         public void ApplyPresets() {
+            // disable all of them, because only enabled ones are read and applied
+            // so if one gets unchecked it needs to disable even if not read
             effects.AO.enabled.Override(false);
             effects.EXPO.enabled.Override(false);
             effects.BLOOM.enabled.Override(false);
@@ -93,11 +95,13 @@ namespace BabboSettings
             // Depth Of Field
             if (preset.DOF.enabled.value) {
                 effects.DOF.enabled.Override(preset.DOF.enabled.value);
-                effects.DOF.focusDistance.Override(preset.DOF.focusDistance.value);
+                effects.focus_mode = preset.FOCUS_MODE;
+                if (preset.FOCUS_MODE == FocusMode.Custom) {// if it is player/skate it gets set during lateupdate (instead of onGUI)
+                    effects.DOF.focusDistance.Override(preset.DOF.focusDistance.value);
+                }
                 effects.DOF.aperture.Override(preset.DOF.aperture.value);
                 effects.DOF.focalLength.Override(preset.DOF.focalLength.value);
                 effects.DOF.kernelSize.Override(preset.DOF.kernelSize.value);
-                effects.focus_mode = preset.FOCUS_MODE;
             }
 
             // Grain

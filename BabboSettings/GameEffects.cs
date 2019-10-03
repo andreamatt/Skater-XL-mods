@@ -154,12 +154,11 @@ namespace BabboSettings
             }
         }
 
-        public T reset<T>() where T : PostProcessEffectSettings {
-            bool enabled = post_volume.profile.GetSetting<T>().enabled.value;
-            post_volume.profile.RemoveSettings<T>();
-            T eff = post_volume.profile.AddSettings<T>();
-            eff.enabled.Override(enabled);
-            return eff;
+        public void reset<T>(ref T effect) where T : PostProcessEffectSettings {
+            bool enabled = effect.enabled.value;
+            var newEffect = ScriptableObject.CreateInstance(effect.GetType()) as T;
+            newEffect.enabled.Override(enabled);
+            effect = newEffect;
         }
 
         public void LateUpdate() {

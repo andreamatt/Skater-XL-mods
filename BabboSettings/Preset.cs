@@ -51,7 +51,7 @@ namespace BabboSettings
             this.name = name;
         }
 
-        public void DisableAll() {
+        private void DisableAll() {
             AO.enabled.Override(false);
             EXPO.enabled.Override(false);
             BLOOM.enabled.Override(false);
@@ -65,7 +65,7 @@ namespace BabboSettings
             VIGN.enabled.Override(false);
         }
 
-        public void Serialize() {
+        private void Serialize() {
             serialized_effects[0] = JsonUtility.ToJson(AO, true);
             serialized_effects[1] = JsonUtility.ToJson(EXPO, true);
             serialized_effects[2] = JsonUtility.ToJson(BLOOM, true);
@@ -79,7 +79,7 @@ namespace BabboSettings
             serialized_effects[10] = JsonUtility.ToJson(VIGN, true);
         }
 
-        public void Deserialize() {
+        private void Deserialize() {
             JsonUtility.FromJsonOverwrite(serialized_effects[0], AO);
             JsonUtility.FromJsonOverwrite(serialized_effects[1], EXPO);
             JsonUtility.FromJsonOverwrite(serialized_effects[2], BLOOM);

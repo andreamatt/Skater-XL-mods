@@ -165,205 +165,195 @@ namespace BabboSettings
                 else if (editing_preset) {
                     if (Button("Save")) editing_preset = false;
                     Separator();
-                    {
-                        // Ambient Occlusion
-                        {
-                            BeginHorizontal();
-                            edited_preset.AO.enabled.Override(GUILayout.Toggle(edited_preset.AO.enabled.value, "Ambient occlusion"));
-                            if (edited_preset.AO.enabled.value) sp_AO = Spoiler(sp_AO ? "hide" : "show") ? !sp_AO : sp_AO;
-                            EndHorizontal();
-                            if (edited_preset.AO.enabled.value && sp_AO) {
-                                edited_preset.AO.intensity.Override(Slider("Intensity", edited_preset.AO.intensity.value, 0, 4));
-                                edited_preset.AO.quality.Override((AmbientOcclusionQuality)GUILayout.SelectionGrid((int)edited_preset.AO.quality.value, ao_quality, ao_quality.Length));
-                                edited_preset.AO.mode.Override((AmbientOcclusionMode)GUILayout.SelectionGrid((int)edited_preset.AO.mode.value, ao_mode, ao_mode.Length));
-                                if (Button("Reset")) edited_preset.AO = effects.reset<AmbientOcclusion>();
-                            }
-                        }
-                        Separator();
-                        // Automatic Exposure
-                        {
-                            BeginHorizontal();
-                            edited_preset.EXPO.enabled.Override(GUILayout.Toggle(edited_preset.EXPO.enabled.value, "Automatic Exposure"));
-                            if (edited_preset.EXPO.enabled.value) sp_EXPO = Spoiler(sp_EXPO ? "hide" : "show") ? !sp_EXPO : sp_EXPO;
-                            EndHorizontal();
-                            if (edited_preset.EXPO.enabled.value && sp_EXPO) {
-                                edited_preset.EXPO.keyValue.Override(Slider("Compensation", edited_preset.EXPO.keyValue.value, 0, 4));
-                                if (Button("Reset")) edited_preset.EXPO = effects.reset<AutoExposure>();
-                            }
-                        }
-                        Separator();
-                        // Bloom
-                        {
-                            BeginHorizontal();
-                            edited_preset.BLOOM.enabled.Override(GUILayout.Toggle(edited_preset.BLOOM.enabled.value, "Bloom"));
-                            if (edited_preset.BLOOM.enabled.value) sp_BLOOM = Spoiler(sp_BLOOM ? "hide" : "show") ? !sp_BLOOM : sp_BLOOM;
-                            EndHorizontal();
-                            if (edited_preset.BLOOM.enabled.value && sp_BLOOM) {
-                                edited_preset.BLOOM.intensity.Override(Slider("Intensity", edited_preset.BLOOM.intensity.value, 0, 4));
-                                edited_preset.BLOOM.threshold.Override(Slider("Threshold", edited_preset.BLOOM.threshold.value, 0, 4));
-                                edited_preset.BLOOM.diffusion.Override(Slider("Diffusion", edited_preset.BLOOM.diffusion.value, 1, 10));
-                                edited_preset.BLOOM.fastMode.Override(GUILayout.Toggle(edited_preset.BLOOM.fastMode.value, "Fast mode"));
-                                if (Button("Reset")) edited_preset.BLOOM = effects.reset<Bloom>();
-                            }
-                        }
-                        Separator();
-                        // Chromatic aberration
-                        {
-                            BeginHorizontal();
-                            edited_preset.CA.enabled.Override(GUILayout.Toggle(edited_preset.CA.enabled.value, "Chromatic aberration"));
-                            if (edited_preset.CA.enabled.value) sp_CA = Spoiler(sp_CA ? "hide" : "show") ? !sp_CA : sp_CA;
-                            EndHorizontal();
-                            if (edited_preset.CA.enabled.value && sp_CA) {
-                                edited_preset.CA.intensity.Override(Slider("Intensity", edited_preset.CA.intensity.value, 0, 1));
-                                edited_preset.CA.fastMode.Override(GUILayout.Toggle(edited_preset.CA.fastMode.value, "Fast mode"));
-                                if (Button("Reset")) edited_preset.CA = effects.reset<ChromaticAberration>();
-                            }
-                        }
-                        Separator();
-                        // Color Grading
-                        {
-                            BeginHorizontal();
-                            edited_preset.COLOR.enabled.Override(GUILayout.Toggle(edited_preset.COLOR.enabled.value, "Color Grading"));
-                            if (edited_preset.COLOR.enabled) sp_COLOR = Spoiler(sp_COLOR ? "hide" : "show") ? !sp_COLOR : sp_COLOR;
-                            EndHorizontal();
-                            if (edited_preset.COLOR.enabled && sp_COLOR) {
-                                BeginHorizontal();
-                                Label("Tonemapper: ");
-                                edited_preset.COLOR.tonemapper.Override((Tonemapper)GUILayout.SelectionGrid((int)edited_preset.COLOR.tonemapper.value, tonemappers, tonemappers.Length));
-                                EndHorizontal();
-                                edited_preset.COLOR.temperature.Override(Slider("Temperature", edited_preset.COLOR.temperature.value, -100, 100));
-                                edited_preset.COLOR.tint.Override(Slider("Tint", edited_preset.COLOR.tint.value, -100, 100));
-                                edited_preset.COLOR.postExposure.Override(Slider("Post-exposure", edited_preset.COLOR.postExposure.value, 0, 5));
-                                edited_preset.COLOR.hueShift.Override(Slider("Hue shift", edited_preset.COLOR.hueShift.value, -180, 180));
-                                edited_preset.COLOR.saturation.Override(Slider("Saturation", edited_preset.COLOR.saturation.value, -100, 100));
-                                edited_preset.COLOR.contrast.Override(Slider("Contrast", edited_preset.COLOR.contrast.value, -100, 100));
+                    #region Ambient Occlusion
+                    BeginHorizontal();
+                    edited_preset.AO.enabled.Override(GUILayout.Toggle(edited_preset.AO.enabled.value, "Ambient occlusion"));
+                    if (edited_preset.AO.enabled.value) sp_AO = Spoiler(sp_AO ? "hide" : "show") ? !sp_AO : sp_AO;
+                    EndHorizontal();
+                    if (edited_preset.AO.enabled.value && sp_AO) {
+                        edited_preset.AO.intensity.Override(Slider("Intensity", edited_preset.AO.intensity.value, 0, 4));
+                        edited_preset.AO.quality.Override((AmbientOcclusionQuality)GUILayout.SelectionGrid((int)edited_preset.AO.quality.value, ao_quality, ao_quality.Length));
+                        edited_preset.AO.mode.Override((AmbientOcclusionMode)GUILayout.SelectionGrid((int)edited_preset.AO.mode.value, ao_mode, ao_mode.Length));
+                        if (Button("Reset")) effects.reset(ref edited_preset.AO);
+                    }
+                    #endregion
+                    Separator();
+                    #region Automatic Exposure
+                    BeginHorizontal();
+                    edited_preset.EXPO.enabled.Override(GUILayout.Toggle(edited_preset.EXPO.enabled.value, "Automatic Exposure"));
+                    if (edited_preset.EXPO.enabled.value) sp_EXPO = Spoiler(sp_EXPO ? "hide" : "show") ? !sp_EXPO : sp_EXPO;
+                    EndHorizontal();
+                    if (edited_preset.EXPO.enabled.value && sp_EXPO) {
+                        edited_preset.EXPO.keyValue.Override(Slider("Compensation", edited_preset.EXPO.keyValue.value, 0, 4));
+                        if (Button("Reset")) effects.reset(ref edited_preset.EXPO);
+                    }
+                    #endregion
+                    Separator();
+                    #region Bloom
+                    BeginHorizontal();
+                    edited_preset.BLOOM.enabled.Override(GUILayout.Toggle(edited_preset.BLOOM.enabled.value, "Bloom"));
+                    if (edited_preset.BLOOM.enabled.value) sp_BLOOM = Spoiler(sp_BLOOM ? "hide" : "show") ? !sp_BLOOM : sp_BLOOM;
+                    EndHorizontal();
+                    if (edited_preset.BLOOM.enabled.value && sp_BLOOM) {
+                        edited_preset.BLOOM.intensity.Override(Slider("Intensity", edited_preset.BLOOM.intensity.value, 0, 4));
+                        edited_preset.BLOOM.threshold.Override(Slider("Threshold", edited_preset.BLOOM.threshold.value, 0, 4));
+                        edited_preset.BLOOM.diffusion.Override(Slider("Diffusion", edited_preset.BLOOM.diffusion.value, 1, 10));
+                        edited_preset.BLOOM.fastMode.Override(GUILayout.Toggle(edited_preset.BLOOM.fastMode.value, "Fast mode"));
+                        if (Button("Reset")) effects.reset(ref edited_preset.BLOOM);
+                    }
+                    #endregion
+                    Separator();
+                    #region Chromatic aberration
+                    BeginHorizontal();
+                    edited_preset.CA.enabled.Override(GUILayout.Toggle(edited_preset.CA.enabled.value, "Chromatic aberration"));
+                    if (edited_preset.CA.enabled.value) sp_CA = Spoiler(sp_CA ? "hide" : "show") ? !sp_CA : sp_CA;
+                    EndHorizontal();
+                    if (edited_preset.CA.enabled.value && sp_CA) {
+                        edited_preset.CA.intensity.Override(Slider("Intensity", edited_preset.CA.intensity.value, 0, 1));
+                        edited_preset.CA.fastMode.Override(GUILayout.Toggle(edited_preset.CA.fastMode.value, "Fast mode"));
+                        if (Button("Reset")) effects.reset(ref edited_preset.CA);
+                    }
+                    #endregion
+                    Separator();
+                    #region Color Grading
+                    BeginHorizontal();
+                    edited_preset.COLOR.enabled.Override(GUILayout.Toggle(edited_preset.COLOR.enabled.value, "Color Grading"));
+                    if (edited_preset.COLOR.enabled) sp_COLOR = Spoiler(sp_COLOR ? "hide" : "show") ? !sp_COLOR : sp_COLOR;
+                    EndHorizontal();
+                    if (edited_preset.COLOR.enabled && sp_COLOR) {
+                        BeginHorizontal();
+                        Label("Tonemapper: ");
+                        edited_preset.COLOR.tonemapper.Override((Tonemapper)GUILayout.SelectionGrid((int)edited_preset.COLOR.tonemapper.value, tonemappers, tonemappers.Length));
+                        EndHorizontal();
+                        edited_preset.COLOR.temperature.Override(Slider("Temperature", edited_preset.COLOR.temperature.value, -100, 100));
+                        edited_preset.COLOR.tint.Override(Slider("Tint", edited_preset.COLOR.tint.value, -100, 100));
+                        edited_preset.COLOR.postExposure.Override(Slider("Post-exposure", edited_preset.COLOR.postExposure.value, 0, 5));
+                        edited_preset.COLOR.hueShift.Override(Slider("Hue shift", edited_preset.COLOR.hueShift.value, -180, 180));
+                        edited_preset.COLOR.saturation.Override(Slider("Saturation", edited_preset.COLOR.saturation.value, -100, 100));
+                        edited_preset.COLOR.contrast.Override(Slider("Contrast", edited_preset.COLOR.contrast.value, -100, 100));
 
-                                Label(" ");
-                                BeginHorizontal();
-                                Label("Advanced");
-                                sp_COLOR_ADV = Spoiler(sp_COLOR_ADV ? "hide" : "show") ? !sp_COLOR_ADV : sp_COLOR_ADV;
-                                EndHorizontal();
-                                if (sp_COLOR_ADV) {
-                                    Label("Lift");
-                                    edited_preset.COLOR.lift.value.x = Slider("r", edited_preset.COLOR.lift.value.x, -2, 2);
-                                    edited_preset.COLOR.lift.value.y = Slider("g", edited_preset.COLOR.lift.value.y, -2, 2);
-                                    edited_preset.COLOR.lift.value.z = Slider("b", edited_preset.COLOR.lift.value.z, -2, 2);
-                                    edited_preset.COLOR.lift.value.w = Slider("w", edited_preset.COLOR.lift.value.w, -2, 2);
+                        Label(" ");
+                        BeginHorizontal();
+                        Label("Advanced");
+                        sp_COLOR_ADV = Spoiler(sp_COLOR_ADV ? "hide" : "show") ? !sp_COLOR_ADV : sp_COLOR_ADV;
+                        EndHorizontal();
+                        if (sp_COLOR_ADV) {
+                            Label("Lift");
+                            edited_preset.COLOR.lift.value.x = Slider("r", edited_preset.COLOR.lift.value.x, -2, 2);
+                            edited_preset.COLOR.lift.value.y = Slider("g", edited_preset.COLOR.lift.value.y, -2, 2);
+                            edited_preset.COLOR.lift.value.z = Slider("b", edited_preset.COLOR.lift.value.z, -2, 2);
+                            edited_preset.COLOR.lift.value.w = Slider("w", edited_preset.COLOR.lift.value.w, -2, 2);
 
-                                    Label("Gamma");
-                                    edited_preset.COLOR.gamma.value.x = Slider("r", edited_preset.COLOR.gamma.value.x, -2, 2);
-                                    edited_preset.COLOR.gamma.value.y = Slider("g", edited_preset.COLOR.gamma.value.y, -2, 2);
-                                    edited_preset.COLOR.gamma.value.z = Slider("b", edited_preset.COLOR.gamma.value.z, -2, 2);
-                                    edited_preset.COLOR.gamma.value.w = Slider("w", edited_preset.COLOR.gamma.value.w, -2, 2);
+                            Label("Gamma");
+                            edited_preset.COLOR.gamma.value.x = Slider("r", edited_preset.COLOR.gamma.value.x, -2, 2);
+                            edited_preset.COLOR.gamma.value.y = Slider("g", edited_preset.COLOR.gamma.value.y, -2, 2);
+                            edited_preset.COLOR.gamma.value.z = Slider("b", edited_preset.COLOR.gamma.value.z, -2, 2);
+                            edited_preset.COLOR.gamma.value.w = Slider("w", edited_preset.COLOR.gamma.value.w, -2, 2);
 
-                                    Label("Gain");
-                                    edited_preset.COLOR.gain.value.x = Slider("r", edited_preset.COLOR.gain.value.x, -2, 2);
-                                    edited_preset.COLOR.gain.value.y = Slider("g", edited_preset.COLOR.gain.value.y, -2, 2);
-                                    edited_preset.COLOR.gain.value.z = Slider("b", edited_preset.COLOR.gain.value.z, -2, 2);
-                                    edited_preset.COLOR.gain.value.w = Slider("w", edited_preset.COLOR.gain.value.w, -2, 2);
-                                }
-                                Label(" ");
+                            Label("Gain");
+                            edited_preset.COLOR.gain.value.x = Slider("r", edited_preset.COLOR.gain.value.x, -2, 2);
+                            edited_preset.COLOR.gain.value.y = Slider("g", edited_preset.COLOR.gain.value.y, -2, 2);
+                            edited_preset.COLOR.gain.value.z = Slider("b", edited_preset.COLOR.gain.value.z, -2, 2);
+                            edited_preset.COLOR.gain.value.w = Slider("w", edited_preset.COLOR.gain.value.w, -2, 2);
+                        }
+                        Label(" ");
 
-                                if (Button("Reset")) edited_preset.COLOR = effects.reset<ColorGrading>();
-                            }
+                        if (Button("Reset")) effects.reset(ref edited_preset.COLOR);
+                    }
+                    #endregion
+                    Separator();
+                    #region Depth Of Field
+                    BeginHorizontal();
+                    edited_preset.DOF.enabled.Override(GUILayout.Toggle(edited_preset.DOF.enabled.value, "Depth Of Field"));
+                    if (edited_preset.DOF.enabled.value) sp_DOF = Spoiler(sp_DOF ? "hide" : "show") ? !sp_DOF : sp_DOF;
+                    EndHorizontal();
+                    if (edited_preset.DOF.enabled.value && sp_DOF) {
+                        edited_preset.FOCUS_MODE = (FocusMode)GUILayout.SelectionGrid((int)edited_preset.FOCUS_MODE, focus_modes, focus_modes.Length);
+                        if (edited_preset.FOCUS_MODE == FocusMode.Custom) {
+                            edited_preset.DOF.focusDistance.Override(Slider("Focus distance", edited_preset.DOF.focusDistance.value, 0, 20));
                         }
-                        Separator();
-                        // Depth Of Field
-                        {
-                            BeginHorizontal();
-                            edited_preset.DOF.enabled.Override(GUILayout.Toggle(edited_preset.DOF.enabled.value, "Depth Of Field"));
-                            if (edited_preset.DOF.enabled.value) sp_DOF = Spoiler(sp_DOF ? "hide" : "show") ? !sp_DOF : sp_DOF;
-                            EndHorizontal();
-                            if (edited_preset.DOF.enabled.value && sp_DOF) {
-                                edited_preset.FOCUS_MODE = (FocusMode)GUILayout.SelectionGrid((int)edited_preset.FOCUS_MODE, focus_modes, focus_modes.Length);
-                                if (edited_preset.FOCUS_MODE == FocusMode.Custom) {
-                                    edited_preset.DOF.focusDistance.Override(Slider("Focus distance", edited_preset.DOF.focusDistance.value, 0, 20));
-                                }
-                                else {
-                                    Label("focus distance: " + edited_preset.DOF.focusDistance.value.ToString("0.00"));
-                                }
-                                edited_preset.DOF.aperture.Override(Slider("Aperture (f-stop)", edited_preset.DOF.aperture.value, 0.1f, 32));
-                                edited_preset.DOF.focalLength.Override(Slider("Focal length (mm)", edited_preset.DOF.focalLength.value, 1, 300));
-                                BeginHorizontal();
-                                Label("Max blur size: ");
-                                edited_preset.DOF.kernelSize.Override((KernelSize)GUILayout.SelectionGrid((int)edited_preset.DOF.kernelSize.value, max_blur, max_blur.Length));
-                                EndHorizontal();
-                                if (Button("Reset")) edited_preset.DOF = effects.reset<DepthOfField>();
-                            }
+                        else {
+                            Label("focus distance: " + effects.DOF.focusDistance.value.ToString("0.00"));
                         }
-                        Separator();
-                        // Grain
-                        {
-                            BeginHorizontal();
-                            edited_preset.GRAIN.enabled.Override(GUILayout.Toggle(edited_preset.GRAIN.enabled.value, "Grain"));
-                            if (edited_preset.GRAIN.enabled.value) sp_GRAIN = Spoiler(sp_GRAIN ? "hide" : "show") ? !sp_GRAIN : sp_GRAIN;
-                            EndHorizontal();
-                            if (edited_preset.GRAIN.enabled.value && sp_GRAIN) {
-                                edited_preset.GRAIN.colored.Override(GUILayout.Toggle(edited_preset.GRAIN.colored.value, "colored"));
-                                edited_preset.GRAIN.intensity.Override(Slider("Intensity", edited_preset.GRAIN.intensity.value, 0, 1));
-                                edited_preset.GRAIN.size.Override(Slider("Size", edited_preset.GRAIN.size.value, 0.3f, 3));
-                                edited_preset.GRAIN.lumContrib.Override(Slider("Luminance contribution", edited_preset.GRAIN.lumContrib.value, 0, 1));
-                                if (Button("Reset")) edited_preset.GRAIN = effects.reset<Grain>();
-                            }
-                        }
-                        Separator();
-                        // Lens Distortion
-                        {
-                            BeginHorizontal();
-                            edited_preset.LENS.enabled.Override(GUILayout.Toggle(edited_preset.LENS.enabled.value, "Lens distortion"));
-                            if (edited_preset.LENS.enabled.value) sp_LENS = Spoiler(sp_LENS ? "hide" : "show") ? !sp_LENS : sp_LENS;
-                            EndHorizontal();
-                            if (edited_preset.LENS.enabled.value && sp_LENS) {
-                                edited_preset.LENS.intensity.Override(Slider("Intensity", edited_preset.LENS.intensity.value, -100, 100));
-                                edited_preset.LENS.intensityX.Override(Slider("X", edited_preset.LENS.intensityX.value, 0, 1));
-                                edited_preset.LENS.intensityY.Override(Slider("Y", edited_preset.LENS.intensityY.value, 0, 1));
-                                edited_preset.LENS.scale.Override(Slider("Scale", edited_preset.LENS.scale.value, 0.1f, 5));
-                                if (Button("Reset")) edited_preset.LENS = effects.reset<LensDistortion>();
-                            }
-                        }
-                        Separator();
-                        // Motion Blur
-                        {
-                            BeginHorizontal();
-                            edited_preset.BLUR.enabled.Override(GUILayout.Toggle(edited_preset.BLUR.enabled.value, "Motion blur"));
-                            if (edited_preset.BLUR.enabled.value) sp_BLUR = Spoiler(sp_BLUR ? "hide" : "show") ? !sp_BLUR : sp_BLUR;
-                            EndHorizontal();
-                            if (edited_preset.BLUR.enabled.value && sp_BLUR) {
-                                edited_preset.BLUR.shutterAngle.Override(Slider("Shutter angle", edited_preset.BLUR.shutterAngle, 0, 360));
-                                edited_preset.BLUR.sampleCount.Override(SliderInt("Sample count", edited_preset.BLUR.sampleCount, 4, 32));
-                                if (Button("Reset")) edited_preset.BLUR = effects.reset<MotionBlur>();
-                            }
-                        }
-                        Separator();
-                        // Screen Space Reflections
-                        {
-                            BeginHorizontal();
-                            edited_preset.REFL.enabled.Override(GUILayout.Toggle(edited_preset.REFL.enabled.value, "Reflections"));
-                            if (edited_preset.REFL.enabled.value) sp_REFL = Spoiler(sp_REFL ? "hide" : "show") ? !sp_REFL : sp_REFL;
-                            EndHorizontal();
-                            if (edited_preset.REFL.enabled.value && sp_REFL) {
-                                edited_preset.REFL.preset.Override((ScreenSpaceReflectionPreset)GUILayout.SelectionGrid((int)edited_preset.REFL.preset.value, refl_presets, refl_presets.Length));
-                                if (Button("Reset")) edited_preset.REFL = effects.reset<ScreenSpaceReflections>();
-                            }
-                        }
-                        Separator();
-                        // Vignette
-                        {
-                            BeginHorizontal();
-                            edited_preset.VIGN.enabled.Override(GUILayout.Toggle(edited_preset.VIGN.enabled.value, "Vignette"));
-                            if (edited_preset.VIGN.enabled.value) sp_VIGN = Spoiler(sp_VIGN ? "hide" : "show") ? !sp_VIGN : sp_VIGN;
-                            EndHorizontal();
-                            if (edited_preset.VIGN.enabled.value && sp_VIGN) {
-                                edited_preset.VIGN.intensity.Override(Slider("Intensity", edited_preset.VIGN.intensity.value, 0, 1));
-                                edited_preset.VIGN.smoothness.Override(Slider("Smoothness", edited_preset.VIGN.smoothness.value, 0.1f, 1));
-                                edited_preset.VIGN.roundness.Override(Slider("Roundness", edited_preset.VIGN.roundness.value, 0, 1));
-                                BeginHorizontal();
-                                edited_preset.VIGN.rounded.Override(GUILayout.Toggle(edited_preset.VIGN.rounded.value, "Rounded"));
-                                if (Button("Reset")) edited_preset.VIGN = effects.reset<Vignette>();
-                                EndHorizontal();
-                            }
+                        edited_preset.DOF.aperture.Override(Slider("Aperture (f-stop)", edited_preset.DOF.aperture.value, 0.1f, 32));
+                        edited_preset.DOF.focalLength.Override(Slider("Focal length (mm)", edited_preset.DOF.focalLength.value, 1, 300));
+                        BeginHorizontal();
+                        Label("Max blur size: ");
+                        edited_preset.DOF.kernelSize.Override((KernelSize)GUILayout.SelectionGrid((int)edited_preset.DOF.kernelSize.value, max_blur, max_blur.Length));
+                        EndHorizontal();
+                        if (Button("Reset")) {
+                            effects.reset(ref edited_preset.DOF);
+                            edited_preset.FOCUS_MODE = FocusMode.Custom;
                         }
                     }
+                    #endregion
+                    Separator();
+                    #region Grain
+                    BeginHorizontal();
+                    edited_preset.GRAIN.enabled.Override(GUILayout.Toggle(edited_preset.GRAIN.enabled.value, "Grain"));
+                    if (edited_preset.GRAIN.enabled.value) sp_GRAIN = Spoiler(sp_GRAIN ? "hide" : "show") ? !sp_GRAIN : sp_GRAIN;
+                    EndHorizontal();
+                    if (edited_preset.GRAIN.enabled.value && sp_GRAIN) {
+                        edited_preset.GRAIN.colored.Override(GUILayout.Toggle(edited_preset.GRAIN.colored.value, "colored"));
+                        edited_preset.GRAIN.intensity.Override(Slider("Intensity", edited_preset.GRAIN.intensity.value, 0, 1));
+                        edited_preset.GRAIN.size.Override(Slider("Size", edited_preset.GRAIN.size.value, 0.3f, 3));
+                        edited_preset.GRAIN.lumContrib.Override(Slider("Luminance contribution", edited_preset.GRAIN.lumContrib.value, 0, 1));
+                        if (Button("Reset")) effects.reset(ref edited_preset.GRAIN);
+                    }
+                    #endregion
+                    Separator();
+                    #region Lens Distortion
+                    BeginHorizontal();
+                    edited_preset.LENS.enabled.Override(GUILayout.Toggle(edited_preset.LENS.enabled.value, "Lens distortion"));
+                    if (edited_preset.LENS.enabled.value) sp_LENS = Spoiler(sp_LENS ? "hide" : "show") ? !sp_LENS : sp_LENS;
+                    EndHorizontal();
+                    if (edited_preset.LENS.enabled.value && sp_LENS) {
+                        edited_preset.LENS.intensity.Override(Slider("Intensity", edited_preset.LENS.intensity.value, -100, 100));
+                        edited_preset.LENS.intensityX.Override(Slider("X", edited_preset.LENS.intensityX.value, 0, 1));
+                        edited_preset.LENS.intensityY.Override(Slider("Y", edited_preset.LENS.intensityY.value, 0, 1));
+                        edited_preset.LENS.scale.Override(Slider("Scale", edited_preset.LENS.scale.value, 0.1f, 5));
+                        if (Button("Reset")) effects.reset(ref edited_preset.LENS);
+                    }
+                    #endregion
+                    Separator();
+                    #region Motion Blur
+                    BeginHorizontal();
+                    edited_preset.BLUR.enabled.Override(GUILayout.Toggle(edited_preset.BLUR.enabled.value, "Motion blur"));
+                    if (edited_preset.BLUR.enabled.value) sp_BLUR = Spoiler(sp_BLUR ? "hide" : "show") ? !sp_BLUR : sp_BLUR;
+                    EndHorizontal();
+                    if (edited_preset.BLUR.enabled.value && sp_BLUR) {
+                        edited_preset.BLUR.shutterAngle.Override(Slider("Shutter angle", edited_preset.BLUR.shutterAngle, 0, 360));
+                        edited_preset.BLUR.sampleCount.Override(SliderInt("Sample count", edited_preset.BLUR.sampleCount, 4, 32));
+                        if (Button("Reset")) effects.reset(ref edited_preset.BLUR);
+                    }
+                    #endregion
+                    Separator();
+                    #region Screen Space Reflections
+                    BeginHorizontal();
+                    edited_preset.REFL.enabled.Override(GUILayout.Toggle(edited_preset.REFL.enabled.value, "Reflections"));
+                    if (edited_preset.REFL.enabled.value) sp_REFL = Spoiler(sp_REFL ? "hide" : "show") ? !sp_REFL : sp_REFL;
+                    EndHorizontal();
+                    if (edited_preset.REFL.enabled.value && sp_REFL) {
+                        edited_preset.REFL.preset.Override((ScreenSpaceReflectionPreset)GUILayout.SelectionGrid((int)edited_preset.REFL.preset.value, refl_presets, refl_presets.Length));
+                        if (Button("Reset")) effects.reset(ref edited_preset.REFL);
+                    }
+                    #endregion
+                    Separator();
+                    #region Vignette
+                    BeginHorizontal();
+                    edited_preset.VIGN.enabled.Override(GUILayout.Toggle(edited_preset.VIGN.enabled.value, "Vignette"));
+                    if (edited_preset.VIGN.enabled.value) sp_VIGN = Spoiler(sp_VIGN ? "hide" : "show") ? !sp_VIGN : sp_VIGN;
+                    EndHorizontal();
+                    if (edited_preset.VIGN.enabled.value && sp_VIGN) {
+                        edited_preset.VIGN.intensity.Override(Slider("Intensity", edited_preset.VIGN.intensity.value, 0, 1));
+                        edited_preset.VIGN.smoothness.Override(Slider("Smoothness", edited_preset.VIGN.smoothness.value, 0.1f, 1));
+                        edited_preset.VIGN.roundness.Override(Slider("Roundness", edited_preset.VIGN.roundness.value, 0, 1));
+                        BeginHorizontal();
+                        edited_preset.VIGN.rounded.Override(GUILayout.Toggle(edited_preset.VIGN.rounded.value, "Rounded"));
+                        if (Button("Reset")) effects.reset(ref edited_preset.VIGN);
+                        EndHorizontal();
+                    }
+                    #endregion
                     Separator();
                     if (Button("Save")) editing_preset = false;
                 }
@@ -538,6 +528,7 @@ namespace BabboSettings
             }
             GUILayout.EndScrollView();
 
+            // apply presets while window is open
             PresetsManager.Instance.ApplyPresets();
         }
 

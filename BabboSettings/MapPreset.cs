@@ -41,7 +41,7 @@ namespace BabboSettings
                 map_preset.CA = DeepClone(effects.CA);
                 map_preset.COLOR = DeepClone(effects.COLOR);
                 map_preset.DOF = DeepClone(effects.DOF);
-                map_preset.FOCUS_MODE = effects.focus_mode;
+                map_preset.FOCUS_MODE = FocusMode.Custom;
                 map_preset.GRAIN = DeepClone(effects.GRAIN);
                 map_preset.LENS = DeepClone(effects.LENS);
                 map_preset.BLUR = DeepClone(effects.BLUR);
