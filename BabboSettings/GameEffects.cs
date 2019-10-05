@@ -1,4 +1,5 @@
-﻿using ReplayEditor;
+﻿using GameManagement;
+using ReplayEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,16 +165,16 @@ namespace BabboSettings
             Vector3 player_pos;
             Vector3 skate_pos;
 
-            if (ReplayEditorController.Instance == null || !ReplayEditorController.Instance.isActiveAndEnabled) {
-                player_pos = PlayerController.Instance.skaterController.skaterTransform.position;
-                skate_pos = PlayerController.Instance.boardController.boardTransform.position;
-            }
-            else {
+            if (IsReplayActive()) {
                 if (CustomCameraController.Instance.replay_skater == null) {
                     CustomCameraController.Instance.GetReplaySkater();
                 }
                 player_pos = CustomCameraController.Instance.replay_skater.position;
                 skate_pos = CustomCameraController.Instance.replay_skateboard.position;
+            }
+            else {
+                player_pos = PlayerController.Instance.skaterController.skaterTransform.position;
+                skate_pos = PlayerController.Instance.boardController.boardTransform.position;
             }
             if (focus_mode == FocusMode.Player) {
                 DOF.focusDistance.Override(Vector3.Distance(player_pos, cameraController.mainCamera.transform.position));
@@ -181,6 +182,10 @@ namespace BabboSettings
             else if (focus_mode == FocusMode.Skate) {
                 DOF.focusDistance.Override(Vector3.Distance(skate_pos, cameraController.mainCamera.transform.position));
             }
+        }
+
+        public bool IsReplayActive() {
+            return GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
         }
     }
 }

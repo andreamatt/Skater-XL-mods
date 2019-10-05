@@ -141,7 +141,7 @@ namespace BabboSettings
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
             {
-                //customCameraController.pov_rot_shift.x = Slider("X", customCameraController.pov_rot_shift.x, -180, 180);
+                //customCameraController.pov_rot_shift.x = Slider("X", customCameraController.pov_rot_shift.x, -180, 180); ???
                 //customCameraController.pov_rot_shift.y = Slider("Y", customCameraController.pov_rot_shift.y, -180, 180);
                 //customCameraController.pov_rot_shift.z = Slider("Z", customCameraController.pov_rot_shift.z, -180, 180);
 
@@ -367,50 +367,46 @@ namespace BabboSettings
                     EndHorizontal();
 
                     if (selectedTab == SelectedTab.Basic) {
-                        // Post in general
-                        {
-                            effects.post_volume.enabled = GUILayout.Toggle(effects.post_volume.enabled, "Enable post processing");
-                        }
+                        #region Post in general
+                        effects.post_volume.enabled = GUILayout.Toggle(effects.post_volume.enabled, "Enable post processing");
+                        #endregion
                         Separator();
-                        // VSync
-                        {
-                            BeginHorizontal();
-                            Label("Vsync");
-                            QualitySettings.vSyncCount = GUILayout.SelectionGrid(QualitySettings.vSyncCount, vsync_names, vsync_names.Length);
-                            EndHorizontal();
-                        }
+                        #region VSync
+                        BeginHorizontal();
+                        Label("Vsync");
+                        QualitySettings.vSyncCount = GUILayout.SelectionGrid(QualitySettings.vSyncCount, vsync_names, vsync_names.Length);
+                        EndHorizontal();
+                        #endregion
                         Separator();
-                        // Fullscreen
-                        {
-                            BeginHorizontal();
-                            Label("Fullscreen");
-                            Screen.fullScreenMode = (FullScreenMode)GUILayout.SelectionGrid((int)Screen.fullScreenMode, screen_modes, screen_modes.Length);
-                            EndHorizontal();
-                        }
+                        #region Fullscreen
+                        BeginHorizontal();
+                        Label("Fullscreen");
+                        Screen.fullScreenMode = (FullScreenMode)GUILayout.SelectionGrid((int)Screen.fullScreenMode, screen_modes, screen_modes.Length);
+                        EndHorizontal();
+                        #endregion
                         Separator();
-                        // AntiAliasing
-                        {
-                            Label("AntiAliasing");
-                            effects.post_layer.antialiasingMode = (Antialiasing)(GUILayout.SelectionGrid((int)effects.post_layer.antialiasingMode, aa_names, aa_names.Length));
-                            if (effects.post_layer.antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing) {
-                                sp_AA = Spoiler(sp_AA ? "hide" : "show") ? !sp_AA : sp_AA;
-                                if (sp_AA) {
-                                    effects.SMAA.quality = (SubpixelMorphologicalAntialiasing.Quality)GUILayout.SelectionGrid((int)effects.SMAA.quality, smaa_quality, smaa_quality.Length);
-                                }
+                        #region AntiAliasing
+                        Label("AntiAliasing");
+                        effects.post_layer.antialiasingMode = (Antialiasing)(GUILayout.SelectionGrid((int)effects.post_layer.antialiasingMode, aa_names, aa_names.Length));
+                        if (effects.post_layer.antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing) {
+                            sp_AA = Spoiler(sp_AA ? "hide" : "show") ? !sp_AA : sp_AA;
+                            if (sp_AA) {
+                                effects.SMAA.quality = (SubpixelMorphologicalAntialiasing.Quality)GUILayout.SelectionGrid((int)effects.SMAA.quality, smaa_quality, smaa_quality.Length);
                             }
-                            else if (effects.post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) {
-                                sp_AA = Spoiler(sp_AA ? "hide" : "show") ? !sp_AA : sp_AA;
-                                if (sp_AA) {
-                                    effects.TAA.sharpness = Slider("Sharpness", effects.TAA.sharpness, 0, 3);
-                                    effects.TAA.jitterSpread = Slider("Jitter spread", effects.TAA.jitterSpread, 0, 1);
-                                    effects.TAA.stationaryBlending = Slider("Stationary blending", effects.TAA.stationaryBlending, 0, 1);
-                                    effects.TAA.motionBlending = Slider("Motion Blending", effects.TAA.motionBlending, 0, 1);
-                                    if (Button("Default TAA")) {
-                                        effects.TAA = effects.post_layer.temporalAntialiasing = new TemporalAntialiasing();
-                                    }
+                        }
+                        else if (effects.post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) {
+                            sp_AA = Spoiler(sp_AA ? "hide" : "show") ? !sp_AA : sp_AA;
+                            if (sp_AA) {
+                                effects.TAA.sharpness = Slider("Sharpness", effects.TAA.sharpness, 0, 3);
+                                effects.TAA.jitterSpread = Slider("Jitter spread", effects.TAA.jitterSpread, 0, 1);
+                                effects.TAA.stationaryBlending = Slider("Stationary blending", effects.TAA.stationaryBlending, 0, 1);
+                                effects.TAA.motionBlending = Slider("Motion Blending", effects.TAA.motionBlending, 0, 1);
+                                if (Button("Default TAA")) {
+                                    effects.TAA = effects.post_layer.temporalAntialiasing = new TemporalAntialiasing();
                                 }
                             }
                         }
+                        #endregion
                     }
                     else if (selectedTab == SelectedTab.Effects) {
                         for (int i = 0; i < Main.settings.presetOrder.Count; i++) {
@@ -441,8 +437,12 @@ namespace BabboSettings
                     }
                     else if (selectedTab == SelectedTab.Camera) {
                         // Modes
-                        customCameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)customCameraController.cameraMode, camera_names, camera_names.Length);
-                        if (customCameraController.cameraMode == CameraMode.Normal) {
+                        var inReplay = effects.IsReplayActive();
+                        if (!inReplay) customCameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)customCameraController.cameraMode, camera_names, camera_names.Length);
+                        if (inReplay || customCameraController.cameraMode == CameraMode.Normal) {
+                            if (inReplay) {
+                                Label("While in replay only normal mode is available");
+                            }
                             customCameraController.normal_fov = Slider("Field of View", customCameraController.normal_fov, 1, 179);
                             if (Button("Reset")) {
                                 customCameraController.normal_fov = 60;

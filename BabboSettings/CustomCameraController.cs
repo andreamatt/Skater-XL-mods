@@ -219,7 +219,12 @@ namespace BabboSettings
         }
 
         public void FixedUpdate() {
-            if (ReplayEditorController.Instance == null || !ReplayEditorController.Instance.isActiveAndEnabled) {
+            if (GameEffects.Instance.IsReplayActive()) {
+                // Normal camera values
+                mainCamera.nearClipPlane = normal_clip;
+                mainCamera.fieldOfView = normal_fov;
+            }
+            else {
                 switch (cameraMode) {
                     case CameraMode.Normal:
                         normal();
