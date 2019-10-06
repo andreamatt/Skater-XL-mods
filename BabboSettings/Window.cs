@@ -443,7 +443,8 @@ namespace BabboSettings
                             if (inReplay) {
                                 Label("While in replay only normal mode is available");
                             }
-                            customCameraController.normal_fov = Slider("Field of View", customCameraController.normal_fov, 1, 179);
+                            //customCameraController.normal_fov = Slider("Field of View", customCameraController.normal_fov, 1, 179);
+                            customCameraController.normal_fov = customCameraController.mainCamera.fieldOfView = Slider("Field of View", customCameraController.mainCamera.fieldOfView, 1, 179);
                             if (Button("Reset")) {
                                 customCameraController.normal_fov = 60;
                             }
