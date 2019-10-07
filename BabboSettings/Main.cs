@@ -93,7 +93,7 @@ namespace BabboSettings
                     foreach (var preset in presets.Values) {
                         preset.Save();
                     }
-                    if (settings.DEBUG) Logger.Log("Done saving in main");
+                    Logger.Debug("Done saving in main");
                 }
                 catch (Exception ex) {
                     Logger.Log("Failed saving in main, probably closed game with mod open: " + ex.Message);

@@ -112,7 +112,7 @@ namespace BabboSettings
                     VIGN.enabled.Override(false);
                 }
                 if (not_found.Length > 0) {
-                    Logger.Log("Not found: " + not_found);
+                    Logger.Debug("Not found: " + not_found);
                 }
             }
             else {

@@ -39,11 +39,12 @@ namespace BabboSettings
         private GUIStyle spoilerBtnStyle;
         private GUIStyle sliderStyle;
         private GUIStyle thumbStyle;
+        private GUIStyle labelStyle;
+        private GUIStyle toggleStyle;
         private readonly Color windowColor = new Color(0.2f, 0.2f, 0.2f);
         private string separator;
         private GUIStyle separatorStyle;
         private Vector2 scrollPosition = new Vector2();
-        private GUIStyle usingStyle;
         #endregion
 
         #region GUI status
@@ -98,16 +99,16 @@ namespace BabboSettings
             };
 
             separatorStyle = new GUIStyle(GUI.skin.label) {
-
+                fontSize = 4
             };
             separatorStyle.normal.textColor = Color.red;
-            separatorStyle.fontSize = 4;
-
             separator = new string('_', 188);
 
-            usingStyle = new GUIStyle(GUI.skin.label);
-            usingStyle.normal.textColor = Color.red;
-            usingStyle.fontSize = 16;
+            labelStyle = new GUIStyle(GUI.skin.label) {
+            };
+
+            toggleStyle = new GUIStyle(GUI.skin.toggle) {
+            };
         }
 
         private void Open() {
@@ -167,11 +168,10 @@ namespace BabboSettings
                     EndHorizontal();
                 }
                 else if (editing_preset) {
-                    if (Button("Save")) editing_preset = false;
                     Separator();
                     #region Ambient Occlusion
                     BeginHorizontal();
-                    edited_preset.AO.enabled.Override(GUILayout.Toggle(edited_preset.AO.enabled.value, "Ambient occlusion"));
+                    edited_preset.AO.enabled.Override(Toggle(edited_preset.AO.enabled.value, "Ambient occlusion"));
                     if (edited_preset.AO.enabled.value) sp_AO = Spoiler(sp_AO ? "hide" : "show") ? !sp_AO : sp_AO;
                     EndHorizontal();
                     if (edited_preset.AO.enabled.value && sp_AO) {
@@ -184,7 +184,7 @@ namespace BabboSettings
                     Separator();
                     #region Automatic Exposure
                     BeginHorizontal();
-                    edited_preset.EXPO.enabled.Override(GUILayout.Toggle(edited_preset.EXPO.enabled.value, "Automatic Exposure"));
+                    edited_preset.EXPO.enabled.Override(Toggle(edited_preset.EXPO.enabled.value, "Automatic Exposure"));
                     if (edited_preset.EXPO.enabled.value) sp_EXPO = Spoiler(sp_EXPO ? "hide" : "show") ? !sp_EXPO : sp_EXPO;
                     EndHorizontal();
                     if (edited_preset.EXPO.enabled.value && sp_EXPO) {
@@ -195,33 +195,33 @@ namespace BabboSettings
                     Separator();
                     #region Bloom
                     BeginHorizontal();
-                    edited_preset.BLOOM.enabled.Override(GUILayout.Toggle(edited_preset.BLOOM.enabled.value, "Bloom"));
+                    edited_preset.BLOOM.enabled.Override(Toggle(edited_preset.BLOOM.enabled.value, "Bloom"));
                     if (edited_preset.BLOOM.enabled.value) sp_BLOOM = Spoiler(sp_BLOOM ? "hide" : "show") ? !sp_BLOOM : sp_BLOOM;
                     EndHorizontal();
                     if (edited_preset.BLOOM.enabled.value && sp_BLOOM) {
                         edited_preset.BLOOM.intensity.Override(Slider("Intensity", edited_preset.BLOOM.intensity.value, 0, 4));
                         edited_preset.BLOOM.threshold.Override(Slider("Threshold", edited_preset.BLOOM.threshold.value, 0, 4));
                         edited_preset.BLOOM.diffusion.Override(Slider("Diffusion", edited_preset.BLOOM.diffusion.value, 1, 10));
-                        edited_preset.BLOOM.fastMode.Override(GUILayout.Toggle(edited_preset.BLOOM.fastMode.value, "Fast mode"));
+                        edited_preset.BLOOM.fastMode.Override(Toggle(edited_preset.BLOOM.fastMode.value, "Fast mode"));
                         if (Button("Reset")) effects.reset(ref edited_preset.BLOOM);
                     }
                     #endregion
                     Separator();
                     #region Chromatic aberration
                     BeginHorizontal();
-                    edited_preset.CA.enabled.Override(GUILayout.Toggle(edited_preset.CA.enabled.value, "Chromatic aberration"));
+                    edited_preset.CA.enabled.Override(Toggle(edited_preset.CA.enabled.value, "Chromatic aberration"));
                     if (edited_preset.CA.enabled.value) sp_CA = Spoiler(sp_CA ? "hide" : "show") ? !sp_CA : sp_CA;
                     EndHorizontal();
                     if (edited_preset.CA.enabled.value && sp_CA) {
                         edited_preset.CA.intensity.Override(Slider("Intensity", edited_preset.CA.intensity.value, 0, 1));
-                        edited_preset.CA.fastMode.Override(GUILayout.Toggle(edited_preset.CA.fastMode.value, "Fast mode"));
+                        edited_preset.CA.fastMode.Override(Toggle(edited_preset.CA.fastMode.value, "Fast mode"));
                         if (Button("Reset")) effects.reset(ref edited_preset.CA);
                     }
                     #endregion
                     Separator();
                     #region Color Grading
                     BeginHorizontal();
-                    edited_preset.COLOR.enabled.Override(GUILayout.Toggle(edited_preset.COLOR.enabled.value, "Color Grading"));
+                    edited_preset.COLOR.enabled.Override(Toggle(edited_preset.COLOR.enabled.value, "Color Grading"));
                     if (edited_preset.COLOR.enabled) sp_COLOR = Spoiler(sp_COLOR ? "hide" : "show") ? !sp_COLOR : sp_COLOR;
                     EndHorizontal();
                     if (edited_preset.COLOR.enabled && sp_COLOR) {
@@ -268,7 +268,7 @@ namespace BabboSettings
                     Separator();
                     #region Depth Of Field
                     BeginHorizontal();
-                    edited_preset.DOF.enabled.Override(GUILayout.Toggle(edited_preset.DOF.enabled.value, "Depth Of Field"));
+                    edited_preset.DOF.enabled.Override(Toggle(edited_preset.DOF.enabled.value, "Depth Of Field"));
                     if (edited_preset.DOF.enabled.value) sp_DOF = Spoiler(sp_DOF ? "hide" : "show") ? !sp_DOF : sp_DOF;
                     EndHorizontal();
                     if (edited_preset.DOF.enabled.value && sp_DOF) {
@@ -294,11 +294,11 @@ namespace BabboSettings
                     Separator();
                     #region Grain
                     BeginHorizontal();
-                    edited_preset.GRAIN.enabled.Override(GUILayout.Toggle(edited_preset.GRAIN.enabled.value, "Grain"));
+                    edited_preset.GRAIN.enabled.Override(Toggle(edited_preset.GRAIN.enabled.value, "Grain"));
                     if (edited_preset.GRAIN.enabled.value) sp_GRAIN = Spoiler(sp_GRAIN ? "hide" : "show") ? !sp_GRAIN : sp_GRAIN;
                     EndHorizontal();
                     if (edited_preset.GRAIN.enabled.value && sp_GRAIN) {
-                        edited_preset.GRAIN.colored.Override(GUILayout.Toggle(edited_preset.GRAIN.colored.value, "colored"));
+                        edited_preset.GRAIN.colored.Override(Toggle(edited_preset.GRAIN.colored.value, "colored"));
                         edited_preset.GRAIN.intensity.Override(Slider("Intensity", edited_preset.GRAIN.intensity.value, 0, 1));
                         edited_preset.GRAIN.size.Override(Slider("Size", edited_preset.GRAIN.size.value, 0.3f, 3));
                         edited_preset.GRAIN.lumContrib.Override(Slider("Luminance contribution", edited_preset.GRAIN.lumContrib.value, 0, 1));
@@ -308,7 +308,7 @@ namespace BabboSettings
                     Separator();
                     #region Lens Distortion
                     BeginHorizontal();
-                    edited_preset.LENS.enabled.Override(GUILayout.Toggle(edited_preset.LENS.enabled.value, "Lens distortion"));
+                    edited_preset.LENS.enabled.Override(Toggle(edited_preset.LENS.enabled.value, "Lens distortion"));
                     if (edited_preset.LENS.enabled.value) sp_LENS = Spoiler(sp_LENS ? "hide" : "show") ? !sp_LENS : sp_LENS;
                     EndHorizontal();
                     if (edited_preset.LENS.enabled.value && sp_LENS) {
@@ -322,7 +322,7 @@ namespace BabboSettings
                     Separator();
                     #region Motion Blur
                     BeginHorizontal();
-                    edited_preset.BLUR.enabled.Override(GUILayout.Toggle(edited_preset.BLUR.enabled.value, "Motion blur"));
+                    edited_preset.BLUR.enabled.Override(Toggle(edited_preset.BLUR.enabled.value, "Motion blur"));
                     if (edited_preset.BLUR.enabled.value) sp_BLUR = Spoiler(sp_BLUR ? "hide" : "show") ? !sp_BLUR : sp_BLUR;
                     EndHorizontal();
                     if (edited_preset.BLUR.enabled.value && sp_BLUR) {
@@ -334,7 +334,7 @@ namespace BabboSettings
                     Separator();
                     #region Screen Space Reflections
                     BeginHorizontal();
-                    edited_preset.REFL.enabled.Override(GUILayout.Toggle(edited_preset.REFL.enabled.value, "Reflections"));
+                    edited_preset.REFL.enabled.Override(Toggle(edited_preset.REFL.enabled.value, "Reflections"));
                     if (edited_preset.REFL.enabled.value) sp_REFL = Spoiler(sp_REFL ? "hide" : "show") ? !sp_REFL : sp_REFL;
                     EndHorizontal();
                     if (edited_preset.REFL.enabled.value && sp_REFL) {
@@ -345,7 +345,7 @@ namespace BabboSettings
                     Separator();
                     #region Vignette
                     BeginHorizontal();
-                    edited_preset.VIGN.enabled.Override(GUILayout.Toggle(edited_preset.VIGN.enabled.value, "Vignette"));
+                    edited_preset.VIGN.enabled.Override(Toggle(edited_preset.VIGN.enabled.value, "Vignette"));
                     if (edited_preset.VIGN.enabled.value) sp_VIGN = Spoiler(sp_VIGN ? "hide" : "show") ? !sp_VIGN : sp_VIGN;
                     EndHorizontal();
                     if (edited_preset.VIGN.enabled.value && sp_VIGN) {
@@ -353,7 +353,7 @@ namespace BabboSettings
                         edited_preset.VIGN.smoothness.Override(Slider("Smoothness", edited_preset.VIGN.smoothness.value, 0.1f, 1));
                         edited_preset.VIGN.roundness.Override(Slider("Roundness", edited_preset.VIGN.roundness.value, 0, 1));
                         BeginHorizontal();
-                        edited_preset.VIGN.rounded.Override(GUILayout.Toggle(edited_preset.VIGN.rounded.value, "Rounded"));
+                        edited_preset.VIGN.rounded.Override(Toggle(edited_preset.VIGN.rounded.value, "Rounded"));
                         if (Button("Reset")) effects.reset(ref edited_preset.VIGN);
                         EndHorizontal();
                     }
@@ -368,7 +368,7 @@ namespace BabboSettings
 
                     if (selectedTab == SelectedTab.Basic) {
                         #region Post in general
-                        effects.post_volume.enabled = GUILayout.Toggle(effects.post_volume.enabled, "Enable post processing");
+                        effects.post_volume.enabled = Toggle(effects.post_volume.enabled, "Enable post processing");
                         #endregion
                         Separator();
                         #region VSync
@@ -412,7 +412,7 @@ namespace BabboSettings
                         for (int i = 0; i < Main.settings.presetOrder.Count; i++) {
                             var preset = Main.presets[Main.settings.presetOrder[i]];
                             BeginHorizontal();
-                            preset.enabled = GUILayout.Toggle(preset.enabled, preset.name);
+                            preset.enabled = Toggle(preset.enabled, preset.name);
                             GUILayout.FlexibleSpace();
                             if (preset.enabled && Button("edit")) {
                                 editing_preset = true;
@@ -483,7 +483,7 @@ namespace BabboSettings
                                 customCameraController.pov_fov = 60;
                             }
                             Separator();
-                            customCameraController.hide_head = GUILayout.Toggle(customCameraController.hide_head, "Hide head");
+                            customCameraController.hide_head = Toggle(customCameraController.hide_head, "Hide head");
                             customCameraController.pov_clip = Slider("Near clipping", customCameraController.pov_clip, 0.01f, 1);
                             Separator();
                             Label("Responsiveness. Suggested: 1, 0.1");
@@ -549,7 +549,10 @@ namespace BabboSettings
             GUILayout.Label(text, style);
         }
         private void Label(string text) {
-            GUILayout.Label(text);
+            GUILayout.Label(text, labelStyle);
+        }
+        private bool Toggle(bool current, string text) {
+            return GUILayout.Toggle(current, text, toggleStyle);
         }
         private void Separator() {
             Label(separator, separatorStyle);

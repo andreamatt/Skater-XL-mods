@@ -98,7 +98,8 @@ namespace BabboSettings
             try {
                 using (var writer = new StreamWriter($"{filepath}{name}.preset.json")) {
                     Serialize();
-                    writer.WriteLine(JsonUtility.ToJson(this, true));
+                    var serializedLine = JsonUtility.ToJson(this, true);
+                    writer.Write(serializedLine);
                 }
             }
             catch (Exception e) {
