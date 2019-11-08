@@ -10,18 +10,8 @@ using UnityEngine.Rendering.PostProcessing;
 
 namespace BabboSettings
 {
-    sealed class GameEffects
+    public class GameEffects : Module
     {
-        #region Singleton
-        private static readonly Lazy<GameEffects> _Instance = new Lazy<GameEffects>(() => new GameEffects());
-
-        private GameEffects() { }
-
-        public static GameEffects Instance {
-            get => _Instance.Value;
-        }
-        #endregion
-
         // Settings stuff
         public PostProcessLayer post_layer;
         public PostProcessVolume post_volume;
@@ -42,8 +32,6 @@ namespace BabboSettings
         public ScreenSpaceReflections REFL;
         public Vignette VIGN;
 
-        private CustomCameraController cameraController { get => CustomCameraController.Instance; }
-
         private void getEffects() {
             post_layer = Camera.main.GetComponent<PostProcessLayer>();
             if (post_layer == null) {
@@ -53,7 +41,7 @@ namespace BabboSettings
                 post_layer.enabled = true;
                 Logger.Debug("post_layer was disabled");
             }
-            post_volume = UnityEngine.Object.FindObjectOfType<PostProcessVolume>();
+            post_volume = FindObjectOfType<PostProcessVolume>();
             if (post_volume != null) {
                 string not_found = "";
                 if ((AO = post_volume.profile.GetSetting<AmbientOcclusion>()) == null) {
@@ -123,15 +111,16 @@ namespace BabboSettings
             TAA = post_layer.temporalAntialiasing;
             SMAA = post_layer.subpixelMorphologicalAntialiasing;
 
-            MapPreset.Instance.GetMapEffects();
+            mapPreset.GetMapEffects();
 
-            PresetsManager.Instance.ApplySettings();
-            PresetsManager.Instance.ApplyPresets();
+            presetsManager.ApplySettings();
+            presetsManager.ApplyPresets();
 
             // After applying, can now save
             Main.canSave = true;
 
             cameraController.GetHeadMaterials();
+            //DayNightController.Instance.GetLights();
 
             Logger.Debug("Done getEffects");
         }
@@ -161,16 +150,16 @@ namespace BabboSettings
             effect = newEffect;
         }
 
-        public void LateUpdate() {
+        public override void LateUpdate() {
             Vector3 player_pos;
             Vector3 skate_pos;
 
             if (IsReplayActive()) {
-                if (CustomCameraController.Instance.replay_skater == null) {
-                    CustomCameraController.Instance.GetReplaySkater();
+                if (cameraController.replay_skater == null) {
+                    cameraController.GetReplaySkater();
                 }
-                player_pos = CustomCameraController.Instance.replay_skater.position;
-                skate_pos = CustomCameraController.Instance.replay_skateboard.position;
+                player_pos = cameraController.replay_skater.position;
+                skate_pos = cameraController.replay_skateboard.position;
             }
             else {
                 player_pos = PlayerController.Instance.skaterController.skaterTransform.position;

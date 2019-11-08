@@ -89,7 +89,7 @@ namespace BabboSettings
         public static void Save() {
             if (canSave) {
                 try {
-                    PresetsManager.Instance.SaveToSettings();
+                    babboSettings.presetsManager.SaveToSettings();
                     foreach (var preset in presets.Values) {
                         preset.Save();
                     }

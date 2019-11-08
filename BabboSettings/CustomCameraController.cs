@@ -5,19 +5,11 @@ using UnityEngine;
 
 namespace BabboSettings
 {
-    public sealed class CustomCameraController
+    public class CustomCameraController : Module
     {
-        #region Singleton
-        private static readonly Lazy<CustomCameraController> _Instance = new Lazy<CustomCameraController>(() => new CustomCameraController());
-
-        private CustomCameraController() {
+        public override void Start() {
             mainCamera = Camera.main;
         }
-
-        public static CustomCameraController Instance {
-            get => _Instance.Value;
-        }
-        #endregion
 
         #region Utilities
         public Camera mainCamera { get; private set; }
@@ -31,7 +23,7 @@ namespace BabboSettings
         public bool spawn_switch = false;
         public bool just_respawned = true;
         private List<Material> head_materials = new List<Material>();
-        private Shader standard_shader;
+        private Shader hiding_shader;
         private Shader head_shader;
 
         public Transform replay_skater;
@@ -171,55 +163,61 @@ namespace BabboSettings
 
         public void GetHeadMaterials() {
 
-            Transform skater_transform = PlayerController.Instance.skaterController.transform;
-            List<GameObject> toHide = new List<GameObject>();
-            List<string> toHide_names = new List<string>(new string[]{
-                "Cory_fixed_Karam:cory_001:body_geo", "Cory_fixed_Karam:cory_001:eyes_geo",
-                "Cory_fixed_Karam:cory_001:lacrima_geo", "Cory_fixed_Karam:cory_001:lashes_geo",
-                "Cory_fixed_Karam:cory_001:tear_geo", "Cory_fixed_Karam:cory_001:teethDn_geo",
-                "Cory_fixed_Karam:cory_001:teethUp_geo", "Cory_fixed_Karam:cory_001:hat_geo"
-            });
-            for (int i = 0; i < skater_transform.childCount; i++) {
-                var child = skater_transform.GetChild(i);
-                //Logger.Log("Child: " + child.name);
-                for (int j = 0; j < child.childCount; j++) {
-                    var grandchild = child.GetChild(j);
-                    //Logger.Log("Grand: " + grandchild.name);
-                    for (int k = 0; k < grandchild.childCount; k++) {
-                        var grandgrandchild = grandchild.GetChild(k);
-                        //Logger.Log("Grandgrand: " + grandgrandchild.name);
-                        if (toHide_names.Contains(grandgrandchild.name)) {
-                            toHide.Add(grandgrandchild.gameObject);
+            head_materials = new List<Material>();
+
+            var body = GameObject.Find("Body");
+            if (body != null) {
+                var renderer = body.GetComponent<Renderer>();
+                if (renderer != null) {
+                    foreach (var mat in renderer.materials) {
+                        if (mat.name == "Head_mat (Instance)") {
+                            Logger.Log("Head mat found");
+                            head_materials.Add(mat);
+                            head_shader = mat.shader;
                         }
                     }
                 }
             }
 
-            List<string> mat_names = new List<string>(new string[] {
-                "UniqueShaders_head_mat (Instance)", "GenericShaders_eyeInner_mat (Instance)",
-                "GenericShaders_eyeOuter_mat (Instance)", "GenericShaders_teeth_mat (Instance)",
-                "UniqueShaders_hat_mat (Instance)", "GenericShaders_lacrima_mat (Instance)",
-                "GenericShaders_lashes_mat (Instance)", "GenericShaders_tear_mat (Instance)"
-            });
-            standard_shader = Shader.Find("Standard");
-            head_shader = Shader.Find("shaderStandard");
-            head_materials = new List<Material>();
-            foreach (var obj in toHide) {
-                var materials = obj.GetComponent<SkinnedMeshRenderer>().materials;
-                for (int k = 0; k < materials.Length; k++) {
-                    var mat = materials[k];
-                    //Logger.Log("Obj: " + obj.name + ", mat: " + mat.name);
-                    if (mat_names.Contains(mat.name)) {
-                        head_materials.Add(mat);
+            var eye_transforms = new List<string>() { "Hairs", "Body", "Body_armsAndHead", "Eyes_and_eyelashes", "eye", "eye_wetness", "eyelashes" };
+            foreach (var eye_t in eye_transforms) {
+                var t = GameObject.Find(eye_t);
+                if (t != null) {
+                    Logger.Log(t + " found");
+                    var renderer = t.gameObject.GetComponent<Renderer>();
+                    if (renderer != null) {
+                        Logger.Log("renderer found");
+                        foreach (var mat in renderer.materials) {
+                            Logger.Log("Mat: " + mat.name);
+                        }
                     }
                 }
             }
 
+            //LogGGC();
+
             mainCamera = Camera.main;
         }
 
-        public void FixedUpdate() {
-            if (GameEffects.Instance.IsReplayActive()) {
+        private void LogGGC() {
+            Transform skater_transform = PlayerController.Instance.skaterController.transform;
+            for (int i = 0; i < skater_transform.childCount; i++) {
+                var child = skater_transform.GetChild(i);
+                for (int j = 0; j < child.childCount; j++) {
+                    var grandchild = child.GetChild(j);
+                    for (int k = 0; k < grandchild.childCount; k++) {
+                        var grandgrandchild = grandchild.GetChild(k);
+                        Logger.Log("Grandgrand: " + grandgrandchild.name);
+                        for (int a = 0; a < grandgrandchild.childCount; a++) {
+                            Logger.Log("GGGC: " + grandgrandchild.GetChild(a).name);
+                        }
+                    }
+                }
+            }
+        }
+
+        public override void FixedUpdate() {
+            if (gameEffects.IsReplayActive()) {
                 // Normal camera values
                 mainCamera.nearClipPlane = normal_clip;
                 mainCamera.fieldOfView = normal_fov;
@@ -245,12 +243,14 @@ namespace BabboSettings
             }
         }
 
-        public void LateUpdate() {
+        public override void LateUpdate() {
             if (cameraMode == CameraMode.POV) {
                 pov();
             }
             foreach (var mat in head_materials) {
-                mat.shader = (cameraMode == CameraMode.POV && hide_head) ? standard_shader : head_shader;
+                //mat.shader = (cameraMode == CameraMode.POV && hide_head) ? hiding_shader : head_shader;
+                //Logger.Log("Hiding " + mat.name);
+                mat.color = Color.clear;
             }
         }
 

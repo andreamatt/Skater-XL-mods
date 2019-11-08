@@ -6,17 +6,8 @@ using static UnityEngine.Rendering.PostProcessing.PostProcessLayer;
 
 namespace BabboSettings
 {
-    public sealed class Window
+    public class Window : Module
     {
-        #region Singleton
-        private static readonly Lazy<Window> _Instance = new Lazy<Window>(() => new Window());
-
-        private Window() { }
-
-        public static Window Instance {
-            get => _Instance.Value;
-        }
-        #endregion
 
         #region GUI content
         private string[] aa_names = { "None", "FXAA", "SMAA", "TAA" };
@@ -58,10 +49,7 @@ namespace BabboSettings
         private SelectedTab selectedTab = SelectedTab.Basic;
         #endregion
 
-        private GameEffects effects { get => GameEffects.Instance; }
-        private CustomCameraController customCameraController { get => CustomCameraController.Instance; }
-
-        public void Update() {
+        public override void Update() {
             bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
             if (keyUp) {
                 if (showUI == false) {
@@ -122,7 +110,7 @@ namespace BabboSettings
             Main.Save();
         }
 
-        public void OnGUI() {
+        public override void OnGUI() {
             if (!setUp) {
                 setUp = true;
                 SetUp();
@@ -142,9 +130,9 @@ namespace BabboSettings
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
             {
-                //customCameraController.pov_rot_shift.x = Slider("X", customCameraController.pov_rot_shift.x, -180, 180); ???
-                //customCameraController.pov_rot_shift.y = Slider("Y", customCameraController.pov_rot_shift.y, -180, 180);
-                //customCameraController.pov_rot_shift.z = Slider("Z", customCameraController.pov_rot_shift.z, -180, 180);
+                //cameraController.pov_rot_shift.x = Slider("X", cameraController.pov_rot_shift.x, -180, 180); ???
+                //cameraController.pov_rot_shift.y = Slider("Y", cameraController.pov_rot_shift.y, -180, 180);
+                //cameraController.pov_rot_shift.z = Slider("Z", cameraController.pov_rot_shift.z, -180, 180);
 
                 if (choosing_name) {
                     name_text = GUILayout.TextField(name_text);
@@ -178,7 +166,7 @@ namespace BabboSettings
                         edited_preset.AO.intensity.Override(Slider("Intensity", edited_preset.AO.intensity.value, 0, 4));
                         edited_preset.AO.quality.Override((AmbientOcclusionQuality)GUILayout.SelectionGrid((int)edited_preset.AO.quality.value, ao_quality, ao_quality.Length));
                         edited_preset.AO.mode.Override((AmbientOcclusionMode)GUILayout.SelectionGrid((int)edited_preset.AO.mode.value, ao_mode, ao_mode.Length));
-                        if (Button("Reset")) effects.reset(ref edited_preset.AO);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.AO);
                     }
                     #endregion
                     Separator();
@@ -189,7 +177,7 @@ namespace BabboSettings
                     EndHorizontal();
                     if (edited_preset.EXPO.enabled.value && sp_EXPO) {
                         edited_preset.EXPO.keyValue.Override(Slider("Compensation", edited_preset.EXPO.keyValue.value, 0, 4));
-                        if (Button("Reset")) effects.reset(ref edited_preset.EXPO);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.EXPO);
                     }
                     #endregion
                     Separator();
@@ -203,7 +191,7 @@ namespace BabboSettings
                         edited_preset.BLOOM.threshold.Override(Slider("Threshold", edited_preset.BLOOM.threshold.value, 0, 4));
                         edited_preset.BLOOM.diffusion.Override(Slider("Diffusion", edited_preset.BLOOM.diffusion.value, 1, 10));
                         edited_preset.BLOOM.fastMode.Override(Toggle(edited_preset.BLOOM.fastMode.value, "Fast mode"));
-                        if (Button("Reset")) effects.reset(ref edited_preset.BLOOM);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.BLOOM);
                     }
                     #endregion
                     Separator();
@@ -215,7 +203,7 @@ namespace BabboSettings
                     if (edited_preset.CA.enabled.value && sp_CA) {
                         edited_preset.CA.intensity.Override(Slider("Intensity", edited_preset.CA.intensity.value, 0, 1));
                         edited_preset.CA.fastMode.Override(Toggle(edited_preset.CA.fastMode.value, "Fast mode"));
-                        if (Button("Reset")) effects.reset(ref edited_preset.CA);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.CA);
                     }
                     #endregion
                     Separator();
@@ -262,7 +250,7 @@ namespace BabboSettings
                         }
                         Label(" ");
 
-                        if (Button("Reset")) effects.reset(ref edited_preset.COLOR);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.COLOR);
                     }
                     #endregion
                     Separator();
@@ -277,7 +265,7 @@ namespace BabboSettings
                             edited_preset.DOF.focusDistance.Override(Slider("Focus distance", edited_preset.DOF.focusDistance.value, 0, 20));
                         }
                         else {
-                            Label("focus distance: " + effects.DOF.focusDistance.value.ToString("0.00"));
+                            Label("focus distance: " + gameEffects.DOF.focusDistance.value.ToString("0.00"));
                         }
                         edited_preset.DOF.aperture.Override(Slider("Aperture (f-stop)", edited_preset.DOF.aperture.value, 0.1f, 32));
                         edited_preset.DOF.focalLength.Override(Slider("Focal length (mm)", edited_preset.DOF.focalLength.value, 1, 300));
@@ -286,7 +274,7 @@ namespace BabboSettings
                         edited_preset.DOF.kernelSize.Override((KernelSize)GUILayout.SelectionGrid((int)edited_preset.DOF.kernelSize.value, max_blur, max_blur.Length));
                         EndHorizontal();
                         if (Button("Reset")) {
-                            effects.reset(ref edited_preset.DOF);
+                            gameEffects.reset(ref edited_preset.DOF);
                             edited_preset.FOCUS_MODE = FocusMode.Custom;
                         }
                     }
@@ -302,7 +290,7 @@ namespace BabboSettings
                         edited_preset.GRAIN.intensity.Override(Slider("Intensity", edited_preset.GRAIN.intensity.value, 0, 1));
                         edited_preset.GRAIN.size.Override(Slider("Size", edited_preset.GRAIN.size.value, 0.3f, 3));
                         edited_preset.GRAIN.lumContrib.Override(Slider("Luminance contribution", edited_preset.GRAIN.lumContrib.value, 0, 1));
-                        if (Button("Reset")) effects.reset(ref edited_preset.GRAIN);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.GRAIN);
                     }
                     #endregion
                     Separator();
@@ -316,7 +304,7 @@ namespace BabboSettings
                         edited_preset.LENS.intensityX.Override(Slider("X", edited_preset.LENS.intensityX.value, 0, 1));
                         edited_preset.LENS.intensityY.Override(Slider("Y", edited_preset.LENS.intensityY.value, 0, 1));
                         edited_preset.LENS.scale.Override(Slider("Scale", edited_preset.LENS.scale.value, 0.1f, 5));
-                        if (Button("Reset")) effects.reset(ref edited_preset.LENS);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.LENS);
                     }
                     #endregion
                     Separator();
@@ -328,7 +316,7 @@ namespace BabboSettings
                     if (edited_preset.BLUR.enabled.value && sp_BLUR) {
                         edited_preset.BLUR.shutterAngle.Override(Slider("Shutter angle", edited_preset.BLUR.shutterAngle, 0, 360));
                         edited_preset.BLUR.sampleCount.Override(SliderInt("Sample count", edited_preset.BLUR.sampleCount, 4, 32));
-                        if (Button("Reset")) effects.reset(ref edited_preset.BLUR);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.BLUR);
                     }
                     #endregion
                     Separator();
@@ -339,7 +327,7 @@ namespace BabboSettings
                     EndHorizontal();
                     if (edited_preset.REFL.enabled.value && sp_REFL) {
                         edited_preset.REFL.preset.Override((ScreenSpaceReflectionPreset)GUILayout.SelectionGrid((int)edited_preset.REFL.preset.value, refl_presets, refl_presets.Length));
-                        if (Button("Reset")) effects.reset(ref edited_preset.REFL);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.REFL);
                     }
                     #endregion
                     Separator();
@@ -354,7 +342,7 @@ namespace BabboSettings
                         edited_preset.VIGN.roundness.Override(Slider("Roundness", edited_preset.VIGN.roundness.value, 0, 1));
                         BeginHorizontal();
                         edited_preset.VIGN.rounded.Override(Toggle(edited_preset.VIGN.rounded.value, "Rounded"));
-                        if (Button("Reset")) effects.reset(ref edited_preset.VIGN);
+                        if (Button("Reset")) gameEffects.reset(ref edited_preset.VIGN);
                         EndHorizontal();
                     }
                     #endregion
@@ -368,7 +356,7 @@ namespace BabboSettings
 
                     if (selectedTab == SelectedTab.Basic) {
                         #region Post in general
-                        effects.post_volume.enabled = Toggle(effects.post_volume.enabled, "Enable post processing");
+                        gameEffects.post_volume.enabled = Toggle(gameEffects.post_volume.enabled, "Enable post processing");
                         #endregion
                         Separator();
                         #region VSync
@@ -387,22 +375,22 @@ namespace BabboSettings
                         Separator();
                         #region AntiAliasing
                         Label("AntiAliasing");
-                        effects.post_layer.antialiasingMode = (Antialiasing)(GUILayout.SelectionGrid((int)effects.post_layer.antialiasingMode, aa_names, aa_names.Length));
-                        if (effects.post_layer.antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing) {
+                        gameEffects.post_layer.antialiasingMode = (Antialiasing)(GUILayout.SelectionGrid((int)gameEffects.post_layer.antialiasingMode, aa_names, aa_names.Length));
+                        if (gameEffects.post_layer.antialiasingMode == Antialiasing.SubpixelMorphologicalAntialiasing) {
                             sp_AA = Spoiler(sp_AA ? "hide" : "show") ? !sp_AA : sp_AA;
                             if (sp_AA) {
-                                effects.SMAA.quality = (SubpixelMorphologicalAntialiasing.Quality)GUILayout.SelectionGrid((int)effects.SMAA.quality, smaa_quality, smaa_quality.Length);
+                                gameEffects.SMAA.quality = (SubpixelMorphologicalAntialiasing.Quality)GUILayout.SelectionGrid((int)gameEffects.SMAA.quality, smaa_quality, smaa_quality.Length);
                             }
                         }
-                        else if (effects.post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) {
+                        else if (gameEffects.post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) {
                             sp_AA = Spoiler(sp_AA ? "hide" : "show") ? !sp_AA : sp_AA;
                             if (sp_AA) {
-                                effects.TAA.sharpness = Slider("Sharpness", effects.TAA.sharpness, 0, 3);
-                                effects.TAA.jitterSpread = Slider("Jitter spread", effects.TAA.jitterSpread, 0, 1);
-                                effects.TAA.stationaryBlending = Slider("Stationary blending", effects.TAA.stationaryBlending, 0, 1);
-                                effects.TAA.motionBlending = Slider("Motion Blending", effects.TAA.motionBlending, 0, 1);
+                                gameEffects.TAA.sharpness = Slider("Sharpness", gameEffects.TAA.sharpness, 0, 3);
+                                gameEffects.TAA.jitterSpread = Slider("Jitter spread", gameEffects.TAA.jitterSpread, 0, 1);
+                                gameEffects.TAA.stationaryBlending = Slider("Stationary blending", gameEffects.TAA.stationaryBlending, 0, 1);
+                                gameEffects.TAA.motionBlending = Slider("Motion Blending", gameEffects.TAA.motionBlending, 0, 1);
                                 if (Button("Default TAA")) {
-                                    effects.TAA = effects.post_layer.temporalAntialiasing = new TemporalAntialiasing();
+                                    gameEffects.TAA = gameEffects.post_layer.temporalAntialiasing = new TemporalAntialiasing();
                                 }
                             }
                         }
@@ -437,82 +425,82 @@ namespace BabboSettings
                     }
                     else if (selectedTab == SelectedTab.Camera) {
                         // Modes
-                        var inReplay = effects.IsReplayActive();
-                        if (!inReplay) customCameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)customCameraController.cameraMode, camera_names, camera_names.Length);
-                        if (inReplay || customCameraController.cameraMode == CameraMode.Normal) {
+                        var inReplay = gameEffects.IsReplayActive();
+                        if (!inReplay) cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
+                        if (inReplay || cameraController.cameraMode == CameraMode.Normal) {
                             if (inReplay) {
                                 Label("While in replay only normal mode is available");
                             }
-                            //customCameraController.normal_fov = Slider("Field of View", customCameraController.normal_fov, 1, 179);
-                            customCameraController.normal_fov = customCameraController.mainCamera.fieldOfView = Slider("Field of View", customCameraController.mainCamera.fieldOfView, 1, 179);
+                            //cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
+                            cameraController.normal_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
                             if (Button("Reset")) {
-                                customCameraController.normal_fov = 60;
+                                cameraController.normal_fov = 60;
                             }
                             Separator();
-                            customCameraController.normal_clip = Slider("Near clipping", customCameraController.normal_clip, 0.01f, 1);
+                            cameraController.normal_clip = Slider("Near clipping", cameraController.normal_clip, 0.01f, 1);
                             Separator();
                             Label("Responsiveness. Suggested: 1, 1");
-                            customCameraController.normal_react = Slider("Position", customCameraController.normal_react, 0.01f, 1);
-                            customCameraController.normal_react_rot = Slider("Rotation", customCameraController.normal_react_rot, 0.01f, 1);
+                            cameraController.normal_react = Slider("Position", cameraController.normal_react, 0.01f, 1);
+                            cameraController.normal_react_rot = Slider("Rotation", cameraController.normal_react_rot, 0.01f, 1);
                         }
-                        else if (customCameraController.cameraMode == CameraMode.Low) {
+                        else if (cameraController.cameraMode == CameraMode.Low) {
                             Label("No controls here");
                             Label("If you want them, use follow cam");
                         }
-                        else if (customCameraController.cameraMode == CameraMode.Follow) {
-                            customCameraController.follow_fov = Slider("Field of View", customCameraController.follow_fov, 1, 179);
+                        else if (cameraController.cameraMode == CameraMode.Follow) {
+                            cameraController.follow_fov = Slider("Field of View", cameraController.follow_fov, 1, 179);
                             if (Button("Reset")) {
-                                customCameraController.follow_fov = 60;
+                                cameraController.follow_fov = 60;
                             }
                             Separator();
-                            customCameraController.follow_clip = Slider("Near clipping", customCameraController.follow_clip, 0.01f, 1);
+                            cameraController.follow_clip = Slider("Near clipping", cameraController.follow_clip, 0.01f, 1);
                             Separator();
                             Label("Responsiveness. Suggested: 0.8, 0.6");
-                            customCameraController.follow_react = Slider("Position", customCameraController.follow_react, 0.01f, 1);
-                            customCameraController.follow_react_rot = Slider("Rotation", customCameraController.follow_react_rot, 0.01f, 1);
+                            cameraController.follow_react = Slider("Position", cameraController.follow_react, 0.01f, 1);
+                            cameraController.follow_react_rot = Slider("Rotation", cameraController.follow_react_rot, 0.01f, 1);
                             Separator();
                             Label("Move camera: ");
-                            customCameraController.follow_shift.x = Slider("x", customCameraController.follow_shift.x, -2, 2);
-                            customCameraController.follow_shift.y = Slider("y", customCameraController.follow_shift.y, -2, 2);
-                            customCameraController.follow_shift.z = Slider("z", customCameraController.follow_shift.z, -2, 2);
-                            if (Button("Reset to player")) customCameraController.follow_shift = new Vector3();
+                            cameraController.follow_shift.x = Slider("x", cameraController.follow_shift.x, -2, 2);
+                            cameraController.follow_shift.y = Slider("y", cameraController.follow_shift.y, -2, 2);
+                            cameraController.follow_shift.z = Slider("z", cameraController.follow_shift.z, -2, 2);
+                            if (Button("Reset to player")) cameraController.follow_shift = new Vector3();
                         }
-                        else if (customCameraController.cameraMode == CameraMode.POV) {
-                            customCameraController.pov_fov = Slider("Field of View", customCameraController.pov_fov, 1, 179);
+                        else if (cameraController.cameraMode == CameraMode.POV) {
+                            cameraController.pov_fov = Slider("Field of View", cameraController.pov_fov, 1, 179);
                             if (Button("Reset")) {
-                                customCameraController.pov_fov = 60;
+                                cameraController.pov_fov = 60;
                             }
                             Separator();
-                            customCameraController.hide_head = Toggle(customCameraController.hide_head, "Hide head");
-                            customCameraController.pov_clip = Slider("Near clipping", customCameraController.pov_clip, 0.01f, 1);
+                            cameraController.hide_head = Toggle(cameraController.hide_head, "Hide head");
+                            cameraController.pov_clip = Slider("Near clipping", cameraController.pov_clip, 0.01f, 1);
                             Separator();
                             Label("Responsiveness. Suggested: 1, 0.1");
-                            customCameraController.pov_react = Slider("Position", customCameraController.pov_react, 0.01f, 1);
-                            customCameraController.pov_react_rot = Slider("Rotation", customCameraController.pov_react_rot, 0.01f, 1);
+                            cameraController.pov_react = Slider("Position", cameraController.pov_react, 0.01f, 1);
+                            cameraController.pov_react_rot = Slider("Rotation", cameraController.pov_react_rot, 0.01f, 1);
                             Separator();
                             Label("Move camera: ");
-                            customCameraController.pov_shift.x = Slider("x", customCameraController.pov_shift.x, -2, 2);
-                            customCameraController.pov_shift.y = Slider("y", customCameraController.pov_shift.y, -2, 2);
-                            customCameraController.pov_shift.z = Slider("z", customCameraController.pov_shift.z, -2, 2);
-                            if (Button("Reset to head")) customCameraController.pov_shift = new Vector3();
+                            cameraController.pov_shift.x = Slider("x", cameraController.pov_shift.x, -2, 2);
+                            cameraController.pov_shift.y = Slider("y", cameraController.pov_shift.y, -2, 2);
+                            cameraController.pov_shift.z = Slider("z", cameraController.pov_shift.z, -2, 2);
+                            if (Button("Reset to head")) cameraController.pov_shift = new Vector3();
                         }
-                        else if (customCameraController.cameraMode == CameraMode.Skate) {
-                            customCameraController.skate_fov = Slider("Field of View", customCameraController.skate_fov, 1, 179);
+                        else if (cameraController.cameraMode == CameraMode.Skate) {
+                            cameraController.skate_fov = Slider("Field of View", cameraController.skate_fov, 1, 179);
                             if (Button("Reset")) {
-                                customCameraController.skate_fov = 60;
+                                cameraController.skate_fov = 60;
                             }
                             Separator();
-                            customCameraController.skate_clip = Slider("Near clipping", customCameraController.skate_clip, 0.01f, 1);
+                            cameraController.skate_clip = Slider("Near clipping", cameraController.skate_clip, 0.01f, 1);
                             Separator();
                             Label("Responsiveness. Suggested: 1, 1");
-                            customCameraController.skate_react = Slider("Position", customCameraController.skate_react, 0.01f, 1);
-                            customCameraController.skate_react_rot = Slider("Rotation", customCameraController.skate_react_rot, 0.01f, 1);
+                            cameraController.skate_react = Slider("Position", cameraController.skate_react, 0.01f, 1);
+                            cameraController.skate_react_rot = Slider("Rotation", cameraController.skate_react_rot, 0.01f, 1);
                             Separator();
                             Label("Move camera: ");
-                            customCameraController.skate_shift.x = Slider("x", customCameraController.skate_shift.x, -2, 2);
-                            customCameraController.skate_shift.y = Slider("y", customCameraController.skate_shift.y, -2, 2);
-                            customCameraController.skate_shift.z = Slider("z", customCameraController.skate_shift.z, -2, 2);
-                            if (Button("Reset to skate")) customCameraController.skate_shift = new Vector3();
+                            cameraController.skate_shift.x = Slider("x", cameraController.skate_shift.x, -2, 2);
+                            cameraController.skate_shift.y = Slider("y", cameraController.skate_shift.y, -2, 2);
+                            cameraController.skate_shift.z = Slider("z", cameraController.skate_shift.z, -2, 2);
+                            if (Button("Reset to skate")) cameraController.skate_shift = new Vector3();
                         }
                     }
 
@@ -534,7 +522,7 @@ namespace BabboSettings
             GUILayout.EndScrollView();
 
             // apply presets while window is open
-            PresetsManager.Instance.ApplyPresets();
+            presetsManager.ApplyPresets();
         }
 
         #region GUI Utility

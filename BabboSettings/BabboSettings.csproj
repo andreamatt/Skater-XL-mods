@@ -40,10 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraMode.cs" />
+    <Compile Include="DayNightController.cs" />
     <Compile Include="FocusMode.cs" />
     <Compile Include="GameEffects.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MapPreset.cs" />
+    <Compile Include="Module.cs" />
     <Compile Include="Patches\RespawnPatches.cs" />
     <Compile Include="CustomCameraController.cs" />
     <Compile Include="Patches\PlayerControllerPatches.cs" />

@@ -6,41 +6,38 @@ namespace BabboSettings
 {
     public class BabboSettings : MonoBehaviour
     {
+        public static BabboSettings Instance { private set; get; }
+
         private GameEffects effects;
         private Window window;
         private MapPreset mapPreset;
         private CustomCameraController cameraController;
+        public PresetsManager presetsManager;
+        //private DayNightController dayNightController;
 
         public void Start() {
+            if (Instance != null) {
+                Logger.Log("BabboSettings Instance already exists");
+            }
+            else {
+                Instance = this;
+            }
+
             DontDestroyOnLoad(gameObject);
 
-            effects = GameEffects.Instance;
+            effects = gameObject.AddComponent<GameEffects>();
+            mapPreset = gameObject.AddComponent<MapPreset>();
+            window = gameObject.AddComponent<Window>();
+            cameraController = gameObject.AddComponent<CustomCameraController>();
+            presetsManager = gameObject.AddComponent<PresetsManager>();
+            //dayNightController = DayNightController.Instance;
+
             effects.checkAndGetEffects();
-
-            mapPreset = MapPreset.Instance;
-
-            window = Window.Instance;
-
-            cameraController = CustomCameraController.Instance;
         }
 
         private void Update() {
             // if the map changed, needs to find/create new effects
             effects.checkAndGetEffects();
-            window.Update();
-        }
-
-        private void LateUpdate() {
-            effects.LateUpdate();
-            cameraController.LateUpdate();
-        }
-
-        private void FixedUpdate() {
-            cameraController.FixedUpdate();
-        }
-
-        private void OnGUI() {
-            window.OnGUI();
         }
 
         public bool isSwitch() {

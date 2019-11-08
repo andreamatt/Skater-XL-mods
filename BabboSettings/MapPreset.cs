@@ -7,20 +7,9 @@ using UnityEngine;
 
 namespace BabboSettings
 {
-    sealed class MapPreset
+    public class MapPreset : Module
     {
-        #region Singleton
-        private static readonly Lazy<MapPreset> _Instance = new Lazy<MapPreset>(() => new MapPreset());
-
-        private MapPreset() { }
-
-        public static MapPreset Instance {
-            get => _Instance.Value;
-        }
-        #endregion
-
         private Preset map_preset;
-        private GameEffects effects { get => GameEffects.Instance; }
 
         public void GetMapEffects() {
             bool map_preset_enabled = false;
@@ -31,22 +20,22 @@ namespace BabboSettings
             Logger.Debug("Saving to " + map_preset.name);
             try {
                 if (map_preset == null) throw new Exception("preset is null");
-                if (effects.post_layer == null) throw new Exception("Post_layer is null");
-                if (effects.post_volume == null) throw new Exception("Post_volume is null");
+                if (gameEffects.post_layer == null) throw new Exception("Post_layer is null");
+                if (gameEffects.post_volume == null) throw new Exception("Post_volume is null");
                 if (Camera.main == null) throw new Exception("maincamera is null");
 
-                map_preset.AO = DeepClone(effects.AO);
-                map_preset.EXPO = DeepClone(effects.EXPO);
-                map_preset.BLOOM = DeepClone(effects.BLOOM);
-                map_preset.CA = DeepClone(effects.CA);
-                map_preset.COLOR = DeepClone(effects.COLOR);
-                map_preset.DOF = DeepClone(effects.DOF);
+                map_preset.AO = DeepClone(gameEffects.AO);
+                map_preset.EXPO = DeepClone(gameEffects.EXPO);
+                map_preset.BLOOM = DeepClone(gameEffects.BLOOM);
+                map_preset.CA = DeepClone(gameEffects.CA);
+                map_preset.COLOR = DeepClone(gameEffects.COLOR);
+                map_preset.DOF = DeepClone(gameEffects.DOF);
                 map_preset.FOCUS_MODE = FocusMode.Custom;
-                map_preset.GRAIN = DeepClone(effects.GRAIN);
-                map_preset.LENS = DeepClone(effects.LENS);
-                map_preset.BLUR = DeepClone(effects.BLUR);
-                map_preset.REFL = DeepClone(effects.REFL);
-                map_preset.VIGN = DeepClone(effects.VIGN);
+                map_preset.GRAIN = DeepClone(gameEffects.GRAIN);
+                map_preset.LENS = DeepClone(gameEffects.LENS);
+                map_preset.BLUR = DeepClone(gameEffects.BLUR);
+                map_preset.REFL = DeepClone(gameEffects.REFL);
+                map_preset.VIGN = DeepClone(gameEffects.VIGN);
 
                 map_preset.Save();
             }
