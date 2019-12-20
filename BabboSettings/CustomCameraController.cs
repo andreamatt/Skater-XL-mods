@@ -37,6 +37,7 @@ namespace BabboSettings
         private Vector3 low_shift = new Vector3(0.6f, -0.2f, -0.9f);
         public Vector3 skate_shift = new Vector3();
         public float old_true_shift_x = 0;
+        public float replay_fov = 60;
         public float normal_fov = 60;
         public float normal_react = 0.90f;
         public float normal_react_rot = 0.90f;
@@ -217,10 +218,10 @@ namespace BabboSettings
         }
 
         public override void FixedUpdate() {
-            if (gameEffects.IsReplayActive()) {
+            if (BabboSettings.IsReplayActive()) {
                 // Normal camera values
-                mainCamera.nearClipPlane = normal_clip;
-                mainCamera.fieldOfView = normal_fov;
+                mainCamera.nearClipPlane = 0.01f;
+                mainCamera.fieldOfView = replay_fov;
             }
             else {
                 switch (cameraMode) {

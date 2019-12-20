@@ -152,6 +152,7 @@ namespace BabboSettings
                 JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(gameEffects.SMAA), Main.settings.SMAA);
 
                 Main.settings.CAMERA = cameraController.cameraMode;
+                Main.settings.REPLAY_FOV = cameraController.replay_fov;
                 Main.settings.NORMAL_FOV = cameraController.normal_fov;
                 Main.settings.NORMAL_REACT = cameraController.normal_react;
                 Main.settings.NORMAL_REACT_ROT = cameraController.normal_react_rot;
@@ -202,6 +203,7 @@ namespace BabboSettings
             // Camera
             {
                 cameraController.cameraMode = Main.settings.CAMERA;
+                cameraController.replay_fov = Main.settings.REPLAY_FOV;
                 cameraController.normal_fov = Main.settings.NORMAL_FOV;
                 cameraController.normal_react = Main.settings.NORMAL_REACT;
                 cameraController.normal_react_rot = Main.settings.NORMAL_REACT_ROT;

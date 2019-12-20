@@ -154,7 +154,7 @@ namespace BabboSettings
             Vector3 player_pos;
             Vector3 skate_pos;
 
-            if (IsReplayActive()) {
+            if (BabboSettings.IsReplayActive()) {
                 if (cameraController.replay_skater == null) {
                     cameraController.GetReplaySkater();
                 }
@@ -171,10 +171,6 @@ namespace BabboSettings
             else if (focus_mode == FocusMode.Skate) {
                 DOF.focusDistance.Override(Vector3.Distance(skate_pos, cameraController.mainCamera.transform.position));
             }
-        }
-
-        public bool IsReplayActive() {
-            return GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
         }
     }
 }

@@ -425,82 +425,88 @@ namespace BabboSettings
                     }
                     else if (selectedTab == SelectedTab.Camera) {
                         // Modes
-                        var inReplay = gameEffects.IsReplayActive();
-                        if (!inReplay) cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
-                        if (inReplay || cameraController.cameraMode == CameraMode.Normal) {
-                            if (inReplay) {
-                                Label("While in replay only normal mode is available");
-                            }
-                            //cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
-                            cameraController.normal_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
+                        var inReplay = BabboSettings.IsReplayActive();
+                        if (inReplay) {
+                            Label("While in replay only normal mode is available");
+                            cameraController.replay_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
                             if (Button("Reset")) {
-                                cameraController.normal_fov = 60;
+                                cameraController.replay_fov = 60;
                             }
-                            Separator();
-                            cameraController.normal_clip = Slider("Near clipping", cameraController.normal_clip, 0.01f, 1);
-                            Separator();
-                            Label("Responsiveness. Suggested: 1, 1");
-                            cameraController.normal_react = Slider("Position", cameraController.normal_react, 0.01f, 1);
-                            cameraController.normal_react_rot = Slider("Rotation", cameraController.normal_react_rot, 0.01f, 1);
                         }
-                        else if (cameraController.cameraMode == CameraMode.Low) {
-                            Label("No controls here");
-                            Label("If you want them, use follow cam");
-                        }
-                        else if (cameraController.cameraMode == CameraMode.Follow) {
-                            cameraController.follow_fov = Slider("Field of View", cameraController.follow_fov, 1, 179);
-                            if (Button("Reset")) {
-                                cameraController.follow_fov = 60;
+                        else {
+                            cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
+                            if (cameraController.cameraMode == CameraMode.Normal) {
+                                //cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
+                                cameraController.normal_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
+                                if (Button("Reset")) {
+                                    cameraController.normal_fov = 60;
+                                }
+                                Separator();
+                                cameraController.normal_clip = Slider("Near clipping", cameraController.normal_clip, 0.01f, 1);
+                                Separator();
+                                Label("Responsiveness. Suggested: 1, 1");
+                                cameraController.normal_react = Slider("Position", cameraController.normal_react, 0.01f, 1);
+                                cameraController.normal_react_rot = Slider("Rotation", cameraController.normal_react_rot, 0.01f, 1);
                             }
-                            Separator();
-                            cameraController.follow_clip = Slider("Near clipping", cameraController.follow_clip, 0.01f, 1);
-                            Separator();
-                            Label("Responsiveness. Suggested: 0.8, 0.6");
-                            cameraController.follow_react = Slider("Position", cameraController.follow_react, 0.01f, 1);
-                            cameraController.follow_react_rot = Slider("Rotation", cameraController.follow_react_rot, 0.01f, 1);
-                            Separator();
-                            Label("Move camera: ");
-                            cameraController.follow_shift.x = Slider("x", cameraController.follow_shift.x, -2, 2);
-                            cameraController.follow_shift.y = Slider("y", cameraController.follow_shift.y, -2, 2);
-                            cameraController.follow_shift.z = Slider("z", cameraController.follow_shift.z, -2, 2);
-                            if (Button("Reset to player")) cameraController.follow_shift = new Vector3();
-                        }
-                        else if (cameraController.cameraMode == CameraMode.POV) {
-                            cameraController.pov_fov = Slider("Field of View", cameraController.pov_fov, 1, 179);
-                            if (Button("Reset")) {
-                                cameraController.pov_fov = 60;
+                            else if (cameraController.cameraMode == CameraMode.Low) {
+                                Label("No controls here");
+                                Label("If you want them, use follow cam");
                             }
-                            Separator();
-                            cameraController.hide_head = Toggle(cameraController.hide_head, "Hide head");
-                            cameraController.pov_clip = Slider("Near clipping", cameraController.pov_clip, 0.01f, 1);
-                            Separator();
-                            Label("Responsiveness. Suggested: 1, 0.1");
-                            cameraController.pov_react = Slider("Position", cameraController.pov_react, 0.01f, 1);
-                            cameraController.pov_react_rot = Slider("Rotation", cameraController.pov_react_rot, 0.01f, 1);
-                            Separator();
-                            Label("Move camera: ");
-                            cameraController.pov_shift.x = Slider("x", cameraController.pov_shift.x, -2, 2);
-                            cameraController.pov_shift.y = Slider("y", cameraController.pov_shift.y, -2, 2);
-                            cameraController.pov_shift.z = Slider("z", cameraController.pov_shift.z, -2, 2);
-                            if (Button("Reset to head")) cameraController.pov_shift = new Vector3();
-                        }
-                        else if (cameraController.cameraMode == CameraMode.Skate) {
-                            cameraController.skate_fov = Slider("Field of View", cameraController.skate_fov, 1, 179);
-                            if (Button("Reset")) {
-                                cameraController.skate_fov = 60;
+                            else if (cameraController.cameraMode == CameraMode.Follow) {
+                                cameraController.follow_fov = Slider("Field of View", cameraController.follow_fov, 1, 179);
+                                if (Button("Reset")) {
+                                    cameraController.follow_fov = 60;
+                                }
+                                Separator();
+                                cameraController.follow_clip = Slider("Near clipping", cameraController.follow_clip, 0.01f, 1);
+                                Separator();
+                                Label("Responsiveness. Suggested: 0.8, 0.6");
+                                cameraController.follow_react = Slider("Position", cameraController.follow_react, 0.01f, 1);
+                                cameraController.follow_react_rot = Slider("Rotation", cameraController.follow_react_rot, 0.01f, 1);
+                                Separator();
+                                Label("Move camera: ");
+                                cameraController.follow_shift.x = Slider("x", cameraController.follow_shift.x, -2, 2);
+                                cameraController.follow_shift.y = Slider("y", cameraController.follow_shift.y, -2, 2);
+                                cameraController.follow_shift.z = Slider("z", cameraController.follow_shift.z, -2, 2);
+                                if (Button("Reset to player")) cameraController.follow_shift = new Vector3();
                             }
-                            Separator();
-                            cameraController.skate_clip = Slider("Near clipping", cameraController.skate_clip, 0.01f, 1);
-                            Separator();
-                            Label("Responsiveness. Suggested: 1, 1");
-                            cameraController.skate_react = Slider("Position", cameraController.skate_react, 0.01f, 1);
-                            cameraController.skate_react_rot = Slider("Rotation", cameraController.skate_react_rot, 0.01f, 1);
-                            Separator();
-                            Label("Move camera: ");
-                            cameraController.skate_shift.x = Slider("x", cameraController.skate_shift.x, -2, 2);
-                            cameraController.skate_shift.y = Slider("y", cameraController.skate_shift.y, -2, 2);
-                            cameraController.skate_shift.z = Slider("z", cameraController.skate_shift.z, -2, 2);
-                            if (Button("Reset to skate")) cameraController.skate_shift = new Vector3();
+                            else if (cameraController.cameraMode == CameraMode.POV) {
+                                cameraController.pov_fov = Slider("Field of View", cameraController.pov_fov, 1, 179);
+                                if (Button("Reset")) {
+                                    cameraController.pov_fov = 60;
+                                }
+                                Separator();
+                                cameraController.hide_head = Toggle(cameraController.hide_head, "Hide head");
+                                cameraController.pov_clip = Slider("Near clipping", cameraController.pov_clip, 0.01f, 1);
+                                Separator();
+                                Label("Responsiveness. Suggested: 1, 0.1");
+                                cameraController.pov_react = Slider("Position", cameraController.pov_react, 0.01f, 1);
+                                cameraController.pov_react_rot = Slider("Rotation", cameraController.pov_react_rot, 0.01f, 1);
+                                Separator();
+                                Label("Move camera: ");
+                                cameraController.pov_shift.x = Slider("x", cameraController.pov_shift.x, -2, 2);
+                                cameraController.pov_shift.y = Slider("y", cameraController.pov_shift.y, -2, 2);
+                                cameraController.pov_shift.z = Slider("z", cameraController.pov_shift.z, -2, 2);
+                                if (Button("Reset to head")) cameraController.pov_shift = new Vector3();
+                            }
+                            else if (cameraController.cameraMode == CameraMode.Skate) {
+                                cameraController.skate_fov = Slider("Field of View", cameraController.skate_fov, 1, 179);
+                                if (Button("Reset")) {
+                                    cameraController.skate_fov = 60;
+                                }
+                                Separator();
+                                cameraController.skate_clip = Slider("Near clipping", cameraController.skate_clip, 0.01f, 1);
+                                Separator();
+                                Label("Responsiveness. Suggested: 1, 1");
+                                cameraController.skate_react = Slider("Position", cameraController.skate_react, 0.01f, 1);
+                                cameraController.skate_react_rot = Slider("Rotation", cameraController.skate_react_rot, 0.01f, 1);
+                                Separator();
+                                Label("Move camera: ");
+                                cameraController.skate_shift.x = Slider("x", cameraController.skate_shift.x, -2, 2);
+                                cameraController.skate_shift.y = Slider("y", cameraController.skate_shift.y, -2, 2);
+                                cameraController.skate_shift.z = Slider("z", cameraController.skate_shift.z, -2, 2);
+                                if (Button("Reset to skate")) cameraController.skate_shift = new Vector3();
+                            }
                         }
                     }
 

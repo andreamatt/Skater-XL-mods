@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GameManagement;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -50,6 +51,9 @@ namespace BabboSettings
 
         public void SetSpawnSwitch() {
             cameraController.spawn_switch = isSwitch();
+        }
+        public static bool IsReplayActive() {
+            return GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
         }
     }
 }

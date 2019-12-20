@@ -33,6 +33,7 @@ namespace BabboSettings
 
         // Camera
         public CameraMode CAMERA = CameraMode.Normal;
+        public float REPLAY_FOV = 60;
         public float NORMAL_FOV = 60;
         public float NORMAL_REACT = 0.90f;
         public float NORMAL_REACT_ROT = 0.90f;
