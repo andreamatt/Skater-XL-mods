@@ -13,6 +13,7 @@ namespace BabboSettings
 
         #region Utilities
         public Camera mainCamera { get; private set; }
+        private bool last_is_replay = false;
         private Vector3 old_pos = new Vector3();
         private Quaternion old_rot = new Quaternion();
         private Transform tra = new GameObject().transform;
@@ -221,9 +222,21 @@ namespace BabboSettings
             if (BabboSettings.IsReplayActive()) {
                 // Normal camera values
                 mainCamera.nearClipPlane = 0.01f;
-                mainCamera.fieldOfView = replay_fov;
+                if (last_is_replay == false) {
+                    mainCamera.fieldOfView = replay_fov;
+                }
+                else {
+                    replay_fov = mainCamera.fieldOfView;
+                }
+                last_is_replay = true;
             }
             else {
+                if (last_is_replay == true) {
+                    // Save the new replay_fov, since it can be modified without opening the mod
+                    // The only other way of saving is when the mod is open
+                    Main.Save();
+                }
+                last_is_replay = false;
                 switch (cameraMode) {
                     case CameraMode.Normal:
                         normal();

@@ -436,8 +436,9 @@ namespace BabboSettings
                         else {
                             cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
                             if (cameraController.cameraMode == CameraMode.Normal) {
-                                //cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
-                                cameraController.normal_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
+                                // No longer needed since the controller stuff happens only while in replay
+                                //cameraController.normal_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
+                                cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
                                 if (Button("Reset")) {
                                     cameraController.normal_fov = 60;
                                 }
