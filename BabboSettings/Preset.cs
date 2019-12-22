@@ -99,7 +99,7 @@ namespace BabboSettings
                 using (var writer = new StreamWriter($"{filepath}{name}.preset.json")) {
                     Serialize();
                     var serializedLine = JsonUtility.ToJson(this, true);
-                    writer.Write(serializedLine);
+                    writer.WriteAsync(serializedLine);
                 }
             }
             catch (Exception e) {

@@ -48,11 +48,11 @@ namespace BabboSettings
             }
 
             if (settings.presetOrder.ToArray().Length == 0) {
-                var def_p = new Preset(default_name);
-                def_p.Save();
-                presets.Add(def_p.name, def_p);
-                if (!settings.presetOrder.Contains(def_p.name)) {
-                    settings.presetOrder.Add(def_p.name);
+                var default_preset = new Preset(default_name);
+                default_preset.Save();
+                presets.Add(default_preset.name, default_preset);
+                if (!settings.presetOrder.Contains(default_preset.name)) {
+                    settings.presetOrder.Add(default_preset.name);
                 }
             }
 
