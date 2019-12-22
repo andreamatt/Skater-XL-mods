@@ -43,6 +43,9 @@ namespace BabboSettings
                     if (!settings.presetOrder.Contains(result.name)) {
                         settings.presetOrder.Add(result.name);
                     }
+                    if (!settings.replay_presetOrder.Contains(result.name)) {
+                        settings.replay_presetOrder.Add(result.name);
+                    }
                     Logger.Log("preset: " + result.name + " loaded");
                 }
                 catch (Exception e) {
@@ -58,12 +61,20 @@ namespace BabboSettings
                 if (!settings.presetOrder.Contains(default_preset.name)) {
                     settings.presetOrder.Add(default_preset.name);
                 }
+                if (!settings.replay_presetOrder.Contains(default_preset.name)) {
+                    settings.replay_presetOrder.Add(default_preset.name);
+                }
             }
 
             // remove presets that were not found
             foreach (var presetName in settings.presetOrder.ToArray()) {
                 if (!presets.ContainsKey(presetName)) {
                     settings.presetOrder.Remove(presetName);
+                }
+            }
+            foreach (var presetName in settings.replay_presetOrder.ToArray()) {
+                if (!presets.ContainsKey(presetName)) {
+                    settings.replay_presetOrder.Remove(presetName);
                 }
             }
 
@@ -90,7 +101,8 @@ namespace BabboSettings
         }
 
         static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
-            Save();
+            // disabled because there might be missing objects (postProcessVolume, ...) (basically it's too late to save)
+            //Save();
         }
 
         public static void Save() {

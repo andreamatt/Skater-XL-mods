@@ -14,6 +14,7 @@ namespace BabboSettings
     {
         public string name = "no_name";
         public bool enabled = true;
+        public bool replay_enabled = true;
         public string[] serialized_effects = new string[11];
 
         public FocusMode FOCUS_MODE = FocusMode.Custom;

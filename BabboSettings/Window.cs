@@ -146,6 +146,7 @@ namespace BabboSettings
                             Preset new_preset = new Preset(name_text);
                             Main.presets[new_preset.name] = new_preset;
                             Main.settings.presetOrder.Insert(0, new_preset.name);
+                            Main.settings.replay_presetOrder.Insert(0, new_preset.name);
                         }
                         name_text = "";
                     }
@@ -397,27 +398,61 @@ namespace BabboSettings
                         #endregion
                     }
                     else if (selectedTab == SelectedTab.Effects) {
-                        for (int i = 0; i < Main.settings.presetOrder.Count; i++) {
-                            var preset = Main.presets[Main.settings.presetOrder[i]];
-                            BeginHorizontal();
-                            preset.enabled = Toggle(preset.enabled, preset.name);
-                            GUILayout.FlexibleSpace();
-                            if (preset.enabled && Button("edit")) {
-                                editing_preset = true;
-                                edited_preset = preset;
+                        if (BabboSettings.IsReplayActive()) {
+                            for (int i = 0; i < Main.settings.replay_presetOrder.Count; i++) {
+                                var preset = Main.presets[Main.settings.replay_presetOrder[i]];
+                                BeginHorizontal();
+                                preset.replay_enabled = Toggle(preset.replay_enabled, preset.name);
+                                GUILayout.FlexibleSpace();
+                                if (preset.replay_enabled && Button("edit")) {
+                                    editing_preset = true;
+                                    edited_preset = preset;
+                                }
+                                GUILayout.FlexibleSpace();
+                                if (Button("Λ")) {
+                                    if (i > 0) {
+                                        var tmp = Main.settings.replay_presetOrder[i - 1];
+                                        Main.settings.replay_presetOrder[i - 1] = Main.settings.replay_presetOrder[i];
+                                        Main.settings.replay_presetOrder[i] = tmp;
+                                    }
+                                }
+                                if (Button("V")) {
+                                    if (i < Main.settings.replay_presetOrder.Count - 1) {
+                                        var tmp = Main.settings.replay_presetOrder[i + 1];
+                                        Main.settings.replay_presetOrder[i + 1] = Main.settings.replay_presetOrder[i];
+                                        Main.settings.replay_presetOrder[i] = tmp;
+                                    }
+                                }
+                                EndHorizontal();
                             }
-                            GUILayout.FlexibleSpace();
-                            if (i > 0 && Button("Λ")) {
-                                var tmp = Main.settings.presetOrder[i - 1];
-                                Main.settings.presetOrder[i - 1] = Main.settings.presetOrder[i];
-                                Main.settings.presetOrder[i] = tmp;
+                        }
+                        else {
+                            for (int i = 0; i < Main.settings.presetOrder.Count; i++) {
+                                var preset = Main.presets[Main.settings.presetOrder[i]];
+                                BeginHorizontal();
+                                preset.enabled = Toggle(preset.enabled, preset.name);
+                                GUILayout.FlexibleSpace();
+                                if (preset.enabled && Button("edit")) {
+                                    editing_preset = true;
+                                    edited_preset = preset;
+                                }
+                                GUILayout.FlexibleSpace();
+                                if (Button("Λ")) {
+                                    if (i > 0) {
+                                        var tmp = Main.settings.presetOrder[i - 1];
+                                        Main.settings.presetOrder[i - 1] = Main.settings.presetOrder[i];
+                                        Main.settings.presetOrder[i] = tmp;
+                                    }
+                                }
+                                if (Button("V")) {
+                                    if (i < Main.settings.presetOrder.Count - 1) {
+                                        var tmp = Main.settings.presetOrder[i + 1];
+                                        Main.settings.presetOrder[i + 1] = Main.settings.presetOrder[i];
+                                        Main.settings.presetOrder[i] = tmp;
+                                    }
+                                }
+                                EndHorizontal();
                             }
-                            if (i < Main.settings.presetOrder.Count - 1 && Button("V")) {
-                                var tmp = Main.settings.presetOrder[i + 1];
-                                Main.settings.presetOrder[i + 1] = Main.settings.presetOrder[i];
-                                Main.settings.presetOrder[i] = tmp;
-                            }
-                            EndHorizontal();
                         }
                         if (Button("NEW PRESET")) {
                             choosing_name = true;

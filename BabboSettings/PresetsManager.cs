@@ -24,9 +24,18 @@ namespace BabboSettings
             gameEffects.BLUR.enabled.Override(false);
             gameEffects.REFL.enabled.Override(false);
             gameEffects.VIGN.enabled.Override(false);
-            for (int i = Main.settings.presetOrder.Count - 1; i >= 0; i--) {
-                var preset = Main.presets[Main.settings.presetOrder[i]];
-                if (preset.enabled) ApplyPreset(preset);
+
+            if (BabboSettings.IsReplayActive()) {
+                for (int i = Main.settings.replay_presetOrder.Count - 1; i >= 0; i--) {
+                    var preset = Main.presets[Main.settings.replay_presetOrder[i]];
+                    if (preset.replay_enabled) ApplyPreset(preset);
+                }
+            }
+            else {
+                for (int i = Main.settings.presetOrder.Count - 1; i >= 0; i--) {
+                    var preset = Main.presets[Main.settings.presetOrder[i]];
+                    if (preset.enabled) ApplyPreset(preset);
+                }
             }
         }
 

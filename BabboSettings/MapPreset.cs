@@ -48,6 +48,9 @@ namespace BabboSettings
             if (!Main.settings.presetOrder.Contains(Main.map_name)) {
                 Main.settings.presetOrder.Add(Main.map_name);
             }
+            if (!Main.settings.replay_presetOrder.Contains(Main.map_name)) {
+                Main.settings.replay_presetOrder.Add(Main.map_name);
+            }
         }
 
         private T DeepClone<T>(T obj) where T : ScriptableObject {

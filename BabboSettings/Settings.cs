@@ -18,6 +18,7 @@ namespace BabboSettings
     {
 
         public List<string> presetOrder = new List<string>();
+        public List<string> replay_presetOrder = new List<string>();
         public bool DEBUG = true;
 
         // Basic
