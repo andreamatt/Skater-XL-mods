@@ -172,8 +172,6 @@ namespace BabboSettings
                 Main.settings.SKATE_REACT_ROT = cameraController.skate_react_rot;
                 Main.settings.SKATE_CLIP = cameraController.skate_clip;
                 Main.settings.SKATE_SHIFT = cameraController.skate_shift;
-
-                Main.settings.Save();
             }
             catch (Exception e) {
                 throw new Exception("Failed saving to settings, ex: " + e);

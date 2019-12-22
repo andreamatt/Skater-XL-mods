@@ -45,7 +45,9 @@ namespace BabboSettings
             Logger.Debug("Saved to " + map_preset.name);
 
             Main.presets[map_preset.name] = map_preset;
-            if (!Main.settings.presetOrder.Contains(Main.map_name)) Main.settings.presetOrder.Add(Main.map_name);
+            if (!Main.settings.presetOrder.Contains(Main.map_name)) {
+                Main.settings.presetOrder.Add(Main.map_name);
+            }
         }
 
         private T DeepClone<T>(T obj) where T : ScriptableObject {

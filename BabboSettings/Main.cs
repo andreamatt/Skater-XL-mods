@@ -19,18 +19,21 @@ namespace BabboSettings
         public static string modId = "BabboSettings";
         public static BabboSettings babboSettings;
         public static UnityModManager.ModEntry modEntry;
-        public static Dictionary<string, Preset> presets = new Dictionary<string, Preset>();
+        public static Dictionary<string, Preset> presets;
         public static string map_name = "Map";
         public static string default_name = "Default";
 
         static bool Load(UnityModManager.ModEntry modEntry) {
+            Logger.Debug("Loading");
+
             Main.modEntry = modEntry;
             settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
             babboSettings = ModMenu.Instance.gameObject.AddComponent<BabboSettings>();
             modEntry.OnSaveGUI = OnSaveGUI;
             modEntry.OnToggle = OnToggle;
 
-            // load presets
+            // load presets from files
+            presets = new Dictionary<string, Preset>();
             string[] filePaths = Directory.GetFiles(modEntry.Path, "*.preset.json");
             foreach (var filePath in filePaths) {
                 try {
@@ -47,7 +50,8 @@ namespace BabboSettings
                 }
             }
 
-            if (settings.presetOrder.ToArray().Length == 0) {
+            // if there are no presets, add the default one
+            if (presets.Count == 0) {
                 var default_preset = new Preset(default_name);
                 default_preset.Save();
                 presets.Add(default_preset.name, default_preset);
@@ -56,12 +60,14 @@ namespace BabboSettings
                 }
             }
 
+            // remove presets that were not found
             foreach (var presetName in settings.presetOrder.ToArray()) {
                 if (!presets.ContainsKey(presetName)) {
                     settings.presetOrder.Remove(presetName);
                 }
             }
-            // apply them?
+
+            Logger.Debug("Loaded");
             return true;
         }
 
@@ -90,13 +96,15 @@ namespace BabboSettings
             if (canSave) {
                 try {
                     babboSettings.presetsManager.SaveToSettings();
+                    settings.Save();
+
                     foreach (var preset in presets.Values) {
                         preset.Save();
                     }
                     Logger.Debug("Done saving in main");
                 }
                 catch (Exception ex) {
-                    Logger.Log("Failed saving in main, probably closed game with mod open: " + ex.Message);
+                    Logger.Log("Failed saving in main, probably closed game with mod open: " + ex);
                 }
             }
             else {

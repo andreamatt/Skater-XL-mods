@@ -93,18 +93,20 @@ namespace BabboSettings
             JsonUtility.FromJsonOverwrite(serialized_effects[10], VIGN);
         }
 
-        public void Save() {
-            var filepath = Main.modEntry.Path;
-            try {
-                using (var writer = new StreamWriter($"{filepath}{name}.preset.json")) {
-                    Serialize();
-                    var serializedLine = JsonUtility.ToJson(this, true);
-                    writer.WriteAsync(serializedLine);
+        public Task Save() {
+            return Task.Run(() => {
+                var filepath = Main.modEntry.Path;
+                try {
+                    using (var writer = new StreamWriter($"{filepath}{name}.preset.json")) {
+                        Serialize();
+                        var serializedLine = JsonUtility.ToJson(this, true);
+                        writer.Write(serializedLine);
+                    }
                 }
-            }
-            catch (Exception e) {
-                Logger.Log($"Can't save {filepath}{name} preset. ex: {e.Message}");
-            }
+                catch (Exception e) {
+                    Logger.Log($"Can't save {filepath}{name} preset. ex: {e}");
+                }
+            });
         }
 
         static public Preset Load(string json) {
