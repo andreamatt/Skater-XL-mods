@@ -90,6 +90,7 @@ namespace BabboSettings
         }
 
         static void OnSaveGUI(UnityModManager.ModEntry modEntry) {
+            Save();
         }
 
         public static void Save() {

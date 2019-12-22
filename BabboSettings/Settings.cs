@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityModManagerNet;
@@ -59,11 +61,27 @@ namespace BabboSettings
         }
 
         public override void Save(UnityModManager.ModEntry modEntry) {
-            Save(this, modEntry);
+            Save();
         }
 
-        public void Save() {
-            Save(this, Main.modEntry);
+        public Task Save() {
+            return Task.Run(() => {
+                var filepath = Main.modEntry.Path;
+                try {
+                    using (var writer = new StreamWriter($"{filepath}Settings.xml")) {
+                        // serialized to string, then write (using sync, but in Task)
+                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
+                        using (StringWriter textWriter = new StringWriter()) {
+                            xmlSerializer.Serialize(textWriter, this);
+                            var serialized = textWriter.ToString();
+                            writer.Write(serialized);
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    Logger.Log($"Can't save {filepath}Settings.xml. ex: {e}");
+                }
+            });
         }
     }
 }
