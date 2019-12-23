@@ -31,6 +31,7 @@ namespace BabboSettings
         private GUIStyle sliderStyle;
         private GUIStyle thumbStyle;
         private GUIStyle labelStyle;
+        private GUIStyle labelStyleRed;
         private GUIStyle toggleStyle;
         private readonly Color windowColor = new Color(0.2f, 0.2f, 0.2f);
         private string separator;
@@ -95,6 +96,12 @@ namespace BabboSettings
             labelStyle = new GUIStyle(GUI.skin.label) {
             };
 
+            labelStyleRed = new GUIStyle(GUI.skin.label) {
+                normal = {
+                    textColor = Color.red
+                }
+            };
+
             toggleStyle = new GUIStyle(GUI.skin.toggle) {
             };
         }
@@ -157,6 +164,13 @@ namespace BabboSettings
                     EndHorizontal();
                 }
                 else if (editing_preset) {
+                    Separator();
+                    #region FOV override
+                    edited_preset.OVERRIDE_FOV = Toggle(edited_preset.OVERRIDE_FOV, "Override camera FOV (overrides the camera FOV slider)");
+                    if (edited_preset.OVERRIDE_FOV) {
+                        edited_preset.OVERRIDE_FOV_VALUE = Slider("FOV", edited_preset.OVERRIDE_FOV_VALUE, 1, 179);
+                    }
+                    #endregion
                     Separator();
                     #region Ambient Occlusion
                     BeginHorizontal();
@@ -462,20 +476,28 @@ namespace BabboSettings
                         // Modes
                         var inReplay = BabboSettings.IsReplayActive();
                         if (inReplay) {
-                            Label("While in replay only normal mode is available");
-                            cameraController.replay_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
-                            if (Button("Reset")) {
-                                cameraController.replay_fov = 60;
+                            if (cameraController.override_fov) {
+                                Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
+                            }
+                            else {
+                                Label("While in replay only normal mode is available");
+                                cameraController.replay_fov = Slider("Field of View", cameraController.replay_fov, 1, 179);
+                                if (Button("Reset")) {
+                                    cameraController.replay_fov = 60;
+                                }
                             }
                         }
                         else {
                             cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
                             if (cameraController.cameraMode == CameraMode.Normal) {
-                                // No longer needed since the controller stuff happens only while in replay
-                                //cameraController.normal_fov = cameraController.mainCamera.fieldOfView = Slider("Field of View", cameraController.mainCamera.fieldOfView, 1, 179);
-                                cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
-                                if (Button("Reset")) {
-                                    cameraController.normal_fov = 60;
+                                if (cameraController.override_fov) {
+                                    Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
+                                }
+                                else {
+                                    cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
+                                    if (Button("Reset")) {
+                                        cameraController.normal_fov = 60;
+                                    }
                                 }
                                 Separator();
                                 cameraController.normal_clip = Slider("Near clipping", cameraController.normal_clip, 0.01f, 1);
@@ -489,9 +511,14 @@ namespace BabboSettings
                                 Label("If you want them, use follow cam");
                             }
                             else if (cameraController.cameraMode == CameraMode.Follow) {
-                                cameraController.follow_fov = Slider("Field of View", cameraController.follow_fov, 1, 179);
-                                if (Button("Reset")) {
-                                    cameraController.follow_fov = 60;
+                                if (cameraController.override_fov) {
+                                    Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
+                                }
+                                else {
+                                    cameraController.follow_fov = Slider("Field of View", cameraController.follow_fov, 1, 179);
+                                    if (Button("Reset")) {
+                                        cameraController.follow_fov = 60;
+                                    }
                                 }
                                 Separator();
                                 cameraController.follow_clip = Slider("Near clipping", cameraController.follow_clip, 0.01f, 1);
@@ -507,9 +534,14 @@ namespace BabboSettings
                                 if (Button("Reset to player")) cameraController.follow_shift = new Vector3();
                             }
                             else if (cameraController.cameraMode == CameraMode.POV) {
-                                cameraController.pov_fov = Slider("Field of View", cameraController.pov_fov, 1, 179);
-                                if (Button("Reset")) {
-                                    cameraController.pov_fov = 60;
+                                if (cameraController.override_fov) {
+                                    Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
+                                }
+                                else {
+                                    cameraController.pov_fov = Slider("Field of View", cameraController.pov_fov, 1, 179);
+                                    if (Button("Reset")) {
+                                        cameraController.pov_fov = 60;
+                                    }
                                 }
                                 Separator();
                                 cameraController.hide_head = Toggle(cameraController.hide_head, "Hide head");
@@ -526,9 +558,14 @@ namespace BabboSettings
                                 if (Button("Reset to head")) cameraController.pov_shift = new Vector3();
                             }
                             else if (cameraController.cameraMode == CameraMode.Skate) {
-                                cameraController.skate_fov = Slider("Field of View", cameraController.skate_fov, 1, 179);
-                                if (Button("Reset")) {
-                                    cameraController.skate_fov = 60;
+                                if (cameraController.override_fov) {
+                                    Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
+                                }
+                                else {
+                                    cameraController.skate_fov = Slider("Field of View", cameraController.skate_fov, 1, 179);
+                                    if (Button("Reset")) {
+                                        cameraController.skate_fov = 60;
+                                    }
                                 }
                                 Separator();
                                 cameraController.skate_clip = Slider("Near clipping", cameraController.skate_clip, 0.01f, 1);

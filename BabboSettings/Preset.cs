@@ -19,6 +19,10 @@ namespace BabboSettings
 
         public FocusMode FOCUS_MODE = FocusMode.Custom;
 
+        // FOV override (especially for lens distortion / fisheye presets)
+        public bool OVERRIDE_FOV = false;
+        public float OVERRIDE_FOV_VALUE = 90f;
+
         // Effects
         [NonSerialized]
         public AmbientOcclusion AO = ScriptableObject.CreateInstance<AmbientOcclusion>();

@@ -27,7 +27,7 @@ namespace BabboSettings
             Logger.Debug("Loading");
 
             Main.modEntry = modEntry;
-            settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
+            settings = Settings.Load();
             babboSettings = ModMenu.Instance.gameObject.AddComponent<BabboSettings>();
             modEntry.OnSaveGUI = OnSaveGUI;
             modEntry.OnToggle = OnToggle;

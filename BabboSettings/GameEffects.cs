@@ -119,7 +119,7 @@ namespace BabboSettings
             // After applying, can now save
             Main.canSave = true;
 
-            cameraController.GetHeadMaterials();
+            //cameraController.GetHeadMaterials();
             //DayNightController.Instance.GetLights();
 
             Logger.Debug("Done getEffects");

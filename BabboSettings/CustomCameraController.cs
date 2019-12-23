@@ -40,6 +40,8 @@ namespace BabboSettings
         public float old_true_shift_x = 0;
         public float replay_fov = 60;
         public float normal_fov = 60;
+        public bool override_fov = false;
+        public float override_fov_value = 90f;
         public float normal_react = 0.90f;
         public float normal_react_rot = 0.90f;
         public float normal_clip = 0.01f;
@@ -63,7 +65,7 @@ namespace BabboSettings
 
         private void low() {
             mainCamera.nearClipPlane = 0.01f;
-            mainCamera.fieldOfView = 65;
+            mainCamera.fieldOfView = override_fov ? override_fov_value : 65;
             var pos = PlayerController.Instance.skaterController.skaterTransform.position;
             pos.y = (pos.y + PlayerController.Instance.boardController.boardTransform.position.y) / 2;
             if (tra == null) {
@@ -92,7 +94,7 @@ namespace BabboSettings
 
         private void follow() {
             mainCamera.nearClipPlane = follow_clip;
-            mainCamera.fieldOfView = follow_fov;
+            mainCamera.fieldOfView = override_fov ? override_fov_value : follow_fov;
             var pos = PlayerController.Instance.skaterController.skaterTransform.position;
             pos.y = (pos.y + PlayerController.Instance.boardController.boardTransform.position.y) / 2;
             if (tra == null) {
@@ -121,7 +123,7 @@ namespace BabboSettings
 
         private void pov() {
             mainCamera.nearClipPlane = pov_clip;
-            mainCamera.fieldOfView = pov_fov;
+            mainCamera.fieldOfView = override_fov ? override_fov_value : pov_fov;
             actualCam.position = headIK.head.position;
             actualCam.rotation = headIK.head.rotation * Quaternion.Euler(pov_rot_shift);
             actualCam.position = actualCam.TransformPoint(pov_shift);
@@ -131,7 +133,7 @@ namespace BabboSettings
 
         private void skate_pov() {
             mainCamera.nearClipPlane = skate_clip;
-            mainCamera.fieldOfView = skate_fov;
+            mainCamera.fieldOfView = override_fov ? override_fov_value : skate_fov;
             actualCam.position = PlayerController.Instance.boardController.boardTransform.position;
             actualCam.rotation = PlayerController.Instance.boardController.boardTransform.rotation;
             actualCam.position = actualCam.TransformPoint(skate_shift);
@@ -141,7 +143,7 @@ namespace BabboSettings
 
         private void normal() {
             mainCamera.nearClipPlane = normal_clip;
-            mainCamera.fieldOfView = normal_fov;
+            mainCamera.fieldOfView = override_fov ? override_fov_value : normal_fov;
             old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, normal_react);
             old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, normal_react_rot);
         }
@@ -222,12 +224,7 @@ namespace BabboSettings
             if (BabboSettings.IsReplayActive()) {
                 // Normal camera values
                 mainCamera.nearClipPlane = 0.01f;
-                if (last_is_replay == false) {
-                    mainCamera.fieldOfView = replay_fov;
-                }
-                else {
-                    replay_fov = mainCamera.fieldOfView;
-                }
+                mainCamera.fieldOfView = override_fov ? override_fov_value : replay_fov;
                 last_is_replay = true;
             }
             else {

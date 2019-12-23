@@ -70,19 +70,29 @@ namespace BabboSettings
                 var filepath = Main.modEntry.Path;
                 try {
                     using (var writer = new StreamWriter($"{filepath}Settings.xml")) {
-                        // serialized to string, then write (using sync, but in Task)
                         XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
-                        using (StringWriter textWriter = new StringWriter()) {
-                            xmlSerializer.Serialize(textWriter, this);
-                            var serialized = textWriter.ToString();
-                            writer.Write(serialized);
-                        }
+                        xmlSerializer.Serialize(writer, this);
                     }
                 }
                 catch (Exception e) {
                     Logger.Log($"Can't save {filepath}Settings.xml. ex: {e}");
                 }
             });
+        }
+
+        public static Settings Load() {
+            var filepath = Main.modEntry.Path;
+            Settings settings = null;
+            try {
+                using (var reader = new StreamReader($"{filepath}Settings.xml")) {
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
+                    settings = (Settings)xmlSerializer.Deserialize(reader);
+                }
+            }
+            catch (Exception e) {
+                Logger.Log($"Can't read {filepath}Settings.xml. ex: {e}");
+            }
+            return settings;
         }
     }
 }

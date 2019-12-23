@@ -25,6 +25,9 @@ namespace BabboSettings
             gameEffects.REFL.enabled.Override(false);
             gameEffects.VIGN.enabled.Override(false);
 
+            // disable FOV override
+            cameraController.override_fov = false;
+
             if (BabboSettings.IsReplayActive()) {
                 for (int i = Main.settings.replay_presetOrder.Count - 1; i >= 0; i--) {
                     var preset = Main.presets[Main.settings.replay_presetOrder[i]];
@@ -40,6 +43,11 @@ namespace BabboSettings
         }
 
         private void ApplyPreset(Preset preset) {
+            // FOV Override
+            if (preset.OVERRIDE_FOV) {
+                cameraController.override_fov = true;
+                cameraController.override_fov_value = preset.OVERRIDE_FOV_VALUE;
+            }
 
             // Ambient Occlusion
             if (preset.AO.enabled.value) {
