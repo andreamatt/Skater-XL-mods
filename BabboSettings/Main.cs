@@ -32,6 +32,12 @@ namespace BabboSettings
             modEntry.OnSaveGUI = OnSaveGUI;
             modEntry.OnToggle = OnToggle;
 
+            // if the replay_presetOrder is empty and the other is not, it means it's moving to the new version
+            // therefore, copy presetOrder to replay_presetOrder
+            if (settings.presetOrder.Count > 0 && settings.replay_presetOrder.Count == 0) {
+                settings.replay_presetOrder.AddRange(settings.presetOrder);
+            }
+
             // load presets from files
             presets = new Dictionary<string, Preset>();
             string[] filePaths = Directory.GetFiles(modEntry.Path, "*.preset.json");
