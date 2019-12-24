@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using XLShredLib;
@@ -32,6 +33,7 @@ namespace BabboSettings
         private GUIStyle thumbStyle;
         private GUIStyle labelStyle;
         private GUIStyle labelStyleRed;
+        private GUIStyle labelStyleMinMax;
         private GUIStyle toggleStyle;
         private readonly Color windowColor = new Color(0.2f, 0.2f, 0.2f);
         private string separator;
@@ -48,6 +50,7 @@ namespace BabboSettings
         private Preset edited_preset;
         private string name_text = "";
         private SelectedTab selectedTab = SelectedTab.Basic;
+        private Dictionary<string, string> sliderTextValues = new Dictionary<string, string>();
         #endregion
 
         public override void Update() {
@@ -80,7 +83,7 @@ namespace BabboSettings
             };
 
             sliderStyle = new GUIStyle(GUI.skin.horizontalSlider) {
-                fixedWidth = 200
+                fixedWidth = 150
             };
 
             thumbStyle = new GUIStyle(GUI.skin.horizontalSliderThumb) {
@@ -100,6 +103,13 @@ namespace BabboSettings
                 normal = {
                     textColor = Color.red
                 }
+            };
+
+            labelStyleMinMax = new GUIStyle(GUI.skin.label) {
+                normal = {
+                    textColor = Color.green
+                },
+                fixedWidth = 30
             };
 
             toggleStyle = new GUIStyle(GUI.skin.toggle) {
@@ -135,6 +145,8 @@ namespace BabboSettings
 
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
+            var inReplay = BabboSettings.IsReplayActive();
+
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
             {
                 //cameraController.pov_rot_shift.x = Slider("X", cameraController.pov_rot_shift.x, -180, 180); ???
@@ -168,7 +180,7 @@ namespace BabboSettings
                     #region FOV override
                     edited_preset.OVERRIDE_FOV = Toggle(edited_preset.OVERRIDE_FOV, "Override camera FOV (overrides the camera FOV slider)");
                     if (edited_preset.OVERRIDE_FOV) {
-                        edited_preset.OVERRIDE_FOV_VALUE = Slider("FOV", edited_preset.OVERRIDE_FOV_VALUE, 1, 179);
+                        edited_preset.OVERRIDE_FOV_VALUE = Slider("FOV", "FOV_OVERRIDE", edited_preset.OVERRIDE_FOV_VALUE, 1, 179);
                     }
                     #endregion
                     Separator();
@@ -178,7 +190,7 @@ namespace BabboSettings
                     if (edited_preset.AO.enabled.value) sp_AO = Spoiler(sp_AO ? "hide" : "show") ? !sp_AO : sp_AO;
                     EndHorizontal();
                     if (edited_preset.AO.enabled.value && sp_AO) {
-                        edited_preset.AO.intensity.Override(Slider("Intensity", edited_preset.AO.intensity.value, 0, 4));
+                        edited_preset.AO.intensity.Override(Slider("Intensity", "AO_intensity", edited_preset.AO.intensity.value, 0, 4));
                         edited_preset.AO.quality.Override((AmbientOcclusionQuality)GUILayout.SelectionGrid((int)edited_preset.AO.quality.value, ao_quality, ao_quality.Length));
                         edited_preset.AO.mode.Override((AmbientOcclusionMode)GUILayout.SelectionGrid((int)edited_preset.AO.mode.value, ao_mode, ao_mode.Length));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.AO);
@@ -191,7 +203,7 @@ namespace BabboSettings
                     if (edited_preset.EXPO.enabled.value) sp_EXPO = Spoiler(sp_EXPO ? "hide" : "show") ? !sp_EXPO : sp_EXPO;
                     EndHorizontal();
                     if (edited_preset.EXPO.enabled.value && sp_EXPO) {
-                        edited_preset.EXPO.keyValue.Override(Slider("Compensation", edited_preset.EXPO.keyValue.value, 0, 4));
+                        edited_preset.EXPO.keyValue.Override(Slider("Compensation", "EXPO_compensation", edited_preset.EXPO.keyValue.value, 0, 4));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.EXPO);
                     }
                     #endregion
@@ -202,9 +214,9 @@ namespace BabboSettings
                     if (edited_preset.BLOOM.enabled.value) sp_BLOOM = Spoiler(sp_BLOOM ? "hide" : "show") ? !sp_BLOOM : sp_BLOOM;
                     EndHorizontal();
                     if (edited_preset.BLOOM.enabled.value && sp_BLOOM) {
-                        edited_preset.BLOOM.intensity.Override(Slider("Intensity", edited_preset.BLOOM.intensity.value, 0, 4));
-                        edited_preset.BLOOM.threshold.Override(Slider("Threshold", edited_preset.BLOOM.threshold.value, 0, 4));
-                        edited_preset.BLOOM.diffusion.Override(Slider("Diffusion", edited_preset.BLOOM.diffusion.value, 1, 10));
+                        edited_preset.BLOOM.intensity.Override(Slider("Intensity", "BLOOM_intensity", edited_preset.BLOOM.intensity.value, 0, 4));
+                        edited_preset.BLOOM.threshold.Override(Slider("Threshold", "BLOOM_threshold", edited_preset.BLOOM.threshold.value, 0, 4));
+                        edited_preset.BLOOM.diffusion.Override(Slider("Diffusion", "BLOOM_diffusion", edited_preset.BLOOM.diffusion.value, 1, 10));
                         edited_preset.BLOOM.fastMode.Override(Toggle(edited_preset.BLOOM.fastMode.value, "Fast mode"));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.BLOOM);
                     }
@@ -216,7 +228,7 @@ namespace BabboSettings
                     if (edited_preset.CA.enabled.value) sp_CA = Spoiler(sp_CA ? "hide" : "show") ? !sp_CA : sp_CA;
                     EndHorizontal();
                     if (edited_preset.CA.enabled.value && sp_CA) {
-                        edited_preset.CA.intensity.Override(Slider("Intensity", edited_preset.CA.intensity.value, 0, 1));
+                        edited_preset.CA.intensity.Override(Slider("Intensity", "CA_intensity", edited_preset.CA.intensity.value, 0, 1));
                         edited_preset.CA.fastMode.Override(Toggle(edited_preset.CA.fastMode.value, "Fast mode"));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.CA);
                     }
@@ -232,12 +244,12 @@ namespace BabboSettings
                         Label("Tonemapper: ");
                         edited_preset.COLOR.tonemapper.Override((Tonemapper)GUILayout.SelectionGrid((int)edited_preset.COLOR.tonemapper.value, tonemappers, tonemappers.Length));
                         EndHorizontal();
-                        edited_preset.COLOR.temperature.Override(Slider("Temperature", edited_preset.COLOR.temperature.value, -100, 100));
-                        edited_preset.COLOR.tint.Override(Slider("Tint", edited_preset.COLOR.tint.value, -100, 100));
-                        edited_preset.COLOR.postExposure.Override(Slider("Post-exposure", edited_preset.COLOR.postExposure.value, 0, 5));
-                        edited_preset.COLOR.hueShift.Override(Slider("Hue shift", edited_preset.COLOR.hueShift.value, -180, 180));
-                        edited_preset.COLOR.saturation.Override(Slider("Saturation", edited_preset.COLOR.saturation.value, -100, 100));
-                        edited_preset.COLOR.contrast.Override(Slider("Contrast", edited_preset.COLOR.contrast.value, -100, 100));
+                        edited_preset.COLOR.temperature.Override(Slider("Temperature", "COLOR_temperature", edited_preset.COLOR.temperature.value, -100, 100));
+                        edited_preset.COLOR.tint.Override(Slider("Tint", "COLOR_tint", edited_preset.COLOR.tint.value, -100, 100));
+                        edited_preset.COLOR.postExposure.Override(Slider("Post-exposure", "COLOR_post-exposure", edited_preset.COLOR.postExposure.value, 0, 5));
+                        edited_preset.COLOR.hueShift.Override(Slider("Hue shift", "COLOR_hue shift", edited_preset.COLOR.hueShift.value, -180, 180));
+                        edited_preset.COLOR.saturation.Override(Slider("Saturation", "COLOR_saturation", edited_preset.COLOR.saturation.value, -100, 100));
+                        edited_preset.COLOR.contrast.Override(Slider("Contrast", "COLOR_contrast", edited_preset.COLOR.contrast.value, -100, 100));
 
                         Label(" ");
                         BeginHorizontal();
@@ -246,22 +258,22 @@ namespace BabboSettings
                         EndHorizontal();
                         if (sp_COLOR_ADV) {
                             Label("Lift");
-                            edited_preset.COLOR.lift.value.x = Slider("r", edited_preset.COLOR.lift.value.x, -2, 2);
-                            edited_preset.COLOR.lift.value.y = Slider("g", edited_preset.COLOR.lift.value.y, -2, 2);
-                            edited_preset.COLOR.lift.value.z = Slider("b", edited_preset.COLOR.lift.value.z, -2, 2);
-                            edited_preset.COLOR.lift.value.w = Slider("w", edited_preset.COLOR.lift.value.w, -2, 2);
+                            edited_preset.COLOR.lift.value.x = Slider("r", "COLOR_ADV_LIFT_x", edited_preset.COLOR.lift.value.x, -2, 2);
+                            edited_preset.COLOR.lift.value.y = Slider("g", "COLOR_ADV_LIFT_y", edited_preset.COLOR.lift.value.y, -2, 2);
+                            edited_preset.COLOR.lift.value.z = Slider("b", "COLOR_ADV_LIFT_z", edited_preset.COLOR.lift.value.z, -2, 2);
+                            edited_preset.COLOR.lift.value.w = Slider("w", "COLOR_ADV_LIFT_w", edited_preset.COLOR.lift.value.w, -2, 2);
 
                             Label("Gamma");
-                            edited_preset.COLOR.gamma.value.x = Slider("r", edited_preset.COLOR.gamma.value.x, -2, 2);
-                            edited_preset.COLOR.gamma.value.y = Slider("g", edited_preset.COLOR.gamma.value.y, -2, 2);
-                            edited_preset.COLOR.gamma.value.z = Slider("b", edited_preset.COLOR.gamma.value.z, -2, 2);
-                            edited_preset.COLOR.gamma.value.w = Slider("w", edited_preset.COLOR.gamma.value.w, -2, 2);
+                            edited_preset.COLOR.gamma.value.x = Slider("r", "COLOR_ADV_GAMMA_x", edited_preset.COLOR.gamma.value.x, -2, 2);
+                            edited_preset.COLOR.gamma.value.y = Slider("g", "COLOR_ADV_GAMMA_y", edited_preset.COLOR.gamma.value.y, -2, 2);
+                            edited_preset.COLOR.gamma.value.z = Slider("b", "COLOR_ADV_GAMMA_z", edited_preset.COLOR.gamma.value.z, -2, 2);
+                            edited_preset.COLOR.gamma.value.w = Slider("w", "COLOR_ADV_GAMMA_w", edited_preset.COLOR.gamma.value.w, -2, 2);
 
                             Label("Gain");
-                            edited_preset.COLOR.gain.value.x = Slider("r", edited_preset.COLOR.gain.value.x, -2, 2);
-                            edited_preset.COLOR.gain.value.y = Slider("g", edited_preset.COLOR.gain.value.y, -2, 2);
-                            edited_preset.COLOR.gain.value.z = Slider("b", edited_preset.COLOR.gain.value.z, -2, 2);
-                            edited_preset.COLOR.gain.value.w = Slider("w", edited_preset.COLOR.gain.value.w, -2, 2);
+                            edited_preset.COLOR.gain.value.x = Slider("r", "COLOR_ADV_GAIN_x", edited_preset.COLOR.gain.value.x, -2, 2);
+                            edited_preset.COLOR.gain.value.y = Slider("g", "COLOR_ADV_GAIN_y", edited_preset.COLOR.gain.value.y, -2, 2);
+                            edited_preset.COLOR.gain.value.z = Slider("b", "COLOR_ADV_GAIN_z", edited_preset.COLOR.gain.value.z, -2, 2);
+                            edited_preset.COLOR.gain.value.w = Slider("w", "COLOR_ADV_GAIN_w", edited_preset.COLOR.gain.value.w, -2, 2);
                         }
                         Label(" ");
 
@@ -277,13 +289,13 @@ namespace BabboSettings
                     if (edited_preset.DOF.enabled.value && sp_DOF) {
                         edited_preset.FOCUS_MODE = (FocusMode)GUILayout.SelectionGrid((int)edited_preset.FOCUS_MODE, focus_modes, focus_modes.Length);
                         if (edited_preset.FOCUS_MODE == FocusMode.Custom) {
-                            edited_preset.DOF.focusDistance.Override(Slider("Focus distance", edited_preset.DOF.focusDistance.value, 0, 20));
+                            edited_preset.DOF.focusDistance.Override(Slider("Focus distance", "DOF_focus", edited_preset.DOF.focusDistance.value, 0, 20));
                         }
                         else {
                             Label("focus distance: " + gameEffects.DOF.focusDistance.value.ToString("0.00"));
                         }
-                        edited_preset.DOF.aperture.Override(Slider("Aperture (f-stop)", edited_preset.DOF.aperture.value, 0.1f, 32));
-                        edited_preset.DOF.focalLength.Override(Slider("Focal length (mm)", edited_preset.DOF.focalLength.value, 1, 300));
+                        edited_preset.DOF.aperture.Override(Slider("Aperture (f-stop)", "DOF_aperture", edited_preset.DOF.aperture.value, 0.1f, 32));
+                        edited_preset.DOF.focalLength.Override(Slider("Focal length (mm)", "DOF_focal", edited_preset.DOF.focalLength.value, 1, 300));
                         BeginHorizontal();
                         Label("Max blur size: ");
                         edited_preset.DOF.kernelSize.Override((KernelSize)GUILayout.SelectionGrid((int)edited_preset.DOF.kernelSize.value, max_blur, max_blur.Length));
@@ -302,9 +314,9 @@ namespace BabboSettings
                     EndHorizontal();
                     if (edited_preset.GRAIN.enabled.value && sp_GRAIN) {
                         edited_preset.GRAIN.colored.Override(Toggle(edited_preset.GRAIN.colored.value, "colored"));
-                        edited_preset.GRAIN.intensity.Override(Slider("Intensity", edited_preset.GRAIN.intensity.value, 0, 1));
-                        edited_preset.GRAIN.size.Override(Slider("Size", edited_preset.GRAIN.size.value, 0.3f, 3));
-                        edited_preset.GRAIN.lumContrib.Override(Slider("Luminance contribution", edited_preset.GRAIN.lumContrib.value, 0, 1));
+                        edited_preset.GRAIN.intensity.Override(Slider("Intensity", "GRAIN_intensity", edited_preset.GRAIN.intensity.value, 0, 1));
+                        edited_preset.GRAIN.size.Override(Slider("Size", "GRAIN_size", edited_preset.GRAIN.size.value, 0.3f, 3));
+                        edited_preset.GRAIN.lumContrib.Override(Slider("Luminance contribution", "GRAIN_luminance", edited_preset.GRAIN.lumContrib.value, 0, 1));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.GRAIN);
                     }
                     #endregion
@@ -315,10 +327,10 @@ namespace BabboSettings
                     if (edited_preset.LENS.enabled.value) sp_LENS = Spoiler(sp_LENS ? "hide" : "show") ? !sp_LENS : sp_LENS;
                     EndHorizontal();
                     if (edited_preset.LENS.enabled.value && sp_LENS) {
-                        edited_preset.LENS.intensity.Override(Slider("Intensity", edited_preset.LENS.intensity.value, -100, 100));
-                        edited_preset.LENS.intensityX.Override(Slider("X", edited_preset.LENS.intensityX.value, 0, 1));
-                        edited_preset.LENS.intensityY.Override(Slider("Y", edited_preset.LENS.intensityY.value, 0, 1));
-                        edited_preset.LENS.scale.Override(Slider("Scale", edited_preset.LENS.scale.value, 0.1f, 5));
+                        edited_preset.LENS.intensity.Override(Slider("Intensity", "LENS_intensity", edited_preset.LENS.intensity.value, -100, 100));
+                        edited_preset.LENS.intensityX.Override(Slider("X", "LENS_X", edited_preset.LENS.intensityX.value, 0, 1));
+                        edited_preset.LENS.intensityY.Override(Slider("Y", "LENS_Y", edited_preset.LENS.intensityY.value, 0, 1));
+                        edited_preset.LENS.scale.Override(Slider("Scale", "LENS_scale", edited_preset.LENS.scale.value, 0.1f, 5));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.LENS);
                     }
                     #endregion
@@ -329,8 +341,8 @@ namespace BabboSettings
                     if (edited_preset.BLUR.enabled.value) sp_BLUR = Spoiler(sp_BLUR ? "hide" : "show") ? !sp_BLUR : sp_BLUR;
                     EndHorizontal();
                     if (edited_preset.BLUR.enabled.value && sp_BLUR) {
-                        edited_preset.BLUR.shutterAngle.Override(Slider("Shutter angle", edited_preset.BLUR.shutterAngle, 0, 360));
-                        edited_preset.BLUR.sampleCount.Override(SliderInt("Sample count", edited_preset.BLUR.sampleCount, 4, 32));
+                        edited_preset.BLUR.shutterAngle.Override(Slider("Shutter angle", "BLUR_angle", edited_preset.BLUR.shutterAngle, 0, 360));
+                        edited_preset.BLUR.sampleCount.Override(SliderInt("Sample count", "BLUR_count", edited_preset.BLUR.sampleCount, 4, 32));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.BLUR);
                     }
                     #endregion
@@ -352,9 +364,9 @@ namespace BabboSettings
                     if (edited_preset.VIGN.enabled.value) sp_VIGN = Spoiler(sp_VIGN ? "hide" : "show") ? !sp_VIGN : sp_VIGN;
                     EndHorizontal();
                     if (edited_preset.VIGN.enabled.value && sp_VIGN) {
-                        edited_preset.VIGN.intensity.Override(Slider("Intensity", edited_preset.VIGN.intensity.value, 0, 1));
-                        edited_preset.VIGN.smoothness.Override(Slider("Smoothness", edited_preset.VIGN.smoothness.value, 0.1f, 1));
-                        edited_preset.VIGN.roundness.Override(Slider("Roundness", edited_preset.VIGN.roundness.value, 0, 1));
+                        edited_preset.VIGN.intensity.Override(Slider("Intensity", "VIGN_intensity", edited_preset.VIGN.intensity.value, 0, 1));
+                        edited_preset.VIGN.smoothness.Override(Slider("Smoothness", "VIGN_smoothness", edited_preset.VIGN.smoothness.value, 0.1f, 1));
+                        edited_preset.VIGN.roundness.Override(Slider("Roundness", "VIGN_roundness", edited_preset.VIGN.roundness.value, 0, 1));
                         BeginHorizontal();
                         edited_preset.VIGN.rounded.Override(Toggle(edited_preset.VIGN.rounded.value, "Rounded"));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.VIGN);
@@ -400,10 +412,10 @@ namespace BabboSettings
                         else if (gameEffects.post_layer.antialiasingMode == Antialiasing.TemporalAntialiasing) {
                             sp_AA = Spoiler(sp_AA ? "hide" : "show") ? !sp_AA : sp_AA;
                             if (sp_AA) {
-                                gameEffects.TAA.sharpness = Slider("Sharpness", gameEffects.TAA.sharpness, 0, 3);
-                                gameEffects.TAA.jitterSpread = Slider("Jitter spread", gameEffects.TAA.jitterSpread, 0, 1);
-                                gameEffects.TAA.stationaryBlending = Slider("Stationary blending", gameEffects.TAA.stationaryBlending, 0, 1);
-                                gameEffects.TAA.motionBlending = Slider("Motion Blending", gameEffects.TAA.motionBlending, 0, 1);
+                                gameEffects.TAA.sharpness = Slider("Sharpness", "TAA_sharpness", gameEffects.TAA.sharpness, 0, 3);
+                                gameEffects.TAA.jitterSpread = Slider("Jitter spread", "TAA_jitter", gameEffects.TAA.jitterSpread, 0, 1);
+                                gameEffects.TAA.stationaryBlending = Slider("Stationary blending", "TAA_stationary", gameEffects.TAA.stationaryBlending, 0, 1);
+                                gameEffects.TAA.motionBlending = Slider("Motion Blending", "TAA_motion", gameEffects.TAA.motionBlending, 0, 1);
                                 if (Button("Default TAA")) {
                                     gameEffects.TAA = gameEffects.post_layer.temporalAntialiasing = new TemporalAntialiasing();
                                 }
@@ -412,7 +424,7 @@ namespace BabboSettings
                         #endregion
                     }
                     else if (selectedTab == SelectedTab.Effects) {
-                        if (BabboSettings.IsReplayActive()) {
+                        if (inReplay) {
                             for (int i = 0; i < Main.settings.replay_presetOrder.Count; i++) {
                                 var preset = Main.presets[Main.settings.replay_presetOrder[i]];
                                 BeginHorizontal();
@@ -474,14 +486,13 @@ namespace BabboSettings
                     }
                     else if (selectedTab == SelectedTab.Camera) {
                         // Modes
-                        var inReplay = BabboSettings.IsReplayActive();
                         if (inReplay) {
                             if (cameraController.override_fov) {
                                 Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
                             }
                             else {
                                 Label("While in replay only normal mode is available");
-                                cameraController.replay_fov = Slider("Field of View", cameraController.replay_fov, 1, 179);
+                                cameraController.replay_fov = Slider("Field of View", "REPLAY_FOV", cameraController.replay_fov, 1, 179);
                                 if (Button("Reset")) {
                                     cameraController.replay_fov = 60;
                                 }
@@ -494,17 +505,17 @@ namespace BabboSettings
                                     Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
                                 }
                                 else {
-                                    cameraController.normal_fov = Slider("Field of View", cameraController.normal_fov, 1, 179);
+                                    cameraController.normal_fov = Slider("Field of View", "NORMAL_FOV", cameraController.normal_fov, 1, 179);
                                     if (Button("Reset")) {
                                         cameraController.normal_fov = 60;
                                     }
                                 }
                                 Separator();
-                                cameraController.normal_clip = Slider("Near clipping", cameraController.normal_clip, 0.01f, 1);
+                                cameraController.normal_clip = Slider("Near clipping", "NORMAL_CLIP", cameraController.normal_clip, 0.01f, 1);
                                 Separator();
                                 Label("Responsiveness. Suggested: 1, 1");
-                                cameraController.normal_react = Slider("Position", cameraController.normal_react, 0.01f, 1);
-                                cameraController.normal_react_rot = Slider("Rotation", cameraController.normal_react_rot, 0.01f, 1);
+                                cameraController.normal_react = Slider("Position", "NORMAL_REACT", cameraController.normal_react, 0.01f, 1);
+                                cameraController.normal_react_rot = Slider("Rotation", "NORMAL_REACT_ROT", cameraController.normal_react_rot, 0.01f, 1);
                             }
                             else if (cameraController.cameraMode == CameraMode.Low) {
                                 Label("No controls here");
@@ -515,22 +526,22 @@ namespace BabboSettings
                                     Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
                                 }
                                 else {
-                                    cameraController.follow_fov = Slider("Field of View", cameraController.follow_fov, 1, 179);
+                                    cameraController.follow_fov = Slider("Field of View", "FOLLOW_FOV", cameraController.follow_fov, 1, 179);
                                     if (Button("Reset")) {
                                         cameraController.follow_fov = 60;
                                     }
                                 }
                                 Separator();
-                                cameraController.follow_clip = Slider("Near clipping", cameraController.follow_clip, 0.01f, 1);
+                                cameraController.follow_clip = Slider("Near clipping", "FOLLOW_CLIP", cameraController.follow_clip, 0.01f, 1);
                                 Separator();
                                 Label("Responsiveness. Suggested: 0.8, 0.6");
-                                cameraController.follow_react = Slider("Position", cameraController.follow_react, 0.01f, 1);
-                                cameraController.follow_react_rot = Slider("Rotation", cameraController.follow_react_rot, 0.01f, 1);
+                                cameraController.follow_react = Slider("Position", "FOLLOW_REACT", cameraController.follow_react, 0.01f, 1);
+                                cameraController.follow_react_rot = Slider("Rotation", "FOLLOW_REACT_ROT", cameraController.follow_react_rot, 0.01f, 1);
                                 Separator();
                                 Label("Move camera: ");
-                                cameraController.follow_shift.x = Slider("x", cameraController.follow_shift.x, -2, 2);
-                                cameraController.follow_shift.y = Slider("y", cameraController.follow_shift.y, -2, 2);
-                                cameraController.follow_shift.z = Slider("z", cameraController.follow_shift.z, -2, 2);
+                                cameraController.follow_shift.x = Slider("x", "FOLLOW_SHIFT_x", cameraController.follow_shift.x, -2, 2);
+                                cameraController.follow_shift.y = Slider("y", "FOLLOW_SHIFT_y", cameraController.follow_shift.y, -2, 2);
+                                cameraController.follow_shift.z = Slider("z", "FOLLOW_SHIFT_z", cameraController.follow_shift.z, -2, 2);
                                 if (Button("Reset to player")) cameraController.follow_shift = new Vector3();
                             }
                             else if (cameraController.cameraMode == CameraMode.POV) {
@@ -538,23 +549,23 @@ namespace BabboSettings
                                     Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
                                 }
                                 else {
-                                    cameraController.pov_fov = Slider("Field of View", cameraController.pov_fov, 1, 179);
+                                    cameraController.pov_fov = Slider("Field of View", "POV_FOV", cameraController.pov_fov, 1, 179);
                                     if (Button("Reset")) {
                                         cameraController.pov_fov = 60;
                                     }
                                 }
                                 Separator();
                                 cameraController.hide_head = Toggle(cameraController.hide_head, "Hide head");
-                                cameraController.pov_clip = Slider("Near clipping", cameraController.pov_clip, 0.01f, 1);
+                                cameraController.pov_clip = Slider("Near clipping", "POV_CLIP", cameraController.pov_clip, 0.01f, 1);
                                 Separator();
                                 Label("Responsiveness. Suggested: 1, 0.1");
-                                cameraController.pov_react = Slider("Position", cameraController.pov_react, 0.01f, 1);
-                                cameraController.pov_react_rot = Slider("Rotation", cameraController.pov_react_rot, 0.01f, 1);
+                                cameraController.pov_react = Slider("Position", "POV_REACT", cameraController.pov_react, 0.01f, 1);
+                                cameraController.pov_react_rot = Slider("Rotation", "POV_REACT_ROT", cameraController.pov_react_rot, 0.01f, 1);
                                 Separator();
                                 Label("Move camera: ");
-                                cameraController.pov_shift.x = Slider("x", cameraController.pov_shift.x, -2, 2);
-                                cameraController.pov_shift.y = Slider("y", cameraController.pov_shift.y, -2, 2);
-                                cameraController.pov_shift.z = Slider("z", cameraController.pov_shift.z, -2, 2);
+                                cameraController.pov_shift.x = Slider("x", "POV_SHIFT_x", cameraController.pov_shift.x, -2, 2);
+                                cameraController.pov_shift.y = Slider("y", "POV_SHIFT_y", cameraController.pov_shift.y, -2, 2);
+                                cameraController.pov_shift.z = Slider("z", "POV_SHIFT_z", cameraController.pov_shift.z, -2, 2);
                                 if (Button("Reset to head")) cameraController.pov_shift = new Vector3();
                             }
                             else if (cameraController.cameraMode == CameraMode.Skate) {
@@ -562,22 +573,22 @@ namespace BabboSettings
                                     Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
                                 }
                                 else {
-                                    cameraController.skate_fov = Slider("Field of View", cameraController.skate_fov, 1, 179);
+                                    cameraController.skate_fov = Slider("Field of View", "SKATE_FOV", cameraController.skate_fov, 1, 179);
                                     if (Button("Reset")) {
                                         cameraController.skate_fov = 60;
                                     }
                                 }
                                 Separator();
-                                cameraController.skate_clip = Slider("Near clipping", cameraController.skate_clip, 0.01f, 1);
+                                cameraController.skate_clip = Slider("Near clipping", "SKATE_CLIP", cameraController.skate_clip, 0.01f, 1);
                                 Separator();
                                 Label("Responsiveness. Suggested: 1, 1");
-                                cameraController.skate_react = Slider("Position", cameraController.skate_react, 0.01f, 1);
-                                cameraController.skate_react_rot = Slider("Rotation", cameraController.skate_react_rot, 0.01f, 1);
+                                cameraController.skate_react = Slider("Position", "SKATE_REACT", cameraController.skate_react, 0.01f, 1);
+                                cameraController.skate_react_rot = Slider("Rotation", "SKATE_REACT_ROT", cameraController.skate_react_rot, 0.01f, 1);
                                 Separator();
                                 Label("Move camera: ");
-                                cameraController.skate_shift.x = Slider("x", cameraController.skate_shift.x, -2, 2);
-                                cameraController.skate_shift.y = Slider("y", cameraController.skate_shift.y, -2, 2);
-                                cameraController.skate_shift.z = Slider("z", cameraController.skate_shift.z, -2, 2);
+                                cameraController.skate_shift.x = Slider("x", "SKATE_SHIFT_x", cameraController.skate_shift.x, -2, 2);
+                                cameraController.skate_shift.y = Slider("y", "SKATE_SHIFT_y", cameraController.skate_shift.y, -2, 2);
+                                cameraController.skate_shift.z = Slider("z", "SKATE_SHIFT_z", cameraController.skate_shift.z, -2, 2);
                                 if (Button("Reset to skate")) cameraController.skate_shift = new Vector3();
                             }
                         }
@@ -636,19 +647,80 @@ namespace BabboSettings
         private void EndHorizontal() {
             GUILayout.EndHorizontal();
         }
-        private float Slider(string name, float current, float min, float max, bool horizontal = true) {
+        private float Slider(string name, string id, float current, float min, float max, bool horizontal = true) {
+            if (!sliderTextValues.ContainsKey(id)) {
+                sliderTextValues.Add(id, current.ToString("0.00"));
+            }
+
             if (horizontal) BeginHorizontal();
-            Label(name + ": " + current.ToString("0.00"));
-            float res = GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle);
+            Label(name + ":");
+            GUILayout.FlexibleSpace();
+            var text = GUILayout.TextField(sliderTextValues[id]);
+            GUILayout.Space(10);
+            Label(min + "", labelStyleMinMax);
+            float slider_res = GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle);
+            Label(max + "", labelStyleMinMax);
             if (horizontal) EndHorizontal();
-            return res;
+
+            // if the user has typed
+            if (text != sliderTextValues[id]) {
+                // update text value
+                sliderTextValues[id] = text;
+                // if the value is valid
+                float text_res;
+                if (float.TryParse(text, out text_res) && text_res >= min && text_res <= max) {
+                    return text_res;
+                }
+                else {
+                    return current;
+                }
+            }
+            // if the slider has moved
+            else if (slider_res != current) {
+                sliderTextValues[id] = slider_res.ToString("0.00");
+                return slider_res;
+            }
+            // nothing has changed
+            else {
+                return current;
+            }
         }
-        private int SliderInt(string name, int current, int min, int max, bool horizontal = true) {
+        private int SliderInt(string name, string id, int current, int min, int max, bool horizontal = true) {
+            if (!sliderTextValues.ContainsKey(id)) {
+                sliderTextValues.Add(id, current.ToString());
+            }
+
             if (horizontal) BeginHorizontal();
-            Label(name + ": " + current);
-            float res = GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle);
+            Label(name + ":");
+            GUILayout.FlexibleSpace();
+            var text = GUILayout.TextField(sliderTextValues[id]);
+            GUILayout.Space(10);
+            Label(min + "", labelStyleMinMax);
+            int slider_res = Mathf.FloorToInt(GUILayout.HorizontalSlider(current, min, max, sliderStyle, thumbStyle));
+            Label(max + "", labelStyleMinMax);
             if (horizontal) EndHorizontal();
-            return Mathf.FloorToInt(res);
+
+            // if the user has typed
+            if (text != sliderTextValues[id]) {
+                // update text value
+                sliderTextValues[id] = text;
+                // if the value is valid
+                int text_res;
+                if (int.TryParse(text, out text_res) && text_res >= min && text_res <= max) {
+                    return text_res;
+                }
+                else {
+                    return current;
+                }
+            }
+            else if (slider_res != current) {
+                // if the slider has moved
+                sliderTextValues[id] = slider_res.ToString();
+                return slider_res;
+            }
+            else {
+                return current;
+            }
         }
 
         #endregion
