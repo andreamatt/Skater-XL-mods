@@ -19,10 +19,6 @@ namespace BabboSettings
         private Transform tra = new GameObject().transform;
         private HeadIK headIK = UnityEngine.Object.FindObjectOfType<HeadIK>();
         private Transform actualCam = PlayerController.Instance.cameraController._actualCam;
-        private Transform switch_transform = new GameObject().transform;
-        private bool last_is_switch = false;
-        public bool spawn_switch = false;
-        public bool just_respawned = true;
         private List<Material> head_materials = new List<Material>();
         private Shader hiding_shader;
         private Shader head_shader;
@@ -255,38 +251,15 @@ namespace BabboSettings
         }
 
         public override void LateUpdate() {
-            if (cameraMode == CameraMode.POV) {
-                pov();
-            }
-            foreach (var mat in head_materials) {
-                //mat.shader = (cameraMode == CameraMode.POV && hide_head) ? hiding_shader : head_shader;
-                //Logger.Log("Hiding " + mat.name);
-                mat.color = Color.clear;
-            }
-        }
-
-        public bool isSwitch() {
-            var vel = PlayerController.Instance.skaterController.skaterRigidbody.velocity;
-            vel.y = 0;
-            if (vel.magnitude < 0.3) {
-                if (just_respawned) {
-                    just_respawned = false;
-                    last_is_switch = spawn_switch;
-                    return spawn_switch;
+            if (!BabboSettings.IsReplayActive()) {
+                if (cameraMode == CameraMode.POV) {
+                    pov();
                 }
-                else {
-                    return last_is_switch;
+                foreach (var mat in head_materials) {
+                    //mat.shader = (cameraMode == CameraMode.POV && hide_head) ? hiding_shader : head_shader;
+                    //Logger.Log("Hiding " + mat.name);
+                    mat.color = Color.clear;
                 }
-            }
-            else {
-                var p4 = PlayerController.Instance.skaterController.skaterTransform.position - (vel.normalized * 100000);
-                if (switch_transform == null) switch_transform = new GameObject().transform;
-                switch_transform.position = p4;
-                switch_transform.LookAt(PlayerController.Instance.skaterController.skaterTransform.position);
-
-                bool is_switch = Vector3.Angle(switch_transform.forward, PlayerController.Instance.skaterController.skaterTransform.forward) > 90f;
-                last_is_switch = is_switch;
-                return is_switch;
             }
         }
     }

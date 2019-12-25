@@ -7,7 +7,15 @@ namespace BabboSettings
 {
     public class BabboSettings : MonoBehaviour
     {
-        public static BabboSettings Instance { private set; get; }
+        private static BabboSettings _Instance;
+        public static BabboSettings Instance {
+            get {
+                if (_Instance == null) {
+                    Logger.Log("BabboSettings Instance is null");
+                }
+                return _Instance;
+            }
+        }
 
         private GameEffects effects;
         private Window window;
@@ -21,7 +29,7 @@ namespace BabboSettings
                 Logger.Log("BabboSettings Instance already exists");
             }
             else {
-                Instance = this;
+                _Instance = this;
             }
 
             DontDestroyOnLoad(gameObject);
@@ -41,17 +49,6 @@ namespace BabboSettings
             effects.checkAndGetEffects();
         }
 
-        public bool isSwitch() {
-            return cameraController.isSwitch();
-        }
-
-        public void SetJustRespawned() {
-            cameraController.just_respawned = true;
-        }
-
-        public void SetSpawnSwitch() {
-            cameraController.spawn_switch = isSwitch();
-        }
         public static bool IsReplayActive() {
             return GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
         }

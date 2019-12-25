@@ -46,6 +46,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="MapPreset.cs" />
     <Compile Include="Module.cs" />
+    <Compile Include="PatchData.cs" />
     <Compile Include="Patches\ReplayCameraControllerPatches.cs" />
     <Compile Include="Patches\RespawnPatches.cs" />
     <Compile Include="CustomCameraController.cs" />

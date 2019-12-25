@@ -16,6 +16,14 @@ namespace BabboSettings.Patches
             }
         }
 
+        private static Window _Window;
+        private static Window Window {
+            get {
+                if (_Window != null) return _Window;
+                return _Window = BabboSettings.Instance.gameObject.GetComponent<Window>();
+            }
+        }
+
         static bool Prefix(ReplayCameraController __instance) {
             // update the value only if the slider is enabled
             if (CustomCameraController.override_fov == false) {
@@ -23,7 +31,9 @@ namespace BabboSettings.Patches
                 if (Mathf.Abs(num) > 0.01) {
                     // limit value between 1 and 179
                     var new_fov = CustomCameraController.replay_fov + num * __instance.FOVChangeSpeed * Time.unscaledDeltaTime;
-                    CustomCameraController.replay_fov = Mathf.Max(1, Mathf.Min(179, new_fov));
+                    new_fov = Mathf.Max(1, Mathf.Min(179, new_fov));
+                    CustomCameraController.replay_fov = new_fov;
+                    Window.sliderTextValues["REPLAY_FOV"] = new_fov.ToString("0.00");
                 }
             }
             return false;

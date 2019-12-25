@@ -50,7 +50,7 @@ namespace BabboSettings
         private Preset edited_preset;
         private string name_text = "";
         private SelectedTab selectedTab = SelectedTab.Basic;
-        private Dictionary<string, string> sliderTextValues = new Dictionary<string, string>();
+        public Dictionary<string, string> sliderTextValues = new Dictionary<string, string>();
         #endregion
 
         public override void Update() {
@@ -149,6 +149,10 @@ namespace BabboSettings
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
             {
+                //Label("Switch: " + PatchData.Instance.isSwitch());
+                Label("spawn_switch: " + PatchData.Instance.spawn_switch);
+                Label("last_is_switch: " + PatchData.Instance.last_is_switch);
+                Label("just_respawned: " + PatchData.Instance.just_respawned);
                 //cameraController.pov_rot_shift.x = Slider("X", cameraController.pov_rot_shift.x, -180, 180); ???
                 //cameraController.pov_rot_shift.y = Slider("Y", cameraController.pov_rot_shift.y, -180, 180);
                 //cameraController.pov_rot_shift.z = Slider("Z", cameraController.pov_rot_shift.z, -180, 180);
