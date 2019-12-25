@@ -24,7 +24,6 @@ namespace BabboSettings
         public static string default_name = "Default";
 
         static bool Load(UnityModManager.ModEntry modEntry) {
-            Logger.Debug("Loading");
 
             Main.modEntry = modEntry;
             settings = Settings.Load();
@@ -34,8 +33,11 @@ namespace BabboSettings
 
             // if the replay_presetOrder is empty and the other is not, it means it's moving to the new version
             // therefore, copy presetOrder to replay_presetOrder
+            // also copy the enabled state
+            bool need_to_enable_presets = false;
             if (settings.presetOrder.Count > 0 && settings.replay_presetOrder.Count == 0) {
                 settings.replay_presetOrder.AddRange(settings.presetOrder);
+                need_to_enable_presets = true;
             }
 
             // load presets from files
@@ -46,6 +48,9 @@ namespace BabboSettings
                     var json = File.ReadAllText(filePath);
                     var result = Preset.Load(json);
                     presets.Add(result.name, result);
+                    if (need_to_enable_presets) {
+                        result.replay_enabled = result.enabled; // copy the enabled state
+                    }
                     if (!settings.presetOrder.Contains(result.name)) {
                         settings.presetOrder.Add(result.name);
                     }

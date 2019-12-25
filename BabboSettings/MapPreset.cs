@@ -12,10 +12,11 @@ namespace BabboSettings
         private Preset map_preset;
 
         public void GetMapEffects() {
-            bool map_preset_enabled = false;
+            bool map_preset_enabled = true;
             if (Main.presets.ContainsKey(Main.map_name)) map_preset_enabled = Main.presets[Main.map_name].enabled;
             map_preset = new Preset(Main.map_name);
             map_preset.enabled = map_preset_enabled;
+            map_preset.replay_enabled = map_preset_enabled;
 
             Logger.Debug("Saving to " + map_preset.name);
             try {

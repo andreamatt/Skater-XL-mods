@@ -10,9 +10,9 @@ namespace BabboSettings
         private static BabboSettings _Instance;
         public static BabboSettings Instance {
             get {
-                if (_Instance == null) {
-                    Logger.Log("BabboSettings Instance is null");
-                }
+                //if (_Instance == null) {
+                //    Logger.Log("BabboSettings Instance is null");
+                //}
                 return _Instance;
             }
         }

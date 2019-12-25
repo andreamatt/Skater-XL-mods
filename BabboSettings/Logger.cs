@@ -14,9 +14,9 @@ namespace BabboSettings
         }
 
         public static void Debug(string s) {
-            //if (Main.settings.DEBUG) {
-            Log("[DBG] " + s);
-            //}
+            if (Main.settings.DEBUG) {
+                Log("[DBG] " + s);
+            }
         }
     }
 }
