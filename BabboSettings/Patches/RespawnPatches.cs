@@ -22,7 +22,7 @@ namespace BabboSettings.Patches
         }
     }
 
-    [HarmonyPatch(typeof(Respawn), "SetSpawnPos", new Type[] { typeof(Vector3), typeof(Quaternion) })]
+    [HarmonyPatch(typeof(Respawn), "SetSpawnPos", new Type[] { })]
     static class Respawn_SetSpawnPos_Patch
     {
         static bool Prefix() {
@@ -31,13 +31,12 @@ namespace BabboSettings.Patches
         }
     }
 
-    [HarmonyPatch(typeof(Respawn), "SetSpawnPos", new Type[] { })]
-    static class Respawn_SetSpawnPos_Patch_2
+    [HarmonyPatch(typeof(Respawn), "SetSpawnPos", new Type[] { typeof(Vector3), typeof(Quaternion) })]
+    static class Respawn_SetSpawnPos_Patch_Vector3_Quaternion
     {
         static bool Prefix() {
             PatchData.Instance.SetSpawnPos();
             return true;
         }
     }
-
 }
