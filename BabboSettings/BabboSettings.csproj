@@ -43,6 +43,7 @@
     <Compile Include="DayNightController.cs" />
     <Compile Include="FocusMode.cs" />
     <Compile Include="GameEffects.cs" />
+    <Compile Include="HarmonyPatcher.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MapPreset.cs" />
     <Compile Include="Module.cs" />
@@ -66,7 +67,16 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Rewired_Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_Core">
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Rewired_Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_Windows_Lib">
+      <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Rewired_Windows_Lib.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>D:\Steam\steamapps\common\Skater XL\SkaterXL_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>

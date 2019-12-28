@@ -12,6 +12,9 @@ namespace BabboSettings
 {
     static class Main
     {
+        static public string NonBetaVersion = "0.0.5.4";
+        static public string BetaVersion = "0.1.0.0b9";
+
         public static bool enabled;
         public static bool canSave = false;
         public static Settings settings;
@@ -100,11 +103,13 @@ namespace BabboSettings
 
             if (enabled) {
                 harmonyInstance = HarmonyInstance.Create(modEntry.Info.Id);
-                harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+                //harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+                HarmonyPatcher.Patch(harmonyInstance);
                 if (babboSettings == null) babboSettings = ModMenu.Instance.gameObject.AddComponent<BabboSettings>();
             }
             else {
-                harmonyInstance.UnpatchAll(harmonyInstance.Id);
+                //harmonyInstance.UnpatchAll(harmonyInstance.Id);
+                HarmonyPatcher.UnPatch(harmonyInstance);
                 babboSettings = null;
                 UnityEngine.Object.Destroy(ModMenu.Instance.gameObject.GetComponent<BabboSettings>());
             }
