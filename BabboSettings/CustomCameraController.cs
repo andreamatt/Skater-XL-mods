@@ -1,5 +1,4 @@
-﻿using ReplayEditor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,7 +48,7 @@ namespace BabboSettings
         public float pov_react = 1;
         public float pov_react_rot = 0.07f;
         public float pov_clip = 0.01f;
-        public Vector3 pov_rot_shift = new Vector3(-100, 13, 73);
+        public Vector3 pov_rot_shift = new Vector3(0, 0, 0);
         public bool hide_head = true;
         public float skate_fov = 60;
         public float skate_react = 0.90f;

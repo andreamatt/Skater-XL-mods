@@ -1,5 +1,4 @@
-﻿using GameManagement;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -50,7 +49,7 @@ namespace BabboSettings
         }
 
         public static bool IsReplayActive() {
-            return GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
+            return false;
         }
     }
 }
