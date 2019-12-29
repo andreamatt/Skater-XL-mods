@@ -27,7 +27,7 @@ namespace BabboSettings
         public int SCREEN_MODE = 0;
 
         // AA
-        public PostProcessLayer.Antialiasing AA_MODE = new PostProcessLayer.Antialiasing();
+        public PostProcessLayer.Antialiasing AA_MODE = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;
         public float TAA_sharpness = new TemporalAntialiasing().sharpness;
         public float TAA_jitter = new TemporalAntialiasing().jitterSpread;
         public float TAA_stationary = new TemporalAntialiasing().stationaryBlending;
@@ -67,30 +67,36 @@ namespace BabboSettings
 
         public Task Save() {
             return Task.Run(() => {
-                var filepath = Main.modEntry.Path;
+                var filepath = $"{Main.modEntry.Path}Settings.xml";
                 try {
-                    using (var writer = new StreamWriter($"{filepath}Settings.xml")) {
+                    using (var writer = new StreamWriter(filepath)) {
                         XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
                         xmlSerializer.Serialize(writer, this);
                     }
                 }
                 catch (Exception e) {
-                    Logger.Log($"Can't save {filepath}Settings.xml. ex: {e}");
+                    Logger.Log($"Can't save {filepath}. ex: {e}");
                 }
             });
         }
 
         public static Settings Load() {
-            var filepath = Main.modEntry.Path;
+            var filepath = $"{Main.modEntry.Path}Settings.xml";
             Settings settings = null;
-            try {
-                using (var reader = new StreamReader($"{filepath}Settings.xml")) {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
-                    settings = (Settings)xmlSerializer.Deserialize(reader);
+            if (File.Exists(filepath)) {
+                try {
+                    using (var reader = new StreamReader(filepath)) {
+                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
+                        settings = (Settings)xmlSerializer.Deserialize(reader);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.Log($"Can't read {filepath}. ex: {e}");
                 }
             }
-            catch (Exception e) {
-                Logger.Log($"Can't read {filepath}Settings.xml. ex: {e}");
+            else {
+                Logger.Log($"No settings found, using defaults");
+                settings = new Settings();
             }
             return settings;
         }
