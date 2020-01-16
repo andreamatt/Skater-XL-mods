@@ -1,0 +1,12 @@
+﻿{
+	"Id": "SoundMod",
+	"DisplayName": "SoundMod",
+	"Author": "Babbo Elu",
+	"Version": "0.0.1",
+	"ManagerVersion": "0.15.0",
+	"Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
+	"AssemblyName": "SoundMod.dll",
+	"EntryMethod": "SoundMod.Main.Load",
+	"HomePage": "https://github.com/andreamatt/SXL-SoundMod",
+	"Repository": "https://raw.githubusercontent.com/andreamatt/SXL-SoundMod/master/Repository.json"
+}

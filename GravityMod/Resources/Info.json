@@ -1,0 +1,12 @@
+﻿{
+	"Id": "GravityMod",
+	"DisplayName": "GravityMod",
+	"Author": "MacksHeadroom, Babbo Elu",
+	"Version": "0.0.1",
+	"ManagerVersion": "0.15.0",
+	"Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
+	"AssemblyName": "GravityMod.dll",
+	"EntryMethod": "GravityMod.Main.Load",
+	"HomePage": "",
+	"Repository": ""
+}
