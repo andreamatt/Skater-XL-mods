@@ -1,8 +1,9 @@
-/References
+/References/*.dll
+/References/*.xml
+/References/UnityModManager/*.dll
+/References/UnityModManager/*.xml
+
 /.vs
-/*/bin
-/*/obj
-/*/bin
-/*/obj
+
 /*/bin
 /*/obj
