@@ -21,14 +21,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 	ProjectSection(SolutionItems) = preProject
 		References\UnityModManager\0Harmony12.dll = References\UnityModManager\0Harmony12.dll
 		References\Assembly-CSharp.dll = References\Assembly-CSharp.dll
+		References\README.md = References\README.md
 		References\Rewired_Core.dll = References\Rewired_Core.dll
 		References\Unity.Postprocessing.Runtime.dll = References\Unity.Postprocessing.Runtime.dll
+		References\UnityEngine.AudioModule.dll = References\UnityEngine.AudioModule.dll
 		References\UnityEngine.CoreModule.dll = References\UnityEngine.CoreModule.dll
 		References\UnityEngine.IMGUIModule.dll = References\UnityEngine.IMGUIModule.dll
 		References\UnityEngine.JSONSerializeModule.dll = References\UnityEngine.JSONSerializeModule.dll
 		References\UnityEngine.PhysicsModule.dll = References\UnityEngine.PhysicsModule.dll
 		References\UnityEngine.TextCoreModule.dll = References\UnityEngine.TextCoreModule.dll
-		References\UnityEngine.TextRenderingModule.dll = References\UnityEngine.TextRenderingModule.dll
+		References\UnityEngine.UnityWebRequestWWWModule.dll = References\UnityEngine.UnityWebRequestWWWModule.dll
 		References\UnityModManager\UnityModManager.dll = References\UnityModManager\UnityModManager.dll
 		References\XLShredLib.dll = References\XLShredLib.dll
 	EndProjectSection
