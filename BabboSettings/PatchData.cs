@@ -24,6 +24,10 @@ namespace BabboSettings
         public bool spawn_switch = false;
         public bool just_respawned = true;
         public Vector3 spawn_velocity = Vector3.zero;
+        public CameraMode cameraMode = CameraMode.Normal;
+        public bool overrideCM = false;
+        public float cameraFov;
+        public CustomCameraController cameraController;
 
         public void SetJustRespawned() {
             just_respawned = true;
@@ -60,6 +64,13 @@ namespace BabboSettings
                 bool is_switch = Vector3.Angle(switch_transform.forward, PlayerController.Instance.skaterController.skaterTransform.forward) > 90f;
                 last_is_switch = is_switch;
                 return is_switch;
+            }
+        }
+
+        public void UpdateReplayFov(float fov) {
+            cameraFov = fov;
+            if (cameraController != null) {
+                cameraController.replay_fov = fov;
             }
         }
     }

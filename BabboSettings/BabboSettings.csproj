@@ -47,6 +47,7 @@
     <Compile Include="MapPreset.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="PatchData.cs" />
+    <Compile Include="Patches\KeyFramePatches.cs" />
     <Compile Include="Patches\ReplayCameraControllerPatches.cs" />
     <Compile Include="Patches\RespawnPatches.cs" />
     <Compile Include="CustomCameraController.cs" />
@@ -80,6 +81,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\UnityEngine.IMGUIModule.dll</HintPath>
@@ -108,6 +113,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\XLShredLib.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\paypal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

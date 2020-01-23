@@ -217,7 +217,7 @@ namespace BabboSettings
         }
 
         public override void FixedUpdate() {
-            if (BabboSettings.IsReplayActive()) {
+            if (BabboSettings.Instance.IsReplayActive()) {
                 // Normal camera values
                 mainCamera.nearClipPlane = 0.01f;
                 mainCamera.fieldOfView = override_fov ? override_fov_value : replay_fov;
@@ -251,7 +251,7 @@ namespace BabboSettings
         }
 
         public override void LateUpdate() {
-            if (!BabboSettings.IsReplayActive()) {
+            if (!BabboSettings.Instance.IsReplayActive()) {
                 if (cameraMode == CameraMode.POV) {
                     pov();
                 }

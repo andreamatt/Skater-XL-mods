@@ -38,6 +38,7 @@ namespace BabboSettings
             mapPreset = gameObject.AddComponent<MapPreset>();
             window = gameObject.AddComponent<Window>();
             cameraController = gameObject.AddComponent<CustomCameraController>();
+            PatchData.Instance.cameraController = cameraController;
             presetsManager = gameObject.AddComponent<PresetsManager>();
             //dayNightController = DayNightController.Instance;
 
@@ -49,8 +50,16 @@ namespace BabboSettings
             effects.checkAndGetEffects();
         }
 
-        public static bool IsReplayActive() {
-            return GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
+        private bool last_IsReplayActive = false;
+        public bool IsReplayActive() {
+            var active = GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
+            if (active != last_IsReplayActive) {
+                last_IsReplayActive = active;
+                // if the status has changed (enter/exit replay editor), apply everything again
+                presetsManager.ApplyPresets();
+                presetsManager.ApplySettings();
+            }
+            return active;
         }
     }
 }

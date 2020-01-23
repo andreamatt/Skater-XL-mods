@@ -154,7 +154,7 @@ namespace BabboSettings
             Vector3 player_pos;
             Vector3 skate_pos;
 
-            if (BabboSettings.IsReplayActive()) {
+            if (BabboSettings.Instance.IsReplayActive()) {
                 if (cameraController.replay_skater == null) {
                     cameraController.GetReplaySkater();
                 }

@@ -28,7 +28,7 @@ namespace BabboSettings
             // disable FOV override
             cameraController.override_fov = false;
 
-            if (BabboSettings.IsReplayActive()) {
+            if (BabboSettings.Instance.IsReplayActive()) {
                 for (int i = Main.settings.replay_presetOrder.Count - 1; i >= 0; i--) {
                     var preset = Main.presets[Main.settings.replay_presetOrder[i]];
                     if (preset.replay_enabled) ApplyPreset(preset);

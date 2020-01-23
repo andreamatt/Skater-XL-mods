@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 		References\Unity.Postprocessing.Runtime.dll = References\Unity.Postprocessing.Runtime.dll
 		References\UnityEngine.AudioModule.dll = References\UnityEngine.AudioModule.dll
 		References\UnityEngine.CoreModule.dll = References\UnityEngine.CoreModule.dll
+		References\UnityEngine.ImageConversionModule.dll = References\UnityEngine.ImageConversionModule.dll
 		References\UnityEngine.IMGUIModule.dll = References\UnityEngine.IMGUIModule.dll
 		References\UnityEngine.JSONSerializeModule.dll = References\UnityEngine.JSONSerializeModule.dll
 		References\UnityEngine.PhysicsModule.dll = References\UnityEngine.PhysicsModule.dll

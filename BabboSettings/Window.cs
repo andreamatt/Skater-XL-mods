@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using XLShredLib;
@@ -21,8 +22,9 @@ namespace BabboSettings
         private string[] tonemappers = { "None", "Neutral", "ACES" };
         private string[] max_blur = { "Small", "Medium", "Large", "Very large" };
         private string[] focus_modes = { "Custom", "Player", "Skate" };
-        private string[] tab_names = { "Basic", "Effects", "Camera" };
+        private string[] tab_names = { "Basic", "Presets", "Camera" };
         private string[] camera_names = { "Normal", "Low", "Follow", "POV", "Skate" };
+        private Texture2D paypalTexture;
         #endregion
 
         #region GUI style
@@ -114,6 +116,10 @@ namespace BabboSettings
 
             toggleStyle = new GUIStyle(GUI.skin.toggle) {
             };
+
+            paypalTexture = new Texture2D(318, 159, TextureFormat.RGBA32, false);
+            paypalTexture.LoadImage(File.ReadAllBytes(Directory.GetCurrentDirectory() + "\\Mods\\BabboSettings\\paypal.png"));
+            paypalTexture.filterMode = FilterMode.Point;
         }
 
         private void Open() {
@@ -145,10 +151,12 @@ namespace BabboSettings
 
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
 
-            var inReplay = BabboSettings.IsReplayActive();
+            var inReplay = BabboSettings.Instance.IsReplayActive();
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
             {
+                PatchData.Instance.overrideCM = Toggle(PatchData.Instance.overrideCM, "Override CM");
+                Label("Fov: " + PatchData.Instance.cameraFov);
                 //Label("Switch: " + PatchData.Instance.isSwitch());
                 //Label("spawn_switch: " + PatchData.Instance.spawn_switch);
                 //Label("last_is_switch: " + PatchData.Instance.last_is_switch);
@@ -426,8 +434,14 @@ namespace BabboSettings
                             }
                         }
                         #endregion
+                        Separator();
+                        #region PayPal
+                        if (GUILayout.Button(paypalTexture)) {
+                            Application.OpenURL("https://www.paypal.me/andreamatte");
+                        }
+                        #endregion
                     }
-                    else if (selectedTab == SelectedTab.Effects) {
+                    else if (selectedTab == SelectedTab.Presets) {
                         if (inReplay) {
                             for (int i = 0; i < Main.settings.replay_presetOrder.Count; i++) {
                                 var preset = Main.presets[Main.settings.replay_presetOrder[i]];
@@ -503,7 +517,7 @@ namespace BabboSettings
                             }
                         }
                         else {
-                            cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
+                            PatchData.Instance.cameraMode = cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
                             if (cameraController.cameraMode == CameraMode.Normal) {
                                 if (cameraController.override_fov) {
                                     Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
@@ -623,7 +637,7 @@ namespace BabboSettings
         private enum SelectedTab
         {
             Basic,
-            Effects,
+            Presets,
             Camera
         }
 
