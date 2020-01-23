@@ -1,4 +1,5 @@
 ﻿using GameManagement;
+using ReplayEditor;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -51,9 +52,14 @@ namespace BabboSettings
         }
 
         private bool last_IsReplayActive = false;
+        private bool first_time_ReplayActive = true;
         public bool IsReplayActive() {
             var active = GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
             if (active != last_IsReplayActive) {
+                if (first_time_ReplayActive) {
+                    first_time_ReplayActive = false;
+                    ReplayEditorController.Instance.cameraController.useKeyframeIndicator.TurnOff();
+                }
                 last_IsReplayActive = active;
                 // if the status has changed (enter/exit replay editor), apply everything again
                 presetsManager.ApplyPresets();
