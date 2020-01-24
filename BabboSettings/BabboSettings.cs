@@ -38,6 +38,7 @@ namespace BabboSettings
             effects = gameObject.AddComponent<GameEffects>();
             mapPreset = gameObject.AddComponent<MapPreset>();
             window = gameObject.AddComponent<Window>();
+            PatchData.Instance.window = window;
             cameraController = gameObject.AddComponent<CustomCameraController>();
             PatchData.Instance.cameraController = cameraController;
             presetsManager = gameObject.AddComponent<PresetsManager>();

@@ -8,8 +8,9 @@ namespace BabboSettings.Patches
     {
         static bool Postfix(bool __result) {
             var cameraMode = PatchData.Instance.cameraMode;
+            // isSwitch needs to be calculated all the time, otherwise it loses track of the stance
             var isSwitch = PatchData.Instance.isSwitch();
-            if (PatchData.Instance.overrideCM || (cameraMode == CameraMode.POV || cameraMode == CameraMode.Skate)) {
+            if (cameraMode == CameraMode.POV || cameraMode == CameraMode.Skate) {
                 return isSwitch;
             }
             return __result;
@@ -21,8 +22,9 @@ namespace BabboSettings.Patches
     {
         static bool Postfix(bool __result) {
             var cameraMode = PatchData.Instance.cameraMode;
+            // isSwitch needs to be calculated all the time, otherwise it loses track of the stance
             var isSwitch = PatchData.Instance.isSwitch();
-            if (PatchData.Instance.overrideCM || (cameraMode == CameraMode.POV || cameraMode == CameraMode.Skate)) {
+            if (cameraMode == CameraMode.POV || cameraMode == CameraMode.Skate) {
                 return isSwitch;
             }
             return __result;

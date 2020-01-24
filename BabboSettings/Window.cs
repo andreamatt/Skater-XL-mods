@@ -155,8 +155,6 @@ namespace BabboSettings
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(400), GUILayout.Height(750));
             {
-                PatchData.Instance.overrideCM = Toggle(PatchData.Instance.overrideCM, "Override CM");
-                Label("Fov: " + PatchData.Instance.cameraFov);
                 //Label("Switch: " + PatchData.Instance.isSwitch());
                 //Label("spawn_switch: " + PatchData.Instance.spawn_switch);
                 //Label("last_is_switch: " + PatchData.Instance.last_is_switch);
@@ -517,7 +515,7 @@ namespace BabboSettings
                             }
                         }
                         else {
-                            PatchData.Instance.cameraMode = cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
+                            cameraController.cameraMode = (CameraMode)GUILayout.SelectionGrid((int)cameraController.cameraMode, camera_names, camera_names.Length);
                             if (cameraController.cameraMode == CameraMode.Normal) {
                                 if (cameraController.override_fov) {
                                     Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);

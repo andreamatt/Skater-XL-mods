@@ -14,14 +14,6 @@ namespace BabboSettings.Patches
         }
     }
 
-    [HarmonyPatch(typeof(Respawn), "EndRespawning")]
-    static class Respawn_EndRespawning_Patch
-    {
-        static void Postfix() {
-            PatchData.Instance.RotateSpawnCamera();
-        }
-    }
-
     [HarmonyPatch(typeof(Respawn), "SetSpawnPos", new Type[] { })]
     static class Respawn_SetSpawnPos_Patch
     {
