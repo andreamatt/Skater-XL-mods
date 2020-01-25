@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace BabboSettings
@@ -15,22 +17,15 @@ namespace BabboSettings
         // Settings stuff
         public PostProcessLayer post_layer;
         public PostProcessVolume post_volume;
+        public PostProcessVolume map_post_volume;
         public FastApproximateAntialiasing FXAA;
         public TemporalAntialiasing TAA; // NOT SERIALIZABLE
         public SubpixelMorphologicalAntialiasing SMAA;
 
-        public AmbientOcclusion AO;
-        public AutoExposure EXPO;
-        public Bloom BLOOM;
-        public ChromaticAberration CA;
-        public ColorGrading COLOR; // NOT SERIALIZABLE
-        public DepthOfField DOF;
         public FocusMode focus_mode = FocusMode.Custom;
-        public Grain GRAIN;
-        public LensDistortion LENS;
-        public MotionBlur BLUR;
-        public ScreenSpaceReflections REFL;
-        public Vignette VIGN;
+
+        public EffectSuite effectSuite;
+        public EffectSuite map_effectSuite;
 
         private void getEffects() {
             post_layer = Camera.main.GetComponent<PostProcessLayer>();
@@ -41,77 +36,43 @@ namespace BabboSettings
                 post_layer.enabled = true;
                 Logger.Debug("post_layer was disabled");
             }
-            post_volume = FindObjectOfType<PostProcessVolume>();
-            if (post_volume != null) {
-                string not_found = "";
-                if ((AO = post_volume.profile.GetSetting<AmbientOcclusion>()) == null) {
-                    not_found += "ao,";
-                    AO = post_volume.profile.AddSettings<AmbientOcclusion>();
-                    AO.enabled.Override(false);
-                }
-                if ((EXPO = post_volume.profile.GetSetting<AutoExposure>()) == null) {
-                    not_found += "expo,";
-                    EXPO = post_volume.profile.AddSettings<AutoExposure>();
-                    EXPO.enabled.Override(false);
-                }
-                if ((BLOOM = post_volume.profile.GetSetting<Bloom>()) == null) {
-                    not_found += "bloom,";
-                    BLOOM = post_volume.profile.AddSettings<Bloom>();
-                    BLOOM.enabled.Override(false);
-                }
-                if ((CA = post_volume.profile.GetSetting<ChromaticAberration>()) == null) {
-                    not_found += "ca,";
-                    CA = post_volume.profile.AddSettings<ChromaticAberration>();
-                    CA.enabled.Override(false);
-                }
-                if ((COLOR = post_volume.profile.GetSetting<ColorGrading>()) == null) {
-                    not_found += "color,";
-                    COLOR = post_volume.profile.AddSettings<ColorGrading>();
-                    COLOR.enabled.Override(false);
-                }
-                if ((DOF = post_volume.profile.GetSetting<DepthOfField>()) == null) {
-                    not_found += "dof,";
-                    DOF = post_volume.profile.AddSettings<DepthOfField>();
-                    DOF.enabled.Override(false);
-                }
-                if ((GRAIN = post_volume.profile.GetSetting<Grain>()) == null) {
-                    not_found += "grain,";
-                    GRAIN = post_volume.profile.AddSettings<Grain>();
-                    GRAIN.enabled.Override(false);
-                }
-                if ((BLUR = post_volume.profile.GetSetting<MotionBlur>()) == null) {
-                    not_found += "blur,";
-                    BLUR = post_volume.profile.AddSettings<MotionBlur>();
-                    BLUR.enabled.Override(false);
-                }
-                if ((LENS = post_volume.profile.GetSetting<LensDistortion>()) == null) {
-                    not_found += "lens,";
-                    LENS = post_volume.profile.AddSettings<LensDistortion>();
-                    LENS.enabled.Override(false);
-                }
-                if ((REFL = post_volume.profile.GetSetting<ScreenSpaceReflections>()) == null) {
-                    not_found += "refl,";
-                    REFL = post_volume.profile.AddSettings<ScreenSpaceReflections>();
-                    REFL.enabled.Override(false);
-                }
-                if ((VIGN = post_volume.profile.GetSetting<Vignette>()) == null) {
-                    not_found += "vign,";
-                    VIGN = post_volume.profile.AddSettings<Vignette>();
-                    VIGN.enabled.Override(false);
-                }
-                if (not_found.Length > 0) {
-                    Logger.Debug("Not found: " + not_found);
-                }
+
+            // get global volumes, order by decreasing priority
+            var allVolumes = FindObjectsOfType<PostProcessVolume>().Where(v => v.isGlobal).OrderBy(v => -v.priority).ToList();
+            Logger.Log($"Found {allVolumes.Count} volumes");
+            if (allVolumes.Count == 0) {
+                Logger.Log("No global volumes");
+            }
+            else if (allVolumes.Count == 1) {
+                Logger.Log("Only 1 global volume");
+                map_post_volume = post_volume = allVolumes.First();
+            }
+            else if (allVolumes.Count == 2) {   // expected behaviour
+                post_volume = allVolumes[0];
+                map_post_volume = allVolumes[1];
             }
             else {
-                Logger.Debug("Post_volume is null in getEffects");
+                Logger.Log("More than 2 global volumes");
+                post_volume = allVolumes[0];
+                map_post_volume = allVolumes[1];
             }
+
+            // get effects for the mod
+            effectSuite = EffectSuite.FromVolume(post_volume);
+
+            // get global map volume effects
+            map_effectSuite = EffectSuite.FromVolume(map_post_volume);
+
 
             FXAA = post_layer.fastApproximateAntialiasing;
             TAA = post_layer.temporalAntialiasing;
             SMAA = post_layer.subpixelMorphologicalAntialiasing;
 
             mapPreset.GetMapEffects();
+
+            // enable volumetric lighting/fog/...
+            var pipelineAsset = GraphicsSettings.renderPipelineAsset as HDRenderPipelineAsset;
+            pipelineAsset.renderPipelineSettings.supportVolumetrics = true;
 
             presetsManager.ApplySettings();
             presetsManager.ApplyPresets();
@@ -166,10 +127,10 @@ namespace BabboSettings
                 skate_pos = PlayerController.Instance.boardController.boardTransform.position;
             }
             if (focus_mode == FocusMode.Player) {
-                DOF.focusDistance.Override(Vector3.Distance(player_pos, cameraController.mainCamera.transform.position));
+                effectSuite.DOF.focusDistance.Override(Vector3.Distance(player_pos, cameraController.mainCamera.transform.position));
             }
             else if (focus_mode == FocusMode.Skate) {
-                DOF.focusDistance.Override(Vector3.Distance(skate_pos, cameraController.mainCamera.transform.position));
+                effectSuite.DOF.focusDistance.Override(Vector3.Distance(skate_pos, cameraController.mainCamera.transform.position));
             }
         }
     }

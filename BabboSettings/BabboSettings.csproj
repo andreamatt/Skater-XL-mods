@@ -41,10 +41,11 @@
   <ItemGroup>
     <Compile Include="CameraMode.cs" />
     <Compile Include="DayNightController.cs" />
+    <Compile Include="EffectSuite.cs" />
     <Compile Include="FocusMode.cs" />
     <Compile Include="GameEffects.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="MapPreset.cs" />
+    <Compile Include="MapPresetUpdater.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="PatchData.cs" />
     <Compile Include="Patches\KeyFramePatches.cs" />
@@ -76,6 +77,14 @@
     <Reference Include="System.Xml" />
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>..\References\Unity.Postprocessing.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

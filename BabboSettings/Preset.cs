@@ -13,9 +13,8 @@ namespace BabboSettings
     public class Preset
     {
         public string name = "no_name";
-        public bool enabled = true;
-        public bool replay_enabled = true;
         public string[] serialized_effects = new string[11];
+        public bool isMapPreset => name == Main.map_name;
 
         public FocusMode FOCUS_MODE = FocusMode.Custom;
 
@@ -122,4 +121,43 @@ namespace BabboSettings
         }
     }
 
+    public class PresetSelection
+    {
+        public List<string> names = new List<string>();
+        public List<bool> enables = new List<bool>();
+        public bool map_enabled = true;
+
+        public void Add(string name, bool enabled) {
+            names.Add(name);
+            enables.Add(enabled);
+        }
+
+        public void Remove(string name) {
+            var i = names.IndexOf(name);
+            names.RemoveAt(i);
+            enables.RemoveAt(i);
+        }
+
+        public int Count => names.Count;
+
+        public void Left(int i) {
+            var tmp_name = names[i];
+            names[i] = names[i - 1];
+            names[i - 1] = tmp_name;
+
+            var tmp_en = enables[i];
+            enables[i] = enables[i - 1];
+            enables[i - 1] = tmp_en;
+        }
+
+        public void Right(int i) {
+            var tmp_name = names[i];
+            names[i] = names[i + 1];
+            names[i + 1] = tmp_name;
+
+            var tmp_en = enables[i];
+            enables[i] = enables[i + 1];
+            enables[i + 1] = tmp_en;
+        }
+    }
 }

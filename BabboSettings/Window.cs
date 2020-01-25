@@ -174,8 +174,8 @@ namespace BabboSettings
                         else {
                             Preset new_preset = new Preset(name_text);
                             Main.presets[new_preset.name] = new_preset;
-                            Main.settings.presetOrder.Insert(0, new_preset.name);
-                            Main.settings.replay_presetOrder.Insert(0, new_preset.name);
+                            Main.settings.presetOrder.Add(new_preset.name, true);
+                            Main.settings.replay_presetOrder.Add(new_preset.name, true);
                         }
                         name_text = "";
                     }
@@ -302,7 +302,7 @@ namespace BabboSettings
                             edited_preset.DOF.focusDistance.Override(Slider("Focus distance", "DOF_focus", edited_preset.DOF.focusDistance.value, 0, 20));
                         }
                         else {
-                            Label("focus distance: " + gameEffects.DOF.focusDistance.value.ToString("0.00"));
+                            Label("focus distance: " + gameEffects.effectSuite.DOF.focusDistance.value.ToString("0.00"));
                         }
                         edited_preset.DOF.aperture.Override(Slider("Aperture (f-stop)", "DOF_aperture", edited_preset.DOF.aperture.value, 0.1f, 32));
                         edited_preset.DOF.focalLength.Override(Slider("Focal length (mm)", "DOF_focal", edited_preset.DOF.focalLength.value, 1, 300));
@@ -440,62 +440,44 @@ namespace BabboSettings
                         #endregion
                     }
                     else if (selectedTab == SelectedTab.Presets) {
-                        if (inReplay) {
-                            for (int i = 0; i < Main.settings.replay_presetOrder.Count; i++) {
-                                var preset = Main.presets[Main.settings.replay_presetOrder[i]];
-                                BeginHorizontal();
-                                preset.replay_enabled = Toggle(preset.replay_enabled, preset.name);
-                                GUILayout.FlexibleSpace();
-                                if (preset.replay_enabled && Button("edit")) {
-                                    editing_preset = true;
-                                    edited_preset = preset;
-                                }
-                                GUILayout.FlexibleSpace();
-                                if (Button("Λ")) {
-                                    if (i > 0) {
-                                        var tmp = Main.settings.replay_presetOrder[i - 1];
-                                        Main.settings.replay_presetOrder[i - 1] = Main.settings.replay_presetOrder[i];
-                                        Main.settings.replay_presetOrder[i] = tmp;
-                                    }
-                                }
-                                if (Button("V")) {
-                                    if (i < Main.settings.replay_presetOrder.Count - 1) {
-                                        var tmp = Main.settings.replay_presetOrder[i + 1];
-                                        Main.settings.replay_presetOrder[i + 1] = Main.settings.replay_presetOrder[i];
-                                        Main.settings.replay_presetOrder[i] = tmp;
-                                    }
-                                }
-                                EndHorizontal();
+                        var presetOrder = inReplay ? Main.settings.replay_presetOrder : Main.settings.presetOrder;
+                        for (int i = 0; i < presetOrder.Count; i++) {
+                            var name = presetOrder.names[i];
+                            var enabled = presetOrder.enables[i];
+                            var preset = Main.presets[name];
+                            BeginHorizontal();
+                            presetOrder.enables[i] = enabled = Toggle(enabled, preset.name);
+                            GUILayout.FlexibleSpace();
+                            if (enabled && Button("edit")) {
+                                editing_preset = true;
+                                edited_preset = preset;
                             }
-                        }
-                        else {
-                            for (int i = 0; i < Main.settings.presetOrder.Count; i++) {
-                                var preset = Main.presets[Main.settings.presetOrder[i]];
-                                BeginHorizontal();
-                                preset.enabled = Toggle(preset.enabled, preset.name);
-                                GUILayout.FlexibleSpace();
-                                if (preset.enabled && Button("edit")) {
-                                    editing_preset = true;
-                                    edited_preset = preset;
+                            GUILayout.FlexibleSpace();
+                            if (Button("Λ")) {
+                                if (i > 0) {
+                                    presetOrder.Left(i);
                                 }
-                                GUILayout.FlexibleSpace();
-                                if (Button("Λ")) {
-                                    if (i > 0) {
-                                        var tmp = Main.settings.presetOrder[i - 1];
-                                        Main.settings.presetOrder[i - 1] = Main.settings.presetOrder[i];
-                                        Main.settings.presetOrder[i] = tmp;
-                                    }
-                                }
-                                if (Button("V")) {
-                                    if (i < Main.settings.presetOrder.Count - 1) {
-                                        var tmp = Main.settings.presetOrder[i + 1];
-                                        Main.settings.presetOrder[i + 1] = Main.settings.presetOrder[i];
-                                        Main.settings.presetOrder[i] = tmp;
-                                    }
-                                }
-                                EndHorizontal();
                             }
+                            if (Button("V")) {
+                                if (i < presetOrder.Count - 1) {
+                                    presetOrder.Right(i);
+                                }
+                            }
+                            EndHorizontal();
                         }
+
+                        // map preset is separate
+                        BeginHorizontal();
+                        presetOrder.map_enabled = Toggle(presetOrder.map_enabled, Main.map_name);
+                        GUILayout.FlexibleSpace();
+                        if (enabled && Button("edit")) {
+                            editing_preset = true;
+                            edited_preset = Main.presets[Main.map_name];
+                        }
+                        GUILayout.FlexibleSpace();
+                        // map preset cannot be moved since it should always be at the bottom
+                        EndHorizontal();
+
                         if (Button("NEW PRESET")) {
                             choosing_name = true;
                         }

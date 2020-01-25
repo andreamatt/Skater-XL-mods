@@ -34,10 +34,10 @@ namespace BabboSettings
             // if the replay_presetOrder is empty and the other is not, it means it's moving to the new version
             // therefore, copy presetOrder to replay_presetOrder
             // also copy the enabled state
-            bool need_to_enable_presets = false;
             if (settings.presetOrder.Count > 0 && settings.replay_presetOrder.Count == 0) {
-                settings.replay_presetOrder.AddRange(settings.presetOrder);
-                need_to_enable_presets = true;
+                settings.replay_presetOrder.names.AddRange(settings.presetOrder.names);
+                settings.replay_presetOrder.enables.AddRange(settings.presetOrder.enables);
+                settings.replay_presetOrder.map_enabled = settings.presetOrder.map_enabled;
             }
 
             // load presets from files
@@ -46,18 +46,18 @@ namespace BabboSettings
             foreach (var filePath in filePaths) {
                 try {
                     var json = File.ReadAllText(filePath);
-                    var result = Preset.Load(json);
-                    presets.Add(result.name, result);
-                    if (need_to_enable_presets) {
-                        result.replay_enabled = result.enabled; // copy the enabled state
+                    var preset = Preset.Load(json);
+                    if (!preset.isMapPreset) {
+                        // avoid adding map preset to presetOrder
+                        presets.Add(preset.name, preset);
+                        if (!settings.presetOrder.names.Contains(preset.name)) {
+                            settings.presetOrder.Add(preset.name, false);
+                        }
+                        if (!settings.replay_presetOrder.names.Contains(preset.name)) {
+                            settings.replay_presetOrder.Add(preset.name, false);
+                        }
+                        Logger.Log("preset: " + preset.name + " loaded");
                     }
-                    if (!settings.presetOrder.Contains(result.name)) {
-                        settings.presetOrder.Add(result.name);
-                    }
-                    if (!settings.replay_presetOrder.Contains(result.name)) {
-                        settings.replay_presetOrder.Add(result.name);
-                    }
-                    Logger.Log("preset: " + result.name + " loaded");
                 }
                 catch (Exception e) {
                     Logger.Log($"ex: {e}");
@@ -69,23 +69,23 @@ namespace BabboSettings
                 var default_preset = new Preset(default_name);
                 default_preset.Save();
                 presets.Add(default_preset.name, default_preset);
-                if (!settings.presetOrder.Contains(default_preset.name)) {
-                    settings.presetOrder.Add(default_preset.name);
+                if (!settings.presetOrder.names.Contains(default_preset.name)) {
+                    settings.presetOrder.Add(default_preset.name, false);
                 }
-                if (!settings.replay_presetOrder.Contains(default_preset.name)) {
-                    settings.replay_presetOrder.Add(default_preset.name);
+                if (!settings.replay_presetOrder.names.Contains(default_preset.name)) {
+                    settings.replay_presetOrder.Add(default_preset.name, false);
                 }
             }
 
             // remove presets that were not found
-            foreach (var presetName in settings.presetOrder.ToArray()) {
-                if (!presets.ContainsKey(presetName)) {
-                    settings.presetOrder.Remove(presetName);
+            foreach (var name in settings.presetOrder.names) {
+                if (!presets.ContainsKey(name)) {
+                    settings.presetOrder.Remove(name);
                 }
             }
-            foreach (var presetName in settings.replay_presetOrder.ToArray()) {
-                if (!presets.ContainsKey(presetName)) {
-                    settings.replay_presetOrder.Remove(presetName);
+            foreach (var name in settings.replay_presetOrder.names) {
+                if (!presets.ContainsKey(name)) {
+                    settings.replay_presetOrder.Remove(name);
                 }
             }
 

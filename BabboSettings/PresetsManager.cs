@@ -12,37 +12,37 @@ namespace BabboSettings
     {
         public void ApplyPresets() {
             // disable all of them, because only enabled ones are read and applied
-            // so if one gets unchecked it needs to disable even if not read
-            gameEffects.AO.enabled.Override(false);
-            gameEffects.EXPO.enabled.Override(false);
-            gameEffects.BLOOM.enabled.Override(false);
-            gameEffects.CA.enabled.Override(false);
-            gameEffects.COLOR.enabled.Override(false);
-            gameEffects.DOF.enabled.Override(false);
-            gameEffects.GRAIN.enabled.Override(false);
-            gameEffects.LENS.enabled.Override(false);
-            gameEffects.BLUR.enabled.Override(false);
-            gameEffects.REFL.enabled.Override(false);
-            gameEffects.VIGN.enabled.Override(false);
+            // so if one gets unchecked it needs to be disabled even if is not read
+            foreach (var suite in new EffectSuite[] { gameEffects.effectSuite, gameEffects.map_effectSuite }) {
+                suite.AO.enabled.Override(false);
+                suite.EXPO.enabled.Override(false);
+                suite.BLOOM.enabled.Override(false);
+                suite.CA.enabled.Override(false);
+                suite.COLOR.enabled.Override(false);
+                suite.DOF.enabled.Override(false);
+                suite.GRAIN.enabled.Override(false);
+                suite.LENS.enabled.Override(false);
+                suite.BLUR.enabled.Override(false);
+                suite.REFL.enabled.Override(false);
+                suite.VIGN.enabled.Override(false);
+            }
 
             // disable FOV override
             cameraController.override_fov = false;
 
-            if (BabboSettings.Instance.IsReplayActive()) {
-                for (int i = Main.settings.replay_presetOrder.Count - 1; i >= 0; i--) {
-                    var preset = Main.presets[Main.settings.replay_presetOrder[i]];
-                    if (preset.replay_enabled) ApplyPreset(preset);
-                }
-            }
-            else {
-                for (int i = Main.settings.presetOrder.Count - 1; i >= 0; i--) {
-                    var preset = Main.presets[Main.settings.presetOrder[i]];
-                    if (preset.enabled) ApplyPreset(preset);
-                }
+            var replayOrder = BabboSettings.Instance.IsReplayActive() ? Main.settings.replay_presetOrder : Main.settings.presetOrder;
+            if (replayOrder.map_enabled) ApplyPreset(Main.presets[Main.map_name]);
+            for (int i = replayOrder.Count - 1; i >= 0; i--) {
+                var name = replayOrder.names[i];
+                var enabled = replayOrder.enables[i];
+                var preset = Main.presets[name];
+                if (enabled) ApplyPreset(preset);
             }
         }
 
         private void ApplyPreset(Preset preset) {
+            var suite = preset.isMapPreset ? gameEffects.map_effectSuite : gameEffects.effectSuite;
+
             // FOV Override
             if (preset.OVERRIDE_FOV) {
                 cameraController.override_fov = true;
@@ -51,101 +51,101 @@ namespace BabboSettings
 
             // Ambient Occlusion
             if (preset.AO.enabled.value) {
-                gameEffects.AO.enabled.Override(preset.AO.enabled.value);
-                gameEffects.AO.intensity.Override(preset.AO.intensity.value);
-                gameEffects.AO.quality.Override(preset.AO.quality.value);
-                gameEffects.AO.mode.Override(preset.AO.mode.value);
+                suite.AO.enabled.Override(preset.AO.enabled.value);
+                suite.AO.intensity.Override(preset.AO.intensity.value);
+                suite.AO.quality.Override(preset.AO.quality.value);
+                suite.AO.mode.Override(preset.AO.mode.value);
             }
 
             // Automatic Exposure
             if (preset.EXPO.enabled.value) {
-                gameEffects.EXPO.enabled.Override(preset.EXPO.enabled.value);
-                gameEffects.EXPO.keyValue.Override(preset.EXPO.keyValue.value);
+                suite.EXPO.enabled.Override(preset.EXPO.enabled.value);
+                suite.EXPO.keyValue.Override(preset.EXPO.keyValue.value);
             }
 
             // Bloom
             if (preset.BLOOM.enabled.value) {
-                gameEffects.BLOOM.enabled.Override(preset.BLOOM.enabled.value);
-                gameEffects.BLOOM.intensity.Override(preset.BLOOM.intensity.value);
-                gameEffects.BLOOM.threshold.Override(preset.BLOOM.threshold.value);
-                gameEffects.BLOOM.diffusion.Override(preset.BLOOM.diffusion.value);
-                gameEffects.BLOOM.fastMode.Override(preset.BLOOM.fastMode.value);
+                suite.BLOOM.enabled.Override(preset.BLOOM.enabled.value);
+                suite.BLOOM.intensity.Override(preset.BLOOM.intensity.value);
+                suite.BLOOM.threshold.Override(preset.BLOOM.threshold.value);
+                suite.BLOOM.diffusion.Override(preset.BLOOM.diffusion.value);
+                suite.BLOOM.fastMode.Override(preset.BLOOM.fastMode.value);
             }
 
             // Chromatic aberration
             if (preset.CA.enabled.value) {
-                gameEffects.CA.enabled.Override(preset.CA.enabled.value);
-                gameEffects.CA.intensity.Override(preset.CA.intensity.value);
-                gameEffects.CA.fastMode.Override(preset.CA.fastMode.value);
+                suite.CA.enabled.Override(preset.CA.enabled.value);
+                suite.CA.intensity.Override(preset.CA.intensity.value);
+                suite.CA.fastMode.Override(preset.CA.fastMode.value);
             }
 
             // Color Grading
             if (preset.COLOR.enabled) {
-                gameEffects.COLOR.gradingMode.Override(GradingMode.HighDefinitionRange);
-                gameEffects.COLOR.enabled.Override(preset.COLOR.enabled.value);
-                gameEffects.COLOR.tonemapper.Override(preset.COLOR.tonemapper.value);
-                gameEffects.COLOR.temperature.Override(preset.COLOR.temperature.value);
-                gameEffects.COLOR.tint.Override(preset.COLOR.tint.value);
-                gameEffects.COLOR.postExposure.Override(preset.COLOR.postExposure.value);
-                gameEffects.COLOR.hueShift.Override(preset.COLOR.hueShift.value);
-                gameEffects.COLOR.saturation.Override(preset.COLOR.saturation.value);
-                gameEffects.COLOR.contrast.Override(preset.COLOR.contrast.value);
-                gameEffects.COLOR.lift.Override(preset.COLOR.lift.value);
-                gameEffects.COLOR.gamma.Override(preset.COLOR.gamma.value);
-                gameEffects.COLOR.gain.Override(preset.COLOR.gain.value);
+                suite.COLOR.gradingMode.Override(GradingMode.HighDefinitionRange);
+                suite.COLOR.enabled.Override(preset.COLOR.enabled.value);
+                suite.COLOR.tonemapper.Override(preset.COLOR.tonemapper.value);
+                suite.COLOR.temperature.Override(preset.COLOR.temperature.value);
+                suite.COLOR.tint.Override(preset.COLOR.tint.value);
+                suite.COLOR.postExposure.Override(preset.COLOR.postExposure.value);
+                suite.COLOR.hueShift.Override(preset.COLOR.hueShift.value);
+                suite.COLOR.saturation.Override(preset.COLOR.saturation.value);
+                suite.COLOR.contrast.Override(preset.COLOR.contrast.value);
+                suite.COLOR.lift.Override(preset.COLOR.lift.value);
+                suite.COLOR.gamma.Override(preset.COLOR.gamma.value);
+                suite.COLOR.gain.Override(preset.COLOR.gain.value);
             }
 
             // Depth Of Field
             if (preset.DOF.enabled.value) {
-                gameEffects.DOF.enabled.Override(preset.DOF.enabled.value);
+                suite.DOF.enabled.Override(preset.DOF.enabled.value);
                 gameEffects.focus_mode = preset.FOCUS_MODE;
                 if (preset.FOCUS_MODE == FocusMode.Custom) {// if it is player/skate it gets set during lateupdate (instead of onGUI)
-                    gameEffects.DOF.focusDistance.Override(preset.DOF.focusDistance.value);
+                    suite.DOF.focusDistance.Override(preset.DOF.focusDistance.value);
                 }
-                gameEffects.DOF.aperture.Override(preset.DOF.aperture.value);
-                gameEffects.DOF.focalLength.Override(preset.DOF.focalLength.value);
-                gameEffects.DOF.kernelSize.Override(preset.DOF.kernelSize.value);
+                suite.DOF.aperture.Override(preset.DOF.aperture.value);
+                suite.DOF.focalLength.Override(preset.DOF.focalLength.value);
+                suite.DOF.kernelSize.Override(preset.DOF.kernelSize.value);
             }
 
             // Grain
             if (preset.GRAIN.enabled.value) {
-                gameEffects.GRAIN.enabled.Override(preset.GRAIN.enabled.value);
-                gameEffects.GRAIN.colored.Override(preset.GRAIN.colored.value);
-                gameEffects.GRAIN.intensity.Override(preset.GRAIN.intensity.value);
-                gameEffects.GRAIN.size.Override(preset.GRAIN.size.value);
-                gameEffects.GRAIN.lumContrib.Override(preset.GRAIN.lumContrib.value);
+                suite.GRAIN.enabled.Override(preset.GRAIN.enabled.value);
+                suite.GRAIN.colored.Override(preset.GRAIN.colored.value);
+                suite.GRAIN.intensity.Override(preset.GRAIN.intensity.value);
+                suite.GRAIN.size.Override(preset.GRAIN.size.value);
+                suite.GRAIN.lumContrib.Override(preset.GRAIN.lumContrib.value);
             }
 
             // Lens Distortion
             if (preset.LENS.enabled.value) {
-                gameEffects.LENS.enabled.Override(preset.LENS.enabled.value);
-                gameEffects.LENS.intensity.Override(preset.LENS.intensity.value);
-                gameEffects.LENS.intensityX.Override(preset.LENS.intensityX.value);
-                gameEffects.LENS.intensityY.Override(preset.LENS.intensityY.value);
-                gameEffects.LENS.scale.Override(preset.LENS.scale.value);
+                suite.LENS.enabled.Override(preset.LENS.enabled.value);
+                suite.LENS.intensity.Override(preset.LENS.intensity.value);
+                suite.LENS.intensityX.Override(preset.LENS.intensityX.value);
+                suite.LENS.intensityY.Override(preset.LENS.intensityY.value);
+                suite.LENS.scale.Override(preset.LENS.scale.value);
             }
 
             // Motion Blur
             if (preset.BLUR.enabled.value) {
-                gameEffects.BLUR.enabled.Override(preset.BLUR.enabled.value);
-                gameEffects.BLUR.shutterAngle.Override(preset.BLUR.shutterAngle.value);
-                gameEffects.BLUR.sampleCount.Override(preset.BLUR.sampleCount.value);
+                suite.BLUR.enabled.Override(preset.BLUR.enabled.value);
+                suite.BLUR.shutterAngle.Override(preset.BLUR.shutterAngle.value);
+                suite.BLUR.sampleCount.Override(preset.BLUR.sampleCount.value);
             }
 
             // Screen Space Reflections
             if (preset.REFL.enabled.value) {
-                gameEffects.REFL.enabled.Override(preset.REFL.enabled.value);
-                gameEffects.REFL.preset.Override(preset.REFL.preset.value);
+                suite.REFL.enabled.Override(preset.REFL.enabled.value);
+                suite.REFL.preset.Override(preset.REFL.preset.value);
             }
 
             // Vignette
             if (preset.VIGN.enabled.value) {
-                gameEffects.VIGN.enabled.Override(preset.VIGN.enabled.value);
-                gameEffects.VIGN.mode.Override(VignetteMode.Classic);
-                gameEffects.VIGN.intensity.Override(preset.VIGN.intensity.value);
-                gameEffects.VIGN.smoothness.Override(preset.VIGN.smoothness.value);
-                gameEffects.VIGN.roundness.Override(preset.VIGN.roundness.value);
-                gameEffects.VIGN.rounded.Override(preset.VIGN.rounded.value);
+                suite.VIGN.enabled.Override(preset.VIGN.enabled.value);
+                suite.VIGN.mode.Override(VignetteMode.Classic);
+                suite.VIGN.intensity.Override(preset.VIGN.intensity.value);
+                suite.VIGN.smoothness.Override(preset.VIGN.smoothness.value);
+                suite.VIGN.roundness.Override(preset.VIGN.roundness.value);
+                suite.VIGN.rounded.Override(preset.VIGN.rounded.value);
             }
 
         }

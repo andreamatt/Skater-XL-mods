@@ -2,6 +2,8 @@
 using ReplayEditor;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace BabboSettings
@@ -20,7 +22,7 @@ namespace BabboSettings
 
         private GameEffects effects;
         private Window window;
-        private MapPreset mapPreset;
+        private MapPresetUpdater mapPresetUpdater;
         private CustomCameraController cameraController;
         public PresetsManager presetsManager;
         //private DayNightController dayNightController;
@@ -36,7 +38,7 @@ namespace BabboSettings
             DontDestroyOnLoad(gameObject);
 
             effects = gameObject.AddComponent<GameEffects>();
-            mapPreset = gameObject.AddComponent<MapPreset>();
+            mapPresetUpdater = gameObject.AddComponent<MapPresetUpdater>();
             window = gameObject.AddComponent<Window>();
             PatchData.Instance.window = window;
             cameraController = gameObject.AddComponent<CustomCameraController>();
@@ -50,6 +52,15 @@ namespace BabboSettings
         private void Update() {
             // if the map changed, needs to find/create new effects
             effects.checkAndGetEffects();
+
+            //var HDRPAsset = FindObjectOfType<HDRenderPipelineAsset>();
+            //if (HDRPAsset != null) {
+            //    Logger.Log("Asset found");
+            //    HDRPAsset.renderPipelineSettings.supportVolumetrics = true;
+            //}
+            //else {
+            //    Logger.Log("Asset not found");
+            //}
         }
 
         private bool last_IsReplayActive = false;

@@ -11,14 +11,13 @@ using UnityModManagerNet;
 
 namespace BabboSettings
 {
-
-
     [Serializable]
     public class Settings : UnityModManager.ModSettings
     {
-
-        public List<string> presetOrder = new List<string>();
-        public List<string> replay_presetOrder = new List<string>();
+        public PresetSelection presetOrder = new PresetSelection();
+        public PresetSelection replay_presetOrder = new PresetSelection();
+        public bool map_preset_enabled = true;
+        public bool map_preset_replay_enabled = true;
         public bool DEBUG = true;
 
         // Basic
