@@ -57,6 +57,11 @@ namespace BabboSettings
         public float SKATE_CLIP = 0.01f;
         public Vector3 SKATE_SHIFT = Vector3.zero;
 
+        // Replay Controls
+        public float positionSpeed = 10f;
+        public float rotationSpeed = 50f;
+        public float fovSpeed = 50f;
+
         public Settings() {
         }
 

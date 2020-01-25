@@ -485,6 +485,10 @@ namespace BabboSettings
                     else if (selectedTab == SelectedTab.Camera) {
                         // Modes
                         if (inReplay) {
+                            Main.settings.fovSpeed = Slider("FOV mouse wheel speed", "FOV mouse wheel speed", Main.settings.fovSpeed, 1, 200);
+                            Main.settings.positionSpeed = Slider("WASD move speed", "WASD move speed", Main.settings.positionSpeed, 1, 200);
+                            Main.settings.rotationSpeed = Slider("mouse look speed", "mouse look speed", Main.settings.rotationSpeed, 1, 200);
+                            Separator();
                             if (cameraController.override_fov) {
                                 Label("There is a preset overriding the FOV. Disable that to use this slider", labelStyleRed);
                             }

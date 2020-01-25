@@ -48,6 +48,7 @@ namespace BabboSettings
                 map_post_volume = post_volume = allVolumes.First();
             }
             else if (allVolumes.Count == 2) {   // expected behaviour
+                Logger.Log("Exactly 2 global volumes");
                 post_volume = allVolumes[0];
                 map_post_volume = allVolumes[1];
             }

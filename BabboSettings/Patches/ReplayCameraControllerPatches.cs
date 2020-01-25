@@ -24,33 +24,14 @@ namespace BabboSettings.Patches
         }
     }
 
-    [HarmonyPatch(typeof(ReplayCameraController), "InputFreePosition")]
-    static class ReplayCameraController_InputFreePosition_Patch
-    {
-        static bool Prefix(ReplayCameraController __instance) {
-            // if not presset, skip
-            if (!Input.GetMouseButton(2)) return true;
-
-
-
-            return false;
-        }
-    }
-
     [HarmonyPatch(typeof(ReplayCameraController), "InputFreeRotation")]
     static class ReplayCameraController_InputFreeRotation_Patch
     {
         static bool Prefix(ReplayCameraController __instance) {
             // if not presset, skip
-            if (!Input.GetMouseButton(2)) return true;
+            PatchData.Instance.FreeInput(__instance);
 
-            float x = Input.GetAxis("Mouse X");
-            float y = Input.GetAxis("Mouse Y");
-
-            var cameraTransform = PatchData.Instance.cameraController.mainCamera.transform;
-            cameraTransform.transform.rotation = Quaternion.AngleAxis(y * __instance.RotateSpeed * Time.unscaledDeltaTime, Vector3.ProjectOnPlane(-cameraTransform.right, Vector3.up)) * cameraTransform.rotation;
-            cameraTransform.transform.rotation = Quaternion.AngleAxis(x * __instance.RotateSpeed * Time.unscaledDeltaTime, Vector3.up) * cameraTransform.rotation;
-            return false;
+            return true;
         }
     }
 }
