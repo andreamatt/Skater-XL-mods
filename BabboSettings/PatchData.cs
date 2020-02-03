@@ -84,12 +84,12 @@ namespace BabboSettings
         }
 
         public void FreeInput(ReplayCameraController replayCameraController) {
-            if (Input.GetMouseButton(2)) {
+            if (Input.GetKey(KeyCode.LeftControl)) {
                 InputPosition();
                 InputRotation();
+                InputFOV();
+                InputKeyFrames(replayCameraController);
             }
-            InputFOV();
-            InputKeyFrames(replayCameraController);
         }
 
         private void InputPosition() {
@@ -119,7 +119,7 @@ namespace BabboSettings
             }
 
             Vector3 point = new Vector3(x, y, z);
-            var cameraTransform = PatchData.Instance.cameraController.mainCamera.transform;
+            var cameraTransform = Instance.cameraController.mainCamera.transform;
             Vector3 a = Quaternion.Euler(0f, cameraTransform.eulerAngles.y, 0f) * point;
             cameraTransform.position += a * positionSpeed * Time.unscaledDeltaTime;
         }
@@ -128,7 +128,7 @@ namespace BabboSettings
             float x = Input.GetAxis("Mouse X");
             float y = Input.GetAxis("Mouse Y");
 
-            var cameraTransform = PatchData.Instance.cameraController.mainCamera.transform;
+            var cameraTransform = Instance.cameraController.mainCamera.transform;
             cameraTransform.transform.rotation = Quaternion.AngleAxis(y * rotationSpeed * Time.unscaledDeltaTime, Vector3.ProjectOnPlane(-cameraTransform.right, Vector3.up)) * cameraTransform.rotation;
             cameraTransform.transform.rotation = Quaternion.AngleAxis(x * rotationSpeed * Time.unscaledDeltaTime, Vector3.up) * cameraTransform.rotation;
         }

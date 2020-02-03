@@ -69,8 +69,7 @@ namespace BabboSettings
 
                 // move relative to camera
                 var camera = cameraController.mainCamera;
-                light.transform.position = camera.transform.position;
-                //light.transform.position = camera.transform.TransformVector(LIGHT_POSITION);
+                light.transform.position = camera.transform.TransformPoint(LIGHT_POSITION);
                 light.transform.rotation = camera.transform.rotation;
             }
             else {

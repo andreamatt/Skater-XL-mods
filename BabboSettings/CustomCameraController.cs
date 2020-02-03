@@ -20,7 +20,7 @@ namespace BabboSettings
         private HeadIK headIK = UnityEngine.Object.FindObjectOfType<HeadIK>();
         private Transform actualCam = PlayerController.Instance.cameraController._actualCam;
         private List<Material> head_materials = new List<Material>();
-        private Shader hiding_shader;
+        //private Shader hiding_shader;
         private Shader head_shader;
 
         public Transform replay_skater;

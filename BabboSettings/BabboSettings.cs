@@ -54,15 +54,6 @@ namespace BabboSettings
         private void Update() {
             // if the map changed, needs to find/create new effects
             effects.checkAndGetEffects();
-
-            //var HDRPAsset = FindObjectOfType<HDRenderPipelineAsset>();
-            //if (HDRPAsset != null) {
-            //    Logger.Log("Asset found");
-            //    HDRPAsset.renderPipelineSettings.supportVolumetrics = true;
-            //}
-            //else {
-            //    Logger.Log("Asset not found");
-            //}
         }
 
         private bool last_IsReplayActive = false;
@@ -72,6 +63,7 @@ namespace BabboSettings
             if (active != last_IsReplayActive) {
                 if (first_time_ReplayActive) {
                     first_time_ReplayActive = false;
+                    // the replay menu shows the wrong status for keyFrames On/Off the first time it is opened
                     ReplayEditorController.Instance.cameraController.useKeyframeIndicator.TurnOff();
                 }
                 last_IsReplayActive = active;
