@@ -25,6 +25,7 @@ namespace BabboSettings
         private MapPresetUpdater mapPresetUpdater;
         private CustomCameraController cameraController;
         public PresetsManager presetsManager;
+        private LightController lightController;
         //private DayNightController dayNightController;
 
         public void Start() {
@@ -44,6 +45,7 @@ namespace BabboSettings
             cameraController = gameObject.AddComponent<CustomCameraController>();
             PatchData.Instance.cameraController = cameraController;
             presetsManager = gameObject.AddComponent<PresetsManager>();
+            lightController = gameObject.AddComponent<LightController>();
             //dayNightController = DayNightController.Instance;
 
             effects.checkAndGetEffects();

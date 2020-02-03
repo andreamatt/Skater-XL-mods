@@ -22,6 +22,15 @@ namespace BabboSettings
         public bool OVERRIDE_FOV = false;
         public float OVERRIDE_FOV_VALUE = 90f;
 
+        // LIGHT
+        public bool LIGHT_ENABLED = false;
+        public float LIGHT_RANGE = 0;
+        public float LIGHT_ANGLE = 0;
+        public float LIGHT_INTENSITY = 0;
+        public Color LIGHT_COLOR = Color.white;
+        public Vector3 LIGHT_POSITION = Vector3.zero;
+        public string LIGHT_COOKIE = null;
+
         // Effects
         [NonSerialized]
         public AmbientOcclusion AO = ScriptableObject.CreateInstance<AmbientOcclusion>();
@@ -99,7 +108,7 @@ namespace BabboSettings
 
         public Task Save() {
             return Task.Run(() => {
-                var filepath = Main.modEntry.Path;
+                var filepath = Main.modEntry.Path + "Presets\\";
                 try {
                     using (var writer = new StreamWriter($"{filepath}{name}.preset.json")) {
                         Serialize();

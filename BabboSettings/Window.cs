@@ -47,7 +47,7 @@ namespace BabboSettings
         private bool showUI = false;
         private GameObject master;
         private bool setUp;
-        private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_COLOR_ADV, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN;
+        private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_COLOR_ADV, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN, sp_LIGHT;
         private bool choosing_name, editing_preset;
         private Preset edited_preset;
         private string name_text = "";
@@ -118,7 +118,7 @@ namespace BabboSettings
             };
 
             paypalTexture = new Texture2D(318, 159, TextureFormat.RGBA32, false);
-            paypalTexture.LoadImage(File.ReadAllBytes(Directory.GetCurrentDirectory() + "\\Mods\\BabboSettings\\paypal.png"));
+            paypalTexture.LoadImage(File.ReadAllBytes(Main.modEntry.Path + "paypal.png"));
             paypalTexture.filterMode = FilterMode.Point;
         }
 
@@ -381,6 +381,38 @@ namespace BabboSettings
                         edited_preset.VIGN.rounded.Override(Toggle(edited_preset.VIGN.rounded.value, "Rounded"));
                         if (Button("Reset")) gameEffects.reset(ref edited_preset.VIGN);
                         EndHorizontal();
+                    }
+                    #endregion
+                    Separator();
+                    #region Light on camera
+                    BeginHorizontal();
+                    edited_preset.LIGHT_ENABLED = Toggle(edited_preset.LIGHT_ENABLED, "Light On Camera");
+                    if (edited_preset.LIGHT_ENABLED) sp_LIGHT = Spoiler(sp_LIGHT ? "hide" : "show") ? !sp_LIGHT : sp_LIGHT;
+                    EndHorizontal();
+                    if (edited_preset.LIGHT_ENABLED && sp_LIGHT) {
+                        edited_preset.LIGHT_INTENSITY = Slider("Intensity", "LIGHT_INTENSITY", edited_preset.LIGHT_INTENSITY, 0, 8, digits: 6);
+                        edited_preset.LIGHT_RANGE = Slider("Range", "LIGHT_RANGE", edited_preset.LIGHT_RANGE, 0, 1000);
+                        edited_preset.LIGHT_ANGLE = Slider("Angle", "LIGHT_ANGLE", edited_preset.LIGHT_ANGLE, 0, 360);
+                        Separator();
+                        Label("Color");
+                        edited_preset.LIGHT_COLOR.r = Slider("red", "LIGHT_COLOR_R", edited_preset.LIGHT_COLOR.r, 0, 255);
+                        edited_preset.LIGHT_COLOR.g = Slider("green", "LIGHT_COLOR_G", edited_preset.LIGHT_COLOR.g, 0, 255);
+                        edited_preset.LIGHT_COLOR.b = Slider("blue", "LIGHT_COLOR_B", edited_preset.LIGHT_COLOR.b, 0, 255);
+                        Separator();
+                        Label("Shift light");
+                        edited_preset.LIGHT_POSITION.x = Slider("X", "LIGHT_SHIFT_X", edited_preset.LIGHT_POSITION.x, -20, 20);
+                        edited_preset.LIGHT_POSITION.y = Slider("Y", "LIGHT_SHIFT_Y", edited_preset.LIGHT_POSITION.y, -20, 20);
+                        edited_preset.LIGHT_POSITION.z = Slider("Z", "LIGHT_SHIFT_Z", edited_preset.LIGHT_POSITION.z, -20, 20);
+                        Separator();
+                        Label("Cookie");
+                        var values = lightController.CookieNames;
+                        int selected = Array.IndexOf(values, edited_preset.LIGHT_COOKIE);
+                        if (selected == -1) {
+                            // if not found, set to no cookie
+                            selected = 0;
+                        }
+                        selected = GUILayout.SelectionGrid(selected, values, 2);
+                        edited_preset.LIGHT_COOKIE = values[selected];
                     }
                     #endregion
                     Separator();
@@ -649,9 +681,10 @@ namespace BabboSettings
         private void EndHorizontal() {
             GUILayout.EndHorizontal();
         }
-        private float Slider(string name, string id, float current, float min, float max, bool horizontal = true) {
+        private float Slider(string name, string id, float current, float min, float max, bool horizontal = true, int digits = 2) {
+            var stringFormat = "0." + new string('0', digits);
             if (!sliderTextValues.ContainsKey(id)) {
-                sliderTextValues.Add(id, current.ToString("0.00"));
+                sliderTextValues.Add(id, current.ToString(stringFormat));
             }
 
             if (horizontal) BeginHorizontal();
@@ -679,7 +712,7 @@ namespace BabboSettings
             }
             // if the slider has moved
             else if (slider_res != current) {
-                sliderTextValues[id] = slider_res.ToString("0.00");
+                sliderTextValues[id] = slider_res.ToString(stringFormat);
                 return slider_res;
             }
             // nothing has changed

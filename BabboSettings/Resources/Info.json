@@ -2,11 +2,11 @@
 	"Id": "BabboSettings",
 	"DisplayName": "BabboSettings",
 	"Author": "Babbo Elu",
-	"Version": "0.6.6",
+	"Version": "0.6.7",
 	"ManagerVersion": "0.15.0",
 	"Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
 	"AssemblyName": "BabboSettings.dll",
 	"EntryMethod": "BabboSettings.Main.Load",
-	"HomePage": "https://github.com/andreamatt/BabboSettings",
-	"Repository": "https://raw.githubusercontent.com/andreamatt/BabboSettings/master/repository.json"
+	"HomePage": "https://github.com/andreamatt/Skater-XL-mods",
+	"Repository": "https://raw.githubusercontent.com/andreamatt/Skater-XL-mods/master/repository.json"
 }

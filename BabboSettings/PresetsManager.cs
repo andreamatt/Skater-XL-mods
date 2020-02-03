@@ -29,6 +29,8 @@ namespace BabboSettings
 
             // disable FOV override
             cameraController.override_fov = false;
+            // disable camera light
+            lightController.LIGHT_ENABLED = false;
 
             var replayOrder = BabboSettings.Instance.IsReplayActive() ? Main.settings.replay_presetOrder : Main.settings.presetOrder;
             if (replayOrder.map_enabled) ApplyPreset(Main.presets[Main.map_name]);
@@ -47,6 +49,17 @@ namespace BabboSettings
             if (preset.OVERRIDE_FOV) {
                 cameraController.override_fov = true;
                 cameraController.override_fov_value = preset.OVERRIDE_FOV_VALUE;
+            }
+
+            // Light on camera
+            if (preset.LIGHT_ENABLED) {
+                lightController.LIGHT_ENABLED = true;
+                lightController.LIGHT_RANGE = preset.LIGHT_RANGE;
+                lightController.LIGHT_ANGLE = preset.LIGHT_ANGLE;
+                lightController.LIGHT_INTENSITY = preset.LIGHT_INTENSITY;
+                lightController.LIGHT_COLOR = preset.LIGHT_COLOR;
+                lightController.LIGHT_POSITION = preset.LIGHT_POSITION;
+                lightController.LIGHT_COOKIE = preset.LIGHT_COOKIE;
             }
 
             // Ambient Occlusion

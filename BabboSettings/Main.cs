@@ -40,9 +40,19 @@ namespace BabboSettings
                 settings.replay_presetOrder.map_enabled = settings.presetOrder.map_enabled;
             }
 
+            // if no Presets folder, create it and move presets there
+            if (!Directory.Exists(modEntry.Path + "Presets")) {
+                Directory.CreateDirectory(modEntry.Path + "Presets");
+            }
+            var oldPaths = Directory.GetFiles(modEntry.Path, "*.preset.json");
+            foreach (var filePath in oldPaths) {
+                var fileName = Path.GetFileName(filePath);
+                File.Move(filePath, modEntry.Path + "\\Presets\\" + fileName);
+            }
+
             // load presets from files
             presets = new Dictionary<string, Preset>();
-            string[] filePaths = Directory.GetFiles(modEntry.Path, "*.preset.json");
+            string[] filePaths = Directory.GetFiles(modEntry.Path + "Presets\\", "*.preset.json");
             foreach (var filePath in filePaths) {
                 try {
                     var json = File.ReadAllText(filePath);

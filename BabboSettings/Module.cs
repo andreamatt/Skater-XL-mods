@@ -26,13 +26,15 @@ namespace BabboSettings
         private CachedModule<Window> _Window = new CachedModule<Window>();
         private CachedModule<PresetsManager> _PresetsManager = new CachedModule<PresetsManager>();
         private CachedModule<MapPresetUpdater> _MapPreset = new CachedModule<MapPresetUpdater>();
+        private CachedModule<LightController> _LightController = new CachedModule<LightController>();
 
-        protected DayNightController dayNightController { get => _DayNightController.Instance; }
-        protected CustomCameraController cameraController { get => _CustomCameraController.Instance; }
-        protected GameEffects gameEffects { get => _GameEffects.Instance; }
-        protected Window window { get => _Window.Instance; }
-        protected PresetsManager presetsManager { get => _PresetsManager.Instance; }
-        protected MapPresetUpdater mapPreset { get => _MapPreset.Instance; }
+        protected DayNightController dayNightController => _DayNightController.Instance;
+        protected CustomCameraController cameraController => _CustomCameraController.Instance;
+        protected GameEffects gameEffects => _GameEffects.Instance;
+        protected Window window => _Window.Instance;
+        protected PresetsManager presetsManager => _PresetsManager.Instance;
+        protected MapPresetUpdater mapPreset => _MapPreset.Instance;
+        protected LightController lightController => _LightController.Instance;
 
         virtual public void Start() { }
         virtual public void FixedUpdate() { }
