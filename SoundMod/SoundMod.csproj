@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="Logger.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Patches\DeckSoundsPatches.cs" />
     <Compile Include="Patches\MusicControllerPatches.cs" />
     <Compile Include="Patches\ReplayAudioEventPlayerPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

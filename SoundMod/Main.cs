@@ -11,7 +11,7 @@ namespace SoundMod
         public static bool enabled;
         public static Settings settings;
         public static HarmonyInstance harmonyInstance;
-        //public static SoundMod soundMod;
+        public static SoundMod soundMod;
         public static string modId = "SoundMod";
         public static UnityModManager.ModEntry modEntry;
 
@@ -33,9 +33,12 @@ namespace SoundMod
             if (enabled) {
                 harmonyInstance = HarmonyInstance.Create(modEntry.Info.Id);
                 harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+                if (soundMod == null) soundMod = ModMenu.Instance.gameObject.AddComponent<SoundMod>();
             }
             else {
                 harmonyInstance.UnpatchAll(harmonyInstance.Id);
+                soundMod = null;
+                UnityEngine.Object.Destroy(ModMenu.Instance.gameObject.GetComponent<SoundMod>());
             }
             return true;
         }

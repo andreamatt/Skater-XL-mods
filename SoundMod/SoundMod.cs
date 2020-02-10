@@ -12,16 +12,29 @@ using ReplayEditor;
 
 namespace SoundMod
 {
-    public static class SoundMod
+    public class SoundMod : MonoBehaviour
     {
-        static Dictionary<string, AudioClip> clipForName;
-        static DeckSounds deckSounds;
+        Dictionary<string, AudioClip> clipForName;
 
-        static public void Start() {
-            deckSounds = DeckSounds.Instance;
+        public void Start() {
+            Logger.Log("Changed decksounds instance");
+            var sound = SoundManager.Instance;
+            var soundTraverse = Traverse.Create(sound);
 
-            var deckSounds_traverse = Traverse.Create(deckSounds);
-            clipForName = deckSounds_traverse.Field("clipForName").GetValue<Dictionary<string, AudioClip>>();
+            clipForName = soundTraverse.Field("clipForName").GetValue<Dictionary<string, AudioClip>>();
+            if (clipForName != null) {
+                Logger.Log("clipforname instance is not null");
+                Load();
+            }
+        }
+
+        private void Load() {
+            if (clipForName == null) {
+                Logger.Log("clipforname instance is null");
+                return;
+            }
+
+            var deckSounds = SoundManager.Instance.deckSounds;
 
             // get new rolling sounds
             LoadSound(ref deckSounds.rollingSoundSlow, "rolling_sound_slow.wav");
@@ -44,9 +57,14 @@ namespace SoundMod
             LoadSounds(ref deckSounds.bumps, "bumps*.wav");
             LoadSounds(ref deckSounds.ollieScooped, "ollie_scooped*.wav");
             LoadSounds(ref deckSounds.ollieSlow, "ollie_slow*.wav");
+            LoadSounds(ref deckSounds.ollieWoodSlow, "ollie_wood_slow*.wav");
             LoadSounds(ref deckSounds.ollieFast, "ollie_fast*.wav");
             LoadSounds(ref deckSounds.boardLand, "board_land*.wav");
+            LoadSounds(ref deckSounds.boardWoodLand, "board_wood_land*.wav");
             LoadSounds(ref deckSounds.boardImpacts, "board_impacts*.wav");
+            LoadSounds(ref deckSounds.boardWoodImpacts, "board_wood_impacts*.wav");
+            LoadSounds(ref deckSounds.boardTarmacImpacts, "board_tarmac_impacts*.wav");
+            LoadSounds(ref deckSounds.boardGrassImpacts, "board_grass_impacts*.wav");
             LoadSounds(ref deckSounds.bearingSounds, "bearing_sounds*.wav");
             LoadSounds(ref deckSounds.shoesBoardBackImpacts, "shoes_board_back_impacts*.wav");
             LoadSounds(ref deckSounds.shoesImpactGroundSole, "shoes_impact_ground_sole*.wav");
@@ -63,14 +81,29 @@ namespace SoundMod
             LoadSounds(ref deckSounds.metalGrindGeneralStart, "metal_grind_start*.wav");
             LoadSounds(ref deckSounds.metalGrindGeneralLoop, "metal_grind_loop*.wav");
             LoadSounds(ref deckSounds.metalGrindGeneralEnd, "metal_grind_end*.wav");
-            LoadSounds(ref deckSounds.woodGrindGeneralStart, "wood_grind_start*.wav");
-            LoadSounds(ref deckSounds.woodGrindGeneralLoop, "wood_grind_loop*.wav");
-            LoadSounds(ref deckSounds.woodGrindGeneralEnd, "wood_grind_end*.wav");
+            LoadSounds(ref deckSounds.concretePowerslideStart, "concrete_powerslide_start*.wav");
+            LoadSounds(ref deckSounds.concretePowerslideLoop, "concrete_powerslide_loop*.wav");
+            LoadSounds(ref deckSounds.concretePowerslideEnd, "concrete_powerslide_end*.wav");
+            LoadSounds(ref deckSounds.tarmacPowerslideStart, "tarmac_powerslide_start*.wav");
+            LoadSounds(ref deckSounds.tarmacPowerslideLoop, "tarmac_powerslide_loop*.wav");
+            LoadSounds(ref deckSounds.tarmacPowerslideEnd, "tarmac_powerslide_end*.wav");
+            LoadSounds(ref deckSounds.brickPowerslideStart, "brick_powerslide_start*.wav");
+            LoadSounds(ref deckSounds.brickPowerslideLoop, "brick_powerslide_loop*.wav");
+            LoadSounds(ref deckSounds.brickPowerslideEnd, "brick_powerslide_end*.wav");
+            LoadSounds(ref deckSounds.woodPowerslideStart, "wood_powerslide_start*.wav");
+            LoadSounds(ref deckSounds.woodPowerslideLoop, "wood_powerslide_loop*.wav");
+            LoadSounds(ref deckSounds.woodPowerslideEnd, "wood_powerslide_end*.wav");
+            LoadSounds(ref deckSounds.movement_foley_jump, "movement_foley_jump*.wav");
+            LoadSounds(ref deckSounds.movement_foley_land, "movement_foley_land*.wav");
+            LoadSounds(ref deckSounds.rollingBrickLoop, "rolling_brick_loop*.wav");
+            LoadSounds(ref deckSounds.rollingWoodLoop, "rolling_wood_loop*.wav");
+            LoadSounds(ref deckSounds.rollingTarmacLoop, "rolling_tarmac_loop*.wav");
+
 
             Logger.Log("Sounds loaded");
         }
 
-        static private void LoadSounds(ref AudioClip[] audioClips, string pattern) {
+        private void LoadSounds(ref AudioClip[] audioClips, string pattern) {
             //Logger.Log("Getting files for " + pattern);
             string[] filePaths = Directory.GetFiles($"{Main.modEntry.Path}/Sounds/", pattern);
 
@@ -97,7 +130,7 @@ namespace SoundMod
             }
         }
 
-        static private void LoadSound(ref AudioClip audioClip, string name) {
+        private void LoadSound(ref AudioClip audioClip, string name) {
             var path = $"{Main.modEntry.Path}/Sounds/{name}";
             if (File.Exists(path)) {
                 var clip = GetClip(path);
@@ -114,7 +147,7 @@ namespace SoundMod
             }
         }
 
-        static private AudioClip GetClip(string path) {
+        private AudioClip GetClip(string path) {
             WWW audioLoader = new WWW(path);
             while (!audioLoader.isDone) System.Threading.Thread.Sleep(10);
             return audioLoader.GetAudioClip();
