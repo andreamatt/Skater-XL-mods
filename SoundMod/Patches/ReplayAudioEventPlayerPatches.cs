@@ -16,7 +16,7 @@ namespace SoundMod.Patches
         static bool fast_done = false;
 
         static bool Prefix(ReplayAudioEventPlayer __instance, float time, float timeScale) {
-            Logger.Log("Started prefix replayaudioeventplayer");
+            //Logger.Log("Started prefix replayaudioeventplayer");
             // only if they are still missing
             if (!slow_done || !fast_done) {
                 var audioSource = Traverse.Create(__instance).Field("m_AudioSource").GetValue<AudioSource>();
