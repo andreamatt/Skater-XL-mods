@@ -4,6 +4,11 @@
       "Id": "BabboSettings",
       "Version": "0.6.8",
       "DownloadUrl": "https://github.com/andreamatt/Skater-XL-mods/releases/download/BabboSettings_v0.6.8/BabboSettings-0.6.8.zip"
+    },
+    {
+      "Id": "AreYouSure",
+      "Version": "0.0.1",
+      "DownloadUrl": "https://github.com/andreamatt/Skater-XL-mods/releases/download/AreYouSure_v0.0.1/AreYouSure-0.0.1.zip"
     }
   ]
 }
