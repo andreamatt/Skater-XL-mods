@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AreYouSure.Patches;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace AreYouSure
         private Window window;
         public void Start() {
             window = this.gameObject.AddComponent<Window>();
+            ReplayState_OnUpdate_Patch.window = window;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace AreYouSure.Patches
     static class ReplayState_OnUpdate_Patch
     {
         public static Traverse replayStateTraverse;
-        public static bool checkingIfSure;
+        public static Window window;
         static bool Prefix(ReplayState __instance) {
             if (replayStateTraverse == null) {
                 replayStateTraverse = Traverse.Create(__instance);
@@ -26,9 +26,7 @@ namespace AreYouSure.Patches
                     //nothing
                 }
                 else {
-                    Logger.Log("Are you sure???");
-                    checkingIfSure = true;
-                    //__instance.RequestTransitionTo(typeof(PauseState));
+                    window.Open();
                 }
             }
 
