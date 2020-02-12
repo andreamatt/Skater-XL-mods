@@ -2,7 +2,7 @@
 	"Id": "AreYouSure",
 	"DisplayName": "AreYouSure",
 	"Author": "Babbo Elu",
-	"Version": "0.0.1",
+	"Version": "0.0.2",
 	"ManagerVersion": "0.15.0",
 	"Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
 	"AssemblyName": "AreYouSure.dll",

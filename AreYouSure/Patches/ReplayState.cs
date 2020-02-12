@@ -15,7 +15,7 @@ namespace AreYouSure.Patches
     static class ReplayState_OnUpdate_Patch
     {
         public static Traverse replayStateTraverse;
-        public static Window window;
+        public static ReplayWindow window;
         static bool Prefix(ReplayState __instance) {
             if (replayStateTraverse == null) {
                 replayStateTraverse = Traverse.Create(__instance);

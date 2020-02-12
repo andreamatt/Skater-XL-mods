@@ -10,10 +10,14 @@ namespace AreYouSure
 {
     class AreYouSure : MonoBehaviour
     {
-        private Window window;
+        private ReplayWindow replayWindow;
+        private ExitWindow exitWindow;
         public void Start() {
-            window = this.gameObject.AddComponent<Window>();
-            ReplayState_OnUpdate_Patch.window = window;
+            replayWindow = this.gameObject.AddComponent<ReplayWindow>();
+            ReplayState_OnUpdate_Patch.window = replayWindow;
+
+            exitWindow = this.gameObject.AddComponent<ExitWindow>();
+            GameStateMachine_Update_Patch.window = exitWindow;
         }
     }
 }

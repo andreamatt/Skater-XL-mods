@@ -8,23 +8,23 @@ using XLShredLib;
 
 namespace AreYouSure
 {
-    public class Window : MonoBehaviour
+    public abstract class Window : MonoBehaviour
     {
 
         #region GUI style
-        private Rect windowRect = new Rect(Screen.width / 2 - 200f, 200f, 600f, 0f);
-        private GUIStyle windowStyle;
-        private GUIStyle labelStyle;
-        private readonly Color windowColor = new Color(0.8f, 0.8f, 0.8f);
+        protected Rect windowRect = new Rect(Screen.width / 2 - 200f, 200f, 600f, 0f);
+        protected GUIStyle windowStyle;
+        protected GUIStyle labelStyle;
+        protected readonly Color windowColor = new Color(0.8f, 0.8f, 0.8f);
         #endregion
 
         #region GUI status
-        private bool showUI = false;
-        private GameObject master;
-        private bool setUp;
+        protected bool showUI = false;
+        protected GameObject master;
+        protected bool setUp;
         #endregion
 
-        private void SetUp() {
+        protected void SetUp() {
             if (master == null) {
                 master = GameObject.Find("New Master Prefab");
                 if (master != null) {
@@ -46,7 +46,7 @@ namespace AreYouSure
             ModMenu.Instance.ShowCursor(Main.modId);
         }
 
-        private void Close() {
+        protected void Close() {
             showUI = false;
             ModMenu.Instance.HideCursor(Main.modId);
         }
@@ -64,23 +64,6 @@ namespace AreYouSure
             }
         }
 
-        void RenderWindow(int windowID) {
-            if (Event.current.type == EventType.Repaint) windowRect.height = 0;
-
-            GUI.DragWindow(new Rect(0, 0, 10000, 20));
-
-            GUILayout.Label("ARE YOU SURE YOU WANT TO EXIT REPLAY EDITOR?", labelStyle);
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Yes, Exit")) {
-                Close();
-                var traverse = ReplayState_OnUpdate_Patch.replayStateTraverse;
-                var requestTransitionTo = traverse.Method("RequestTransitionTo", new Type[] { typeof(Type) });
-                requestTransitionTo.GetValue(typeof(PauseState));
-            }
-            if (GUILayout.Button("No, Stay HERE")) {
-                Close();
-            }
-            GUILayout.EndHorizontal();
-        }
+        protected abstract void RenderWindow(int windowID);
     }
 }
