@@ -81,6 +81,9 @@ namespace SoundMod
             LoadSounds(ref deckSounds.metalGrindGeneralStart, "metal_grind_start*.wav");
             LoadSounds(ref deckSounds.metalGrindGeneralLoop, "metal_grind_loop*.wav");
             LoadSounds(ref deckSounds.metalGrindGeneralEnd, "metal_grind_end*.wav");
+            LoadSounds(ref deckSounds.woodGrindGeneralStart, "wood_grind_start*.wav");
+            LoadSounds(ref deckSounds.woodGrindGeneralLoop, "wood_grind_loop*.wav");
+            LoadSounds(ref deckSounds.woodGrindGeneralEnd, "wood_grind_end*.wav");
             LoadSounds(ref deckSounds.concretePowerslideStart, "concrete_powerslide_start*.wav");
             LoadSounds(ref deckSounds.concretePowerslideLoop, "concrete_powerslide_loop*.wav");
             LoadSounds(ref deckSounds.concretePowerslideEnd, "concrete_powerslide_end*.wav");
