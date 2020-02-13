@@ -9,6 +9,7 @@ using XLShredLib;
 using XLShredLib.UI;
 using System.Linq;
 using ReplayEditor;
+using SoundMod.Patches;
 
 namespace SoundMod
 {

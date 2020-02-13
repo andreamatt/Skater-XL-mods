@@ -10,7 +10,7 @@ using UnityEngine;
 namespace SoundMod.Patches
 {
     [HarmonyPatch(typeof(ReplayAudioEventPlayer), "SetPlaybackTime")]
-    static class SetPlaybackTime_Patch
+    static class ReplayAudioEventPlayer_SetPlaybackTime_Patch
     {
         static bool slow_done = false;
         static bool fast_done = false;
