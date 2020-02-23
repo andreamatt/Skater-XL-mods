@@ -27,12 +27,13 @@ namespace MapBrowser
             get => release.ToString("dd/MM/yyyy");
             set => release = DateTime.Parse(value);
         }
-        public DateTime GetReleaseDate() => release;
+        public DateTime GetReleaseDate() => release;// cannot use a getter because of tinyjson
     }
 
     [Serializable]
     public class ClientMapInfo : MapInfo
     {
+        public bool completeInfo;
         public bool favourite;
         public string filePath;
 
@@ -49,6 +50,14 @@ namespace MapBrowser
             set => lastPlay = DateTime.Parse(value);
         }
         public DateTime GetLastPlayDate() => lastPlay;
+
+        public void UpdateBaseInfo(MapInfo mapInfo) {
+            mapName = mapInfo.mapName;
+            author = mapInfo.author;
+            fileName = mapInfo.fileName;
+            size = mapInfo.size;
+            releaseDate = mapInfo.releaseDate;
+        }
     }
 
     public class ImageInfo

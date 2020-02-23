@@ -15,21 +15,21 @@ namespace MapBrowser
     {
         // filename to list of previews
         private Dictionary<string, List<Texture2D>> previews = new Dictionary<string, List<Texture2D>>();
+        private Dictionary<string, int> previewIndex = new Dictionary<string, int>();
 
         public IEnumerator Start() {
             Logger.Log("Starting filemanager, imageDir: " + Main.ImageFolder);
             // settings are already loaded
             // get map files list from default path
             var mapPaths = Directory.GetFiles(Main.settings.defaultLoadingPath).ToList();
-            var localMaps = mapPaths.Select(m => Path.GetFileNameWithoutExtension(m)).ToList();
-
             // get all other paths
             foreach (var path in Main.settings.loadingPaths) {
-                var filePaths = Directory.GetFiles(path).ToList();
-                var names = filePaths.Select(m => Path.GetFileNameWithoutExtension(m)).ToList();
+                var filePaths = Directory.GetFiles(path);
                 mapPaths.AddRange(filePaths);
-                localMaps.AddRange(names);
             }
+            // key=name, value=path
+            var localMaps = mapPaths.ToDictionary(path => Path.GetFileName(path), path => path);
+
 
             // check for duplicates?? using hash??
 
@@ -51,7 +51,7 @@ namespace MapBrowser
             }
 
             // delete mapinfos if file is missing (keep only mapinfos where map is present)
-            Main.settings.installedMaps = Main.settings.installedMaps.Where(m => localMaps.Contains(m.fileName)).ToList();
+            Main.settings.installedMaps = Main.settings.installedMaps.Where(m => localMaps.Keys.Contains(m.fileName)).ToList();
 
 
             // download latest json and cache it
@@ -59,7 +59,7 @@ namespace MapBrowser
             yield return StartCoroutine(GetURL("https://raw.githubusercontent.com/andreamatt/Skater-XL-maps/master/mapIndex.json", result => text = result));
             Logger.Log("TEXT: " + text);
             var newIndex = text.FromJson<MapIndex>();
-            // save it (use text instead of reconverting newIndex to string)
+            Main.settings.mapIndex = newIndex;  // save new index
 
 
             // get image index
@@ -82,9 +82,50 @@ namespace MapBrowser
                 }
             }
 
-            // if there are new files without mapinfos, create mapinfos (if no json, what to do?)
+
+            // if there are new files without mapinfos, create mapinfos
+            // using old index vs new index vs local map names
+            var localMapInfoNames = Main.settings.installedMaps.Select(mi => mi.fileName);
+            foreach (var localMap in localMaps) {
+                var fileName = localMap.Key;
+                var filePath = localMap.Value;
+                // if localmapinfo is not present
+                if (!localMapInfoNames.Contains(fileName)) {
+                    // always create badinfo and update it asap
+                    var clientMapInfo = new ClientMapInfo() {
+                        completeInfo = false,
+                        favourite = false,
+                        filePath = filePath,
+                        downloadDate = File.GetLastWriteTime(filePath).ToString(),
+                        lastPlayed = DateTime.MinValue.ToString()
+                    };
+                    Main.settings.installedMaps.Add(clientMapInfo);
+                }
+            }
+
+            // update local mapinfos that need online info (just update all of them)
+            foreach (var cmi in Main.settings.installedMaps) {
+                var indexInfo = Main.settings.mapIndex.maps.FirstOrDefault(m => m.fileName == cmi.fileName);
+                if (indexInfo != null) {
+                    cmi.completeInfo = true;
+                    cmi.UpdateBaseInfo(indexInfo);
+                }
+            }
 
             // update previews dictionary
+            // add keys from localMaps and mapIndex
+            foreach (var localMap in Main.settings.installedMaps) {
+                previewIndex[localMap.fileName] = 0;
+                if (!previews.ContainsKey(localMap.fileName)) {
+                    previews[localMap.fileName] = new List<Texture2D>();
+                }
+            }
+            foreach (var map in Main.settings.mapIndex.maps) {
+                previewIndex[map.fileName] = 0;
+                if (!previews.ContainsKey(map.fileName)) {
+                    previews[map.fileName] = new List<Texture2D>();
+                }
+            }
 
             Logger.Log("Started filemanager");
         }
