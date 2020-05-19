@@ -2,7 +2,7 @@
 	"Id": "SoundMod",
 	"DisplayName": "SoundMod",
 	"Author": "Babbo Elu",
-	"Version": "0.0.2",
+	"Version": "0.0.3",
 	"ManagerVersion": "0.15.0",
 	"Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
 	"AssemblyName": "SoundMod.dll",
