@@ -102,7 +102,7 @@ namespace SoundMod
             LoadSounds(ref deckSounds.rollingBrickLoop, "rolling_brick_loop*.wav");
             LoadSounds(ref deckSounds.rollingWoodLoop, "rolling_wood_loop*.wav");
             LoadSounds(ref deckSounds.rollingTarmacLoop, "rolling_tarmac_loop*.wav");
-
+            deckSounds.GenerateInitialEvents();
 
             Logger.Log("Sounds loaded");
         }
