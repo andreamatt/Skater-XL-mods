@@ -130,7 +130,7 @@ namespace MapBrowser
             Logger.Log("Started filemanager");
         }
 
-        private IEnumerator GetURL(string url, Action<string> resultHandler) {
+        private IEnumerator GetURL(string url, Action<string> callback) {
             using (UnityWebRequest webRequest = UnityWebRequest.Get(url)) {
                 // Request and wait for the desired page.
                 yield return webRequest.SendWebRequest();
@@ -140,12 +140,12 @@ namespace MapBrowser
                 }
                 else {
                     var text = webRequest.downloadHandler.text;
-                    resultHandler(text);
+                    callback(text);
                 }
             }
         }
 
-        private IEnumerator DownloadImage(ImageInfo ii, Action<string, Texture2D> resultHandler) {
+        private IEnumerator DownloadImage(ImageInfo ii, Action<string, Texture2D> callback) {
             var url = ii.download_url;
             using (UnityWebRequest webRequest = UnityWebRequest.Get(url)) {
                 var downloadHandler = new DownloadHandlerTexture();
@@ -162,7 +162,7 @@ namespace MapBrowser
                     File.WriteAllBytes(Main.ImageFolder + ii.name, bytes);
 
                     var texture = downloadHandler.texture;
-                    resultHandler(ii.name, texture);
+                    callback(ii.name, texture);
                 }
             }
         }

@@ -14,8 +14,8 @@ namespace MapBrowser
         public void Start() {
             DontDestroyOnLoad(gameObject);
 
-            //window = gameObject.AddComponent<Window>();
-            fileManager = gameObject.AddComponent<FileManager>();
+            window = gameObject.AddComponent<Window>();
+            //fileManager = gameObject.AddComponent<FileManager>();
         }
     }
 }
