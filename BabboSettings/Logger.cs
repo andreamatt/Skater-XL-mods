@@ -7,16 +7,16 @@ using UnityModManagerNet;
 
 namespace BabboSettings
 {
-    static class Logger
-    {
-        public static void Log(string s) {
-            UnityModManager.Logger.Log("[BabboSettings] " + s);
-        }
+	static class Logger
+	{
+		public static void Log(string s) {
+			UnityModManager.Logger.Log("[BabboSettings] " + s);
+		}
 
-        public static void Debug(string s) {
-            if (Main.settings.DEBUG) {
-                Log("[DBG] " + s);
-            }
-        }
-    }
+		public static void Debug(string s) {
+			if (Main.settings.DEBUG) {
+				Log("[DBG] " + s);
+			}
+		}
+	}
 }

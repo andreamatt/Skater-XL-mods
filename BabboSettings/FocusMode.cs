@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BabboSettings
 {
-    public enum FocusMode
-    {
-        Custom,
-        Player,
-        Skate
-    }
+	public enum FocusMode
+	{
+		Custom,
+		Player,
+		Skate
+	}
 }

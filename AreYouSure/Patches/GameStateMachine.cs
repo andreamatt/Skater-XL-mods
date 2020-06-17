@@ -1,5 +1,5 @@
 ﻿using GameManagement;
-using Harmony12;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +9,16 @@ using UnityEngine;
 
 namespace AreYouSure.Patches
 {
-    [HarmonyPatch(typeof(GameStateMachine), "Update")]
-    static class GameStateMachine_Update_Patch
-    {
-        public static ExitWindow window;
-        static bool Prefix(GameStateMachine __instance) {
-            __instance.CurrentState.OnUpdate();
-            if (Input.GetKeyDown(KeyCode.Escape)) {
-                window.Open();
-            }
-            return false;
-        }
-    }
+	[HarmonyPatch(typeof(GameStateMachine), "Update")]
+	static class GameStateMachine_Update_Patch
+	{
+		public static ExitWindow window;
+		static bool Prefix(GameStateMachine __instance) {
+			__instance.CurrentState.OnUpdate();
+			if (Input.GetKeyDown(KeyCode.Escape)) {
+				window.Open();
+			}
+			return false;
+		}
+	}
 }

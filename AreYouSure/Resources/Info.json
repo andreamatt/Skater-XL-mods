@@ -1,12 +1,12 @@
 {
-	"Id": "AreYouSure",
-	"DisplayName": "AreYouSure",
-	"Author": "Babbo Elu",
-	"Version": "0.0.2",
-	"ManagerVersion": "0.15.0",
-	"Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
-	"AssemblyName": "AreYouSure.dll",
-	"EntryMethod": "AreYouSure.Main.Load",
-	"HomePage": "https://github.com/andreamatt/Skater-XL-mods",
-	"Repository": "https://raw.githubusercontent.com/andreamatt/Skater-XL-mods/master/repository.json"
+  "Id": "AreYouSure",
+  "DisplayName": "AreYouSure",
+  "Author": "Babbo Elu",
+  "Version": "0.0.2",
+  "ManagerVersion": "0.15.0",
+  "Requirements": [],
+  "AssemblyName": "AreYouSure.dll",
+  "EntryMethod": "AreYouSure.Main.Load",
+  "HomePage": "https://github.com/andreamatt/Skater-XL-mods",
+  "Repository": "https://raw.githubusercontent.com/andreamatt/Skater-XL-mods/master/repository.json"
 }

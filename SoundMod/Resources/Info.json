@@ -1,12 +1,12 @@
 ﻿{
-	"Id": "SoundMod",
-	"DisplayName": "SoundMod",
-	"Author": "Babbo Elu",
-	"Version": "0.0.3",
-	"ManagerVersion": "0.15.0",
-	"Requirements": [ "blendermf.XLShredMenu-0.0.5" ],
-	"AssemblyName": "SoundMod.dll",
-	"EntryMethod": "SoundMod.Main.Load",
-	"HomePage": "https://github.com/andreamatt/Skater-XL-mods",
-	"Repository": "https://raw.githubusercontent.com/andreamatt/Skater-XL-mods/master/repository.json"
+  "Id": "SoundMod",
+  "DisplayName": "SoundMod",
+  "Author": "Babbo Elu",
+  "Version": "0.0.3",
+  "ManagerVersion": "0.15.0",
+  "Requirements": [],
+  "AssemblyName": "SoundMod.dll",
+  "EntryMethod": "SoundMod.Main.Load",
+  "HomePage": "https://github.com/andreamatt/Skater-XL-mods",
+  "Repository": "https://raw.githubusercontent.com/andreamatt/Skater-XL-mods/master/repository.json"
 }

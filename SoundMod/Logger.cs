@@ -8,10 +8,10 @@ using UnityModManagerNet;
 
 namespace SoundMod
 {
-    public static class Logger
-    {
-        public static void Log(string s) {
-            UnityModManager.Logger.Log("[SoundMod] " + s);
-        }
-    }
+	public static class Logger
+	{
+		public static void Log(string s) {
+			UnityModManager.Logger.Log("[SoundMod] " + s);
+		}
+	}
 }

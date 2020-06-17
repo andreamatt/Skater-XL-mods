@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BabboSettings
 {
-    public enum CameraMode
-    {
-        Normal,
-        Low,
-        Follow,
-        POV,
-        Skate
-    }
+	public enum CameraMode
+	{
+		Normal,
+		Low,
+		Follow,
+		POV,
+		Skate
+	}
 }
