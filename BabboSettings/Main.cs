@@ -40,6 +40,14 @@ namespace BabboSettings
 			enabled = value;
 
 			if (enabled) {
+				// disable if xlshredmenu is detected
+				var mod = UnityModManager.FindMod("blendermf.XLShredMenu");
+				if (mod != null) {
+					modEntry.CustomRequirements = $"Mod {mod.Info.DisplayName} incompatible";
+					enabled = false;
+					return false;
+				}
+
 				harmony = new Harmony(modEntry.Info.Id);
 				harmony.PatchAll(Assembly.GetExecutingAssembly());
 

@@ -2,7 +2,7 @@
   "Id": "BabboSettings",
   "DisplayName": "BabboSettings",
   "Author": "Babbo Elu",
-  "Version": "0.6.8",
+  "Version": "0.6.9",
   "ManagerVersion": "0.15.0",
   "Requirements": [],
   "AssemblyName": "BabboSettings.dll",
