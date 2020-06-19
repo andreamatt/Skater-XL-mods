@@ -255,7 +255,8 @@ namespace BabboSettings
 		}
 
 		public override void LateUpdate() {
-			if (!BabboSettings.Instance.IsReplayActive() && GameStateMachine.Instance.CurrentState.GetType() != typeof(GearSelectionState)) {
+			var currentStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
+			if (!BabboSettings.Instance.IsReplayActive() && currentStateName != "GearSelectionState" && currentStateName != "PinMovementState") {
 				if (cameraMode == CameraMode.POV) {
 					pov();
 				}
