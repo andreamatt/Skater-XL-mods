@@ -1,4 +1,5 @@
-﻿using ReplayEditor;
+﻿using GameManagement;
+using ReplayEditor;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -217,7 +218,10 @@ namespace BabboSettings
 		}
 
 		public override void FixedUpdate() {
-			if (BabboSettings.Instance.IsReplayActive()) {
+			if (GameStateMachine.Instance.CurrentState.GetType() == typeof(GearSelectionState)) {
+				// do nothing (default camera behaviour?)
+			}
+			else if (BabboSettings.Instance.IsReplayActive()) {
 				// Normal camera values
 				mainCamera.nearClipPlane = 0.01f;
 				mainCamera.fieldOfView = override_fov ? override_fov_value : replay_fov;
@@ -241,7 +245,7 @@ namespace BabboSettings
 						follow();
 						break;
 					case CameraMode.POV:
-						//pov(); doesn't work on fixed, probably because of animations
+						//pov(); doesn't work on fixedUpdate, probably because of animations
 						break;
 					case CameraMode.Skate:
 						skate_pov();
@@ -251,7 +255,7 @@ namespace BabboSettings
 		}
 
 		public override void LateUpdate() {
-			if (!BabboSettings.Instance.IsReplayActive()) {
+			if (!BabboSettings.Instance.IsReplayActive() && GameStateMachine.Instance.CurrentState.GetType() != typeof(GearSelectionState)) {
 				if (cameraMode == CameraMode.POV) {
 					pov();
 				}
