@@ -425,10 +425,6 @@ namespace BabboSettings
 					EndHorizontal();
 
 					if (selectedTab == SelectedTab.Basic) {
-						#region Post in general
-						gameEffects.post_volume.enabled = Toggle(gameEffects.post_volume.enabled, "Enable post processing");
-						#endregion
-						Separator();
 						#region VSync
 						BeginHorizontal();
 						Label("Vsync");
