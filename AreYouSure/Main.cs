@@ -1,47 +1,55 @@
-﻿using Harmony12;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
 using UnityModManagerNet;
-using XLShredLib;
 
 namespace AreYouSure
 {
-    static class Main
-    {
-        public static bool enabled;
-        public static HarmonyInstance harmonyInstance;
-        public static string modId = "AreYouSure";
-        public static AreYouSure areYouSure;
-        public static UnityModManager.ModEntry modEntry;
+	static class Main
+	{
+		public static bool enabled;
+		public static Harmony harmony;
+		public static string modId = "AreYouSure";
+		public static AreYouSure areYouSure;
+		public static UnityModManager.ModEntry modEntry;
 
-        static bool Load(UnityModManager.ModEntry modEntry) {
+		static bool Load(UnityModManager.ModEntry modEntry) {
 
-            Main.modEntry = modEntry;
-            areYouSure = ModMenu.Instance.gameObject.AddComponent<AreYouSure>();
-            modEntry.OnToggle = OnToggle;
+			Main.modEntry = modEntry;
+			modEntry.OnToggle = OnToggle;
 
-            return true;
-        }
+			return true;
+		}
 
-        static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
-            Main.modEntry = modEntry;
-            if (enabled == value) return true;
-            enabled = value;
+		static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
+			Main.modEntry = modEntry;
+			if (enabled == value) return true;
+			enabled = value;
 
-            if (enabled) {
-                harmonyInstance = HarmonyInstance.Create(modEntry.Info.Id);
-                harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
-                if (areYouSure == null) areYouSure = ModMenu.Instance.gameObject.AddComponent<AreYouSure>();
-            }
-            else {
-                harmonyInstance.UnpatchAll(harmonyInstance.Id);
-                areYouSure = null;
-                UnityEngine.Object.Destroy(ModMenu.Instance.gameObject.GetComponent<AreYouSure>());
-            }
-            return true;
-        }
-    }
+			if (enabled) {
+				// disable if xlshredmenu is detected
+				var mod = UnityModManager.FindMod("blendermf.XLShredMenu");
+				if (mod != null) {
+					modEntry.CustomRequirements = $"Mod {mod.Info.DisplayName} incompatible";
+					enabled = false;
+					return false;
+				}
+				harmony = new Harmony(modEntry.Info.Id);
+				harmony.PatchAll(Assembly.GetExecutingAssembly());
+				if (areYouSure == null) {
+					areYouSure = new GameObject().AddComponent<AreYouSure>();
+					GameObject.DontDestroyOnLoad(areYouSure.gameObject);
+				}
+			}
+			else {
+				harmony.UnpatchAll(harmony.Id);
+				GameObject.Destroy(areYouSure.gameObject);
+				areYouSure = null;
+			}
+			return true;
+		}
+	}
 }

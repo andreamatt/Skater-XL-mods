@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundMod", "SoundMod\SoundM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{BB61062F-60FC-4BC1-8DB5-2A094C1EC6F8}"
 	ProjectSection(SolutionItems) = preProject
-		References\UnityModManager\0Harmony12.dll = References\UnityModManager\0Harmony12.dll
+		References\UnityModManager\0Harmony.dll = References\UnityModManager\0Harmony.dll
 		References\Assembly-CSharp.dll = References\Assembly-CSharp.dll
 		References\README.md = References\README.md
 		References\Rewired_Core.dll = References\Rewired_Core.dll
@@ -37,8 +37,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreYouSure", "AreYouSure\AreYouSure.csproj", "{BD880EDC-8E21-444B-8204-6A397F01CE0D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBrowser", "MapBrowser\MapBrowser.csproj", "{F5034AC5-DE50-4B51-ADEA-564C1F2EC714}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,12 +63,6 @@ Global
 		{BD880EDC-8E21-444B-8204-6A397F01CE0D}.MyConfig|Any CPU.Build.0 = Release|Any CPU
 		{BD880EDC-8E21-444B-8204-6A397F01CE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD880EDC-8E21-444B-8204-6A397F01CE0D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5034AC5-DE50-4B51-ADEA-564C1F2EC714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5034AC5-DE50-4B51-ADEA-564C1F2EC714}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5034AC5-DE50-4B51-ADEA-564C1F2EC714}.MyConfig|Any CPU.ActiveCfg = Release|Any CPU
-		{F5034AC5-DE50-4B51-ADEA-564C1F2EC714}.MyConfig|Any CPU.Build.0 = Release|Any CPU
-		{F5034AC5-DE50-4B51-ADEA-564C1F2EC714}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5034AC5-DE50-4B51-ADEA-564C1F2EC714}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

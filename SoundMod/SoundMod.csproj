@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony12">
-      <HintPath>..\References\UnityModManager\0Harmony12.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\UnityModManager\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
@@ -65,9 +66,6 @@
     </Reference>
     <Reference Include="UnityModManager">
       <HintPath>..\References\UnityModManager\UnityModManager.dll</HintPath>
-    </Reference>
-    <Reference Include="XLShredLib">
-      <HintPath>..\References\XLShredLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

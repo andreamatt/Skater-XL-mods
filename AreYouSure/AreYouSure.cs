@@ -8,16 +8,16 @@ using UnityEngine;
 
 namespace AreYouSure
 {
-    class AreYouSure : MonoBehaviour
-    {
-        private ReplayWindow replayWindow;
-        private ExitWindow exitWindow;
-        public void Start() {
-            replayWindow = this.gameObject.AddComponent<ReplayWindow>();
-            ReplayState_OnUpdate_Patch.window = replayWindow;
+	class AreYouSure : MonoBehaviour
+	{
+		private ReplayWindow replayWindow;
+		private ExitWindow exitWindow;
+		public void Start() {
+			replayWindow = this.gameObject.AddComponent<ReplayWindow>();
+			ReplayState_OnUpdate_Patch.window = replayWindow;
 
-            exitWindow = this.gameObject.AddComponent<ExitWindow>();
-            GameStateMachine_Update_Patch.window = exitWindow;
-        }
-    }
+			exitWindow = this.gameObject.AddComponent<ExitWindow>();
+			GameStateMachine_Update_Patch.window = exitWindow;
+		}
+	}
 }

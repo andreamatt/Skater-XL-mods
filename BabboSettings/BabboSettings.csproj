@@ -64,9 +64,9 @@
     <Compile Include="BabboSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="0Harmony12, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="0Harmony, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\UnityModManager\0Harmony12.dll</HintPath>
+      <HintPath>..\References\UnityModManager\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -119,10 +119,6 @@
     <Reference Include="UnityModManager, Version=0.21.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\UnityModManager\UnityModManager.dll</HintPath>
-    </Reference>
-    <Reference Include="XLShredLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\XLShredLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

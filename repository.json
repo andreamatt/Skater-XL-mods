@@ -2,8 +2,8 @@
   "Releases": [
     {
       "Id": "BabboSettings",
-      "Version": "0.6.8",
-      "DownloadUrl": "https://github.com/andreamatt/Skater-XL-mods/releases/download/BabboSettings_v0.6.8/BabboSettings-0.6.8.zip"
+      "Version": "0.6.9",
+      "DownloadUrl": "https://github.com/andreamatt/Skater-XL-mods/releases/download/BabboSettings_v0.6.9/BabboSettings-0.6.9.zip"
     },
     {
       "Id": "AreYouSure",
@@ -12,8 +12,8 @@
     },
     {
       "Id": "SoundMod",
-      "Version": "0.0.3",
-      "DownloadUrl": "https://github.com/andreamatt/Skater-XL-mods/releases/download/SoundMod_v0.0.3/SoundMod-0.0.3.zip"
+      "Version": "0.0.4",
+      "DownloadUrl": "https://github.com/andreamatt/Skater-XL-mods/releases/download/SoundMod_v0.0.4/SoundMod-0.0.4.zip"
     }
   ]
 }
