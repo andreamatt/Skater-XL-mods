@@ -1,12 +1,11 @@
 ﻿using GameManagement;
-using ReplayEditor;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace BabboSettings
 {
-	public class CustomCameraController : Module
+    public class CustomCameraController : Module
 	{
 		public override void Start() {
 			mainCamera = Camera.main;
@@ -141,8 +140,12 @@ namespace BabboSettings
 		private void normal() {
 			mainCamera.nearClipPlane = normal_clip;
 			mainCamera.fieldOfView = override_fov ? override_fov_value : normal_fov;
-			old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, normal_react);
-			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, normal_react_rot);
+
+            if (actualCam != null)
+            {
+				old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, normal_react);
+                old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, normal_react_rot);
+			}
 		}
 
 		#endregion
@@ -260,12 +263,20 @@ namespace BabboSettings
 				if (cameraMode == CameraMode.POV) {
 					pov();
 				}
-				foreach (var mat in head_materials) {
-					//mat.shader = (cameraMode == CameraMode.POV && hide_head) ? hiding_shader : head_shader;
-					//Logger.Log("Hiding " + mat.name);
-					mat.color = Color.clear;
+
+                if (head_materials != null && head_materials.Any())
+                {
+                    foreach (var mat in head_materials)
+                    {
+                        //mat.shader = (cameraMode == CameraMode.POV && hide_head) ? hiding_shader : head_shader;
+                        //Logger.Log("Hiding " + mat.name);
+                        if (mat != null)
+                        {
+                            mat.color = Color.clear;
+                        }
+                    }
 				}
-			}
+            }
 		}
 	}
 }
