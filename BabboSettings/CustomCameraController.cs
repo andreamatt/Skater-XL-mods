@@ -9,17 +9,24 @@ namespace BabboSettings
 	{
 		public override void Start() {
 			mainCamera = Camera.main;
-		}
+
+            old_pos = new Vector3();
+            old_rot = new Quaternion();
+			tra = new GameObject().transform;
+            headIK = FindObjectOfType<HeadIK>();
+            actualCam = PlayerController.Instance.cameraController._actualCam;
+			head_materials = new List<Material>();
+        }
 
 		#region Utilities
 		public Camera mainCamera { get; private set; }
 		private bool last_is_replay = false;
-		private Vector3 old_pos = new Vector3();
-		private Quaternion old_rot = new Quaternion();
-		private Transform tra = new GameObject().transform;
-		private HeadIK headIK = UnityEngine.Object.FindObjectOfType<HeadIK>();
-		private Transform actualCam = PlayerController.Instance.cameraController._actualCam;
-		private List<Material> head_materials = new List<Material>();
+		private Vector3 old_pos { get; set; }
+		private Quaternion old_rot { get; set; }
+		private Transform tra { get; set; }
+		private HeadIK headIK { get; set; }
+		private Transform actualCam { get; set; }
+		private List<Material> head_materials { get; set; }
 		//private Shader hiding_shader;
 		private Shader head_shader;
 
