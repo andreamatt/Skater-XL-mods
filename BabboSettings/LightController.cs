@@ -61,6 +61,7 @@ namespace BabboSettings
 
 		public override void Update() {
 			if (LIGHT_ENABLED) {
+				light.enabled = true;
 				light.range = LIGHT_RANGE;
 				light.spotAngle = LIGHT_ANGLE;
 				light.intensity = LIGHT_INTENSITY;
