@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GameManagement;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.Experimental.Rendering.HDPipeline;
 
 namespace BabboSettings
 {
-    public class LightController : Module
+	public class LightController : Module
 	{
 		#region Settings
 		public bool LIGHT_ENABLED = false;
@@ -19,7 +20,7 @@ namespace BabboSettings
 		#endregion
 
 		private Light light;
-        private HDAdditionalLightData additionalLightData;
+		private HDAdditionalLightData additionalLightData;
 		public readonly string EmptyCookieName = "None";
 		private Dictionary<string, Texture2D> Cookies = new Dictionary<string, Texture2D>();
 
@@ -30,11 +31,11 @@ namespace BabboSettings
 
 			var camera = cameraController.mainCamera;
 			light = gameObject.AddComponent<Light>();
-            
-            additionalLightData = gameObject.AddComponent<HDAdditionalLightData>();
-            additionalLightData.volumetricDimmer = 0;
 
-            light.type = LightType.Spot;
+			additionalLightData = gameObject.AddComponent<HDAdditionalLightData>();
+			additionalLightData.volumetricDimmer = 0;
+
+			light.type = LightType.Spot;
 			light.color = LIGHT_COLOR;
 			light.intensity = LIGHT_INTENSITY;
 			light.range = LIGHT_RANGE;
@@ -63,18 +64,19 @@ namespace BabboSettings
 		}
 
 		public override void Update() {
-			if (LIGHT_ENABLED) {
+			var currentStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
+			if (LIGHT_ENABLED && currentStateName != "GearSelectionState" && currentStateName != "PinMovementState") {
 				light.enabled = true;
 				light.range = LIGHT_RANGE;
 				light.spotAngle = LIGHT_ANGLE;
 				light.intensity = LIGHT_INTENSITY;
 				light.color = LIGHT_COLOR;
 				light.cookie = Cookies[LIGHT_COOKIE];
-                
-                // move relative to camera
+
+				// move relative to camera
 				var camera = cameraController.mainCamera;
 				light.transform.position = camera.transform.TransformPoint(LIGHT_POSITION);
-                light.transform.rotation = camera.transform.rotation;
+				light.transform.rotation = camera.transform.rotation;
 			}
 			else {
 				light.intensity = 0;
