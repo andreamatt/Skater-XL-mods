@@ -1,4 +1,4 @@
-﻿using AreYouSure.Patches;
+using AreYouSure.Patches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
