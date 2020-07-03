@@ -570,9 +570,9 @@ namespace BabboSettings
 								cameraController.follow_react_rot = Slider("Rotation", "FOLLOW_REACT_ROT", cameraController.follow_react_rot, 0.01f, 1);
 								Separator();
 								Label("Move camera: ");
-								cameraController.follow_shift.x = Slider("x", "FOLLOW_SHIFT_x", cameraController.follow_shift.x, -2, 2);
-								cameraController.follow_shift.y = Slider("y", "FOLLOW_SHIFT_y", cameraController.follow_shift.y, -2, 2);
-								cameraController.follow_shift.z = Slider("z", "FOLLOW_SHIFT_z", cameraController.follow_shift.z, -2, 2);
+								cameraController.follow_shift.x = Slider("x", "FOLLOW_SHIFT_x", Math.Abs(cameraController.follow_shift.x), 0, 3);
+								cameraController.follow_shift.y = Slider("y", "FOLLOW_SHIFT_y", cameraController.follow_shift.y, -3, 3);
+								cameraController.follow_shift.z = Slider("z", "FOLLOW_SHIFT_z", cameraController.follow_shift.z, -3, 3);
 								if (Button("Reset to player")) cameraController.follow_shift = new Vector3();
 							}
 							else if (cameraController.cameraMode == CameraMode.POV) {

@@ -1,7 +1,5 @@
-/References/*.dll
-/References/*.xml
-/References/UnityModManager/*.dll
-/References/UnityModManager/*.xml
+/References/*
+!/References/README.md
 
 /.vs
 

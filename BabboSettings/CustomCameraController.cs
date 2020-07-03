@@ -1,22 +1,25 @@
 ﻿using GameManagement;
+using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace BabboSettings
 {
-    public class CustomCameraController : Module
+	public class CustomCameraController : Module
 	{
 		public override void Start() {
 			mainCamera = Camera.main;
 
-            old_pos = new Vector3();
-            old_rot = new Quaternion();
+			old_pos = new Vector3();
+			old_rot = new Quaternion();
 			tra = new GameObject().transform;
-            headIK = FindObjectOfType<HeadIK>();
-            actualCam = PlayerController.Instance.cameraController._actualCam;
+			headIK = FindObjectOfType<HeadIK>();
+			actualCam = PlayerController.Instance.cameraController._actualCam;
 			head_materials = new List<Material>();
-        }
+			cameraControllerTraverse = Traverse.Create(PlayerController.Instance.cameraController).Field<bool>("_right");
+		}
 
 		#region Utilities
 		public Camera mainCamera { get; private set; }
@@ -27,6 +30,8 @@ namespace BabboSettings
 		private HeadIK headIK { get; set; }
 		private Transform actualCam { get; set; }
 		private List<Material> head_materials { get; set; }
+		private Traverse<bool> cameraControllerTraverse { get; set; }
+
 		//private Shader hiding_shader;
 		private Shader head_shader;
 
@@ -106,11 +111,12 @@ namespace BabboSettings
 			}
 			tra.position = pos;
 			tra.rotation = actualCam.rotation;
+			follow_shift.x = Math.Abs(follow_shift.x);
 			Vector3 true_shift = follow_shift;
-			if (SettingsManager.Instance.stance == SettingsManager.Stance.Goofy) {
-				true_shift.x *= -1;
-			}
 			if (PlayerController.Instance.IsSwitch) {
+				//true_shift.x *= -1;
+			}
+			if (cameraControllerTraverse.Value == false) {
 				true_shift.x *= -1;
 			}
 			old_true_shift_x = true_shift.x = Mathf.Lerp(old_true_shift_x, true_shift.x, 0.02f);
@@ -148,10 +154,9 @@ namespace BabboSettings
 			mainCamera.nearClipPlane = normal_clip;
 			mainCamera.fieldOfView = override_fov ? override_fov_value : normal_fov;
 
-            if (actualCam != null)
-            {
+			if (actualCam != null) {
 				old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, normal_react);
-                old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, normal_react_rot);
+				old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, normal_react_rot);
 			}
 		}
 
@@ -271,19 +276,16 @@ namespace BabboSettings
 					pov();
 				}
 
-                if (head_materials != null && head_materials.Any())
-                {
-                    foreach (var mat in head_materials)
-                    {
-                        //mat.shader = (cameraMode == CameraMode.POV && hide_head) ? hiding_shader : head_shader;
-                        //Logger.Log("Hiding " + mat.name);
-                        if (mat != null)
-                        {
-                            mat.color = Color.clear;
-                        }
-                    }
+				if (head_materials != null && head_materials.Any()) {
+					foreach (var mat in head_materials) {
+						//mat.shader = (cameraMode == CameraMode.POV && hide_head) ? hiding_shader : head_shader;
+						//Logger.Log("Hiding " + mat.name);
+						if (mat != null) {
+							mat.color = Color.clear;
+						}
+					}
 				}
-            }
+			}
 		}
 	}
 }
