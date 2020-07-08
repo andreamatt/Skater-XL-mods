@@ -40,7 +40,7 @@ namespace BabboSettings
 		private GUIStyle labelStyleRed;
 		private GUIStyle labelStyleMinMax;
 		private GUIStyle toggleStyle;
-		private readonly Color windowColor = new Color(0.2f, 0.2f, 0.2f);
+		private readonly Color windowColor = new Color(0f, 0f, 0f, 1f);
 		private string separator;
 		private GUIStyle separatorStyle;
 		private Vector2 scrollPosition = new Vector2();
