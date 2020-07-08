@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -172,6 +172,7 @@ namespace BabboSettings
 
 				Main.settings.VSYNC = QualitySettings.vSyncCount;
 				Main.settings.SCREEN_MODE = (int)Screen.fullScreenMode;
+				Main.settings.SCREEN_RESOLUTION = Screen.currentResolution;
 
 				Main.settings.AA_MODE = gameEffects.post_layer.antialiasingMode;
 				Main.settings.TAA_sharpness = gameEffects.post_layer.temporalAntialiasing.sharpness;
@@ -214,6 +215,8 @@ namespace BabboSettings
 			{
 				QualitySettings.vSyncCount = Main.settings.VSYNC;
 				Screen.fullScreenMode = (FullScreenMode)Main.settings.SCREEN_MODE;
+				var res = Main.settings.SCREEN_RESOLUTION;
+				Screen.SetResolution(res.width, res.height, Screen.fullScreenMode, res.refreshRate);
 
 				// AntiAliasing
 				{

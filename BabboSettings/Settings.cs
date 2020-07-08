@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +23,7 @@ namespace BabboSettings
 		// Basic
 		public int VSYNC = 1;
 		public int SCREEN_MODE = 0;
+		public Resolution SCREEN_RESOLUTION = Screen.currentResolution;
 
 		// AA
 		public PostProcessLayer.Antialiasing AA_MODE = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;

@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 using static UnityEngine.Rendering.PostProcessing.PostProcessLayer;
 
@@ -23,6 +25,8 @@ namespace BabboSettings
 		private string[] focus_modes = { "Custom", "Player", "Skate" };
 		private string[] tab_names = { "Basic", "Presets", "Camera" };
 		private string[] camera_names = { "Normal", "Low", "Follow", "POV", "Skate" };
+		private string[] refresh_rates;
+		private string[] resolutions;
 		private Texture2D paypalTexture;
 		#endregion
 
@@ -46,7 +50,9 @@ namespace BabboSettings
 		private bool showUI = false;
 		private GameObject master;
 		private bool setUp;
-		private bool sp_AA, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_COLOR_ADV, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN, sp_LIGHT;
+		private bool sp_AA, sp_RES, sp_AO, sp_EXPO, sp_BLOOM, sp_CA, sp_COLOR, sp_COLOR_ADV, sp_DOF, sp_GRAIN, sp_LENS, sp_BLUR, sp_REFL, sp_VIGN, sp_LIGHT;
+		private int selected_refresh_rate;
+		private List<Resolution> allResolutions;
 		private bool choosing_name, editing_preset;
 		private Preset edited_preset;
 		private string name_text = "";
@@ -116,9 +122,16 @@ namespace BabboSettings
 			toggleStyle = new GUIStyle(GUI.skin.toggle) {
 			};
 
+			allResolutions = Screen.resolutions.ToList();
+			refresh_rates = allResolutions.Select(r => r.refreshRate).Distinct().OrderBy(r => r).Select(r => r.ToString()).ToArray();
+			selected_refresh_rate = Array.IndexOf(refresh_rates, Screen.currentResolution.refreshRate.ToString());
+			resolutions = allResolutions.Where(r => r.refreshRate == Screen.currentResolution.refreshRate).Select(r => r.ToString()).ToArray();
+
 			paypalTexture = new Texture2D(318, 159, TextureFormat.RGBA32, false);
 			paypalTexture.LoadImage(File.ReadAllBytes(Main.modEntry.Path + "paypal.png"));
 			paypalTexture.filterMode = FilterMode.Point;
+
+			Logger.Log("Successful setup");
 		}
 
 		private void Open() {
@@ -437,6 +450,46 @@ namespace BabboSettings
 						Label("Fullscreen");
 						Screen.fullScreenMode = (FullScreenMode)GUILayout.SelectionGrid((int)Screen.fullScreenMode, screen_modes, screen_modes.Length);
 						EndHorizontal();
+						#endregion
+						Separator();
+						#region Resolution
+						BeginHorizontal();
+						Label("Resolution: " + Screen.currentResolution);
+						sp_RES = Spoiler(sp_RES ? "hide" : "show") ? !sp_RES : sp_RES;
+						EndHorizontal();
+						if (sp_RES) {
+							Label("Resolutions higher than your desktop work only in exclusive fullscreen", labelStyleRed);
+							Label("If the resolution doesn't change, it is not compatible with your setup (monitor/desktop resolution)", labelStyleRed);
+							// choose refresh rate
+							Label("Filter by refresh rate");
+							var new_refresh_rate = GUILayout.SelectionGrid(selected_refresh_rate, refresh_rates, refresh_rates.Length);
+							if (new_refresh_rate != selected_refresh_rate) {
+								selected_refresh_rate = new_refresh_rate;
+								var refresh_rate = int.Parse(refresh_rates[selected_refresh_rate]);
+								resolutions = allResolutions.Where(r => r.refreshRate == refresh_rate).Select(r => r.ToString()).ToArray();
+							}
+							// set refresh rate and filter by that?
+							var res_index = Array.IndexOf(resolutions, Screen.currentResolution.ToString());
+							if (res_index == -1) {
+								Logger.Log("Res not found: " + Screen.currentResolution.ToString());
+							}
+							var new_res_index = GUILayout.SelectionGrid(res_index, resolutions, 2);
+							Logger.Log("Current res index: " + res_index + ", new one: " + new_res_index);
+							if (res_index != new_res_index) {
+								var res_string = resolutions[new_res_index];
+								Logger.Log("Changing res to: " + res_string);
+								var width = res_string.Split('x')[0].Trim();
+								var height = res_string.Split('x')[1].Split('@')[0].Trim();
+								var refresh = res_string.Split('x')[1].Split('@')[1].Trim();
+								refresh = refresh.Substring(0, refresh.Length - 2);
+								var res = new Resolution() {
+									height = int.Parse(height),
+									width = int.Parse(width),
+									refreshRate = int.Parse(refresh)
+								};
+								Screen.SetResolution(res.width, res.height, Screen.fullScreenMode, res.refreshRate);
+							}
+						}
 						#endregion
 						Separator();
 						#region AntiAliasing
