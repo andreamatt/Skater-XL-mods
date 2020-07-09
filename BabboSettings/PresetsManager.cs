@@ -170,6 +170,7 @@ namespace BabboSettings
 				if (gameEffects.post_volume == null) throw new Exception("Post_volume is null");
 				if (Camera.main == null) throw new Exception("maincamera is null");
 
+				Main.settings.ENABLE_POST = gameEffects.post_volume.enabled;
 				Main.settings.VSYNC = QualitySettings.vSyncCount;
 				Main.settings.SCREEN_MODE = (int)Screen.fullScreenMode;
 				Main.settings.SCREEN_RESOLUTION = Screen.currentResolution;
@@ -213,6 +214,7 @@ namespace BabboSettings
 			Logger.Debug("Applying settings");
 			// Basic
 			{
+				gameEffects.post_volume.enabled = Main.settings.ENABLE_POST;
 				QualitySettings.vSyncCount = Main.settings.VSYNC;
 				Screen.fullScreenMode = (FullScreenMode)Main.settings.SCREEN_MODE;
 				var res = Main.settings.SCREEN_RESOLUTION;

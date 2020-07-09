@@ -21,6 +21,7 @@ namespace BabboSettings
 		public bool DEBUG = true;
 
 		// Basic
+		public bool ENABLE_POST = true;
 		public int VSYNC = 1;
 		public int SCREEN_MODE = 0;
 		public Resolution SCREEN_RESOLUTION = Screen.currentResolution;
