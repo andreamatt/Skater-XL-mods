@@ -31,7 +31,7 @@ namespace BabboSettings
 		private Transform actualCam { get; set; }
 		private List<Material> head_materials { get; set; }
 		private Traverse<bool> cameraControllerTraverse { get; set; }
-		private bool follow_auto_side_right = false;
+		private bool follow_auto_side_right = SettingsManager.Instance.stance == SettingsManager.Stance.Regular;
 
 		//private Shader hiding_shader;
 		private Shader head_shader;
