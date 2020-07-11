@@ -1,4 +1,4 @@
-﻿using GameManagement;
+using GameManagement;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -31,6 +31,7 @@ namespace BabboSettings
 		private Transform actualCam { get; set; }
 		private List<Material> head_materials { get; set; }
 		private Traverse<bool> cameraControllerTraverse { get; set; }
+		private bool follow_auto_side_right = false;
 
 		//private Shader hiding_shader;
 		private Shader head_shader;
@@ -57,6 +58,7 @@ namespace BabboSettings
 		public float follow_react = 0.70f;
 		public float follow_react_rot = 0.70f;
 		public float follow_clip = 0.01f;
+		public bool follow_auto_switch = false;
 		public float pov_fov = 60;
 		public float pov_react = 1;
 		public float pov_react_rot = 0.07f;
@@ -113,12 +115,37 @@ namespace BabboSettings
 			tra.rotation = actualCam.rotation;
 			follow_shift.x = Math.Abs(follow_shift.x);
 			Vector3 true_shift = follow_shift;
-			if (PlayerController.Instance.IsSwitch) {
-				//true_shift.x *= -1;
+
+			if (follow_auto_switch) {
+				if (PlayerController.Instance.IsSwitch) {
+					if (PlayerController.Instance.inputController.player.GetAxis("DPadX") < 0f) {
+						follow_auto_side_right = true;
+					}
+					else if (PlayerController.Instance.inputController.player.GetAxis("DPadX") > 0f) {
+						follow_auto_side_right = false;
+					}
+					// change side if in switch
+					true_shift.x *= -1;
+				}
+				else {
+					if (PlayerController.Instance.inputController.player.GetAxis("DPadX") < 0f) {
+						follow_auto_side_right = false;
+					}
+					else if (PlayerController.Instance.inputController.player.GetAxis("DPadX") > 0f) {
+						follow_auto_side_right = true;
+					}
+				}
+				// change side based on default side
+				if (!follow_auto_side_right) {
+					true_shift.x *= -1;
+				}
 			}
-			if (cameraControllerTraverse.Value == false) {
-				true_shift.x *= -1;
+			else {
+				if (!cameraControllerTraverse.Value) {
+					true_shift.x *= -1;
+				}
 			}
+
 			old_true_shift_x = true_shift.x = Mathf.Lerp(old_true_shift_x, true_shift.x, 0.02f);
 			tra.position = tra.TransformPoint(true_shift);
 

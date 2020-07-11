@@ -193,6 +193,7 @@ namespace BabboSettings
 				Main.settings.FOLLOW_REACT_ROT = cameraController.follow_react_rot;
 				Main.settings.FOLLOW_CLIP = cameraController.follow_clip;
 				Main.settings.FOLLOW_SHIFT = cameraController.follow_shift;
+				Main.settings.FOLLOW_AUTO_SWITCH = cameraController.follow_auto_switch;
 				Main.settings.POV_FOV = cameraController.pov_fov;
 				Main.settings.POV_REACT = cameraController.pov_react;
 				Main.settings.POV_REACT_ROT = cameraController.pov_react_rot;
@@ -244,6 +245,7 @@ namespace BabboSettings
 				cameraController.follow_react_rot = Main.settings.FOLLOW_REACT_ROT;
 				cameraController.follow_clip = Main.settings.FOLLOW_CLIP;
 				cameraController.follow_shift = Main.settings.FOLLOW_SHIFT;
+				cameraController.follow_auto_switch = Main.settings.FOLLOW_AUTO_SWITCH;
 				cameraController.pov_fov = Main.settings.POV_FOV;
 				cameraController.pov_react = Main.settings.POV_REACT;
 				cameraController.pov_react_rot = Main.settings.POV_REACT_ROT;

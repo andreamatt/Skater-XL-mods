@@ -630,6 +630,8 @@ namespace BabboSettings
 								cameraController.follow_shift.x = Slider("x", "FOLLOW_SHIFT_x", Math.Abs(cameraController.follow_shift.x), 0, 3);
 								cameraController.follow_shift.y = Slider("y", "FOLLOW_SHIFT_y", cameraController.follow_shift.y, -3, 3);
 								cameraController.follow_shift.z = Slider("z", "FOLLOW_SHIFT_z", cameraController.follow_shift.z, -3, 3);
+								Separator();
+								cameraController.follow_auto_switch = Toggle(cameraController.follow_auto_switch, "Auto switch side");
 								if (Button("Reset to player")) cameraController.follow_shift = new Vector3();
 							}
 							else if (cameraController.cameraMode == CameraMode.POV) {

@@ -46,6 +46,7 @@ namespace BabboSettings
 		public float FOLLOW_REACT_ROT = 0.70f;
 		public float FOLLOW_CLIP = 0.01f;
 		public Vector3 FOLLOW_SHIFT = Vector3.zero;
+		public bool FOLLOW_AUTO_SWITCH = false;
 		public float POV_FOV = 80;
 		public float POV_REACT = 1;
 		public float POV_REACT_ROT = 0.07f;
