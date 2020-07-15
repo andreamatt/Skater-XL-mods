@@ -19,7 +19,7 @@ namespace BabboSettings
 		private string[] ao_mode = { "SAO", "MSVO" };
 		private string[] refl_presets = { "Low", "Lower", "Medium", "High", "Higher", "Ultra", "Overkill" };
 		private string[] vsync_names = { "Disabled", "Full", "Half" };
-		private string[] screen_modes = { "Exclusive", "Full", "Maximized", "Windowed" };
+		private string[] screen_modes = { "Exclusive", "Full", "Windowed" };
 		private string[] tonemappers = { "None", "Neutral", "ACES" };
 		private string[] max_blur = { "Small", "Medium", "Large", "Very large" };
 		private string[] focus_modes = { "Custom", "Player", "Skate" };
@@ -452,13 +452,29 @@ namespace BabboSettings
 						#region Fullscreen
 						BeginHorizontal();
 						Label("Fullscreen");
-						Screen.fullScreenMode = (FullScreenMode)GUILayout.SelectionGrid((int)Screen.fullScreenMode, screen_modes, screen_modes.Length);
+						var currentValue = (int)Screen.fullScreenMode;
+						if (currentValue == 3) {
+							currentValue = 2;   // Maximized window is not supported in Windows, so skip that option
+						}
+						var newValue = GUILayout.SelectionGrid(currentValue, screen_modes, screen_modes.Length);
+						if (newValue == 2) {
+							newValue = 3; // 2 => windowed => convert to 3 to skip maximized
+						}
+						Screen.fullScreenMode = (FullScreenMode)newValue;
 						EndHorizontal();
 						#endregion
 						Separator();
 						#region Resolution
 						BeginHorizontal();
-						Label("Resolution: " + Screen.currentResolution);
+						var currentResolution = Screen.currentResolution;
+						if (Screen.fullScreenMode == FullScreenMode.Windowed) {
+							currentResolution = new Resolution() {
+								height = Screen.height,
+								width = Screen.width,
+								refreshRate = currentResolution.refreshRate
+							};
+						}
+						Label("Resolution: " + currentResolution);
 						sp_RES = Spoiler(sp_RES ? "hide" : "show") ? !sp_RES : sp_RES;
 						EndHorizontal();
 						if (sp_RES) {
@@ -473,12 +489,13 @@ namespace BabboSettings
 								resolutions = allResolutions.Where(r => r.refreshRate == refresh_rate).Select(r => r.ToString()).ToArray();
 							}
 							// set refresh rate and filter by that?
-							var res_index = Array.IndexOf(resolutions, Screen.currentResolution.ToString());
+							var res_index = Array.IndexOf(resolutions, currentResolution.ToString());
 							if (res_index == -1) {
-								Logger.Log("Res not found: " + Screen.currentResolution.ToString());
+								//Logger.Log("Res not found: " + currentResolution.ToString());
+								// resolution not found. Probably because refresh rate not supported, so it defaulted to another refresh rate
 							}
 							var new_res_index = GUILayout.SelectionGrid(res_index, resolutions, 2);
-							Logger.Log("Current res index: " + res_index + ", new one: " + new_res_index);
+							//Logger.Log("Current res index: " + res_index + ", new one: " + new_res_index);
 							if (res_index != new_res_index) {
 								var res_string = resolutions[new_res_index];
 								Logger.Log("Changing res to: " + res_string);

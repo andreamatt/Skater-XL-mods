@@ -173,7 +173,16 @@ namespace BabboSettings
 				Main.settings.ENABLE_POST = gameEffects.post_volume.enabled;
 				Main.settings.VSYNC = QualitySettings.vSyncCount;
 				Main.settings.SCREEN_MODE = (int)Screen.fullScreenMode;
-				Main.settings.SCREEN_RESOLUTION = Screen.currentResolution;
+				// save actual resolution
+				var currentResolution = Screen.currentResolution;
+				if (Screen.fullScreenMode == FullScreenMode.Windowed) {
+					currentResolution = new Resolution() {
+						height = Screen.height,
+						width = Screen.width,
+						refreshRate = currentResolution.refreshRate
+					};
+				}
+				Main.settings.SCREEN_RESOLUTION = currentResolution;
 
 				Main.settings.AA_MODE = gameEffects.post_layer.antialiasingMode;
 				Main.settings.TAA_sharpness = gameEffects.post_layer.temporalAntialiasing.sharpness;
@@ -217,9 +226,24 @@ namespace BabboSettings
 			{
 				gameEffects.post_volume.enabled = Main.settings.ENABLE_POST;
 				QualitySettings.vSyncCount = Main.settings.VSYNC;
-				Screen.fullScreenMode = (FullScreenMode)Main.settings.SCREEN_MODE;
+				// change only if needed
+				if (Screen.fullScreenMode != (FullScreenMode)Main.settings.SCREEN_MODE) {
+					Screen.fullScreenMode = (FullScreenMode)Main.settings.SCREEN_MODE;
+				}
+
 				var res = Main.settings.SCREEN_RESOLUTION;
-				Screen.SetResolution(res.width, res.height, Screen.fullScreenMode, res.refreshRate);
+				var currentResolution = Screen.currentResolution;
+				if (Screen.fullScreenMode == FullScreenMode.Windowed) {
+					currentResolution = new Resolution() {
+						height = Screen.height,
+						width = Screen.width,
+						refreshRate = currentResolution.refreshRate
+					};
+				}
+				// change only if needed
+				if (res.height != currentResolution.height || res.width != currentResolution.width || res.refreshRate != currentResolution.refreshRate) {
+					Screen.SetResolution(res.width, res.height, Screen.fullScreenMode, res.refreshRate);
+				}
 
 				// AntiAliasing
 				{
