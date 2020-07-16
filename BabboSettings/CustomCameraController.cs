@@ -260,7 +260,7 @@ namespace BabboSettings
 		}
 
 		public override void FixedUpdate() {
-			if (GameStateMachine.Instance.CurrentState.GetType() == typeof(GearSelectionState)) {
+			if (BabboSettings.Instance.currentGameStateName == "GearSelectionState") {
 				// do nothing (default camera behaviour?)
 			}
 			else if (BabboSettings.Instance.IsReplayActive()) {
@@ -297,7 +297,7 @@ namespace BabboSettings
 		}
 
 		public override void LateUpdate() {
-			var currentStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
+			var currentStateName = BabboSettings.Instance.currentGameStateName;
 			if (!BabboSettings.Instance.IsReplayActive() && currentStateName != "GearSelectionState" && currentStateName != "PinMovementState") {
 				if (cameraMode == CameraMode.POV) {
 					pov();

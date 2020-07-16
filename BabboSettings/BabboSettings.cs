@@ -1,4 +1,4 @@
-﻿using GameManagement;
+using GameManagement;
 using ReplayEditor;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +28,8 @@ namespace BabboSettings
 		private LightController lightController;
 		//private DayNightController dayNightController;
 
+		public string currentGameStateName;
+
 		public void Start() {
 			if (Instance != null) {
 				Logger.Log("BabboSettings Instance already exists");
@@ -48,18 +50,24 @@ namespace BabboSettings
 			lightController = gameObject.AddComponent<LightController>();
 			//dayNightController = DayNightController.Instance;
 
+			currentGameStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
 			effects.checkAndGetEffects();
 		}
 
 		private void Update() {
 			// if the map changed, needs to find/create new effects
+			var newGameStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
+			if (newGameStateName != currentGameStateName) {
+				currentGameStateName = newGameStateName;
+				Main.Save();
+			}
 			effects.checkAndGetEffects();
 		}
 
 		private bool last_IsReplayActive = false;
 		private bool first_time_ReplayActive = true;
 		public bool IsReplayActive() {
-			var active = GameStateMachine.Instance.CurrentState.GetType() == typeof(ReplayState);
+			var active = currentGameStateName == "ReplayState";
 			if (active != last_IsReplayActive) {
 				if (first_time_ReplayActive) {
 					first_time_ReplayActive = false;

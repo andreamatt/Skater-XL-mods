@@ -1,4 +1,4 @@
-﻿using GameManagement;
+using GameManagement;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -64,7 +64,7 @@ namespace BabboSettings
 		}
 
 		public override void Update() {
-			var currentStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
+			var currentStateName = BabboSettings.Instance.currentGameStateName;
 			if (LIGHT_ENABLED && currentStateName != "GearSelectionState" && currentStateName != "PinMovementState") {
 				light.enabled = true;
 				light.range = LIGHT_RANGE;
