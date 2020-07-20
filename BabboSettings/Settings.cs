@@ -25,6 +25,7 @@ namespace BabboSettings
 		public int VSYNC = 1;
 		public int SCREEN_MODE = 0;
 		public Resolution SCREEN_RESOLUTION = Screen.currentResolution;
+		public float FAR_CLIP = 1000;
 
 		// AA
 		public PostProcessLayer.Antialiasing AA_MODE = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing;

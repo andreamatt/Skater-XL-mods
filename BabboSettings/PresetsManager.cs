@@ -183,6 +183,7 @@ namespace BabboSettings
 					};
 				}
 				Main.settings.SCREEN_RESOLUTION = currentResolution;
+				Main.settings.FAR_CLIP = cameraController.mainCamera.farClipPlane;
 
 				Main.settings.AA_MODE = gameEffects.post_layer.antialiasingMode;
 				Main.settings.TAA_sharpness = gameEffects.post_layer.temporalAntialiasing.sharpness;
@@ -254,6 +255,9 @@ namespace BabboSettings
 					gameEffects.TAA.stationaryBlending = Main.settings.TAA_stationary;
 					gameEffects.TAA.motionBlending = Main.settings.TAA_motion;
 				}
+
+				// Render distance
+				cameraController.mainCamera.farClipPlane = Main.settings.FAR_CLIP;
 			}
 
 			// Camera

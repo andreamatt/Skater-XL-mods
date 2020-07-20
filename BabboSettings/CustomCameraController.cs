@@ -10,8 +10,6 @@ namespace BabboSettings
 	public class CustomCameraController : Module
 	{
 		public override void Start() {
-			mainCamera = Camera.main;
-
 			old_pos = new Vector3();
 			old_rot = new Quaternion();
 			tra = new GameObject().transform;
@@ -22,7 +20,15 @@ namespace BabboSettings
 		}
 
 		#region Utilities
-		public Camera mainCamera { get; private set; }
+		private Camera _mainCamera;
+		public Camera mainCamera {
+			get {
+				if (_mainCamera == null) {
+					_mainCamera = Camera.main;
+				}
+				return _mainCamera;
+			}
+		}
 		private bool last_is_replay = false;
 		private Vector3 old_pos { get; set; }
 		private Quaternion old_rot { get; set; }
@@ -239,7 +245,7 @@ namespace BabboSettings
 
 			//LogGGC();
 
-			mainCamera = Camera.main;
+			//mainCamera = Camera.main; ???
 		}
 
 		private void LogGGC() {

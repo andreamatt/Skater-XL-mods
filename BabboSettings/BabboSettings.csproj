@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="CameraMode.cs" />
     <Compile Include="LightController.cs" />
-    <Compile Include="DayNightController.cs" />
     <Compile Include="EffectSuite.cs" />
     <Compile Include="FocusMode.cs" />
     <Compile Include="GameEffects.cs" />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +20,6 @@ namespace BabboSettings
 			}
 		}
 
-		private CachedModule<DayNightController> _DayNightController = new CachedModule<DayNightController>();
 		private CachedModule<CustomCameraController> _CustomCameraController = new CachedModule<CustomCameraController>();
 		private CachedModule<GameEffects> _GameEffects = new CachedModule<GameEffects>();
 		private CachedModule<Window> _Window = new CachedModule<Window>();
@@ -28,7 +27,6 @@ namespace BabboSettings
 		private CachedModule<MapPresetUpdater> _MapPreset = new CachedModule<MapPresetUpdater>();
 		private CachedModule<LightController> _LightController = new CachedModule<LightController>();
 
-		protected DayNightController dayNightController => _DayNightController.Instance;
 		protected CustomCameraController cameraController => _CustomCameraController.Instance;
 		protected GameEffects gameEffects => _GameEffects.Instance;
 		protected Window window => _Window.Instance;

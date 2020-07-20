@@ -539,6 +539,10 @@ namespace BabboSettings
 						}
 						#endregion
 						Separator();
+						#region Render distance
+						cameraController.mainCamera.farClipPlane = SliderExp("Render distance", "camera.farClipPlane", cameraController.mainCamera.farClipPlane, 10, 2000);
+						#endregion
+						Separator();
 						#region PayPal
 						if (GUILayout.Button(paypalTexture)) {
 							Application.OpenURL("https://www.paypal.me/andreamatte");
@@ -830,6 +834,50 @@ namespace BabboSettings
 				sliderTextValues[id] = slider_res.ToString();
 				return slider_res;
 			}
+			else {
+				return current;
+			}
+		}
+
+		private float SliderExp(string name, string id, float current, float min, float max, bool horizontal = true, int digits = 2) {
+			var stringFormat = "0." + new string('0', digits);
+			if (!sliderTextValues.ContainsKey(id)) {
+				sliderTextValues.Add(id, current.ToString(stringFormat));
+			}
+
+			if (horizontal) BeginHorizontal();
+			Label(name + ":");
+			GUILayout.FlexibleSpace();
+			var text = GUILayout.TextField(sliderTextValues[id]);
+			GUILayout.Space(10);
+			Label(min + "", labelStyleMinMax);
+			var current_log = (float)Math.Log(current);
+			var min_log = (float)Math.Log(min);
+			var max_log = (float)Math.Log(max);
+			var slider_res_log = GUILayout.HorizontalSlider(current_log, min_log, max_log, sliderStyle, thumbStyle);
+			float slider_res = (float)Math.Exp(slider_res_log);
+			Label(max + "", labelStyleMinMax);
+			if (horizontal) EndHorizontal();
+
+			// if the user has typed
+			if (text != sliderTextValues[id]) {
+				// update text value
+				sliderTextValues[id] = text;
+				// if the value is valid
+				float text_res;
+				if (float.TryParse(text, out text_res) && text_res >= min && text_res <= max) {
+					return text_res;
+				}
+				else {
+					return current;
+				}
+			}
+			// if the slider has moved
+			else if (slider_res != current) {
+				sliderTextValues[id] = slider_res.ToString(stringFormat);
+				return slider_res;
+			}
+			// nothing has changed
 			else {
 				return current;
 			}
