@@ -478,7 +478,10 @@ namespace BabboSettings
 						sp_RES = Spoiler(sp_RES ? "hide" : "show") ? !sp_RES : sp_RES;
 						EndHorizontal();
 						if (sp_RES) {
-							Label("Resolutions higher than your desktop work only in exclusive fullscreen", labelStyleRed);
+							Label("READ THIS !!!! PLEASE !!!!", labelStyleRed);
+							Label("Resolutions higher than your desktop resolution work ONLY IN EXCLUSIVE FULLSCREEN", labelStyleRed);
+							Label("To use higher resolutions than your monitor use NVIDIA DSR or AMD VSR", labelStyleRed);
+							Label("For example, with DSR/VSR you can set 3840x2160 on a 1920x1080 monitor", labelStyleRed);
 							Label("If the resolution doesn't change, it is not compatible with your setup (monitor/desktop resolution)", labelStyleRed);
 							// choose refresh rate
 							Label("Filter by refresh rate");
