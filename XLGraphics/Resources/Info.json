@@ -1,0 +1,12 @@
+{
+  "Id": "XLGraphics",
+  "DisplayName": "XLGraphics",
+  "Author": "Babbo Elu",
+  "Version": "0.0.1",
+  "ManagerVersion": "0.22.5",
+  "Requirements": [],
+  "AssemblyName": "XLGraphics.dll",
+  "EntryMethod": "XLGraphics.Main.Load",
+  "HomePage": "https://github.com/andreamatt/Skater-XL-mods",
+  "Repository": "https://raw.githubusercontent.com/andreamatt/Skater-XL-mods/master/repository.json"
+}
