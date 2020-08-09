@@ -20,11 +20,15 @@ namespace XLGraphics
 		public static XLGraphicsMenu menu;
 		public static AssetBundle uiBundle;
 		public static UnityModManager.ModEntry modEntry;
+		public static Settings settings;
 
 		static bool Load(UnityModManager.ModEntry modEntry) {
 
 			Main.modEntry = modEntry;
 			modEntry.OnToggle = OnToggle;
+			modEntry.OnSaveGUI = OnSave;
+			//settings = Settings.Load<Settings>(modEntry);
+			settings = new Settings();
 
 			return true;
 		}
@@ -44,21 +48,17 @@ namespace XLGraphics
 				}
 				harmony = new Harmony(modEntry.Info.Id);
 				harmony.PatchAll(Assembly.GetExecutingAssembly());
-				if (xlGraphics == null) {
-					xlGraphics = new GameObject().AddComponent<XLGraphics>();
-					GameObject.DontDestroyOnLoad(xlGraphics.gameObject);
-				}
 
 				if (XLGraphicsMenu.Instance == null) {
 					if (uiBundle == null) uiBundle = AssetBundle.LoadFromFile(modEntry.Path + "graphicsmenuassetbundle");
 
 					GameObject newMenuObject = GameObject.Instantiate(uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Menu.prefab"));
-
-					XLGraphicsMenu.Instance.BTNclick = s => {
-						Logger.Log("Button clicked: " + s);
-					};
-
 					GameObject.DontDestroyOnLoad(newMenuObject);
+
+					menu = XLGraphicsMenu.Instance;
+
+					xlGraphics = new GameObject().AddComponent<XLGraphics>();
+					GameObject.DontDestroyOnLoad(xlGraphics.gameObject);
 
 					Cursor.visible = true;
 					Cursor.lockState = CursorLockMode.None;
@@ -70,6 +70,14 @@ namespace XLGraphics
 				xlGraphics = null;
 			}
 			return true;
+		}
+
+		static void OnSave(UnityModManager.ModEntry modEntry) {
+			Save();
+		}
+
+		static void Save() {
+			settings.Save(modEntry);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using ReplayEditor;
 using SoundMod.Patches;
+using System.Text.RegularExpressions;
 
 namespace SoundMod
 {
@@ -107,7 +108,7 @@ namespace SoundMod
 
 		private void LoadSounds(ref AudioClip[] audioClips, string pattern) {
 			//Logger.Log("Getting files for " + pattern);
-			string[] filePaths = Directory.GetFiles($"{Main.modEntry.Path}/Sounds/", pattern);
+			string[] filePaths = Directory.GetFiles($"{Main.modEntry.Path}/Sounds/", pattern).OrderBy(s => s).ToArray();
 
 			List<AudioClip> audioClipList = new List<AudioClip>();
 			foreach (var filePath in filePaths) {
@@ -125,6 +126,11 @@ namespace SoundMod
 			}
 
 			if (audioClipList.Count > 0) {
+				// if it's one of the special rolling loops and there is only 1 value, duplicate it
+				if (Regex.Match(pattern, @"rolling_(brick|wood)_loop.*").Success && audioClipList.Count == 1) {
+					audioClipList.Add(audioClipList[0]);
+					Logger.Log("Duplicating " + pattern + " sound");
+				}
 				audioClips = audioClipList.ToArray();
 			}
 			else {

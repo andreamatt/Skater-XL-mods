@@ -1,9 +1,9 @@
-﻿{
+{
   "Id": "SoundMod",
   "DisplayName": "SoundMod",
   "Author": "Babbo Elu",
-  "Version": "0.0.4",
-  "ManagerVersion": "0.15.0",
+  "Version": "0.0.5",
+  "ManagerVersion": "0.22.5",
   "Requirements": [],
   "AssemblyName": "SoundMod.dll",
   "EntryMethod": "SoundMod.Main.Load",
