@@ -8,8 +8,8 @@ using XLGraphics.Utils;
 
 namespace XLGraphics.Effects
 {
-	abstract class EffectHandler
+	abstract public class EffectHandler
 	{
-		abstract public void ConnectUI(UI ui);
+		abstract public void ConnectUI();
 	}
 }

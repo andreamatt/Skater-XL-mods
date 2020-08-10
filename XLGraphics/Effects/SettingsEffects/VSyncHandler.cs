@@ -12,7 +12,7 @@ namespace XLGraphics.Effects.SettingsEffects
 	class VSyncHandler : EffectHandler
 	{
 
-		public override void ConnectUI(UI ui) {
+		public override void ConnectUI() {
 			var VSNameToValue = new Dictionary<string, int> {
 				["VSyncDisabled"] = 0,
 				["VSyncFull"] = 1,
@@ -20,7 +20,7 @@ namespace XLGraphics.Effects.SettingsEffects
 			};
 			var VSValueToName = VSNameToValue.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-			var VSgrid = ui.selectionGrids["VSyncGrid"];
+			var VSgrid = UI.Instance.selectionGrids["VSyncGrid"];
 
 			// init UI values
 			QualitySettings.vSyncCount = Main.settings.VSYNC;

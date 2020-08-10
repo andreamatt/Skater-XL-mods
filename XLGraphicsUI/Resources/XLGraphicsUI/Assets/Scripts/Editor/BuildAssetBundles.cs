@@ -7,6 +7,7 @@ public class CreateAssetBundles
 {
 	[MenuItem("Assets/Build AssetBundles")]
 	static void BuildAllAssetBundles() {
+		Debug.Log("Building");
 		string assetBundleDirectory = "Assets/AssetBundles";
 		if (!Directory.Exists(assetBundleDirectory)) {
 			Directory.CreateDirectory(assetBundleDirectory);
@@ -17,6 +18,7 @@ public class CreateAssetBundles
 
 	[MenuItem("Assets/Build AssetBundles to Mod")]
 	static void BuildAllAssetBundlesToMod() {
+		Debug.Log("Building");
 		string assetBundleDirectory = "D:\\Steam\\steamapps\\common\\Skater XL\\Mods\\XLGraphics";
 		BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows);
 		Debug.Log("Done: " + DateTime.Now);

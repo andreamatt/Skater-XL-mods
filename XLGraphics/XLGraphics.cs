@@ -12,40 +12,45 @@ using XLGraphics.Effects.PresetEffects;
 using XLGraphics.Effects.SettingsEffects;
 using XLGraphics.Presets;
 using XLGraphics.Utils;
+using XLGraphicsUI;
 
 namespace XLGraphics
 {
 	public class XLGraphics : MonoBehaviour
 	{
-		VolumeUtils volumeUtils;
-		UI ui;
-		List<PresetEffectHandler> presetEffectHandlers;
-		List<EffectHandler> basicEffectHandlers;
-		List<EffectHandler> cameraEffectHandlers;
+		public List<PresetEffectHandler> presetEffectHandlers;
+		public List<EffectHandler> basicEffectHandlers;
+		public List<EffectHandler> cameraEffectHandlers;
 
 		public static XLGraphics Instance { get; private set; }
 
 		public void Start() {
 			Logger.Log("Start of XLGraphics");
+			Screen.fullScreenMode = FullScreenMode.Windowed;
 			Instance = this;
 
-			ui = new UI();
-			ui.CollectElements();
+			// load settings
+			Main.settings = Settings.Load();
+			if (Main.settings.presetOrder == null) {
+				throw new Exception("WTF");
+			}
 
-			var presets = new List<Preset> {
-				new Preset(),
-				new Preset(),
-				new Preset(),
-				new Preset(),
-				new Preset(),
-				new Preset()
-			};
-			ui.PopulatePresetsList(presets);
+			// initiate components
+			new VolumeUtils();
+			new UI();
+			new PresetManager();
+
+			PresetManager.Instance.LoadPresets();
+
+			UI.Instance.CollectElements();
+			UI.Instance.AddBaseListeners();
+			UI.Instance.AddPresetListeners();
 
 			basicEffectHandlers = new List<EffectHandler> {
 				new VSyncHandler(),
 				new FullScreenHandler(),
-				new AntiAliasingHandler()
+				new AntiAliasingHandler(),
+				new RenderDistanceHandler()
 			};
 
 			presetEffectHandlers = new List<PresetEffectHandler> {
@@ -53,37 +58,30 @@ namespace XLGraphics
 			};
 
 			foreach (var eH in basicEffectHandlers) {
-				eH.ConnectUI(ui);
+				eH.ConnectUI();
+			}
+			foreach (var eH in presetEffectHandlers) {
+				eH.ConnectUI();
 			}
 
-			//// find all volume priorities
-			//volumeUtils = new VolumeUtils(this);
-			//var minPrior = volumeUtils.GetHighestPriority();
-			//Logger.Log("highest prio is: " + minPrior);
-
-			////var random = new System.Random();
-			//for (int i = 0; i < 10; i++) {
-			//	var volume = volumeUtils.CreateVolume(-1 * i);
-
-			Camera.main.GetComponent<HDAdditionalCameraData>().antialiasing = HDAdditionalCameraData.AntialiasingMode.None;
-			//Camera.main.GetComponent<HDAdditionalCameraData>().antialiasingQuality = AntialiasingQuality.High;
-
-			//	DontDestroyOnLoad(profile);
-			//	volume.profile = profile;
-
-			//	var CA = profile.Add<ChromaticAberration>();
-			//	CA.active = true;
-			//	CA.intensity.value = i / 10;
-			//	CA.SetAllOverridesTo(true);
-
-			//}
-			////throw new Exception("WTF");
+			XLGraphicsMenu.Instance.basicContent.SetActive(true);
 
 			Logger.Log("End of XLGraphics");
 		}
 
 		public void Update() {
-
+			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
+			if (keyUp) {
+				var menu = XLGraphicsMenu.Instance;
+				if (menu.gameObject.activeSelf) {
+					menu.gameObject.SetActive(false);
+					PresetManager.Instance.SaveAllPresets();
+					Main.settings.Save();
+				}
+				else {
+					menu.gameObject.SetActive(true);
+				}
+			}
 		}
 	}
 }

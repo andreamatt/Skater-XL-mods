@@ -13,14 +13,17 @@ namespace XLGraphicsUI.Elements
 	{
 		private Dictionary<string, Toggle> toggles;
 
+		public static List<XLSelectionGrid> xlSelectionGrids = new List<XLSelectionGrid>();
+
 		[HideInInspector]
-		public event UnityAction<string> ValueChange = v => { };
+		public event Action<string> ValueChange = v => { };
 		//private UnityAction<va>
 
 		public void Awake() {
 			toggles = this.gameObject.GetComponentsInChildren<Toggle>().ToDictionary(t => t.name);
 
 			UnityAction<bool> changeSelected = v => {
+				Debug.Log("Value changed: " + v);
 				if (v) {
 					var selected = toggles.First(kv => kv.Value.isOn);
 					ValueChange.Invoke(selected.Value.name);
@@ -30,6 +33,8 @@ namespace XLGraphicsUI.Elements
 			foreach (var toggle in toggles.Values) {
 				toggle.onValueChanged.AddListener(changeSelected);
 			}
+
+			xlSelectionGrids.Add(this);
 		}
 
 		public void OverrideValue(string value) {
@@ -41,6 +46,10 @@ namespace XLGraphicsUI.Elements
 				//toggle.onValueChanged.li
 				toggle.isOn = toggle.name == value;
 			}
+		}
+
+		public void OnDestroy() {
+			xlSelectionGrids.Remove(this);
 		}
 	}
 }

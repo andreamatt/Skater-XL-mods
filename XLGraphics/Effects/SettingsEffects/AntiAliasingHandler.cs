@@ -13,7 +13,7 @@ namespace XLGraphics.Effects.SettingsEffects
 	{
 		private HDAdditionalCameraData cameraData;
 
-		public override void ConnectUI(UI ui) {
+		public override void ConnectUI() {
 			cameraData = Camera.main.GetComponent<HDAdditionalCameraData>();
 
 			var AAModeNameToValue = new Dictionary<string, HDAdditionalCameraData.AntialiasingMode> {
@@ -24,7 +24,7 @@ namespace XLGraphics.Effects.SettingsEffects
 			};
 			var AAModeValueToName = AAModeNameToValue.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-			var AAmodeGrid = ui.selectionGrids["AntiAliasingGrid"];
+			var AAmodeGrid = UI.Instance.selectionGrids["AntiAliasingGrid"];
 
 			// init UI values
 			cameraData.antialiasing = Main.settings.AA_MODE;

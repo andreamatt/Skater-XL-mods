@@ -13,12 +13,19 @@ namespace XLGraphicsUI.Elements
 	{
 		private Button button;
 
+		public static List<XLButton> xlButtons = new List<XLButton>();
+
 		[HideInInspector]
 		public event UnityAction Click = () => { };
 
 		public void Awake() {
 			button = this.gameObject.GetComponent<Button>();
-			button.onClick.AddListener(Click);
+			button.onClick.AddListener(delegate { Click.Invoke(); });
+			xlButtons.Add(this);
+		}
+
+		public void OnDestroy() {
+			xlButtons.Remove(this);
 		}
 	}
 }

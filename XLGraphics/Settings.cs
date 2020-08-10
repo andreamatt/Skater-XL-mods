@@ -1,22 +1,29 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityModManagerNet;
+using XLGraphics.Presets;
 
 namespace XLGraphics
 {
-	public class Settings : UnityModManager.ModSettings
+	public class Settings
 	{
 		public string testSetting = "test";
+
+		public PresetSelection presetOrder = new PresetSelection();
+		public PresetSelection replay_presetOrder = new PresetSelection();
 
 		// Basic
 		public bool ENABLE_POST = true;
 		public int VSYNC = 1;
-		public FullScreenMode SCREEN_MODE = FullScreenMode.ExclusiveFullScreen;
+		public FullScreenMode SCREEN_MODE = FullScreenMode.Windowed;
 		public float RENDER_DISTANCE = 1000;
 
 		// AA
@@ -57,40 +64,44 @@ namespace XLGraphics
 		public float rotationSpeed = 50f;
 		public float fovSpeed = 50f;
 
-		//public Task Save() {
-		//	return Task.Run(() => {
-		//		var filepath = $"{Main.modEntry.Path}Settings.xml";
-		//		try {
-		//			using (var writer = new StreamWriter(filepath)) {
-		//				XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
-		//				xmlSerializer.Serialize(writer, this);
-		//			}
-		//		}
-		//		catch (Exception e) {
-		//			Logger.Log($"Can't save {filepath}. ex: {e}");
-		//		}
-		//	});
-		//}
+		public Task Save() {
+			return Task.Run(() => {
+				var filepath = $"{Main.modEntry.Path}Settings.json";
+				try {
+					using (var writer = new StreamWriter(filepath)) {
+						var json = JsonConvert.SerializeObject(this, Formatting.Indented);
+						writer.Write(json);
+					}
+				}
+				catch (Exception e) {
+					Logger.Log($"Can't save {filepath}. ex: {e}");
+				}
+			});
+		}
 
-		//public static Settings Load() {
-		//	var filepath = $"{Main.modEntry.Path}Settings.xml";
-		//	Settings settings = null;
-		//	if (File.Exists(filepath)) {
-		//		try {
-		//			using (var reader = new StreamReader(filepath)) {
-		//				XmlSerializer xmlSerializer = new XmlSerializer(typeof(Settings));
-		//				settings = (Settings)xmlSerializer.Deserialize(reader);
-		//			}
-		//		}
-		//		catch (Exception e) {
-		//			Logger.Log($"Can't read {filepath}. ex: {e}");
-		//		}
-		//	}
-		//	else {
-		//		Logger.Log($"No settings found, using defaults");
-		//		settings = new Settings();
-		//	}
-		//	return settings;
-		//}
+		public static Settings Load() {
+			var filepath = $"{Main.modEntry.Path}Settings.json";
+			Settings settings = null;
+			if (File.Exists(filepath)) {
+				try {
+					using (var reader = new StreamReader(filepath)) {
+						var json = reader.ReadToEnd();
+						settings = JsonConvert.DeserializeObject<Settings>(json);
+						if (settings == null) {
+							Debug.LogWarning("Could not read settings, creating new");
+							settings = new Settings();
+						}
+					}
+				}
+				catch (Exception e) {
+					Logger.Log($"Can't read {filepath}. ex: {e}");
+				}
+			}
+			else {
+				Logger.Log($"No settings found, using defaults");
+				settings = new Settings();
+			}
+			return settings;
+		}
 	}
 }

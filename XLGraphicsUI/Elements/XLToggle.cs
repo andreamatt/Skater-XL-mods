@@ -13,16 +13,24 @@ namespace XLGraphicsUI.Elements
 	{
 		private Toggle toggle;
 
+		public static List<XLToggle> xlToggles = new List<XLToggle>();
+
 		[HideInInspector]
 		public event UnityAction<bool> ValueChanged = v => { };
 
 		public void Awake() {
 			toggle = this.gameObject.GetComponent<Toggle>();
-			toggle.onValueChanged.AddListener(ValueChanged);
+			UnityAction<bool> action = v => ValueChanged.Invoke(v);
+			toggle.onValueChanged.AddListener(action);
+			xlToggles.Add(this);
 		}
 
 		public void OverrideValue(bool value) {
 			toggle.isOn = value;
+		}
+
+		public void OnDestroy() {
+			xlToggles.Remove(this);
 		}
 	}
 }

@@ -8,14 +8,15 @@ using UnityEngine.Rendering;
 
 namespace XLGraphics.Utils
 {
-	class VolumeUtils
+	public class VolumeUtils
 	{
-		private XLGraphics xlGraphics;
+		static public VolumeUtils Instance { get; private set; }
 
-		private VolumeUtils() { }
-
-		public VolumeUtils(XLGraphics xlGraphics) {
-			this.xlGraphics = xlGraphics;
+		public VolumeUtils() {
+			if (Instance != null) {
+				throw new Exception("Cannot have multiple instances");
+			}
+			Instance = this;
 		}
 
 		public float GetHighestPriority() {

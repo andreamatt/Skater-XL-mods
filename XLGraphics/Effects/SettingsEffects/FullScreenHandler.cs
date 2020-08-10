@@ -11,7 +11,7 @@ namespace XLGraphics.Effects.SettingsEffects
 {
 	class FullScreenHandler : EffectHandler
 	{
-		public override void ConnectUI(UI ui) {
+		public override void ConnectUI() {
 			var FSModeNameToValue = new Dictionary<string, FullScreenMode> {
 				["FullScreenExclusive"] = FullScreenMode.ExclusiveFullScreen,
 				["FullScreenFull"] = FullScreenMode.FullScreenWindow,
@@ -19,7 +19,7 @@ namespace XLGraphics.Effects.SettingsEffects
 			};
 			var FSModeValueToName = FSModeNameToValue.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-			var FSmodeGrid = ui.selectionGrids["FullScreenGrid"];
+			var FSmodeGrid = UI.Instance.selectionGrids["FullScreenGrid"];
 
 			// init UI values
 			Screen.fullScreenMode = Main.settings.SCREEN_MODE;

@@ -1,6 +1,7 @@
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -26,9 +27,7 @@ namespace XLGraphics
 
 			Main.modEntry = modEntry;
 			modEntry.OnToggle = OnToggle;
-			modEntry.OnSaveGUI = OnSave;
-			//settings = Settings.Load<Settings>(modEntry);
-			settings = new Settings();
+			//modEntry.OnSaveGUI = OnSave;
 
 			return true;
 		}
@@ -77,7 +76,7 @@ namespace XLGraphics
 		}
 
 		static void Save() {
-			settings.Save(modEntry);
+			settings.Save();
 		}
 	}
 }
