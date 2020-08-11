@@ -60,15 +60,11 @@ namespace XLGraphics.Utils
 			// get presets in sorted order
 			var presets = PresetManager.Instance.presets.OrderByDescending(p => p.volume.priority).ToList();
 			var rectTransform = presetsListContent.GetComponent<RectTransform>();
-			var rect = rectTransform.rect;
-			var spacing = presetsListContent.GetComponent<VerticalLayoutGroup>().spacing;
 
-			var presetHeight = 0f;
 			presetGOs = new Dictionary<Preset, GameObject>();
 			for (int i = 0; i < presets.Count; i++) {
 				var preset = presets[i];
 				var presetGO = GameObject.Instantiate(Main.uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Preset.prefab"), presetsListContent.transform);
-				presetHeight = presetGO.GetComponent<RectTransform>().rect.height;
 				presetGOs[preset] = presetGO;
 
 				presetGO.GetComponentsInChildren<Text>().First(t => t.name == "PresetNameLabel").text = preset.name;
@@ -83,8 +79,6 @@ namespace XLGraphics.Utils
 					downBTN.interactable = false;
 				}
 			}
-
-			rect.height = presetHeight * presets.Count + spacing * (presets.Count - 1);
 		}
 
 		public void TogglePresets() {
