@@ -54,6 +54,7 @@ namespace XLGraphics
 			};
 
 			presetEffectHandlers = new List<PresetEffectHandler> {
+				new BloomHandler(),
 				new ChromaticAberrationHandler()
 			};
 

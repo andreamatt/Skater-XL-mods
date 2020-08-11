@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\PresetEffects\BloomHandler.cs" />
     <Compile Include="Effects\PresetEffects\ChromaticAberrationHandler.cs" />
     <Compile Include="Effects\EffectHandler.cs" />
     <Compile Include="Effects\PresetEffects\PresetEffectHandler.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Patches\InputPatches.cs" />
     <Compile Include="Presets\Preset.cs" />
+    <Compile Include="Presets\PresetData\BloomData.cs" />
     <Compile Include="Presets\PresetData\ChromaticAberrationData.cs" />
     <Compile Include="Presets\PresetManager.cs" />
     <Compile Include="Presets\PresetSelection.cs" />

@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2035987939
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: graphicsmenuassetbundle
+      Dependencies: {}

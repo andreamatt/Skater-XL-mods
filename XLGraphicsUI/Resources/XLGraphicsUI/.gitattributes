@@ -17,3 +17,4 @@
 *.asset binary
 *.dll binary
 *.unity binary
+*.manifest binary

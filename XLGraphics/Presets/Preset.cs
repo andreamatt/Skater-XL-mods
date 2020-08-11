@@ -20,6 +20,7 @@ namespace XLGraphics.Presets
 
 		[JsonIgnore]
 		public Bloom bloom;
+		public BloomData bloomData = new BloomData();
 		[JsonIgnore]
 		public ChannelMixer channelMixer;
 		[JsonIgnore]
