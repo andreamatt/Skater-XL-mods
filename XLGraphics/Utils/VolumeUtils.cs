@@ -25,7 +25,8 @@ namespace XLGraphics.Utils
 			if (volumes.Length == 0) {
 				return 0;
 			}
-			return volumes.Select(v => v.priority).Max();
+			// minimum return value should be 0
+			return Math.Max(volumes.Select(v => v.priority).Max(), 0);
 		}
 
 		public Volume CreateVolume(float priority) {

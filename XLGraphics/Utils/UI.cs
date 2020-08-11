@@ -57,20 +57,31 @@ namespace XLGraphics.Utils
 		}
 
 		public void PopulatePresetsList() {
-			var presets = PresetManager.Instance.presets;
+			// get presets in sorted order
+			var presets = PresetManager.Instance.presets.OrderByDescending(p => p.volume.priority).ToList();
 			var rectTransform = presetsListContent.GetComponent<RectTransform>();
 			var rect = rectTransform.rect;
 			var spacing = presetsListContent.GetComponent<VerticalLayoutGroup>().spacing;
 
 			var presetHeight = 0f;
 			presetGOs = new Dictionary<Preset, GameObject>();
-			foreach (var preset in presets) {
+			for (int i = 0; i < presets.Count; i++) {
+				var preset = presets[i];
 				var presetGO = GameObject.Instantiate(Main.uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Preset.prefab"), presetsListContent.transform);
 				presetHeight = presetGO.GetComponent<RectTransform>().rect.height;
 				presetGOs[preset] = presetGO;
 
 				presetGO.GetComponentsInChildren<Text>().First(t => t.name == "PresetNameLabel").text = preset.name;
 				presetGO.GetComponentInChildren<XLToggle>().OverrideValue(Main.settings.presetOrder.IsEnabled(preset.name));
+
+				if (i == 0) {
+					var upBTN = presetGO.GetComponentsInChildren<Button>().First(b => b.name == "PresetUpButton");
+					upBTN.interactable = false;
+				}
+				else if (i == presets.Count - 1) {
+					var downBTN = presetGO.GetComponentsInChildren<Button>().First(b => b.name == "PresetDownButton");
+					downBTN.interactable = false;
+				}
 			}
 
 			rect.height = presetHeight * presets.Count + spacing * (presets.Count - 1);
@@ -106,6 +117,18 @@ namespace XLGraphics.Utils
 				XLGraphicsMenu.Instance.editPresetPanel.SetActive(true);
 			};
 
+			// new preset
+			buttons["NewPresetButton"].Click += () => {
+				// create new preset with name
+				PresetManager.Instance.CreateNewPreset();
+
+				// recreate preset list
+				RebuildPresetList();
+
+				// edit it
+				OnEditPreset(PresetManager.Instance.selectedPreset);
+			};
+
 			// sliders values
 			foreach (var slider in sliders.Values) {
 				var sliderValueName = slider.name.Replace("Slider", "Value");
@@ -116,18 +139,33 @@ namespace XLGraphics.Utils
 		public void AddPresetListeners() {
 			var presets = PresetManager.Instance.presets;
 			foreach (var preset in presets) {
-				var editBTN = presetGOs[preset].GetComponentsInChildren<XLButton>().First(b => b.name == "PresetEditButton");
+				var presetGO = presetGOs[preset];
+				var editBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetEditButton");
 				editBTN.Click += () => OnEditPreset(preset);
 
-				var toggle = presetGOs[preset].GetComponentsInChildren<XLToggle>().First(b => b.name == "PresetEnableToggle");
+				var toggle = presetGO.GetComponentsInChildren<XLToggle>().First(b => b.name == "PresetEnableToggle");
 				toggle.ValueChanged += value => {
-					Main.settings.presetOrder.SetEnabled(preset.name, value);
+					PresetManager.Instance.currentPresetOrder.SetEnabled(preset.name, value);
 					preset.volume.gameObject.SetActive(value);
 				};
 
-				var deleteBTN = presetGOs[preset].GetComponentsInChildren<XLButton>().First(b => b.name == "PresetDeleteButton");
+				var deleteBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetDeleteButton");
 				deleteBTN.Click += () => {
 					PresetManager.Instance.DeletePreset(preset);
+					RebuildPresetList();
+					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
+				};
+
+				var upBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetUpButton");
+				upBTN.Click += () => {
+					PresetManager.Instance.UpgradePriority(preset);
+					RebuildPresetList();
+					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
+				};
+
+				var downBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetDownButton");
+				downBTN.Click += () => {
+					PresetManager.Instance.DowngradePriority(preset);
 					RebuildPresetList();
 					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
 				};
@@ -147,6 +185,11 @@ namespace XLGraphics.Utils
 
 			// listeners
 			AddPresetListeners();
+		}
+
+		public bool IsFocusedInput() {
+			var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
+			return inputField.activeSelf && inputField.GetComponent<InputField>().isFocused;
 		}
 	}
 }

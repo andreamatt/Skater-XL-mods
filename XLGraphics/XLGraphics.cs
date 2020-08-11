@@ -32,7 +32,7 @@ namespace XLGraphics
 			// load settings
 			Main.settings = Settings.Load();
 			if (Main.settings.presetOrder == null) {
-				throw new Exception("WTF");
+				throw new Exception("???");
 			}
 
 			// initiate components

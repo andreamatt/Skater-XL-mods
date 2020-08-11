@@ -27,6 +27,7 @@ namespace XLGraphics.Presets
 		}
 
 		public List<Preset> presets;
+		public PresetSelection currentPresetOrder => Main.settings.presetOrder;
 		public Preset selectedPreset;
 		public const string default_name = "DefaultPreset";
 
@@ -65,17 +66,17 @@ namespace XLGraphics.Presets
 
 
 			// if there are no presets, add the default one
-			if (presets.Count == 0) {
-				var default_preset = new Preset(default_name);
-				SavePreset(default_preset);
-				presets.Add(default_preset);
-				if (!Main.settings.presetOrder.Names.Contains(default_preset.name)) {
-					Main.settings.presetOrder.Add(default_preset.name, false);
-				}
-				if (!Main.settings.replay_presetOrder.Names.Contains(default_preset.name)) {
-					Main.settings.replay_presetOrder.Add(default_preset.name, false);
-				}
-			}
+			//if (presets.Count == 0) {
+			//	var default_preset = new Preset(default_name);
+			//	SavePreset(default_preset);
+			//	presets.Add(default_preset);
+			//	if (!Main.settings.presetOrder.Names.Contains(default_preset.name)) {
+			//		Main.settings.presetOrder.Add(default_preset.name, false);
+			//	}
+			//	if (!Main.settings.replay_presetOrder.Names.Contains(default_preset.name)) {
+			//		Main.settings.replay_presetOrder.Add(default_preset.name, false);
+			//	}
+			//}
 
 			// remove presets that were not found
 			foreach (var name in Main.settings.presetOrder.Names) {
@@ -89,62 +90,67 @@ namespace XLGraphics.Presets
 				}
 			}
 
-
 			// add volume components to all presets
-			var highestPrior = VolumeUtils.Instance.GetHighestPriority();
-			Logger.Log("highest prio is: " + highestPrior);
-
 			for (int i = 0; i < presets.Count; i++) {
 				var preset = presets[i];
-				var volume = VolumeUtils.Instance.CreateVolume(highestPrior + i + 1);
-				preset.volume = volume;
-				var profile = ScriptableObject.CreateInstance<VolumeProfile>();
-				volume.profile = profile;
-				GameObject.DontDestroyOnLoad(volume);
-				GameObject.DontDestroyOnLoad(profile);
-
-				// add volume components
-				preset.bloom = profile.Add<Bloom>();
-				preset.channelMixer = profile.Add<ChannelMixer>();
-				preset.chromaticAberration = profile.Add<ChromaticAberration>();
-				preset.colorAdjustments = profile.Add<ColorAdjustments>();
-				preset.colorCurves = profile.Add<ColorCurves>();
-				preset.depthOfField = profile.Add<DepthOfField>();
-				preset.filmGrain = profile.Add<FilmGrain>();
-				preset.lensDistortion = profile.Add<LensDistortion>();
-				preset.liftGammaGain = profile.Add<LiftGammaGain>();
-				preset.motionBlur = profile.Add<MotionBlur>();
-				preset.paniniProjection = profile.Add<PaniniProjection>();
-				preset.shadowsMidtonesHighlights = profile.Add<ShadowsMidtonesHighlights>();
-				preset.splitToning = profile.Add<SplitToning>();
-				preset.tonemapping = profile.Add<Tonemapping>();
-				preset.vignette = profile.Add<Vignette>();
-				preset.whiteBalance = profile.Add<WhiteBalance>();
-
-				// set all overrides
-				preset.bloom.SetAllOverridesTo(true);
-				preset.channelMixer.SetAllOverridesTo(true);
-				preset.chromaticAberration.SetAllOverridesTo(true);
-				preset.colorAdjustments.SetAllOverridesTo(true);
-				preset.colorCurves.SetAllOverridesTo(true);
-				preset.depthOfField.SetAllOverridesTo(true);
-				preset.filmGrain.SetAllOverridesTo(true);
-				preset.lensDistortion.SetAllOverridesTo(true);
-				preset.liftGammaGain.SetAllOverridesTo(true);
-				preset.motionBlur.SetAllOverridesTo(true);
-				preset.paniniProjection.SetAllOverridesTo(true);
-				preset.shadowsMidtonesHighlights.SetAllOverridesTo(true);
-				preset.splitToning.SetAllOverridesTo(true);
-				preset.tonemapping.SetAllOverridesTo(true);
-				preset.vignette.SetAllOverridesTo(true);
-				preset.whiteBalance.SetAllOverridesTo(true);
+				// create volume with low priority, change it later
+				PreparePreset(preset);
 
 				// override values from data
-				preset.chromaticAberrationData.OverrideValues(preset);
-
-				// set active
-				preset.volume.gameObject.SetActive(Main.settings.presetOrder.IsEnabled(preset.name));
+				ReadPresetData(preset);
 			}
+
+			SetPriorities();
+			SetActives();
+		}
+
+		private void PreparePreset(Preset preset) {
+			var volume = VolumeUtils.Instance.CreateVolume(float.MinValue);
+			preset.volume = volume;
+			var profile = ScriptableObject.CreateInstance<VolumeProfile>();
+			volume.profile = profile;
+			GameObject.DontDestroyOnLoad(volume);
+			GameObject.DontDestroyOnLoad(profile);
+
+			// add volume components
+			preset.bloom = profile.Add<Bloom>();
+			preset.channelMixer = profile.Add<ChannelMixer>();
+			preset.chromaticAberration = profile.Add<ChromaticAberration>();
+			preset.colorAdjustments = profile.Add<ColorAdjustments>();
+			preset.colorCurves = profile.Add<ColorCurves>();
+			preset.depthOfField = profile.Add<DepthOfField>();
+			preset.filmGrain = profile.Add<FilmGrain>();
+			preset.lensDistortion = profile.Add<LensDistortion>();
+			preset.liftGammaGain = profile.Add<LiftGammaGain>();
+			preset.motionBlur = profile.Add<MotionBlur>();
+			preset.paniniProjection = profile.Add<PaniniProjection>();
+			preset.shadowsMidtonesHighlights = profile.Add<ShadowsMidtonesHighlights>();
+			preset.splitToning = profile.Add<SplitToning>();
+			preset.tonemapping = profile.Add<Tonemapping>();
+			preset.vignette = profile.Add<Vignette>();
+			preset.whiteBalance = profile.Add<WhiteBalance>();
+
+			// set all overrides
+			preset.bloom.SetAllOverridesTo(true);
+			preset.channelMixer.SetAllOverridesTo(true);
+			preset.chromaticAberration.SetAllOverridesTo(true);
+			preset.colorAdjustments.SetAllOverridesTo(true);
+			preset.colorCurves.SetAllOverridesTo(true);
+			preset.depthOfField.SetAllOverridesTo(true);
+			preset.filmGrain.SetAllOverridesTo(true);
+			preset.lensDistortion.SetAllOverridesTo(true);
+			preset.liftGammaGain.SetAllOverridesTo(true);
+			preset.motionBlur.SetAllOverridesTo(true);
+			preset.paniniProjection.SetAllOverridesTo(true);
+			preset.shadowsMidtonesHighlights.SetAllOverridesTo(true);
+			preset.splitToning.SetAllOverridesTo(true);
+			preset.tonemapping.SetAllOverridesTo(true);
+			preset.vignette.SetAllOverridesTo(true);
+			preset.whiteBalance.SetAllOverridesTo(true);
+		}
+
+		private void ReadPresetData(Preset preset) {
+			preset.chromaticAberrationData.OverrideValues(preset);
 		}
 
 		public void SaveAllPresets() {
@@ -153,14 +159,36 @@ namespace XLGraphics.Presets
 			}
 		}
 
+		public void SetPriorities() {
+			// set all priorities to minimum
+			presets.ForEach(p => p.volume.priority = float.MinValue);
+
+			var highestPrior = VolumeUtils.Instance.GetHighestPriority();
+			Logger.Log("highest prio is: " + highestPrior);
+
+			// set priorities based on presetOrder
+			var orderNames = currentPresetOrder.Names;
+			foreach (var preset in presets) {
+				// first element (index 0) has highest priority
+				// last element has priority 1+highestPrior
+				preset.volume.priority = (orderNames.Count - orderNames.IndexOf(preset.name)) + highestPrior;
+			}
+		}
+
+		public void SetActives() {
+			foreach (var preset in presets) {
+				preset.volume.gameObject.SetActive(currentPresetOrder.IsEnabled(preset.name));
+			}
+		}
+
 		public void SavePreset(Preset p) {
 			// serialize data
 			p.chromaticAberrationData = ChromaticAberrationData.FromPreset(p);
 
 			// write to file
-			var filepath = Main.modEntry.Path + "Presets\\";
+			var filepath = $"{Main.modEntry.Path}Presets\\{p.name}.preset.json";
 			try {
-				using (var writer = new StreamWriter($"{filepath}{p.name}.preset.json")) {
+				using (var writer = new StreamWriter(filepath)) {
 					//var serializedLine = JsonUtility.ToJson(p, true);
 					var serializedLine = JsonConvert.SerializeObject(p, Formatting.Indented);
 					writer.Write(serializedLine);
@@ -221,6 +249,34 @@ namespace XLGraphics.Presets
 
 			// save preset
 			presets.Remove(p);
+		}
+
+		public void CreateNewPreset() {
+			var p = new Preset();
+			p.name = $"{default_name} {DateTime.Now.ToString("s").Replace(':', '-')}";
+			presets.Add(p);
+
+			PreparePreset(p);
+
+			Main.settings.presetOrder.AddFirst(p.name, true);
+			Main.settings.replay_presetOrder.AddFirst(p.name, true);
+
+			SetPriorities();
+			SetActives();
+
+			SavePreset(p);
+
+			selectedPreset = p;
+		}
+
+		public void UpgradePriority(Preset p) {
+			currentPresetOrder.Upgrade(p.name);
+			SetPriorities();
+		}
+
+		public void DowngradePriority(Preset p) {
+			currentPresetOrder.Downgrade(p.name);
+			SetPriorities();
 		}
 	}
 }

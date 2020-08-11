@@ -10,6 +10,7 @@ namespace XLGraphics.Presets
 {
 	public class PresetSelection
 	{
+		// first has highest priority
 		public List<(string, bool)> names_enables = new List<(string, bool)>();
 
 		[JsonIgnore]
@@ -32,6 +33,10 @@ namespace XLGraphics.Presets
 			names_enables[i] = (name, enabled);
 		}
 
+		public void AddFirst(string name, bool enabled) {
+			names_enables.Insert(0, (name, enabled));
+		}
+
 		public void Add(string name, bool enabled) {
 			names_enables.Add((name, enabled));
 		}
@@ -42,13 +47,15 @@ namespace XLGraphics.Presets
 
 		public int Count => names_enables.Count;
 
-		public void Left(int i) {
+		public void Upgrade(string name) {
+			var i = names_enables.FindIndex(n_e => n_e.Item1 == name);
 			var tmp_name = names_enables[i];
 			names_enables[i] = names_enables[i - 1];
 			names_enables[i - 1] = tmp_name;
 		}
 
-		public void Right(int i) {
+		public void Downgrade(string name) {
+			var i = names_enables.FindIndex(n_e => n_e.Item1 == name);
 			var tmp_name = names_enables[i];
 			names_enables[i] = names_enables[i + 1];
 			names_enables[i + 1] = tmp_name;
