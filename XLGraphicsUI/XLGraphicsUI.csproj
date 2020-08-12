@@ -53,7 +53,6 @@
   <ItemGroup>
     <Compile Include="Elements\XLButton.cs" />
     <Compile Include="Elements\XLSelectionGrid.cs" />
-    <Compile Include="Elements\XLSliderValueText.cs" />
     <Compile Include="Elements\XLSlider.cs" />
     <Compile Include="Elements\XLToggle.cs" />
     <Compile Include="XLGraphicsMenu.cs" />

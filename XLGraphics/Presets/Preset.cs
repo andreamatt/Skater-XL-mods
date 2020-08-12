@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using XLGraphics.Effects.PresetEffects;
 using XLGraphics.Presets.PresetData;
 
 namespace XLGraphics.Presets
@@ -23,15 +24,20 @@ namespace XLGraphics.Presets
 		public BloomData bloomData = new BloomData();
 		[JsonIgnore]
 		public ChannelMixer channelMixer;
+		public ChannelMixerData channelMixerData = new ChannelMixerData();
 		[JsonIgnore]
 		public ChromaticAberration chromaticAberration;
 		public ChromaticAberrationData chromaticAberrationData = new ChromaticAberrationData();
 		[JsonIgnore]
 		public ColorAdjustments colorAdjustments;
+		public ColorAdjustementsData colorAdjustementsData = new ColorAdjustementsData();
 		[JsonIgnore]
 		public ColorCurves colorCurves;
+		public ColorCurvesData colorCurvesData = new ColorCurvesData();
 		[JsonIgnore]
 		public DepthOfField depthOfField;
+		public DepthOfFieldData depthOfFieldData = new DepthOfFieldData();
+		public FocusMode focusMode;
 		[JsonIgnore]
 		public FilmGrain filmGrain;
 		[JsonIgnore]

@@ -120,7 +120,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6884609607600540502}
   - component: {fileID: 6581944939328872706}
-  - component: {fileID: 3768666572476258472}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -147,8 +146,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015259, y: 90.105}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: 66.042, y: 0.0000061989}
+  m_SizeDelta: {x: 214.47498, y: 26.677765}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6581944939328872706
 MonoBehaviour:
@@ -200,18 +199,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3768666572476258472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3640904553539830222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -989748107, guid: f74748b6e1dbd474d9c444ce8ed46dbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4445733456638197690
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +210,6 @@ GameObject:
   - component: {fileID: 2444817767097879323}
   - component: {fileID: 1517188713792149303}
   - component: {fileID: 7328371701830937433}
-  - component: {fileID: 3481669220809866949}
   m_Layer: 5
   m_Name: Value
   m_TagString: Untagged
@@ -245,10 +231,10 @@ RectTransform:
   m_Father: {fileID: 7822887213786417830}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -102.58, y: 90.101}
-  m_SizeDelta: {x: -56.97838, y: -79.99155}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -61.5, y: 0.00012207031}
+  m_SizeDelta: {x: 40.608093, y: 32.35553}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1517188713792149303
 CanvasRenderer:
@@ -291,18 +277,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0
---- !u!114 &3481669220809866949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4445733456638197690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -383588603, guid: f74748b6e1dbd474d9c444ce8ed46dbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5178541851875673859
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,10 +345,10 @@ RectTransform:
   m_Father: {fileID: 7822887213786417830}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -208.28, y: 90.101}
-  m_SizeDelta: {x: 68.38437, y: -79.99155}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -166.21997, y: 0.00012207031}
+  m_SizeDelta: {x: 168.92737, y: 32.355408}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1599055287750253884
 CanvasRenderer:
@@ -500,6 +474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7822887213786417830}
+  - component: {fileID: 3239180112396592308}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -524,11 +499,23 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -22.7}
+  m_SizeDelta: {x: 0, y: 45.463135}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3239180112396592308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8453275800173616936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -989748107, guid: f74748b6e1dbd474d9c444ce8ed46dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8925927064947465092
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,7 +27,6 @@ namespace XLGraphics.Utils
 		public Dictionary<string, XLButton> buttons;
 		public Dictionary<string, XLToggle> toggles;
 		public Dictionary<string, XLSelectionGrid> selectionGrids;
-		public Dictionary<string, XLSliderValueText> sliderValueTexts;
 
 		private GameObject presetsListContent;
 		public Dictionary<Preset, GameObject> presetGOs;
@@ -41,7 +40,6 @@ namespace XLGraphics.Utils
 			menu.editPresetPanel.SetActive(true);
 
 			sliders = XLSlider.xlSliders.ToDictionary(s => s.name);
-			sliderValueTexts = XLSliderValueText.xlSliderValueTexts.ToDictionary(s => s.name);
 			buttons = XLButton.xlButtons.ToDictionary(s => s.name);
 			toggles = XLToggle.xlToggles.ToDictionary(s => s.name);
 			selectionGrids = XLSelectionGrid.xlSelectionGrids.ToDictionary(s => s.name);
@@ -122,12 +120,6 @@ namespace XLGraphics.Utils
 				// edit it
 				OnEditPreset(PresetManager.Instance.selectedPreset);
 			};
-
-			// sliders values
-			foreach (var slider in sliders.Values) {
-				var sliderValueName = slider.name.Replace("Slider", "Value");
-				slider.ValueChanged += v => sliderValueTexts[sliderValueName].OverrideValue(v);
-			}
 		}
 
 		public void AddPresetListeners() {
