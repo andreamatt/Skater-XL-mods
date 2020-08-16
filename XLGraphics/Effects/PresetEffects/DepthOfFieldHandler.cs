@@ -21,11 +21,11 @@ namespace XLGraphics.Effects.PresetEffects
 			// add listeners
 			dofUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.depthOfField.active = v));
 			dofUI.focusMode.onValueChanged.AddListener(new UnityAction<int>(v => PresetManager.Instance.selectedPreset.focusMode = (FocusMode)v));
-			dofUI.focusDistance.ValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.focusDistance.value = v;
-			dofUI.nearFocusStart.ValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusStart.value = v;
-			dofUI.nearFocusEnd.ValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusEnd.value = v;
-			dofUI.farFocusStart.ValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusStart.value = v;
-			dofUI.farFocusEnd.ValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusEnd.value = v;
+			dofUI.focusDistance.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.focusDistance.value = v;
+			dofUI.nearFocusStart.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusStart.value = v;
+			dofUI.nearFocusEnd.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusEnd.value = v;
+			dofUI.farFocusStart.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusStart.value = v;
+			dofUI.farFocusEnd.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusEnd.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

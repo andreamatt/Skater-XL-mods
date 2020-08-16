@@ -12,6 +12,9 @@ namespace XLGraphicsUI
 		public static T Instance;
 
 		public void Awake() {
+			if (Instance != null) {
+				throw new Exception("Instance not null on Awake");
+			}
 			Instance = (T)this;
 		}
 	}

@@ -12,6 +12,6 @@ namespace XLGraphicsUI.Elements.CameraUI
 		public XLSlider react;
 		public XLSlider react_rot;
 		public XLSlider clip;
-		//public Vector3 shift;
+		public XLSliderVector3 shift;
 	}
 }

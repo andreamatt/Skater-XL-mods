@@ -16,11 +16,11 @@ namespace XLGraphicsUI.Elements
 		public TMP_Text valueText;
 
 		[HideInInspector]
-		public event UnityAction<float> ValueChange = v => { };
+		public event UnityAction<float> onValueChange = v => { };
 
 		public void Awake() {
 			UnityAction<float> action = v => {
-				ValueChange.Invoke(v);
+				onValueChange.Invoke(v);
 				SetValueText(v);
 			};
 			slider.onValueChanged.AddListener(action);

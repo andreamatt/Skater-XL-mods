@@ -1,3 +1,4 @@
+using GameManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using XLGraphics.Effects;
+using XLGraphics.Effects.CameraEffects;
 using XLGraphics.Effects.PresetEffects;
 using XLGraphics.Effects.SettingsEffects;
 using XLGraphics.Presets;
@@ -23,6 +25,7 @@ namespace XLGraphics
 		public List<EffectHandler> cameraEffectHandlers;
 
 		public static XLGraphics Instance { get; private set; }
+		public string currentGameStateName;
 
 		public void Start() {
 			Logger.Log("Start of XLGraphics");
@@ -39,6 +42,7 @@ namespace XLGraphics
 			new VolumeUtils();
 			new UI();
 			new PresetManager();
+			gameObject.AddComponent<CustomCameraController>();
 
 			PresetManager.Instance.LoadPresets();
 
@@ -59,10 +63,22 @@ namespace XLGraphics
 				new ChromaticAberrationHandler()
 			};
 
+			cameraEffectHandlers = new List<EffectHandler> {
+				new CameraModeHandler(),
+				new ReplayFovHandler(),
+				new FollowCameraHandler(),
+				//new NormalCameraHandler(),
+				//new PovCameraHandler(),
+				//new SkateCameraHandler()
+			};
+
 			foreach (var eH in basicEffectHandlers) {
 				eH.ConnectUI();
 			}
 			foreach (var eH in presetEffectHandlers) {
+				eH.ConnectUI();
+			}
+			foreach (var eH in cameraEffectHandlers) {
 				eH.ConnectUI();
 			}
 
@@ -84,6 +100,24 @@ namespace XLGraphics
 					menu.gameObject.SetActive(true);
 				}
 			}
+
+			// if the map changed, needs to find/create new effects
+			var newGameStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
+			if (newGameStateName != currentGameStateName) {
+				currentGameStateName = newGameStateName;
+				//Main.Save(); WHY SAVING?
+			}
+		}
+
+		private bool last_IsReplayActive = false;
+		public event Action onReplayStateChange = () => { };
+		public bool IsReplayActive() {
+			var active = currentGameStateName == "ReplayState";
+			if (active != last_IsReplayActive) {
+				last_IsReplayActive = active;
+				onReplayStateChange.Invoke();
+			}
+			return active;
 		}
 	}
 }

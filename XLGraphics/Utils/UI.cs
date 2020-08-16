@@ -27,6 +27,15 @@ namespace XLGraphics.Utils
 		private GameObject presetsListContent;
 		private bool firstBuild = true;
 
+		public void DisableNavigation() {
+			var nav = XLGraphicsMenu.Instance.GetComponentsInChildren<Selectable>();
+			foreach (var n in nav) {
+				n.navigation = new Navigation() {
+					mode = Navigation.Mode.None
+				};
+			}
+		}
+
 		public void CollectElements() {
 			var menu = XLGraphicsMenu.Instance;
 			// activate and deactivate
@@ -39,6 +48,7 @@ namespace XLGraphics.Utils
 			if (firstBuild) {
 				firstBuild = false;
 				RemoveTestPresets();
+				DisableNavigation();
 			}
 			PopulatePresetsList();
 

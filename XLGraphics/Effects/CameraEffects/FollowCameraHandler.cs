@@ -3,13 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Events;
+using XLGraphicsUI.Elements.CameraUI;
 
 namespace XLGraphics.Effects.CameraEffects
 {
 	public class FollowCameraHandler : EffectHandler
 	{
 		public override void ConnectUI() {
-			throw new NotImplementedException();
+			var fcUI = FollowCameraUI.Instance;
+
+			var ccc = CustomCameraController.Instance;
+			ccc.follow_fov = Main.settings.cameraData.FOLLOW_FOV;
+			ccc.follow_react = Main.settings.cameraData.FOLLOW_REACT;
+			ccc.follow_react_rot = Main.settings.cameraData.FOLLOW_REACT_ROT;
+			ccc.follow_clip = Main.settings.cameraData.FOLLOW_CLIP;
+			ccc.follow_shift = Main.settings.cameraData.FOLLOW_SHIFT;
+			ccc.follow_auto_switch = Main.settings.cameraData.FOLLOW_AUTO_SWITCH;
+
+			fcUI.fov.OverrideValue(ccc.follow_fov);
+			fcUI.react.OverrideValue(ccc.follow_react);
+			fcUI.react_rot.OverrideValue(ccc.follow_react_rot);
+			fcUI.clip.OverrideValue(ccc.follow_clip);
+			fcUI.shift.OverrideValue(ccc.follow_shift);
+			fcUI.auto_switch.SetIsOnWithoutNotify(ccc.follow_auto_switch);
+
+			fcUI.fov.onValueChange += v => ccc.follow_fov = Main.settings.cameraData.FOLLOW_FOV = v;
+			fcUI.react.onValueChange += v => ccc.follow_react = Main.settings.cameraData.FOLLOW_REACT = v;
+			fcUI.react_rot.onValueChange += v => ccc.follow_react_rot = Main.settings.cameraData.FOLLOW_REACT_ROT = v;
+			fcUI.clip.onValueChange += v => ccc.follow_clip = Main.settings.cameraData.FOLLOW_CLIP = v;
+			fcUI.shift.onValueChange += v => ccc.follow_shift = Main.settings.cameraData.FOLLOW_SHIFT = v;
+			fcUI.auto_switch.onValueChanged.AddListener(new UnityAction<bool>(v => ccc.follow_auto_switch = Main.settings.cameraData.FOLLOW_AUTO_SWITCH = v));
 		}
 	}
 }

@@ -75,7 +75,7 @@ namespace XLGraphics
 			Save();
 		}
 
-		static void Save() {
+		public static void Save() {
 			settings.Save();
 		}
 	}
