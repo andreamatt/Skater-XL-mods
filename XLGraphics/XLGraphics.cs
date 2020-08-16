@@ -64,9 +64,9 @@ namespace XLGraphics
 				new CameraModeHandler(),
 				new ReplayFovHandler(),
 				new FollowCameraHandler(),
-				//new NormalCameraHandler(),
-				//new PovCameraHandler(),
-				//new SkateCameraHandler()
+				new NormalCameraHandler(),
+				new PovCameraHandler(),
+				new SkateCameraHandler()
 			};
 
 			foreach (var eH in basicEffectHandlers) {

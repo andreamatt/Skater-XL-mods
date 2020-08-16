@@ -38,7 +38,6 @@ namespace XLGraphics.SerializationData
 		public float SKATE_REACT = 0.90f;
 		public float SKATE_REACT_ROT = 0.90f;
 		public float SKATE_CLIP = 0.01f;
-		
 		public SerializableVector3 SKATE_SHIFT = Vector3.zero;
 	}
 }

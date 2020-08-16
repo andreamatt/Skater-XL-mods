@@ -3,13 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XLGraphicsUI.Elements.CameraUI;
 
 namespace XLGraphics.Effects.CameraEffects
 {
 	public class SkateCameraHandler : EffectHandler
 	{
 		public override void ConnectUI() {
-			throw new NotImplementedException();
+			var scUI = SkateCameraUI.Instance;
+
+			var ccc = CustomCameraController.Instance;
+			ccc.skate_fov = Main.settings.cameraData.SKATE_FOV;
+			ccc.skate_react = Main.settings.cameraData.SKATE_REACT;
+			ccc.skate_react_rot = Main.settings.cameraData.SKATE_REACT_ROT;
+			ccc.skate_clip = Main.settings.cameraData.SKATE_CLIP;
+			ccc.skate_shift = Main.settings.cameraData.SKATE_SHIFT;
+
+			scUI.fov.OverrideValue(ccc.skate_fov);
+			scUI.react.OverrideValue(ccc.skate_react);
+			scUI.react_rot.OverrideValue(ccc.skate_react_rot);
+			scUI.clip.OverrideValue(ccc.skate_clip);
+			scUI.shift.OverrideValue(ccc.skate_shift);
+
+			scUI.fov.onValueChange += v => ccc.skate_fov = Main.settings.cameraData.SKATE_FOV = v;
+			scUI.react.onValueChange += v => ccc.skate_react = Main.settings.cameraData.SKATE_REACT = v;
+			scUI.react_rot.onValueChange += v => ccc.skate_react_rot = Main.settings.cameraData.SKATE_REACT_ROT = v;
+			scUI.clip.onValueChange += v => ccc.skate_clip = Main.settings.cameraData.SKATE_CLIP = v;
+			scUI.shift.onValueChange += v => ccc.skate_shift = Main.settings.cameraData.SKATE_SHIFT = v;
 		}
 	}
 }
