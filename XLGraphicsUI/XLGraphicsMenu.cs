@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace XLGraphicsUI
 {
@@ -17,7 +19,7 @@ namespace XLGraphicsUI
 		public GameObject cameraContent;
 		public GameObject presetsListContent;
 		public GameObject editPresetPanel;
-		public GameObject renamePresetInputField;
+		public TMP_InputField renamePresetInputField;
 
 		public void Awake() {
 			Instance = this;

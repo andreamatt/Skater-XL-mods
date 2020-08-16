@@ -16,11 +16,11 @@ namespace XLGraphicsUI.Elements
 		public static List<XLToggle> xlToggles = new List<XLToggle>();
 
 		[HideInInspector]
-		public event UnityAction<bool> ValueChanged = v => { };
+		public event UnityAction<bool> ValueChange = v => { };
 
 		public void Awake() {
 			toggle = this.gameObject.GetComponent<Toggle>();
-			UnityAction<bool> action = v => ValueChanged.Invoke(v);
+			UnityAction<bool> action = v => ValueChange.Invoke(v);
 			toggle.onValueChanged.AddListener(action);
 			xlToggles.Add(this);
 		}

@@ -51,6 +51,9 @@
     <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
       <HintPath>..\References\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>..\References\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
       <HintPath>..\References\UnityEngine.AssetBundleModule.dll</HintPath>
     </Reference>
@@ -95,6 +98,7 @@
     <Compile Include="Presets\PresetData\MotionBlurData.cs" />
     <Compile Include="Presets\PresetData\PaniniProjectionData.cs" />
     <Compile Include="Presets\PresetData\PhysicalCameraData.cs" />
+    <Compile Include="Presets\PresetData\SerializableColor.cs" />
     <Compile Include="Presets\PresetData\ShadowsMidtonesHighlightsData.cs" />
     <Compile Include="Presets\PresetData\SplitToningData.cs" />
     <Compile Include="Presets\PresetData\ToneMappingData.cs" />

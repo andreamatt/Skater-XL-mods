@@ -26,10 +26,10 @@ namespace XLGraphics.Effects.PresetEffects
 			thresholdSlider = UI.Instance.sliders["BloomThresholdSlider"];
 
 			// add listeners
-			enabledToggle.ValueChanged += v => PresetManager.Instance.selectedPreset.bloom.active = v;
-			intensitySlider.ValueChanged += v => PresetManager.Instance.selectedPreset.bloom.intensity.value = v;
-			scatterSlider.ValueChanged += v => PresetManager.Instance.selectedPreset.bloom.scatter.value = v;
-			thresholdSlider.ValueChanged += v => PresetManager.Instance.selectedPreset.bloom.threshold.value = v;
+			enabledToggle.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.active = v;
+			intensitySlider.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.intensity.value = v;
+			scatterSlider.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.scatter.value = v;
+			thresholdSlider.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.threshold.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

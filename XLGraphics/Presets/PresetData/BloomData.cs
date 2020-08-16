@@ -13,7 +13,7 @@ namespace XLGraphics.Presets.PresetData
 		public float intensity;
 		public float scatter;
 		public float threshold;
-		public Color tint;
+		public SerializableColor tint;
 
 		public static BloomData FromPreset(Preset p) {
 			return new BloomData() {
@@ -26,7 +26,7 @@ namespace XLGraphics.Presets.PresetData
 		}
 
 		public void OverrideValues(Preset p) {
-			p.bloom.active = active,
+			p.bloom.active = active;
 			p.bloom.intensity.value = intensity;
 			p.bloom.scatter.value = scatter;
 			p.bloom.threshold.value = threshold;

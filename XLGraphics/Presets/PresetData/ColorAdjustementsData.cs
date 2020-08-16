@@ -12,7 +12,7 @@ namespace XLGraphics.Presets.PresetData
 		public bool active;
 		public float postExposure;
 		public float contrast;
-		public Color colorFilter;
+		public SerializableColor colorFilter;
 		public float hueShift;
 		public float saturation;
 

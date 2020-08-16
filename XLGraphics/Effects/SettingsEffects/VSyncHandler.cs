@@ -13,22 +13,15 @@ namespace XLGraphics.Effects.SettingsEffects
 	{
 
 		public override void ConnectUI() {
-			var VSNameToValue = new Dictionary<string, int> {
-				["VSyncDisabled"] = 0,
-				["VSyncFull"] = 1,
-				["VSyncHalf"] = 2
-			};
-			var VSValueToName = VSNameToValue.ToDictionary(kv => kv.Value, kv => kv.Key);
-
-			var VSgrid = UI.Instance.selectionGrids["VSyncGrid"];
+			var VSdropdown = UI.Instance.dropdowns["VSyncDropdown"];
 
 			// init UI values
 			QualitySettings.vSyncCount = Main.settings.VSYNC;
-			VSgrid.OverrideValue(VSValueToName[Main.settings.VSYNC]);
+			VSdropdown.OverrideValue(Main.settings.VSYNC);
 
 			// add listeners
-			VSgrid.ValueChange += name => {
-				QualitySettings.vSyncCount = Main.settings.VSYNC = VSNameToValue[name];
+			VSdropdown.ValueChange += value => {
+				QualitySettings.vSyncCount = Main.settings.VSYNC = value;
 			};
 		}
 	}

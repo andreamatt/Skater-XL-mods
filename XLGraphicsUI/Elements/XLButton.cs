@@ -27,5 +27,9 @@ namespace XLGraphicsUI.Elements
 		public void OnDestroy() {
 			xlButtons.Remove(this);
 		}
+
+		public void SetInteractable(bool interactable) {
+			button.interactable = interactable;
+		}
 	}
 }

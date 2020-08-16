@@ -24,9 +24,9 @@ namespace XLGraphics.Effects.PresetEffects
 			samplesSlider = UI.Instance.sliders["ChromaticAberrationSamplesSlider"];
 
 			// add listeners
-			enabledToggle.ValueChanged += v => PresetManager.Instance.selectedPreset.chromaticAberration.active = v;
-			intensitySlider.ValueChanged += v => PresetManager.Instance.selectedPreset.chromaticAberration.intensity.value = v;
-			samplesSlider.ValueChanged += v => PresetManager.Instance.selectedPreset.chromaticAberration.maxSamples = (int)Math.Round(v);
+			enabledToggle.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.active = v;
+			intensitySlider.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.intensity.value = v;
+			samplesSlider.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.maxSamples = (int)Math.Round(v);
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

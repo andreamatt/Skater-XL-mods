@@ -19,7 +19,7 @@ namespace XLGraphics.Effects.SettingsEffects
 			distanceSlider.OverrideValue(Main.settings.RENDER_DISTANCE);
 
 			// add listeners
-			distanceSlider.ValueChanged += value => {
+			distanceSlider.ValueChange += value => {
 				camera.farClipPlane = Main.settings.RENDER_DISTANCE = value;
 			};
 		}

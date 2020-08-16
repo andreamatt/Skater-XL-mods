@@ -26,10 +26,10 @@ namespace XLGraphics.Utils
 		public Dictionary<string, XLSlider> sliders;
 		public Dictionary<string, XLButton> buttons;
 		public Dictionary<string, XLToggle> toggles;
-		public Dictionary<string, XLSelectionGrid> selectionGrids;
+		public Dictionary<string, XLDropdown> dropdowns;
 
 		private GameObject presetsListContent;
-		public Dictionary<Preset, GameObject> presetGOs;
+		private bool firstBuild = true;
 
 		public void CollectElements() {
 			var menu = XLGraphicsMenu.Instance;
@@ -39,14 +39,18 @@ namespace XLGraphics.Utils
 			menu.cameraContent.SetActive(true);
 			menu.editPresetPanel.SetActive(true);
 
+			presetsListContent = Main.menu.presetsListContent;
+			if (firstBuild) {
+				firstBuild = false;
+				RemoveTestPresets();
+			}
+			PopulatePresetsList();
+
 			sliders = XLSlider.xlSliders.ToDictionary(s => s.name);
 			buttons = XLButton.xlButtons.ToDictionary(s => s.name);
 			toggles = XLToggle.xlToggles.ToDictionary(s => s.name);
-			selectionGrids = XLSelectionGrid.xlSelectionGrids.ToDictionary(s => s.name);
+			dropdowns = XLDropdown.xlDropdowns.ToDictionary(s => s.name);
 
-			presetsListContent = Main.menu.presetsListContent;
-
-			PopulatePresetsList();
 
 			menu.basicContent.SetActive(false);
 			menu.presetsContent.SetActive(false);
@@ -54,26 +58,36 @@ namespace XLGraphics.Utils
 			menu.editPresetPanel.SetActive(false);
 		}
 
+		private void RemoveTestPresets() {
+			var presetUIs = presetsListContent.GetComponentsInChildren<XLPreset>();
+			foreach (var presetUI in presetUIs) {
+				GameObject.DestroyImmediate(presetUI.gameObject);
+			}
+		}
+
 		public void PopulatePresetsList() {
 			// get presets in sorted order
 			var presets = PresetManager.Instance.presets.OrderByDescending(p => p.volume.priority).ToList();
 			var rectTransform = presetsListContent.GetComponent<RectTransform>();
 
-			presetGOs = new Dictionary<Preset, GameObject>();
 			for (int i = 0; i < presets.Count; i++) {
 				var preset = presets[i];
-				var presetGO = GameObject.Instantiate(Main.uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Preset.prefab"), presetsListContent.transform);
-				presetGOs[preset] = presetGO;
+				var go = GameObject.Instantiate(Main.uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Preset.prefab"), presetsListContent.transform);
+				var presetUI = go.GetComponent<XLPreset>();
+				preset.presetUI = presetUI;
+				//var rect = presetUI.GetComponent<RectTransform>().rect;
+				//presetUI.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, presetUIheight);
+				//presetUI.GetComponent<RectTransform>().ForceUpdateRectTransforms();
 
-				presetGO.GetComponentsInChildren<Text>().First(t => t.name == "PresetNameLabel").text = preset.name;
-				presetGO.GetComponentInChildren<XLToggle>().OverrideValue(Main.settings.presetOrder.IsEnabled(preset.name));
+				presetUI.presetNameLabel.text = preset.name;
+				presetUI.presetToggle.isOn = Main.settings.presetOrder.IsEnabled(preset.name);
 
 				if (i == 0) {
-					var upBTN = presetGO.GetComponentsInChildren<Button>().First(b => b.name == "PresetUpButton");
+					var upBTN = presetUI.presetUpButton;
 					upBTN.interactable = false;
 				}
-				else if (i == presets.Count - 1) {
-					var downBTN = presetGO.GetComponentsInChildren<Button>().First(b => b.name == "PresetDownButton");
+				if (i == presets.Count - 1) {
+					var downBTN = presetUI.presetDownButton;
 					downBTN.interactable = false;
 				}
 			}
@@ -91,31 +105,34 @@ namespace XLGraphics.Utils
 			XLGraphicsMenu.Instance.presetsContent.SetActive(false);
 			XLGraphicsMenu.Instance.editPresetPanel.SetActive(true);
 
-			XLGraphicsMenu.Instance.renamePresetInputField.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text = preset.name;
-		}
-
-		public void OnSavePreset() {
-			XLGraphicsMenu.Instance.presetsContent.SetActive(true);
-			XLGraphicsMenu.Instance.editPresetPanel.SetActive(false);
-			PresetManager.Instance.SavePreset(PresetManager.Instance.selectedPreset);
+			var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
+			inputField.text = preset.name;
+			inputField.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text = preset.name;
+			inputField.GetComponentsInChildren<Text>().First(t => t.name == "Text").text = preset.name;
 		}
 
 		public void AddBaseListeners() {
 			// presets editing
-			buttons["SavePresetButton"].Click += () => OnSavePreset();
-			buttons["RenamePresetButton"].Click += () => {
-				PresetManager.Instance.RenamePreset();
+			buttons["SavePresetButton"].Click += () => {
+				var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
+				var text = inputField.GetComponentsInChildren<Text>().First(t => t.name == "Text").text;
+				if (text != PresetManager.Instance.selectedPreset.name) {
+					PresetManager.Instance.RenamePreset();
+				}
+				PresetManager.Instance.SavePreset(PresetManager.Instance.selectedPreset);
 				RebuildPresetList();
-				XLGraphicsMenu.Instance.editPresetPanel.SetActive(true);
+				XLGraphicsMenu.Instance.presetsContent.SetActive(true);
+			};
+
+			buttons["RenamePresetButton"].Click += () => {
+				//RebuildPresetList();
+				//XLGraphicsMenu.Instance.editPresetPanel.SetActive(true);
 			};
 
 			// new preset
 			buttons["NewPresetButton"].Click += () => {
 				// create new preset with name
 				PresetManager.Instance.CreateNewPreset();
-
-				// recreate preset list
-				RebuildPresetList();
 
 				// edit it
 				OnEditPreset(PresetManager.Instance.selectedPreset);
@@ -125,46 +142,46 @@ namespace XLGraphics.Utils
 		public void AddPresetListeners() {
 			var presets = PresetManager.Instance.presets;
 			foreach (var preset in presets) {
-				var presetGO = presetGOs[preset];
-				var editBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetEditButton");
-				editBTN.Click += () => OnEditPreset(preset);
+				UnityAction editClick = () => OnEditPreset(preset);
+				preset.presetUI.presetEditButton.onClick.AddListener(editClick);
 
-				var toggle = presetGO.GetComponentsInChildren<XLToggle>().First(b => b.name == "PresetEnableToggle");
-				toggle.ValueChanged += value => {
+				UnityAction<bool> toggleChange = value => {
 					PresetManager.Instance.currentPresetOrder.SetEnabled(preset.name, value);
 					preset.volume.gameObject.SetActive(value);
 				};
+				preset.presetUI.presetToggle.onValueChanged.AddListener(toggleChange);
 
-				var deleteBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetDeleteButton");
-				deleteBTN.Click += () => {
+				UnityAction deleteClick = () => {
 					PresetManager.Instance.DeletePreset(preset);
 					RebuildPresetList();
 					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
 				};
+				preset.presetUI.presetDeleteButton.onClick.AddListener(deleteClick);
 
-				var upBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetUpButton");
-				upBTN.Click += () => {
+				UnityAction upClick = () => {
 					PresetManager.Instance.UpgradePriority(preset);
 					RebuildPresetList();
 					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
 				};
+				preset.presetUI.presetUpButton.onClick.AddListener(upClick);
 
-				var downBTN = presetGO.GetComponentsInChildren<XLButton>().First(b => b.name == "PresetDownButton");
-				downBTN.Click += () => {
+				UnityAction downClick = () => {
 					PresetManager.Instance.DowngradePriority(preset);
 					RebuildPresetList();
 					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
 				};
+				preset.presetUI.presetDownButton.onClick.AddListener(downClick);
 			}
 		}
 
 		public void RebuildPresetList() {
 			// destroy old
-			var toDestroy = presetGOs.Values.ToList();
-			foreach (var presetGO in toDestroy) {
-				GameObject.DestroyImmediate(presetGO);
+			var presets = PresetManager.Instance.presets;
+			foreach (var preset in presets) {
+				if (preset.presetUI != null) {
+					GameObject.DestroyImmediate(preset.presetUI.gameObject);
+				}
 			}
-			presetGOs.Clear();
 
 			// build new
 			CollectElements();
@@ -174,7 +191,7 @@ namespace XLGraphics.Utils
 		}
 
 		public bool IsFocusedInput() {
-			var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
+			var inputField = XLGraphicsMenu.Instance.renamePresetInputField.gameObject;
 			return inputField.activeSelf && inputField.GetComponent<InputField>().isFocused;
 		}
 	}

@@ -10,8 +10,8 @@ namespace XLGraphics.Presets.PresetData
 	public class SplitToningData
 	{
 		public bool active;
-		public Color shadows;
-		public Color highlights;
+		public SerializableColor shadows;
+		public SerializableColor highlights;
 		public float balance;
 
 		public static SplitToningData FromPreset(Preset p) {

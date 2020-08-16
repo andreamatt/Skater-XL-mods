@@ -12,22 +12,22 @@ namespace XLGraphics.Effects.SettingsEffects
 	class FullScreenHandler : EffectHandler
 	{
 		public override void ConnectUI() {
-			var FSModeNameToValue = new Dictionary<string, FullScreenMode> {
-				["FullScreenExclusive"] = FullScreenMode.ExclusiveFullScreen,
-				["FullScreenFull"] = FullScreenMode.FullScreenWindow,
-				["FullScreenWindowed"] = FullScreenMode.Windowed
+			var FSModeIndexToValue = new Dictionary<int, FullScreenMode> {
+				[0] = FullScreenMode.ExclusiveFullScreen,
+				[1] = FullScreenMode.FullScreenWindow,
+				[2] = FullScreenMode.Windowed
 			};
-			var FSModeValueToName = FSModeNameToValue.ToDictionary(kv => kv.Value, kv => kv.Key);
+			var FSModeValueToIndex = FSModeIndexToValue.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-			var FSmodeGrid = UI.Instance.selectionGrids["FullScreenGrid"];
+			var FSmodeDropdown = UI.Instance.dropdowns["FullScreenDropdown"];
 
 			// init UI values
 			Screen.fullScreenMode = Main.settings.SCREEN_MODE;
-			FSmodeGrid.OverrideValue(FSModeValueToName[Main.settings.SCREEN_MODE]);
+			FSmodeDropdown.OverrideValue(FSModeValueToIndex[Main.settings.SCREEN_MODE]);
 
 			// add listeners
-			FSmodeGrid.ValueChange += name => {
-				Screen.fullScreenMode = Main.settings.SCREEN_MODE = FSModeNameToValue[name];
+			FSmodeDropdown.ValueChange += index => {
+				Screen.fullScreenMode = Main.settings.SCREEN_MODE = FSModeIndexToValue[index];
 			};
 		}
 	}

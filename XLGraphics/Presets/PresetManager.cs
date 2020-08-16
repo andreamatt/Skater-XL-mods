@@ -46,6 +46,13 @@ namespace XLGraphics.Presets
 					var json = File.ReadAllText(filePath);
 					var preset = JsonConvert.DeserializeObject<Preset>(json);
 
+					// if deserialize fails, delete the file
+					if (preset == null) {
+						Logger.Log($"Failed deserializing preset with path: {filePath}");
+						// maybe dont delete the file?
+						continue;
+					}
+
 					// avoid adding map preset to presetOrder?
 					presets.Add(preset);
 					var presetOrder = Main.settings.presetOrder;

@@ -13,7 +13,7 @@ namespace XLGraphics.Presets.PresetData
 		public bool active;
 		// mode only Procedural because Mask requires a mask file
 		//public VignetteMode mode;
-		public Color color;
+		public SerializableColor color;
 		// center is useless
 		public float intensity;
 		public float smoothness;

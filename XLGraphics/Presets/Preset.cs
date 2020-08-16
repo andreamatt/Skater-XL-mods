@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using XLGraphics.Effects.PresetEffects;
 using XLGraphics.Presets.PresetData;
+using XLGraphicsUI.Elements;
 
 namespace XLGraphics.Presets
 {
@@ -18,6 +19,8 @@ namespace XLGraphics.Presets
 
 		[JsonIgnore]
 		public Volume volume;
+		[JsonIgnore]
+		public XLPreset presetUI;
 
 		[JsonIgnore]
 		public Bloom bloom;
