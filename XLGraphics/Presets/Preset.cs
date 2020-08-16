@@ -15,6 +15,7 @@ namespace XLGraphics.Presets
 {
 	public class Preset
 	{
+		[JsonIgnore]
 		public string name = "testname";
 
 		[JsonIgnore]

@@ -15,6 +15,7 @@ namespace XLGraphics.Presets
 
 		[JsonIgnore]
 		public ReadOnlyCollection<string> Names => names_enables.Select(n_e => n_e.Item1).ToList().AsReadOnly();
+
 		[JsonIgnore]
 		public ReadOnlyCollection<bool> Enables => names_enables.Select(n_e => n_e.Item2).ToList().AsReadOnly();
 
@@ -44,8 +45,6 @@ namespace XLGraphics.Presets
 		public void Remove(string name) {
 			names_enables.RemoveAll(n_e => n_e.Item1 == name);
 		}
-
-		public int Count => names_enables.Count;
 
 		public void Upgrade(string name) {
 			var i = names_enables.FindIndex(n_e => n_e.Item1 == name);

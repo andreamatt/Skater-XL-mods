@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -54,6 +55,12 @@ namespace XLGraphics.Presets
 					}
 
 					// avoid adding map preset to presetOrder?
+					var match = Regex.Match(filePath, @".*\\(.*).preset.json");
+					preset.name = match.Groups[1].Value;
+					if (match.Groups.Count != 2) {
+						Logger.Log($"Failed matching preset name with regex. File: {filePath}");
+						continue;
+					}
 					presets.Add(preset);
 					var presetOrder = Main.settings.presetOrder;
 					// if new preset detected, add it as disabled

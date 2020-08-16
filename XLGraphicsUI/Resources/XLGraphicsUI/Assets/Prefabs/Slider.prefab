@@ -463,6 +463,18 @@ PrefabInstance:
       propertyPath: m_text
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5251167984497032, guid: 57b619fdf17909e4d9431f02f05fbdb6, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5251167984497032, guid: 57b619fdf17909e4d9431f02f05fbdb6, type: 3}
+      propertyPath: m_fontSize
+      value: 55.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5251167984497032, guid: 57b619fdf17909e4d9431f02f05fbdb6, type: 3}
+      propertyPath: m_charWidthMaxAdj
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2956421258717239887, guid: 57b619fdf17909e4d9431f02f05fbdb6,
         type: 3}
       propertyPath: m_Name
