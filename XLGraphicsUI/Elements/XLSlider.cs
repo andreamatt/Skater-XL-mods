@@ -12,35 +12,33 @@ namespace XLGraphicsUI.Elements
 {
 	public class XLSlider : MonoBehaviour
 	{
-		private Slider slider;
-		private TMP_Text text;
-		public static List<XLSlider> xlSliders = new List<XLSlider>();
+		public Slider slider;
+		public TMP_Text valueText;
 
 		[HideInInspector]
 		public event UnityAction<float> ValueChange = v => { };
 
 		public void Awake() {
-			slider = this.gameObject.GetComponentInChildren<Slider>();
-			text = this.gameObject.GetComponentInChildren<TMP_Text>();
 			UnityAction<float> action = v => {
 				ValueChange.Invoke(v);
-				if (slider.wholeNumbers) {
-					text.text = $"{(int)v}";
-				}
-				else {
-					text.text = $"{v:3f}";
-				}
+				SetValueText(v);
 			};
 			slider.onValueChanged.AddListener(action);
-			xlSliders.Add(this);
+		}
+
+		private void SetValueText(float v) {
+			if (slider.wholeNumbers) {
+				valueText.text = $"{(int)v}";
+			}
+			else {
+				valueText.text = $"{v:N}";
+			}
 		}
 
 		public void OverrideValue(float value) {
-			slider.value = value;
-		}
-
-		public void OnDestroy() {
-			xlSliders.Remove(this);
+			//slider.value = value;
+			slider.SetValueWithoutNotify(value);
+			SetValueText(value);
 		}
 	}
 }

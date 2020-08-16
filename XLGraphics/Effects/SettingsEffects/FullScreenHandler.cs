@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering.HighDefinition;
 using XLGraphics.Utils;
+using XLGraphicsUI.Elements.SettingsUI;
 
 namespace XLGraphics.Effects.SettingsEffects
 {
@@ -19,16 +21,16 @@ namespace XLGraphics.Effects.SettingsEffects
 			};
 			var FSModeValueToIndex = FSModeIndexToValue.ToDictionary(kv => kv.Value, kv => kv.Key);
 
-			var FSmodeDropdown = UI.Instance.dropdowns["FullScreenDropdown"];
+			var fsUI = FullScreenUI.Instance;
 
 			// init UI values
-			Screen.fullScreenMode = Main.settings.SCREEN_MODE;
-			FSmodeDropdown.OverrideValue(FSModeValueToIndex[Main.settings.SCREEN_MODE]);
+			Screen.fullScreenMode = Main.settings.settingsData.SCREEN_MODE;
+			fsUI.dropdown.SetValueWithoutNotify(FSModeValueToIndex[Main.settings.settingsData.SCREEN_MODE]);
 
 			// add listeners
-			FSmodeDropdown.ValueChange += index => {
-				Screen.fullScreenMode = Main.settings.SCREEN_MODE = FSModeIndexToValue[index];
-			};
+			fsUI.dropdown.onValueChanged.AddListener(new UnityAction<int>(index => {
+				Screen.fullScreenMode = Main.settings.settingsData.SCREEN_MODE = FSModeIndexToValue[index];
+			}));
 		}
 	}
 }

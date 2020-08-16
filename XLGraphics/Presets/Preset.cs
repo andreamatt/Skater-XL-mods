@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using XLGraphics.Effects.PresetEffects;
-using XLGraphics.Presets.PresetData;
+using XLGraphics.SerializationData.PresetData;
 using XLGraphicsUI.Elements;
 
 namespace XLGraphics.Presets
@@ -39,33 +39,39 @@ namespace XLGraphics.Presets
 		public ColorCurvesData colorCurvesData = new ColorCurvesData();
 		[JsonIgnore]
 		public DepthOfField depthOfField;
-		public DepthOfFieldData depthOfFieldData = new DepthOfFieldData();
 		public FocusMode focusMode;
+		public DepthOfFieldData depthOfFieldData = new DepthOfFieldData();
 		[JsonIgnore]
 		public FilmGrain filmGrain;
+		public FilmGrainData filmGrainData = new FilmGrainData();
 		[JsonIgnore]
 		public LensDistortion lensDistortion;
+		public LensDistortionData lensDistortionData = new LensDistortionData();
 		[JsonIgnore]
 		public LiftGammaGain liftGammaGain;
+		public LiftGammaGainData liftGammaGainData = new LiftGammaGainData();
 		[JsonIgnore]
 		public MotionBlur motionBlur;
+		public MotionBlurData motionBlurData = new MotionBlurData();
 		[JsonIgnore]
 		public PaniniProjection paniniProjection;
+		public PaniniProjectionData paniniProjectionData = new PaniniProjectionData();
 		[JsonIgnore]
 		public ShadowsMidtonesHighlights shadowsMidtonesHighlights;
+		public ShadowsMidtonesHighlightsData shadowsMidtonesHighlightsData = new ShadowsMidtonesHighlightsData();
 		[JsonIgnore]
 		public SplitToning splitToning;
+		public SplitToningData splitToningData = new SplitToningData();
 		[JsonIgnore]
 		public Tonemapping tonemapping;
+		public ToneMappingData toneMappingData = new ToneMappingData();
 		[JsonIgnore]
 		public Vignette vignette;
+		public VignetteData vignetteData = new VignetteData();
 		[JsonIgnore]
 		public WhiteBalance whiteBalance;
+		public WhiteBalanceData whiteBalanceData = new WhiteBalanceData();
 
-		public Preset(string name) {
-			this.name = name;
-		}
-
-		public Preset() { }
+		public PhysicalCameraData physicalCameraData = new PhysicalCameraData();
 	}
 }

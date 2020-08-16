@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -23,11 +24,6 @@ namespace XLGraphics.Utils
 			Instance = this;
 		}
 
-		public Dictionary<string, XLSlider> sliders;
-		public Dictionary<string, XLButton> buttons;
-		public Dictionary<string, XLToggle> toggles;
-		public Dictionary<string, XLDropdown> dropdowns;
-
 		private GameObject presetsListContent;
 		private bool firstBuild = true;
 
@@ -45,12 +41,6 @@ namespace XLGraphics.Utils
 				RemoveTestPresets();
 			}
 			PopulatePresetsList();
-
-			sliders = XLSlider.xlSliders.ToDictionary(s => s.name);
-			buttons = XLButton.xlButtons.ToDictionary(s => s.name);
-			toggles = XLToggle.xlToggles.ToDictionary(s => s.name);
-			dropdowns = XLDropdown.xlDropdowns.ToDictionary(s => s.name);
-
 
 			menu.basicContent.SetActive(false);
 			menu.presetsContent.SetActive(false);
@@ -107,36 +97,38 @@ namespace XLGraphics.Utils
 
 			var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
 			inputField.text = preset.name;
-			inputField.GetComponentsInChildren<Text>().First(t => t.name == "Placeholder").text = preset.name;
-			inputField.GetComponentsInChildren<Text>().First(t => t.name == "Text").text = preset.name;
+			inputField.GetComponentsInChildren<TMP_Text>().First(t => t.name == "Placeholder").text = preset.name;
+			inputField.GetComponentsInChildren<TMP_Text>().First(t => t.name == "Text").text = preset.name;
 		}
 
 		public void AddBaseListeners() {
 			// presets editing
-			buttons["SavePresetButton"].Click += () => {
+			var menu = XLGraphicsMenu.Instance;
+			menu.savePresetButton.onClick.AddListener(new UnityAction(() => {
 				var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
-				var text = inputField.GetComponentsInChildren<Text>().First(t => t.name == "Text").text;
+				var text = inputField.text;
 				if (text != PresetManager.Instance.selectedPreset.name) {
 					PresetManager.Instance.RenamePreset();
 				}
 				PresetManager.Instance.SavePreset(PresetManager.Instance.selectedPreset);
 				RebuildPresetList();
 				XLGraphicsMenu.Instance.presetsContent.SetActive(true);
-			};
+			}));
 
-			buttons["RenamePresetButton"].Click += () => {
+			menu.renamePresetButton.onClick.AddListener(new UnityAction(() => {
 				//RebuildPresetList();
 				//XLGraphicsMenu.Instance.editPresetPanel.SetActive(true);
-			};
+				PresetManager.Instance.RenamePreset();
+			}));
 
 			// new preset
-			buttons["NewPresetButton"].Click += () => {
+			menu.newPresetButton.onClick.AddListener(new UnityAction(() => {
 				// create new preset with name
 				PresetManager.Instance.CreateNewPreset();
 
 				// edit it
 				OnEditPreset(PresetManager.Instance.selectedPreset);
-			};
+			}));
 		}
 
 		public void AddPresetListeners() {
@@ -192,7 +184,7 @@ namespace XLGraphics.Utils
 
 		public bool IsFocusedInput() {
 			var inputField = XLGraphicsMenu.Instance.renamePresetInputField.gameObject;
-			return inputField.activeSelf && inputField.GetComponent<InputField>().isFocused;
+			return inputField.activeSelf && inputField.GetComponent<TMP_InputField>().isFocused;
 		}
 	}
 }

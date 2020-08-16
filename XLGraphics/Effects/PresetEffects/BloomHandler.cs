@@ -4,40 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using XLGraphics.Presets;
 using XLGraphics.Utils;
 using XLGraphicsUI.Elements;
+using XLGraphicsUI.Elements.EffectsUI;
 
 namespace XLGraphics.Effects.PresetEffects
 {
 	public class BloomHandler : PresetEffectHandler
 	{
-		XLToggle enabledToggle;
-		XLSlider intensitySlider;
-		XLSlider scatterSlider;
-		XLSlider thresholdSlider;
+		BloomUI bloomUI;
 
 		public override void ConnectUI() {
-			enabledToggle = UI.Instance.toggles["BloomToggle"];
-			intensitySlider = UI.Instance.sliders["BloomIntensitySlider"];
-			scatterSlider = UI.Instance.sliders["BloomScatterSlider"];
-			thresholdSlider = UI.Instance.sliders["BloomThresholdSlider"];
+			bloomUI = BloomUI.Instance;
 
 			// add listeners
-			enabledToggle.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.active = v;
-			intensitySlider.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.intensity.value = v;
-			scatterSlider.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.scatter.value = v;
-			thresholdSlider.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.threshold.value = v;
+			bloomUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.bloom.active = v));
+			bloomUI.intensity.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.intensity.value = v;
+			bloomUI.scatter.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.scatter.value = v;
+			bloomUI.threshold.ValueChange += v => PresetManager.Instance.selectedPreset.bloom.threshold.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {
-			var ca = preset.bloom;
-			enabledToggle.OverrideValue(ca.active);
-			intensitySlider.OverrideValue(ca.intensity.value);
-			scatterSlider.OverrideValue(ca.intensity.value);
-			thresholdSlider.OverrideValue(ca.intensity.value);
+			var bloom = preset.bloom;
+			bloomUI.toggle.SetIsOnWithoutNotify(bloom.active);
+			bloomUI.intensity.OverrideValue(bloom.intensity.value);
+			bloomUI.scatter.OverrideValue(bloom.scatter.value);
+			bloomUI.threshold.OverrideValue(bloom.threshold.value);
 		}
 	}
 }

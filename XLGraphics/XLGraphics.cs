@@ -47,6 +47,7 @@ namespace XLGraphics
 			UI.Instance.AddPresetListeners();
 
 			basicEffectHandlers = new List<EffectHandler> {
+				new PostProcessingHandler(),
 				new VSyncHandler(),
 				new FullScreenHandler(),
 				new AntiAliasingHandler(),

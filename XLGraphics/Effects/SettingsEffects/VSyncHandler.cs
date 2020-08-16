@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering.HighDefinition;
 using XLGraphics.Utils;
+using XLGraphicsUI.Elements.SettingsUI;
 
 namespace XLGraphics.Effects.SettingsEffects
 {
@@ -13,16 +15,16 @@ namespace XLGraphics.Effects.SettingsEffects
 	{
 
 		public override void ConnectUI() {
-			var VSdropdown = UI.Instance.dropdowns["VSyncDropdown"];
+			var vsUI = VSyncUI.Instance;
 
 			// init UI values
-			QualitySettings.vSyncCount = Main.settings.VSYNC;
-			VSdropdown.OverrideValue(Main.settings.VSYNC);
+			QualitySettings.vSyncCount = Main.settings.settingsData.VSYNC;
+			vsUI.dropdown.SetValueWithoutNotify(Main.settings.settingsData.VSYNC);
 
 			// add listeners
-			VSdropdown.ValueChange += value => {
-				QualitySettings.vSyncCount = Main.settings.VSYNC = value;
-			};
+			vsUI.dropdown.onValueChanged.AddListener(new UnityAction<int>(value => {
+				QualitySettings.vSyncCount = Main.settings.settingsData.VSYNC = value;
+			}));
 		}
 	}
 }

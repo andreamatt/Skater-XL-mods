@@ -9,10 +9,8 @@ using UnityEngine.UI;
 
 namespace XLGraphicsUI
 {
-	public class XLGraphicsMenu : MonoBehaviour
+	public class XLGraphicsMenu : UIsingleton<XLGraphicsMenu>
 	{
-		public static XLGraphicsMenu Instance { get; private set; }
-
 		public GameObject tabPanel;
 		public GameObject basicContent;
 		public GameObject presetsContent;
@@ -20,9 +18,8 @@ namespace XLGraphicsUI
 		public GameObject presetsListContent;
 		public GameObject editPresetPanel;
 		public TMP_InputField renamePresetInputField;
-
-		public void Awake() {
-			Instance = this;
-		}
+		public Button renamePresetButton;
+		public Button savePresetButton;
+		public Button newPresetButton;
 	}
 }

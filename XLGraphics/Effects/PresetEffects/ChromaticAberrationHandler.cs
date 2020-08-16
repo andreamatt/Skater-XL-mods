@@ -4,36 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using XLGraphics.Presets;
 using XLGraphics.Utils;
 using XLGraphicsUI.Elements;
+using XLGraphicsUI.Elements.EffectsUI;
 
 namespace XLGraphics.Effects.PresetEffects
 {
 	public class ChromaticAberrationHandler : PresetEffectHandler
 	{
-		XLToggle enabledToggle;
-		XLSlider intensitySlider;
-		XLSlider samplesSlider;
+		ChromaticAberrationUI caUI;
 
 		public override void ConnectUI() {
-			enabledToggle = UI.Instance.toggles["ChromaticAberrationToggle"];
-			intensitySlider = UI.Instance.sliders["ChromaticAberrationIntensitySlider"];
-			samplesSlider = UI.Instance.sliders["ChromaticAberrationSamplesSlider"];
+			caUI = ChromaticAberrationUI.Instance;
 
 			// add listeners
-			enabledToggle.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.active = v;
-			intensitySlider.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.intensity.value = v;
-			samplesSlider.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.maxSamples = (int)Math.Round(v);
+			caUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.chromaticAberration.active = v));
+			caUI.intensity.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.intensity.value = v;
+			caUI.maxSamples.ValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.maxSamples = (int)Math.Round(v);
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {
 			var ca = preset.chromaticAberration;
-			enabledToggle.OverrideValue(ca.active);
-			intensitySlider.OverrideValue(ca.intensity.value);
-			samplesSlider.OverrideValue(ca.maxSamples);
+			caUI.toggle.SetIsOnWithoutNotify(ca.active);
+			caUI.intensity.OverrideValue(ca.intensity.value);
+			caUI.maxSamples.OverrideValue(ca.maxSamples);
 		}
 	}
 }

@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.UI;
-using XLGraphics.Presets.PresetData;
+using XLGraphics.SerializationData.PresetData;
 using XLGraphics.Utils;
 using XLGraphicsUI;
 
@@ -157,7 +157,23 @@ namespace XLGraphics.Presets
 		}
 
 		private void ReadPresetData(Preset preset) {
+			preset.bloomData.OverrideValues(preset);
+			preset.channelMixerData.OverrideValues(preset);
 			preset.chromaticAberrationData.OverrideValues(preset);
+			preset.colorAdjustementsData.OverrideValues(preset);
+			preset.colorCurvesData.OverrideValues(preset);
+			preset.depthOfFieldData.OverrideValues(preset);
+			preset.filmGrainData.OverrideValues(preset);
+			preset.lensDistortionData.OverrideValues(preset);
+			preset.liftGammaGainData.OverrideValues(preset);
+			preset.motionBlurData.OverrideValues(preset);
+			preset.paniniProjectionData.OverrideValues(preset);
+			preset.physicalCameraData.OverrideValues(preset);
+			preset.shadowsMidtonesHighlightsData.OverrideValues(preset);
+			preset.splitToningData.OverrideValues(preset);
+			preset.toneMappingData.OverrideValues(preset);
+			preset.vignetteData.OverrideValues(preset);
+			preset.whiteBalanceData.OverrideValues(preset);
 		}
 
 		public void SaveAllPresets() {
@@ -190,7 +206,23 @@ namespace XLGraphics.Presets
 
 		public void SavePreset(Preset p) {
 			// serialize data
+			p.bloomData = BloomData.FromPreset(p);
+			p.channelMixerData = ChannelMixerData.FromPreset(p);
 			p.chromaticAberrationData = ChromaticAberrationData.FromPreset(p);
+			p.colorAdjustementsData = ColorAdjustementsData.FromPreset(p);
+			p.colorCurvesData = ColorCurvesData.FromPreset(p);
+			p.depthOfFieldData = DepthOfFieldData.FromPreset(p);
+			p.filmGrainData = FilmGrainData.FromPreset(p);
+			p.lensDistortionData = LensDistortionData.FromPreset(p);
+			p.liftGammaGainData = LiftGammaGainData.FromPreset(p);
+			p.motionBlurData = MotionBlurData.FromPreset(p);
+			p.paniniProjectionData = PaniniProjectionData.FromPreset(p);
+			p.physicalCameraData = PhysicalCameraData.FromPreset(p);
+			p.shadowsMidtonesHighlightsData = ShadowsMidtonesHighlightsData.FromPreset(p);
+			p.splitToningData = SplitToningData.FromPreset(p);
+			p.toneMappingData = ToneMappingData.FromPreset(p);
+			p.vignetteData = VignetteData.FromPreset(p);
+			p.whiteBalanceData = WhiteBalanceData.FromPreset(p);
 
 			// write to file
 			var filepath = $"{Main.modEntry.Path}Presets\\{p.name}.preset.json";
@@ -207,7 +239,7 @@ namespace XLGraphics.Presets
 		}
 
 		public void RenamePreset() {
-			var newName = XLGraphicsMenu.Instance.renamePresetInputField.GetComponent<InputField>().text;
+			var newName = XLGraphicsMenu.Instance.renamePresetInputField.text;
 			if (newName != selectedPreset.name) {
 				if (presets.Any(p => p.name == newName)) {
 					Debug.LogError("Cant rename as another preset");

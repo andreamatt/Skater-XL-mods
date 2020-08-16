@@ -5,22 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using XLGraphics.Utils;
+using XLGraphicsUI.Elements.SettingsUI;
 
 namespace XLGraphics.Effects.SettingsEffects
 {
 	public class RenderDistanceHandler : EffectHandler
 	{
 		public override void ConnectUI() {
-			var distanceSlider = UI.Instance.sliders["RenderDistanceSlider"];
+			var rdUI = RenderDistanceUI.Instance;
 
 			// init UI values
 			var camera = Camera.main;
-			camera.farClipPlane = Main.settings.RENDER_DISTANCE;
-			distanceSlider.OverrideValue(Main.settings.RENDER_DISTANCE);
+			camera.farClipPlane = Main.settings.settingsData.RENDER_DISTANCE;
+			rdUI.slider.OverrideValue(Main.settings.settingsData.RENDER_DISTANCE);
 
 			// add listeners
-			distanceSlider.ValueChange += value => {
-				camera.farClipPlane = Main.settings.RENDER_DISTANCE = value;
+			rdUI.slider.ValueChange += value => {
+				camera.farClipPlane = Main.settings.settingsData.RENDER_DISTANCE = value;
 			};
 		}
 	}

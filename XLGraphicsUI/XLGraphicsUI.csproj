@@ -55,12 +55,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Elements\XLButton.cs" />
-    <Compile Include="Elements\XLDropdown.cs" />
+    <Compile Include="Elements\CameraUI\CameraModeUI.cs" />
+    <Compile Include="Elements\CameraUI\FollowCameraUI.cs" />
+    <Compile Include="Elements\CameraUI\NormalCameraUI.cs" />
+    <Compile Include="Elements\CameraUI\PovCameraUI.cs" />
+    <Compile Include="Elements\CameraUI\ReplayFovUI.cs" />
+    <Compile Include="Elements\CameraUI\SkateCameraUI.cs" />
+    <Compile Include="Elements\EffectsUI\ChannelMixerUI.cs" />
+    <Compile Include="Elements\EffectsUI\ChromaticAberrationUI.cs" />
+    <Compile Include="Elements\EffectsUI\BloomUI.cs" />
+    <Compile Include="Elements\EffectsUI\ColorAdjustementsUI.cs" />
+    <Compile Include="Elements\EffectsUI\ColorCurvesUI.cs" />
+    <Compile Include="Elements\EffectsUI\DepthOfFieldUI.cs" />
+    <Compile Include="Elements\EffectsUI\FilmGrainUI.cs" />
+    <Compile Include="Elements\EffectsUI\LensDistortionUI.cs" />
+    <Compile Include="Elements\EffectsUI\LiftGammaGainUI.cs" />
+    <Compile Include="Elements\EffectsUI\MotionBlurUI.cs" />
+    <Compile Include="Elements\EffectsUI\PaniniProjectionUI.cs" />
+    <Compile Include="Elements\EffectsUI\PhysicalCameraUI.cs" />
+    <Compile Include="Elements\EffectsUI\ShadowsMidtonesHighlightsUI.cs" />
+    <Compile Include="Elements\EffectsUI\SplitToningUI.cs" />
+    <Compile Include="Elements\EffectsUI\ToneMappingUI.cs" />
+    <Compile Include="Elements\EffectsUI\VignetteUI.cs" />
+    <Compile Include="Elements\EffectsUI\WhiteBalanceUI.cs" />
+    <Compile Include="Elements\SettingsUI\AntiAliasingUI.cs" />
+    <Compile Include="Elements\SettingsUI\FullScreenUI.cs" />
+    <Compile Include="Elements\SettingsUI\PostProcessingUI.cs" />
+    <Compile Include="Elements\SettingsUI\RenderDistanceUI.cs" />
+    <Compile Include="Elements\SettingsUI\VSyncUI.cs" />
+    <Compile Include="UIsingleton.cs" />
     <Compile Include="Elements\XLPreset.cs" />
-    <Compile Include="Elements\XLSelectionGrid.cs" />
     <Compile Include="Elements\XLSlider.cs" />
-    <Compile Include="Elements\XLToggle.cs" />
     <Compile Include="XLGraphicsMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
