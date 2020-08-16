@@ -57,7 +57,10 @@ namespace XLGraphics
 
 			presetEffectHandlers = new List<PresetEffectHandler> {
 				new BloomHandler(),
-				new ChromaticAberrationHandler()
+				new ChromaticAberrationHandler(),
+				new LensDistortionHandler(),
+				new MotionBlurHandler(),
+				new VignetteHandler()
 			};
 
 			cameraEffectHandlers = new List<EffectHandler> {
@@ -102,7 +105,7 @@ namespace XLGraphics
 			var newGameStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
 			if (newGameStateName != currentGameStateName) {
 				currentGameStateName = newGameStateName;
-				//Main.Save(); WHY SAVING?
+				//Main.Save(); WHY SAVING???
 			}
 		}
 

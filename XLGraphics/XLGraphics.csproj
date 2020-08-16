@@ -89,6 +89,9 @@
     <Compile Include="Effects\PresetEffects\BloomHandler.cs" />
     <Compile Include="Effects\PresetEffects\ChromaticAberrationHandler.cs" />
     <Compile Include="Effects\EffectHandler.cs" />
+    <Compile Include="Effects\PresetEffects\VignetteHandler.cs" />
+    <Compile Include="Effects\PresetEffects\MotionBlurHandler.cs" />
+    <Compile Include="Effects\PresetEffects\LensDistortionHandler.cs" />
     <Compile Include="Effects\PresetEffects\DepthOfFieldHandler.cs" />
     <Compile Include="Effects\PresetEffectHandler.cs" />
     <Compile Include="Effects\SettingsEffects\PostProcessingHandler.cs" />

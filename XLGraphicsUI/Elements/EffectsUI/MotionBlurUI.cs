@@ -15,7 +15,7 @@ namespace XLGraphicsUI.Elements.EffectsUI
 		public XLSlider maximumVelocity;
 		public XLSlider minimumVelocity;
 		public XLSlider depthComparisonExtent;
-		public XLSlider cameraRotationVelocity;
+		public XLSlider cameraRotationVelocityClamp;
 		public Toggle cameraMotionBlur;
 	}
 }
