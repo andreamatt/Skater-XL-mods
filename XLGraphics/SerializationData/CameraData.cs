@@ -33,11 +33,12 @@ namespace XLGraphics.SerializationData
 		public float POV_CLIP = 0.01f;
 		public bool HIDE_HEAD = true;
 		public SerializableVector3 POV_SHIFT = new Vector3(0, 0, 0.13f);
-		
+
 		public float SKATE_FOV = 60;
 		public float SKATE_REACT = 0.90f;
 		public float SKATE_REACT_ROT = 0.90f;
 		public float SKATE_CLIP = 0.01f;
+		
 		public SerializableVector3 SKATE_SHIFT = Vector3.zero;
 	}
 }

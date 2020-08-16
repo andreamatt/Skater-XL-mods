@@ -34,9 +34,6 @@ namespace XLGraphics
 
 			// load settings
 			Main.settings = Settings.Load();
-			if (Main.settings.presetOrder == null) {
-				throw new Exception("???");
-			}
 
 			// initiate components
 			new VolumeUtils();
@@ -46,7 +43,7 @@ namespace XLGraphics
 
 			PresetManager.Instance.LoadPresets();
 
-			UI.Instance.CollectElements();
+			UI.Instance.CollectElements(false);
 			UI.Instance.AddBaseListeners();
 			UI.Instance.AddPresetListeners();
 

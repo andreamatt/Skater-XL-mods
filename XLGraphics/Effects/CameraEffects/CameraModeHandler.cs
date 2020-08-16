@@ -25,7 +25,6 @@ namespace XLGraphics.Effects.CameraEffects
 			}));
 
 			XLGraphics.Instance.onReplayStateChange += () => {
-				Logger.Log("Replay state changed");
 				SetRelativeTab((int)CustomCameraController.Instance.cameraMode, XLGraphics.Instance.IsReplayActive());
 			};
 		}

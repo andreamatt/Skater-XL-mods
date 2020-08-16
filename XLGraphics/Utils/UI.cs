@@ -36,8 +36,13 @@ namespace XLGraphics.Utils
 			}
 		}
 
-		public void CollectElements() {
+		public void CollectElements(bool keepActive) {
 			var menu = XLGraphicsMenu.Instance;
+			var bcActive = menu.basicContent.activeSelf;
+			var pcActive = menu.presetsContent.activeSelf;
+			var ccActive = menu.cameraContent.activeSelf;
+			var eppActive = menu.editPresetPanel.activeSelf;
+
 			// activate and deactivate
 			menu.basicContent.SetActive(true);
 			menu.presetsContent.SetActive(true);
@@ -56,6 +61,13 @@ namespace XLGraphics.Utils
 			menu.presetsContent.SetActive(false);
 			menu.cameraContent.SetActive(false);
 			menu.editPresetPanel.SetActive(false);
+
+			if (keepActive) {
+				if (bcActive) menu.basicContent.SetActive(true);
+				if (pcActive) menu.presetsContent.SetActive(true);
+				if (ccActive) menu.cameraContent.SetActive(true);
+				if (eppActive) menu.editPresetPanel.SetActive(true);
+			}
 		}
 
 		private void RemoveTestPresets() {
@@ -80,7 +92,7 @@ namespace XLGraphics.Utils
 				//presetUI.GetComponent<RectTransform>().ForceUpdateRectTransforms();
 
 				presetUI.presetNameLabel.text = preset.name;
-				presetUI.presetToggle.isOn = Main.settings.presetOrder.IsEnabled(preset.name);
+				presetUI.presetToggle.isOn = PresetManager.Instance.currentPresetOrder.IsEnabled(preset.name);
 
 				if (i == 0) {
 					var upBTN = presetUI.presetUpButton;
@@ -91,10 +103,6 @@ namespace XLGraphics.Utils
 					downBTN.interactable = false;
 				}
 			}
-		}
-
-		public void TogglePresets() {
-			// change ui preset state based on replay mode being on/off
 		}
 
 		public void OnEditPreset(Preset preset) {
@@ -121,7 +129,7 @@ namespace XLGraphics.Utils
 					PresetManager.Instance.RenamePreset();
 				}
 				PresetManager.Instance.SavePreset(PresetManager.Instance.selectedPreset);
-				RebuildPresetList();
+				RebuildPresetList(false);
 				XLGraphicsMenu.Instance.presetsContent.SetActive(true);
 			}));
 
@@ -139,6 +147,13 @@ namespace XLGraphics.Utils
 				// edit it
 				OnEditPreset(PresetManager.Instance.selectedPreset);
 			}));
+
+			// when replay state changes
+			XLGraphics.Instance.onReplayStateChange += () => {
+				PresetManager.Instance.SetActives();
+				PresetManager.Instance.SetPriorities();
+				RebuildPresetList(true);
+			};
 		}
 
 		public void AddPresetListeners() {
@@ -155,28 +170,25 @@ namespace XLGraphics.Utils
 
 				UnityAction deleteClick = () => {
 					PresetManager.Instance.DeletePreset(preset);
-					RebuildPresetList();
-					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
+					RebuildPresetList(true);
 				};
 				preset.presetUI.presetDeleteButton.onClick.AddListener(deleteClick);
 
 				UnityAction upClick = () => {
 					PresetManager.Instance.UpgradePriority(preset);
-					RebuildPresetList();
-					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
+					RebuildPresetList(true);
 				};
 				preset.presetUI.presetUpButton.onClick.AddListener(upClick);
 
 				UnityAction downClick = () => {
 					PresetManager.Instance.DowngradePriority(preset);
-					RebuildPresetList();
-					XLGraphicsMenu.Instance.presetsContent.SetActive(true);
+					RebuildPresetList(true);
 				};
 				preset.presetUI.presetDownButton.onClick.AddListener(downClick);
 			}
 		}
 
-		public void RebuildPresetList() {
+		public void RebuildPresetList(bool keepActive) {
 			// destroy old
 			var presets = PresetManager.Instance.presets;
 			foreach (var preset in presets) {
@@ -186,7 +198,7 @@ namespace XLGraphics.Utils
 			}
 
 			// build new
-			CollectElements();
+			CollectElements(keepActive);
 
 			// listeners
 			AddPresetListeners();
