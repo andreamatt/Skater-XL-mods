@@ -303,6 +303,7 @@ namespace XLGraphics.Presets
 			presets.Add(p);
 
 			PreparePreset(p);
+			ReadPresetData(p);
 
 			Main.settings.presetOrder.AddFirst(p.name, true);
 			Main.settings.replay_presetOrder.AddFirst(p.name, true);

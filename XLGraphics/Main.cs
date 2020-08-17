@@ -58,9 +58,6 @@ namespace XLGraphics
 
 					xlGraphics = new GameObject().AddComponent<XLGraphics>();
 					GameObject.DontDestroyOnLoad(xlGraphics.gameObject);
-
-					Cursor.visible = true;
-					Cursor.lockState = CursorLockMode.None;
 				}
 			}
 			else {

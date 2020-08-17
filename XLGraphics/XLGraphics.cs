@@ -29,7 +29,7 @@ namespace XLGraphics
 
 		public void Start() {
 			Logger.Log("Start of XLGraphics");
-			Screen.fullScreenMode = FullScreenMode.Windowed;
+			//Screen.fullScreenMode = FullScreenMode.Windowed;
 			Instance = this;
 
 			// load settings
@@ -84,6 +84,8 @@ namespace XLGraphics
 
 			XLGraphicsMenu.Instance.basicContent.SetActive(true);
 
+			XLGraphicsMenu.Instance.gameObject.SetActive(false);
+
 			Logger.Log("End of XLGraphics");
 		}
 
@@ -95,9 +97,14 @@ namespace XLGraphics
 					menu.gameObject.SetActive(false);
 					PresetManager.Instance.SaveAllPresets();
 					Main.settings.Save();
+
+					Cursor.visible = false;
+					Cursor.lockState = CursorLockMode.Locked;
 				}
 				else {
 					menu.gameObject.SetActive(true);
+					Cursor.visible = true;
+					Cursor.lockState = CursorLockMode.None;
 				}
 			}
 

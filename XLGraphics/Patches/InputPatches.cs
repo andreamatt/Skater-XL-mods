@@ -42,7 +42,6 @@ namespace XLGraphics.Patches
 					new_fov = Mathf.Max(1, Mathf.Min(179, new_fov));
 
 					CustomCameraController.Instance.replay_fov = new_fov;
-
 					ReplayFovUI.Instance.fov.OverrideValue(new_fov);
 				}
 			}
