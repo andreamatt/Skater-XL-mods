@@ -103,6 +103,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="Patches\InputPatches.cs" />
     <Compile Include="Patches\KeyFramePatches.cs" />
+    <Compile Include="Patches\LevelManagerPatches.cs" />
     <Compile Include="Presets\Preset.cs" />
     <Compile Include="SerializationData\CameraData.cs" />
     <Compile Include="SerializationData\PresetData\BloomData.cs" />

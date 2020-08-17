@@ -20,6 +20,7 @@ namespace XLGraphics.Effects.PresetEffects
 
 			// add listeners
 			mbUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.motionBlur.active = v));
+			mbUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => mbUI.container.SetActive(v)));
 			mbUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.intensity.value = v;
 			mbUI.sampleCount.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.sampleCount = (int)v;
 			mbUI.maximumVelocity.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.maximumVelocity.value = v;
@@ -32,6 +33,7 @@ namespace XLGraphics.Effects.PresetEffects
 		public override void OnChangeSelectedPreset(Preset preset) {
 			var blur = preset.motionBlur;
 			mbUI.toggle.SetIsOnWithoutNotify(blur.active);
+			mbUI.container.SetActive(blur.active);
 			mbUI.intensity.OverrideValue(blur.intensity.value);
 			mbUI.sampleCount.OverrideValue(blur.sampleCount);
 			mbUI.maximumVelocity.OverrideValue(blur.maximumVelocity.value);

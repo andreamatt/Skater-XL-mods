@@ -120,9 +120,11 @@ namespace XLGraphics.Presets
 
 		private void PreparePreset(Preset preset) {
 			var volume = VolumeUtils.Instance.CreateVolume(float.MinValue);
+			volume.name = preset.name + " volume";
 			preset.volume = volume;
 			var profile = ScriptableObject.CreateInstance<VolumeProfile>();
 			volume.profile = profile;
+			volume.transform.SetParent(XLGraphics.Instance.transform);
 			GameObject.DontDestroyOnLoad(volume);
 			GameObject.DontDestroyOnLoad(profile);
 
@@ -143,6 +145,11 @@ namespace XLGraphics.Presets
 			preset.tonemapping = profile.Add<Tonemapping>();
 			preset.vignette = profile.Add<Vignette>();
 			preset.whiteBalance = profile.Add<WhiteBalance>();
+
+			// add exposure to fix problem???
+			var exposure = profile.Add<Exposure>();
+			exposure.SetAllOverridesTo(true);
+			exposure.active = false;
 
 			// set all overrides
 			preset.bloom.SetAllOverridesTo(true);

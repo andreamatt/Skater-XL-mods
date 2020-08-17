@@ -23,6 +23,7 @@ namespace XLGraphics.Effects.PresetEffects
 
 			// add listeners
 			caUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.chromaticAberration.active = v));
+			caUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => caUI.container.SetActive(v)));
 			caUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.intensity.value = v;
 			caUI.maxSamples.onValueChange += v => PresetManager.Instance.selectedPreset.chromaticAberration.maxSamples = (int)Math.Round(v);
 		}
@@ -30,6 +31,7 @@ namespace XLGraphics.Effects.PresetEffects
 		public override void OnChangeSelectedPreset(Preset preset) {
 			var ca = preset.chromaticAberration;
 			caUI.toggle.SetIsOnWithoutNotify(ca.active);
+			caUI.container.SetActive(ca.active);
 			caUI.intensity.OverrideValue(ca.intensity.value);
 			caUI.maxSamples.OverrideValue(ca.maxSamples);
 		}

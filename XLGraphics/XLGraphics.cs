@@ -26,6 +26,7 @@ namespace XLGraphics
 
 		public static XLGraphics Instance { get; private set; }
 		public string currentGameStateName;
+		private bool isOpen = false;
 
 		public void Start() {
 			Logger.Log("Start of XLGraphics");
@@ -93,19 +94,22 @@ namespace XLGraphics
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
 			if (keyUp) {
 				var menu = XLGraphicsMenu.Instance;
-				if (menu.gameObject.activeSelf) {
+				if (isOpen) {
 					menu.gameObject.SetActive(false);
 					PresetManager.Instance.SaveAllPresets();
 					Main.settings.Save();
 
 					Cursor.visible = false;
-					Cursor.lockState = CursorLockMode.Locked;
 				}
 				else {
 					menu.gameObject.SetActive(true);
-					Cursor.visible = true;
 					Cursor.lockState = CursorLockMode.None;
 				}
+				isOpen = !isOpen;
+			}
+
+			if (isOpen) {
+				Cursor.visible = true;
 			}
 
 			// if the map changed, needs to find/create new effects
