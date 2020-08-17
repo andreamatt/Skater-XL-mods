@@ -190,11 +190,9 @@ namespace XLGraphics.Utils
 
 		public void RebuildPresetList(bool keepActive) {
 			// destroy old
-			var presets = PresetManager.Instance.presets;
-			foreach (var preset in presets) {
-				if (preset.presetUI != null) {
-					GameObject.DestroyImmediate(preset.presetUI.gameObject);
-				}
+			var presetUIs = presetsListContent.GetComponentsInChildren<XLPreset>();
+			foreach (var presetUI in presetUIs) {
+				GameObject.DestroyImmediate(presetUI.gameObject);
 			}
 
 			// build new

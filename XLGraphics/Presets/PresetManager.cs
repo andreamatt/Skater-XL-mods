@@ -293,7 +293,6 @@ namespace XLGraphics.Presets
 				Main.settings.replay_presetOrder.names_enables.RemoveAt(i);
 			}
 
-			// save preset
 			presets.Remove(p);
 		}
 
