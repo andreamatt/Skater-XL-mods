@@ -11,8 +11,8 @@ namespace XLGraphics.SerializationData.PresetData
 	public class SplitToningData
 	{
 		public bool active;
-		public SerializableColor shadows;
-		public SerializableColor highlights;
+		public SerializableColor shadows = Color.black;
+		public SerializableColor highlights = Color.grey;
 		public float balance;
 
 		public static SplitToningData FromPreset(Preset p) {

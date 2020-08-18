@@ -118,6 +118,7 @@
     <Compile Include="SerializationData\PresetData\MotionBlurData.cs" />
     <Compile Include="SerializationData\PresetData\PaniniProjectionData.cs" />
     <Compile Include="SerializationData\PresetData\PhysicalCameraData.cs" />
+    <Compile Include="SerializationData\SerializableVector2.cs" />
     <Compile Include="SerializationData\SerializableVector3.cs" />
     <Compile Include="SerializationData\SerializableVector4.cs" />
     <Compile Include="SerializationData\SerializableColor.cs" />

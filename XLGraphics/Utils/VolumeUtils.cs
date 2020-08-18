@@ -31,7 +31,7 @@ namespace XLGraphics.Utils
 
 		public Volume CreateVolume(float priority) {
 			var volume = new GameObject().AddComponent<Volume>();
-			UnityEngine.Object.DontDestroyOnLoad(volume.gameObject);
+			//UnityEngine.Object.DontDestroyOnLoad(volume.gameObject);
 			volume.priority = priority;
 			volume.isGlobal = true;
 			return volume;

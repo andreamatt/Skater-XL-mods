@@ -13,7 +13,7 @@ namespace XLGraphics.SerializationData.PresetData
 		public bool active;
 		public float postExposure;
 		public float contrast;
-		public SerializableColor colorFilter;
+		public SerializableColor colorFilter = Color.white;
 		public float hueShift;
 		public float saturation;
 

@@ -11,13 +11,13 @@ namespace XLGraphics.SerializationData.PresetData
 {
 	public class DepthOfFieldData
 	{
-		public bool active;
-		public FocusMode focusMode;
-		public float focusDistance;
-		public float nearFocusStart;
-		public float nearFocusEnd;
-		public float farFocusStart;
-		public float farFocusEnd;
+		public bool active = false;
+		public FocusMode focusMode = FocusMode.Manual;
+		public float focusDistance = 10;
+		public float nearFocusStart = 0;
+		public float nearFocusEnd = 4;
+		public float farFocusStart = 10;
+		public float farFocusEnd = 20;
 
 		public static DepthOfFieldData FromPreset(Preset p) {
 			return new DepthOfFieldData() {

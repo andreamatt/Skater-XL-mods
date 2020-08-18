@@ -53,9 +53,9 @@ namespace XLGraphics.Utils
 			if (firstBuild) {
 				firstBuild = false;
 				RemoveTestPresets();
-				DisableNavigation();
 			}
 			PopulatePresetsList();
+			DisableNavigation();
 
 			menu.basicContent.SetActive(false);
 			menu.presetsContent.SetActive(false);

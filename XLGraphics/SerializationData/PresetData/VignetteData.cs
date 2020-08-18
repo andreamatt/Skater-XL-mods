@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,15 @@ namespace XLGraphics.SerializationData.PresetData
 	{
 		public bool active;
 		// mode only Procedural because Mask requires a mask file
-		//public VignetteMode mode;
-		public SerializableColor color;
-		// center is useless
-		public float intensity;
-		public float smoothness;
-		public float roundness;
-		public bool rounded;
+		[JsonIgnore]
+		public readonly VignetteMode mode = VignetteMode.Procedural;
+		public SerializableColor color = Color.black;
+		[JsonIgnore]
+		public readonly SerializableVector2 center = new Vector2(0.5f, 0.5f);
+		public float intensity = 0.35f;
+		public float smoothness = 0.2f;
+		public float roundness = 1;
+		public bool rounded = true;
 
 		public static VignetteData FromPreset(Preset p) {
 			return new VignetteData() {
@@ -34,6 +37,7 @@ namespace XLGraphics.SerializationData.PresetData
 
 		public void OverrideValues(Preset p) {
 			p.vignette.active = active;
+			p.vignette.mode.value = mode;
 			p.vignette.color.value = color;
 			p.vignette.intensity.value = intensity;
 			p.vignette.smoothness.value = smoothness;

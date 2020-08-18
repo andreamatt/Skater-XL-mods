@@ -47,6 +47,6 @@ namespace XLGraphics.Effects.PresetEffects
 		PhysicalCamera,
 		Player,
 		Skate,
-		Custom
+		Manual
 	}
 }

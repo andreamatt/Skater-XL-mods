@@ -125,8 +125,8 @@ namespace XLGraphics.Presets
 			var profile = ScriptableObject.CreateInstance<VolumeProfile>();
 			volume.profile = profile;
 			volume.transform.SetParent(XLGraphics.Instance.transform);
-			GameObject.DontDestroyOnLoad(volume);
-			GameObject.DontDestroyOnLoad(profile);
+			//GameObject.DontDestroyOnLoad(volume);
+			//GameObject.DontDestroyOnLoad(profile);
 
 			// add volume components
 			preset.bloom = profile.Add<Bloom>();
@@ -248,7 +248,7 @@ namespace XLGraphics.Presets
 				}
 			}
 			catch (Exception e) {
-				Logger.Log($"Can't save {filepath}{p.name} preset. ex: {e}");
+				Logger.Log($"Can't save {filepath}{p.name} preset.");
 			}
 		}
 
@@ -301,6 +301,9 @@ namespace XLGraphics.Presets
 			}
 
 			presets.Remove(p);
+
+			// remove volume
+			GameObject.DestroyImmediate(p.volume.gameObject);
 		}
 
 		public void CreateNewPreset() {
