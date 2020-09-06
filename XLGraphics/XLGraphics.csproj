@@ -40,7 +40,8 @@
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
       <HintPath>..\References\Rewired_Core.dll</HintPath>
@@ -66,6 +67,10 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\UnityEngine.InputLegacyModule.dll</HintPath>
@@ -79,26 +84,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Effects\CameraEffects\CameraModeHandler.cs" />
-    <Compile Include="Effects\CameraEffects\CustomCameraController.cs" />
-    <Compile Include="Effects\CameraEffects\FollowCameraHandler.cs" />
-    <Compile Include="Effects\CameraEffects\NormalCameraHandler.cs" />
-    <Compile Include="Effects\CameraEffects\PovCameraHandler.cs" />
-    <Compile Include="Effects\CameraEffects\ReplayFovHandler.cs" />
-    <Compile Include="Effects\CameraEffects\SkateCameraHandler.cs" />
-    <Compile Include="Effects\PresetEffects\BloomHandler.cs" />
-    <Compile Include="Effects\PresetEffects\ChromaticAberrationHandler.cs" />
-    <Compile Include="Effects\EffectHandler.cs" />
-    <Compile Include="Effects\PresetEffects\VignetteHandler.cs" />
-    <Compile Include="Effects\PresetEffects\MotionBlurHandler.cs" />
-    <Compile Include="Effects\PresetEffects\LensDistortionHandler.cs" />
-    <Compile Include="Effects\PresetEffects\DepthOfFieldHandler.cs" />
-    <Compile Include="Effects\PresetEffectHandler.cs" />
-    <Compile Include="Effects\SettingsEffects\PostProcessingHandler.cs" />
-    <Compile Include="Effects\SettingsEffects\RenderDistanceHandler.cs" />
-    <Compile Include="Effects\SettingsEffects\VSyncHandler.cs" />
-    <Compile Include="Effects\SettingsEffects\FullScreenHandler.cs" />
-    <Compile Include="Effects\SettingsEffects\AntiAliasingHandler.cs" />
+    <Compile Include="EffectHandlers\CameraEffects\CameraModeHandler.cs" />
+    <Compile Include="CustomEffects\CustomCameraController.cs" />
+    <Compile Include="EffectHandlers\CameraEffects\FollowCameraHandler.cs" />
+    <Compile Include="EffectHandlers\CameraEffects\NormalCameraHandler.cs" />
+    <Compile Include="EffectHandlers\CameraEffects\PovCameraHandler.cs" />
+    <Compile Include="EffectHandlers\CameraEffects\ReplayFovHandler.cs" />
+    <Compile Include="EffectHandlers\CameraEffects\SkateCameraHandler.cs" />
+    <Compile Include="CustomEffects\CustomLightController.cs" />
+    <Compile Include="CustomEffects\CustomFovController.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\BloomHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\ChromaticAberrationHandler.cs" />
+    <Compile Include="EffectHandlers\EffectHandler.cs" />
+    <Compile Include="CustomEffects\CustomDofController.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\LightHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\VignetteHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\MotionBlurHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\LensDistortionHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\DepthOfFieldHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffectHandler.cs" />
+    <Compile Include="EffectHandlers\SettingsEffects\PostProcessingHandler.cs" />
+    <Compile Include="EffectHandlers\SettingsEffects\RenderDistanceHandler.cs" />
+    <Compile Include="EffectHandlers\SettingsEffects\VSyncHandler.cs" />
+    <Compile Include="EffectHandlers\SettingsEffects\FullScreenHandler.cs" />
+    <Compile Include="EffectHandlers\SettingsEffects\AntiAliasingHandler.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Patches\InputPatches.cs" />
@@ -115,6 +124,7 @@
     <Compile Include="SerializationData\PresetData\FilmGrainData.cs" />
     <Compile Include="SerializationData\PresetData\LensDistortionData.cs" />
     <Compile Include="SerializationData\PresetData\LiftGammaGainData.cs" />
+    <Compile Include="SerializationData\PresetData\LightData.cs" />
     <Compile Include="SerializationData\PresetData\MotionBlurData.cs" />
     <Compile Include="SerializationData\PresetData\PaniniProjectionData.cs" />
     <Compile Include="SerializationData\PresetData\PhysicalCameraData.cs" />
@@ -137,7 +147,6 @@
     <Compile Include="XLGraphics.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Resources\Info.json" />
   </ItemGroup>
   <ItemGroup>

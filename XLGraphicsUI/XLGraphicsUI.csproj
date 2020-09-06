@@ -70,6 +70,7 @@
     <Compile Include="Elements\EffectsUI\FilmGrainUI.cs" />
     <Compile Include="Elements\EffectsUI\LensDistortionUI.cs" />
     <Compile Include="Elements\EffectsUI\LiftGammaGainUI.cs" />
+    <Compile Include="Elements\EffectsUI\LightUI.cs" />
     <Compile Include="Elements\EffectsUI\MotionBlurUI.cs" />
     <Compile Include="Elements\EffectsUI\PaniniProjectionUI.cs" />
     <Compile Include="Elements\EffectsUI\PhysicalCameraUI.cs" />

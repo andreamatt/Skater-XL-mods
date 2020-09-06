@@ -31,9 +31,10 @@ namespace XLGraphics.Presets
 		public PresetSelection currentPresetOrder => XLGraphics.Instance.IsReplayActive() ? Main.settings.replay_presetOrder : Main.settings.presetOrder;
 		public Preset selectedPreset;
 		public const string default_name = "DefaultPreset";
+		public Volume overriderVolume;  // required for custom DoF behaviour and other scripted effects
+		private GameObject volumesParent;
 
 		public void LoadPresets() {
-
 			// if no Presets folder, create it
 			if (!Directory.Exists(Main.modEntry.Path + "Presets")) {
 				Directory.CreateDirectory(Main.modEntry.Path + "Presets");
@@ -104,6 +105,10 @@ namespace XLGraphics.Presets
 				}
 			}
 
+			// set volumeParent: used for disabling/enabling all presets without changing their self-active states
+			volumesParent = new GameObject("XLGraphics volumes parent");
+			volumesParent.transform.SetParent(XLGraphics.Instance.transform);
+
 			// add volume components to all presets
 			for (int i = 0; i < presets.Count; i++) {
 				var preset = presets[i];
@@ -113,6 +118,11 @@ namespace XLGraphics.Presets
 				// override values from data
 				ReadPresetData(preset);
 			}
+
+			// prepare the overrider volume
+			overriderVolume = VolumeUtils.Instance.CreateVolume(0);
+			overriderVolume.profile = ScriptableObject.CreateInstance<VolumeProfile>();
+			overriderVolume.transform.SetParent(volumesParent.transform);
 
 			SetPriorities();
 			SetActives();
@@ -124,8 +134,8 @@ namespace XLGraphics.Presets
 			preset.volume = volume;
 			var profile = ScriptableObject.CreateInstance<VolumeProfile>();
 			volume.profile = profile;
-			volume.transform.SetParent(XLGraphics.Instance.transform);
-			//GameObject.DontDestroyOnLoad(volume);
+			volume.transform.SetParent(volumesParent.transform);
+			//GameObject.DontDestroyOnLoad(volume); no need to call this, as it inherits from the parent
 			//GameObject.DontDestroyOnLoad(profile);
 
 			// add volume components
@@ -199,6 +209,7 @@ namespace XLGraphics.Presets
 		public void SetPriorities() {
 			// set all priorities to minimum
 			presets.ForEach(p => p.volume.priority = float.MinValue);
+			overriderVolume.priority = float.MinValue;
 
 			var highestPrior = VolumeUtils.Instance.GetHighestPriority();
 			Logger.Log("highest prio is: " + highestPrior);
@@ -210,6 +221,11 @@ namespace XLGraphics.Presets
 				// last element has priority 1+highestPrior
 				preset.volume.priority = (orderNames.Count - orderNames.IndexOf(preset.name)) + highestPrior;
 			}
+
+			// overrider preset has highest priority
+			overriderVolume.priority = highestPrior + orderNames.Count + 1;
+
+			SortPresets();
 		}
 
 		public void SetActives() {
@@ -247,8 +263,8 @@ namespace XLGraphics.Presets
 					writer.Write(serializedLine);
 				}
 			}
-			catch (Exception e) {
-				Logger.Log($"Can't save {filepath}{p.name} preset.");
+			catch (Exception) {
+				Logger.Log($"Can't save {filepath}{p.name} preset");
 			}
 		}
 
@@ -333,6 +349,19 @@ namespace XLGraphics.Presets
 		public void DowngradePriority(Preset p) {
 			currentPresetOrder.Downgrade(p.name);
 			SetPriorities();
+		}
+
+		public void SortPresets() {
+			presets = presets.OrderByDescending(p => p.volume.priority).ToList();
+		}
+
+		public void SetActivePostProcessing(bool active) {
+			// idea: when level is loaded, save all volumes' states.
+			// set them all to either disabled or their state
+			// on map change reload them
+
+			// change xlgraphics' volumes' state
+			volumesParent.SetActive(active);
 		}
 	}
 }

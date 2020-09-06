@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using XLGraphics.Effects.CameraEffects;
+using XLGraphics.EffectHandlers.CameraEffects;
 
 namespace XLGraphics.SerializationData
 {
@@ -19,7 +19,7 @@ namespace XLGraphics.SerializationData
 		public float NORMAL_REACT = 0.90f;
 		public float NORMAL_REACT_ROT = 0.90f;
 		public float NORMAL_CLIP = 0.01f;
-		
+
 		public float FOLLOW_FOV = 60;
 		public float FOLLOW_REACT = 0.70f;
 		public float FOLLOW_REACT_ROT = 0.70f;

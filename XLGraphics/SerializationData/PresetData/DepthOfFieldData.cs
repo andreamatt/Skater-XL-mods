@@ -1,10 +1,12 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using XLGraphics.Effects.PresetEffects;
+using UnityEngine.Rendering.HighDefinition;
+using XLGraphics.EffectHandlers.PresetEffects;
 using XLGraphics.Presets;
 
 namespace XLGraphics.SerializationData.PresetData
@@ -13,6 +15,9 @@ namespace XLGraphics.SerializationData.PresetData
 	{
 		public bool active = false;
 		public FocusMode focusMode = FocusMode.Manual;
+		// keep medium quality for now
+		[JsonIgnore]
+		public readonly int quality = (int)ScalableSettingLevelParameter.Level.Medium;
 		public float focusDistance = 10;
 		public float nearFocusStart = 0;
 		public float nearFocusEnd = 4;
@@ -34,6 +39,7 @@ namespace XLGraphics.SerializationData.PresetData
 		public void OverrideValues(Preset p) {
 			p.depthOfField.active = active;
 			p.focusMode = focusMode;
+			p.depthOfField.quality.value = quality;
 			p.depthOfField.focusDistance.value = focusDistance;
 			p.depthOfField.nearFocusStart.value = nearFocusStart;
 			p.depthOfField.nearFocusEnd.value = nearFocusEnd;

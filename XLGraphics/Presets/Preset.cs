@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
-using XLGraphics.Effects.PresetEffects;
+using XLGraphics.EffectHandlers.PresetEffects;
 using XLGraphics.SerializationData.PresetData;
 using XLGraphicsUI.Elements;
 
@@ -74,5 +74,8 @@ namespace XLGraphics.Presets
 		public WhiteBalanceData whiteBalanceData = new WhiteBalanceData();
 
 		public PhysicalCameraData physicalCameraData = new PhysicalCameraData();
+
+		// Data only fields (no need to save/load from an effect)
+		public LightData lightData = new LightData();
 	}
 }

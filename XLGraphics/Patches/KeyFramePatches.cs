@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XLGraphics.Effects.CameraEffects;
+using XLGraphics.EffectHandlers.CameraEffects;
+using XLGraphics.CustomEffects;
 using XLGraphicsUI.Elements.CameraUI;
 
 namespace XLGraphics.Patches

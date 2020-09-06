@@ -79,7 +79,7 @@ namespace XLGraphics.Utils
 
 		public void PopulatePresetsList() {
 			// get presets in sorted order
-			var presets = PresetManager.Instance.presets.OrderByDescending(p => p.volume.priority).ToList();
+			var presets = PresetManager.Instance.presets;
 			var rectTransform = presetsListContent.GetComponent<RectTransform>();
 
 			for (int i = 0; i < presets.Count; i++) {
@@ -134,8 +134,6 @@ namespace XLGraphics.Utils
 			}));
 
 			menu.renamePresetButton.onClick.AddListener(new UnityAction(() => {
-				//RebuildPresetList();
-				//XLGraphicsMenu.Instance.editPresetPanel.SetActive(true);
 				PresetManager.Instance.RenamePreset();
 			}));
 

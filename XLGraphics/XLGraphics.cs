@@ -8,10 +8,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
-using XLGraphics.Effects;
-using XLGraphics.Effects.CameraEffects;
-using XLGraphics.Effects.PresetEffects;
-using XLGraphics.Effects.SettingsEffects;
+using XLGraphics.EffectHandlers;
+using XLGraphics.EffectHandlers.CameraEffects;
+using XLGraphics.CustomEffects;
+using XLGraphics.EffectHandlers.PresetEffects;
+using XLGraphics.EffectHandlers.SettingsEffects;
 using XLGraphics.Presets;
 using XLGraphics.Utils;
 using XLGraphicsUI;
@@ -36,14 +37,18 @@ namespace XLGraphics
 			// load settings
 			Main.settings = Settings.Load();
 
-			// initiate components
+			// initialize components
 			new VolumeUtils();
 			new UI();
 			new PresetManager();
 			gameObject.AddComponent<CustomCameraController>();
+			gameObject.AddComponent<CustomDofController>();
+			gameObject.AddComponent<CustomLightController>();
 
 			PresetManager.Instance.LoadPresets();
+			//CustomDofController.Instance.UpdateDofMode();
 
+			// prepare UI
 			UI.Instance.CollectElements(false);
 			UI.Instance.AddBaseListeners();
 			UI.Instance.AddPresetListeners();
@@ -59,7 +64,9 @@ namespace XLGraphics
 			presetEffectHandlers = new List<PresetEffectHandler> {
 				new BloomHandler(),
 				new ChromaticAberrationHandler(),
+				new DepthOfFieldHandler(),
 				new LensDistortionHandler(),
+				new LightHandler(),
 				new MotionBlurHandler(),
 				new VignetteHandler()
 			};
