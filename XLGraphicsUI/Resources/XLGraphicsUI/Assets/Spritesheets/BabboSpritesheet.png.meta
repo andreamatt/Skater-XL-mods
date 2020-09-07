@@ -1,0 +1,773 @@
+fileFormatVersion: 2
+guid: d60ba1bd0d807a748bed69e3c69f39b4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3746752322002541751
+    second: BabboSpritesheet_0
+  - first:
+      213: -1391716609191340715
+    second: BabboSpritesheet_1
+  - first:
+      213: -3676096756317146306
+    second: BabboSpritesheet_2
+  - first:
+      213: 6886166154939570468
+    second: BabboSpritesheet_3
+  - first:
+      213: -4343621773023161323
+    second: BabboSpritesheet_4
+  - first:
+      213: 3096482242120637039
+    second: BabboSpritesheet_5
+  - first:
+      213: -6228442048022355433
+    second: BabboSpritesheet_6
+  - first:
+      213: 8988396555449881473
+    second: BabboSpritesheet_7
+  - first:
+      213: -6751747605113649486
+    second: BabboSpritesheet_8
+  - first:
+      213: 1272500348028484588
+    second: BabboSpritesheet_9
+  - first:
+      213: 1418770397419751313
+    second: BabboSpritesheet_10
+  - first:
+      213: -8369849049712258322
+    second: BabboSpritesheet_11
+  - first:
+      213: 4913515876855459931
+    second: BabboSpritesheet_12
+  - first:
+      213: -8631539115239657397
+    second: BabboSpritesheet_13
+  - first:
+      213: 4927183666693680620
+    second: BabboSpritesheet_14
+  - first:
+      213: -8009195243030484054
+    second: BabboSpritesheet_15
+  - first:
+      213: 7848549393176595340
+    second: BabboSpritesheet_16
+  - first:
+      213: -1934656662782375476
+    second: BabboSpritesheet_17
+  - first:
+      213: -524658341108422197
+    second: BabboSpritesheet_18
+  - first:
+      213: -8601457821287724815
+    second: BabboSpritesheet_19
+  - first:
+      213: -5182678404643871401
+    second: BabboSpritesheet_20
+  - first:
+      213: 3983374572533264957
+    second: BabboSpritesheet_21
+  - first:
+      213: 434989546562038266
+    second: BabboSpritesheet_22
+  - first:
+      213: 7207322056547749357
+    second: BabboSpritesheet_23
+  - first:
+      213: 6951917316374737552
+    second: BabboSpritesheet_24
+  - first:
+      213: -2487257870122892056
+    second: BabboSpritesheet_25
+  - first:
+      213: -7596515962649593536
+    second: BabboSpritesheet_26
+  - first:
+      213: -7138313133178599627
+    second: BabboSpritesheet_27
+  - first:
+      213: 1459615292711484651
+    second: BabboSpritesheet_28
+  - first:
+      213: 6730515941206437607
+    second: BabboSpritesheet_29
+  - first:
+      213: -7478721632486171101
+    second: BabboSpritesheet_30
+  - first:
+      213: -3056610792099120815
+    second: BabboSpritesheet_31
+  - first:
+      213: 6598118319886924153
+    second: BabboSpritesheet_32
+  - first:
+      213: 3254182570840966825
+    second: BabboSpritesheet_33
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BabboSpritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9432ba14d9cd00cc0800000000000000
+      internalID: -3746752322002541751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 900
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55593291e11aface0800000000000000
+      internalID: -1391716609191340715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 900
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3330c71a71ebfcc0800000000000000
+      internalID: -3676096756317146306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 900
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4299d7922a3909f50800000000000000
+      internalID: 6886166154939570468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 900
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5145d4cc20b58b3c0800000000000000
+      internalID: -4343621773023161323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 900
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6ad7ee713ae8fa20800000000000000
+      internalID: 3096482242120637039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 720
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 712658ff4f02099a0800000000000000
+      internalID: -6228442048022355433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 720
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1835feb6b033dbc70800000000000000
+      internalID: 8988396555449881473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 720
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b64b105359fc42a0800000000000000
+      internalID: -6751747605113649486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 720
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ceb7cc41354d8a110800000000000000
+      internalID: 1272500348028484588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 720
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1974b04d82c70b310800000000000000
+      internalID: 1418770397419751313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 720
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee2924872a258db80800000000000000
+      internalID: -8369849049712258322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 540
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b50363638a0503440800000000000000
+      internalID: 4913515876855459931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 540
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b40304318ec963880800000000000000
+      internalID: -8631539115239657397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 580
+        width: 37
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 15, y: 16, z: 14, w: 14}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ced2264807fd06440800000000000000
+      internalID: 4927183666693680620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 581
+        width: 37
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 15, y: 15, z: 15, w: 15}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aab6b6a6c5f99d090800000000000000
+      internalID: -8009195243030484054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 540
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8b0666f616abec60800000000000000
+      internalID: 7848549393176595340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 540
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc98384f308b625e0800000000000000
+      internalID: -1934656662782375476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 405
+        width: 174
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc969cdb40a08b8f0800000000000000
+      internalID: -524658341108422197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 360
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f8c3ab1fab71a880800000000000000
+      internalID: -8601457821287724815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 404
+        width: 175
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7552d12337d6318b0800000000000000
+      internalID: -5182678404643871401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 360
+        width: 180
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d323b23a11ac74730800000000000000
+      internalID: 3983374572533264957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 263
+        width: 440
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 10, y: 6, z: 10, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dedcd52793d850460800000000000000
+      internalID: 7207322056547749357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 263
+        width: 442
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 11, y: 7, z: 11, w: 6}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 049bfa3eaf0c39690800000000000000
+      internalID: -7596515962649593536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 351
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: becbbc61068914410800000000000000
+      internalID: 1459615292711484651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 0
+        width: 357
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32ed1a99c4e363890800000000000000
+      internalID: -7478721632486171101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BabboSpritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 0
+        width: 352
+        height: 180
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9797bd257a9319b50800000000000000
+      internalID: 6598118319886924153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 330636364b28a7c458fd6d6c07978c80
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
