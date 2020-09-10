@@ -20,7 +20,6 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 
 			// add listeners
 			ldUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.lensDistortion.active = v));
-			ldUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => ldUI.container.SetActive(v)));
 			ldUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.lensDistortion.intensity.value = v;
 			ldUI.xMultiplier.onValueChange += v => PresetManager.Instance.selectedPreset.lensDistortion.xMultiplier.value = v;
 			ldUI.yMultiplier.onValueChange += v => PresetManager.Instance.selectedPreset.lensDistortion.yMultiplier.value = v;
@@ -30,7 +29,6 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 		public override void OnChangeSelectedPreset(Preset preset) {
 			var lens = preset.lensDistortion;
 			ldUI.toggle.SetIsOnWithoutNotify(lens.active);
-			ldUI.container.SetActive(lens.active);
 			ldUI.intensity.OverrideValue(lens.intensity.value);
 			ldUI.xMultiplier.OverrideValue(lens.xMultiplier.value);
 			ldUI.yMultiplier.OverrideValue(lens.yMultiplier.value);

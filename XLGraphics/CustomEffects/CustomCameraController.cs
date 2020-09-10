@@ -212,7 +212,7 @@ namespace XLGraphics.CustomEffects
 
 		private void UpdateOverrideFov() {
 			var presets = PresetManager.Instance.presets;
-			var presetsWithActiveFov = presets.Where(p => p.volume.isActiveAndEnabled && p.fovOverrideData.active).ToList();
+			var presetsWithActiveFov = presets.Where(p => p.enabled && p.fovOverrideData.active).ToList();
 			if (presetsWithActiveFov.Count == 0) {
 				override_fov = false;
 			}

@@ -29,7 +29,7 @@ namespace XLGraphics.CustomEffects
 
 		private void UpdateDofMode() {
 			var presets = PresetManager.Instance.presets;
-			var presetsWithActiveDof = presets.Where(p => p.volume.isActiveAndEnabled && p.depthOfField.active).ToList();
+			var presetsWithActiveDof = presets.Where(p => p.enabled && p.depthOfField.active).ToList();
 			if (presetsWithActiveDof.Count == 0) {
 				useCustomFocus = false;
 				return;

@@ -15,8 +15,6 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 
 		public override void ConnectUI() {
 			fovUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.fovOverrideData.active = v));
-			fovUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => fovUI.container.SetActive(v)));
-
 			fovUI.fov.onValueChange += v => PresetManager.Instance.selectedPreset.fovOverrideData.fov = v;
 		}
 

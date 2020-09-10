@@ -162,7 +162,7 @@ namespace XLGraphics.Utils
 
 				UnityAction<bool> toggleChange = value => {
 					PresetManager.Instance.currentPresetOrder.SetEnabled(preset.name, value);
-					preset.volume.gameObject.SetActive(value);
+					preset.enabled = value;
 				};
 				preset.presetUI.presetToggle.onValueChanged.AddListener(toggleChange);
 

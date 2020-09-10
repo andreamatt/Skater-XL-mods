@@ -230,7 +230,7 @@ namespace XLGraphics.Presets
 
 		public void SetActives() {
 			foreach (var preset in presets) {
-				preset.volume.gameObject.SetActive(currentPresetOrder.IsEnabled(preset.name));
+				preset.enabled = currentPresetOrder.IsEnabled(preset.name);
 			}
 		}
 

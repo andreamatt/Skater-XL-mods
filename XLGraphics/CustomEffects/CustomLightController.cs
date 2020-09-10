@@ -107,7 +107,7 @@ namespace XLGraphics.CustomEffects
 		private void UpdateLightData() {
 			// get light data from presets
 			var presets = PresetManager.Instance.presets;
-			var presetsWithActiveLight = presets.Where(p => p.volume.isActiveAndEnabled && p.lightData.active).ToList();
+			var presetsWithActiveLight = presets.Where(p => p.enabled && p.lightData.active).ToList();
 			if (presetsWithActiveLight.Count == 0) {
 				LIGHT_ENABLED = false;
 			}

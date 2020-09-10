@@ -18,7 +18,6 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 
 			// add listeners
 			lightUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.lightData.active = v));
-			lightUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => lightUI.container.SetActive(v)));
 			lightUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.lightData.intensity = v;
 			lightUI.range.onValueChange += v => PresetManager.Instance.selectedPreset.lightData.range = v;
 			lightUI.angle.onValueChange += v => PresetManager.Instance.selectedPreset.lightData.angle = v;
@@ -30,7 +29,6 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 		public override void OnChangeSelectedPreset(Preset preset) {
 			var light = preset.lightData;
 			lightUI.toggle.SetIsOnWithoutNotify(light.active);
-			lightUI.container.SetActive(light.active);
 			lightUI.intensity.OverrideValue(light.intensity);
 			lightUI.range.OverrideValue(light.range);
 			lightUI.angle.OverrideValue(light.angle);

@@ -21,6 +21,15 @@ namespace XLGraphics.Presets
 		[JsonIgnore]
 		public Volume volume;
 		[JsonIgnore]
+		public bool enabled {
+			get {
+				return volume.isActiveAndEnabled;
+			}
+			set {
+				volume.enabled = value;
+			}
+		}
+		[JsonIgnore]
 		public XLPreset presetUI;
 
 		[JsonIgnore]

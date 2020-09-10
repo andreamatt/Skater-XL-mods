@@ -46,7 +46,6 @@ namespace XLGraphics
 			gameObject.AddComponent<CustomLightController>();
 
 			PresetManager.Instance.LoadPresets();
-			//CustomDofController.Instance.UpdateDofMode();
 
 			// prepare UI
 			UI.Instance.CollectElements(false);
@@ -65,7 +64,7 @@ namespace XLGraphics
 				new BloomHandler(),
 				new ChromaticAberrationHandler(),
 				new DepthOfFieldHandler(),
-				new FovOverrideHandler(),
+				//new FovOverrideHandler(),
 				new LensDistortionHandler(),
 				new LightHandler(),
 				new MotionBlurHandler(),
