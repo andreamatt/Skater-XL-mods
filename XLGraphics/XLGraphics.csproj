@@ -92,11 +92,11 @@
     <Compile Include="EffectHandlers\CameraEffects\ReplayFovHandler.cs" />
     <Compile Include="EffectHandlers\CameraEffects\SkateCameraHandler.cs" />
     <Compile Include="CustomEffects\CustomLightController.cs" />
-    <Compile Include="CustomEffects\CustomFovController.cs" />
     <Compile Include="EffectHandlers\PresetEffects\BloomHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\ChromaticAberrationHandler.cs" />
     <Compile Include="EffectHandlers\EffectHandler.cs" />
     <Compile Include="CustomEffects\CustomDofController.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\FovOverrideHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\LightHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\VignetteHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\MotionBlurHandler.cs" />
@@ -122,6 +122,7 @@
     <Compile Include="SerializationData\PresetData\ColorCurvesData.cs" />
     <Compile Include="SerializationData\PresetData\DepthOfFieldData.cs" />
     <Compile Include="SerializationData\PresetData\FilmGrainData.cs" />
+    <Compile Include="SerializationData\PresetData\FovOverrideData.cs" />
     <Compile Include="SerializationData\PresetData\LensDistortionData.cs" />
     <Compile Include="SerializationData\PresetData\LiftGammaGainData.cs" />
     <Compile Include="SerializationData\PresetData\LightData.cs" />

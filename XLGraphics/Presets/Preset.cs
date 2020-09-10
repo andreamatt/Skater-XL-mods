@@ -77,5 +77,6 @@ namespace XLGraphics.Presets
 
 		// Data only fields (no need to save/load from an effect)
 		public LightData lightData = new LightData();
+		public FovOverrideData fovOverrideData = new FovOverrideData();
 	}
 }

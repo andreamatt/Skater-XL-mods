@@ -65,6 +65,7 @@ namespace XLGraphics
 				new BloomHandler(),
 				new ChromaticAberrationHandler(),
 				new DepthOfFieldHandler(),
+				new FovOverrideHandler(),
 				new LensDistortionHandler(),
 				new LightHandler(),
 				new MotionBlurHandler(),

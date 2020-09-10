@@ -61,6 +61,7 @@
     <Compile Include="Elements\CameraUI\PovCameraUI.cs" />
     <Compile Include="Elements\CameraUI\ReplayFovUI.cs" />
     <Compile Include="Elements\CameraUI\SkateCameraUI.cs" />
+    <Compile Include="Elements\EffectsUI\FovOverrideUI.cs" />
     <Compile Include="Elements\EffectsUI\ChannelMixerUI.cs" />
     <Compile Include="Elements\EffectsUI\ChromaticAberrationUI.cs" />
     <Compile Include="Elements\EffectsUI\BloomUI.cs" />

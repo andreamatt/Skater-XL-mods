@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using XLGraphics.EffectHandlers.CameraEffects;
+using XLGraphics.Presets;
 
 namespace XLGraphics.CustomEffects
 {
@@ -29,7 +30,6 @@ namespace XLGraphics.CustomEffects
 			cameraControllerTraverse = Traverse.Create(PlayerController.Instance.cameraController).Field<bool>("_right");
 		}
 
-		#region Utilities
 		private Camera _mainCamera;
 		public Camera mainCamera {
 			get {
@@ -50,9 +50,7 @@ namespace XLGraphics.CustomEffects
 
 		public Transform replay_skater;
 		public Transform replay_skateboard;
-		#endregion
 
-		#region Parameters
 		public CameraMode cameraMode = CameraMode.Normal;
 		public Vector3 follow_shift = new Vector3();
 		public Vector3 pov_shift = new Vector3();
@@ -81,9 +79,6 @@ namespace XLGraphics.CustomEffects
 		public float skate_react = 0.90f;
 		public float skate_react_rot = 0.90f;
 		public float skate_clip = 0.01f;
-		#endregion
-
-		#region Camera modes
 
 		private void follow() {
 			mainCamera.nearClipPlane = follow_clip;
@@ -170,8 +165,6 @@ namespace XLGraphics.CustomEffects
 			}
 		}
 
-		#endregion
-
 		public void FixedUpdate() {
 			if (XLGraphics.Instance.currentGameStateName == "GearSelectionState") {
 				// do nothing (default camera behaviour?)
@@ -212,6 +205,20 @@ namespace XLGraphics.CustomEffects
 				if (cameraMode == CameraMode.POV) {
 					pov();
 				}
+			}
+
+			UpdateOverrideFov();
+		}
+
+		private void UpdateOverrideFov() {
+			var presets = PresetManager.Instance.presets;
+			var presetsWithActiveFov = presets.Where(p => p.volume.isActiveAndEnabled && p.fovOverrideData.active).ToList();
+			if (presetsWithActiveFov.Count == 0) {
+				override_fov = false;
+			}
+			else {
+				override_fov = true;
+				override_fov_value = presetsWithActiveFov.First().fovOverrideData.fov;
 			}
 		}
 	}

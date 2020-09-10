@@ -23,7 +23,6 @@ namespace XLGraphics.CustomEffects
 			Instance = this;
 		}
 
-		#region Settings
 		public bool LIGHT_ENABLED = false;
 		public float LIGHT_RANGE = 0;
 		public float LIGHT_ANGLE = 0;
@@ -31,7 +30,6 @@ namespace XLGraphics.CustomEffects
 		public Color LIGHT_COLOR = Color.white;
 		public Vector3 LIGHT_POSITION = Vector3.zero;
 		public string LIGHT_COOKIE = null;
-		#endregion
 
 		private Light light;
 		private HDAdditionalLightData additionalLightData;
