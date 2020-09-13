@@ -7278,7 +7278,7 @@ PrefabInstance:
     - target: {fileID: 7558599674637041200, guid: 6b3e0ef414b574441aaf90db62a79a0e,
         type: 3}
       propertyPath: m_Name
-      value: Menu
+      value: OldMenu
       objectReference: {fileID: 0}
     - target: {fileID: 7558599674637041200, guid: 6b3e0ef414b574441aaf90db62a79a0e,
         type: 3}
@@ -9337,7 +9337,7 @@ PrefabInstance:
     - target: {fileID: 2312685029489524558, guid: cd20e9dff0243734f9701b7ac3dad3b0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2528782223527871986, guid: cd20e9dff0243734f9701b7ac3dad3b0,
         type: 3}
@@ -10047,7 +10047,7 @@ PrefabInstance:
     - target: {fileID: 5222066167990657265, guid: cd20e9dff0243734f9701b7ac3dad3b0,
         type: 3}
       propertyPath: m_Name
-      value: BabboUI_Master
+      value: Menu
       objectReference: {fileID: 0}
     - target: {fileID: 5222066167990657265, guid: cd20e9dff0243734f9701b7ac3dad3b0,
         type: 3}
@@ -10432,7 +10432,7 @@ PrefabInstance:
     - target: {fileID: 6603726841743607160, guid: cd20e9dff0243734f9701b7ac3dad3b0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6603726842093925267, guid: cd20e9dff0243734f9701b7ac3dad3b0,
         type: 3}
@@ -11893,6 +11893,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377404148134667857, guid: cd20e9dff0243734f9701b7ac3dad3b0,
+        type: 3}
+      propertyPath: m_Name
+      value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 8377404148134667861, guid: cd20e9dff0243734f9701b7ac3dad3b0,
         type: 3}
