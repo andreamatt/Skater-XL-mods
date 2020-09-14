@@ -11,14 +11,14 @@ namespace XLGraphicsUI
 {
 	public class XLGraphicsMenu : UIsingleton<XLGraphicsMenu>
 	{
-		public GameObject tabPanel;
+		//public GameObject tabPanel;
 		public GameObject basicContent;
 		public GameObject presetsContent;
 		public GameObject cameraContent;
 		public GameObject presetsListContent;
 		public GameObject editPresetPanel;
 		public TMP_InputField renamePresetInputField;
-		public Button renamePresetButton;
+		//public Button renamePresetButton;
 		public Button savePresetButton;
 		public Button newPresetButton;
 	}

@@ -10,8 +10,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class PaniniProjectionUI : UIsingleton<PaniniProjectionUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public XLSlider distance;
 		public XLSlider cropToFit;
 	}

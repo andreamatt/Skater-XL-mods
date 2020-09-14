@@ -10,8 +10,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class LightUI : UIsingleton<LightUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public XLSlider intensity;
 		public XLSlider range;
 		public XLSlider angle;

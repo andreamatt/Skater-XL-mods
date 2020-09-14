@@ -23,6 +23,7 @@ namespace XLGraphics
 		public static XLGraphics xlGraphics;
 		public static XLGraphicsMenu menu;
 		public static AssetBundle uiBundle;
+		public static GameObject presetObjectAsset;
 		public static UnityModManager.ModEntry modEntry;
 		public static Settings settings;
 
@@ -59,6 +60,9 @@ namespace XLGraphics
 				// load menu asset
 				uiBundle = AssetBundle.LoadFromFile(modEntry.Path + "graphicsmenuassetbundle");
 				GameObject newMenuObject = GameObject.Instantiate(uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Menu.prefab"));
+
+				presetObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/PresetObject.prefab");
+
 				GameObject.DontDestroyOnLoad(newMenuObject);
 				menu = XLGraphicsMenu.Instance;
 

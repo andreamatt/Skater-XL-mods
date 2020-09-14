@@ -11,8 +11,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class DepthOfFieldUI : UIsingleton<DepthOfFieldUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public TMP_Dropdown focusMode;
 		public XLSlider focusDistance;
 		public XLSlider nearFocusStart;

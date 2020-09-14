@@ -9,6 +9,6 @@ namespace XLGraphicsUI.Elements.SettingsUI
 {
 	public class PostProcessingUI : UIsingleton<PostProcessingUI>
 	{
-		public Toggle toggle;
+		public XLToggle toggle;
 	}
 }

@@ -10,8 +10,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class LiftGammaGainUI : UIsingleton<LiftGammaGainUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		//public Vector4 lift;
 		//public Vector4 gamma;
 		//public Vector4 gain;

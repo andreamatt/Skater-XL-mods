@@ -10,8 +10,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class LensDistortionUI : UIsingleton<LensDistortionUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public XLSlider intensity;
 		public XLSlider xMultiplier;
 		public XLSlider yMultiplier;

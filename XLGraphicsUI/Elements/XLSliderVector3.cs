@@ -12,44 +12,47 @@ namespace XLGraphicsUI.Elements
 {
 	public class XLSliderVector3 : MonoBehaviour
 	{
-		public Slider sliderX;
-		public Slider sliderY;
-		public Slider sliderZ;
-		public TMP_Text valueTextX;
-		public TMP_Text valueTextY;
-		public TMP_Text valueTextZ;
+		//public Slider sliderX;
+		//public Slider sliderY;
+		//public Slider sliderZ;
+		//public TMP_Text valueTextX;
+		//public TMP_Text valueTextY;
+		//public TMP_Text valueTextZ;
+		public XLSlider sliderX;
+		public XLSlider sliderY;
+		public XLSlider sliderZ;
 
 		[HideInInspector]
 		public event UnityAction<Vector3> onValueChange = v => { };
 
 		public void Awake() {
 			UnityAction<float> action = v => {
-				var vec = new Vector3(sliderX.value, sliderY.value, sliderZ.value);
+				var vec = new Vector3(sliderX.slider.value, sliderY.slider.value, sliderZ.slider.value);
 				onValueChange.Invoke(vec);
 				SetValueText(vec);
 			};
-			sliderX.onValueChanged.AddListener(action);
-			sliderY.onValueChanged.AddListener(action);
-			sliderZ.onValueChanged.AddListener(action);
+			sliderX.onValueChange += action;
+			sliderY.onValueChange += action;
+			sliderZ.onValueChange += action;
 		}
 
 		private void SetValueText(Vector3 v) {
-			if (sliderX.wholeNumbers) {
-				valueTextX.text = $"{(int)v.x}";
-				valueTextY.text = $"{(int)v.y}";
-				valueTextZ.text = $"{(int)v.z}";
+			if (sliderX.slider.wholeNumbers) {
+				sliderX.valueText.text = $"{(int)v.x}";
+				sliderY.valueText.text = $"{(int)v.y}";
+				sliderZ.valueText.text = $"{(int)v.z}";
 			}
 			else {
-				valueTextX.text = $"{v.x:N}";
-				valueTextY.text = $"{v.y:N}";
-				valueTextZ.text = $"{v.z:N}";
+				sliderX.valueText.text = $"{v.x:N}";
+				sliderY.valueText.text = $"{v.y:N}";
+				sliderZ.valueText.text = $"{v.z:N}";
 			}
 		}
 
 		public void OverrideValue(Vector3 v) {
-			sliderX.SetValueWithoutNotify(v.x);
-			sliderY.SetValueWithoutNotify(v.y);
-			sliderZ.SetValueWithoutNotify(v.z);
+			sliderX.OverrideValue(v.x);
+			sliderY.OverrideValue(v.y);
+			sliderZ.OverrideValue(v.z);
 
 			SetValueText(v);
 		}

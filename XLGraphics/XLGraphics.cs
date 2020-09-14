@@ -43,7 +43,7 @@ namespace XLGraphics
 			new PresetManager();
 			gameObject.AddComponent<CustomCameraController>();
 			gameObject.AddComponent<CustomDofController>();
-			gameObject.AddComponent<CustomLightController>();
+			//gameObject.AddComponent<CustomLightController>();
 
 			PresetManager.Instance.LoadPresets();
 
@@ -63,10 +63,10 @@ namespace XLGraphics
 			presetEffectHandlers = new List<PresetEffectHandler> {
 				new BloomHandler(),
 				new ChromaticAberrationHandler(),
-				new DepthOfFieldHandler(),
+				//new DepthOfFieldHandler(),
 				//new FovOverrideHandler(),
 				new LensDistortionHandler(),
-				new LightHandler(),
+				//new LightHandler(),
 				new MotionBlurHandler(),
 				new VignetteHandler()
 			};

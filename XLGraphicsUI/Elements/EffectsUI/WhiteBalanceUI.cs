@@ -10,8 +10,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class WhiteBalanceUI : UIsingleton<WhiteBalanceUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public XLSlider temperature;
 		public XLSlider tint;
 	}

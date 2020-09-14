@@ -11,8 +11,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class ToneMappingUI : UIsingleton<ToneMappingUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public TMP_Dropdown mode;
 		public XLSlider toeStrength;
 		public XLSlider toeLength;

@@ -86,6 +86,7 @@
     <Compile Include="Elements\SettingsUI\RenderDistanceUI.cs" />
     <Compile Include="Elements\SettingsUI\VSyncUI.cs" />
     <Compile Include="Elements\XLSliderVector3.cs" />
+    <Compile Include="Elements\XLToggle.cs" />
     <Compile Include="UIsingleton.cs" />
     <Compile Include="Elements\XLPreset.cs" />
     <Compile Include="Elements\XLSlider.cs" />

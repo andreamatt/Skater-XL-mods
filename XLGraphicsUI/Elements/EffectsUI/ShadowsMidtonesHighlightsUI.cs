@@ -10,8 +10,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class ShadowsMidtonesHighlightsUI : UIsingleton<ShadowsMidtonesHighlightsUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		//public Vector4 shadows = new Vector4();
 		//public Vector4 midtones = new Vector4();
 		//public Vector4 highlights = new Vector4();

@@ -84,7 +84,7 @@ namespace XLGraphics.Utils
 
 			for (int i = 0; i < presets.Count; i++) {
 				var preset = presets[i];
-				var go = GameObject.Instantiate(Main.uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Preset.prefab"), presetsListContent.transform);
+				var go = GameObject.Instantiate(Main.presetObjectAsset, presetsListContent.transform);
 				var presetUI = go.GetComponent<XLPreset>();
 				preset.presetUI = presetUI;
 				//var rect = presetUI.GetComponent<RectTransform>().rect;
@@ -92,7 +92,8 @@ namespace XLGraphics.Utils
 				//presetUI.GetComponent<RectTransform>().ForceUpdateRectTransforms();
 
 				presetUI.presetNameLabel.text = preset.name;
-				presetUI.presetToggle.isOn = PresetManager.Instance.currentPresetOrder.IsEnabled(preset.name);
+				var isOn = PresetManager.Instance.currentPresetOrder.IsEnabled(preset.name);
+				presetUI.presetToggle.SetIsOnWithoutNotify(isOn);
 
 				if (i == 0) {
 					var upBTN = presetUI.presetUpButton;
@@ -133,9 +134,10 @@ namespace XLGraphics.Utils
 				XLGraphicsMenu.Instance.presetsContent.SetActive(true);
 			}));
 
-			menu.renamePresetButton.onClick.AddListener(new UnityAction(() => {
-				PresetManager.Instance.RenamePreset();
-			}));
+			// removed rename preset button
+			//menu.renamePresetButton.onClick.AddListener(new UnityAction(() => {
+			//	PresetManager.Instance.RenamePreset();
+			//}));
 
 			// new preset
 			menu.newPresetButton.onClick.AddListener(new UnityAction(() => {

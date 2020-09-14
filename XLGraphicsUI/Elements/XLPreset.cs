@@ -16,6 +16,6 @@ namespace XLGraphicsUI.Elements
 		public Button presetDeleteButton;
 		public Button presetUpButton;
 		public Button presetDownButton;
-		public Toggle presetToggle;
+		public XLToggle presetToggle;
 	}
 }

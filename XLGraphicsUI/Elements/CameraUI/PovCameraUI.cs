@@ -14,6 +14,6 @@ namespace XLGraphicsUI.Elements.CameraUI
 		public XLSlider react_rot;
 		public XLSlider clip;
 		public XLSliderVector3 shift;
-		public Toggle hide_head;
+		public XLToggle hide_head;
 	}
 }

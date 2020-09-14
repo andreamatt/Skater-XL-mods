@@ -11,8 +11,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class ChannelMixerUI : UIsingleton<ChannelMixerUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public XLSlider intensity;
 		public XLSlider scatter;
 		public XLSlider threshold;

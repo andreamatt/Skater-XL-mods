@@ -10,12 +10,12 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class VignetteUI : UIsingleton<VignetteUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		//public SerializableColor color;
 		public XLSlider intensity;
 		public XLSlider smoothness;
 		public XLSlider roundness;
-		public Toggle rounded;
+		public XLToggle rounded;
 	}
 }

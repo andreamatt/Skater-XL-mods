@@ -10,8 +10,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class ColorAdjustementsUI : UIsingleton<ColorAdjustementsUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public XLSlider postExposure;
 		public XLSlider contrast;
 		//public SerializableColor colorFilter;

@@ -11,8 +11,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 {
 	public class FilmGrainUI : UIsingleton<FilmGrainUI>
 	{
-		public Toggle toggle;
-		public GameObject container;
+		public XLToggle toggle;
+		//public GameObject container;
 		public XLSlider intensity;
 		public XLSlider response;
 		public TMP_Dropdown type;
