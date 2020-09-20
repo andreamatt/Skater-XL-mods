@@ -45,6 +45,10 @@
       <HintPath>..\References\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\References\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
@@ -85,6 +89,7 @@
     <Compile Include="Elements\SettingsUI\PostProcessingUI.cs" />
     <Compile Include="Elements\SettingsUI\RenderDistanceUI.cs" />
     <Compile Include="Elements\SettingsUI\VSyncUI.cs" />
+    <Compile Include="Elements\XLDropdown.cs" />
     <Compile Include="Elements\XLSliderVector3.cs" />
     <Compile Include="Elements\XLToggle.cs" />
     <Compile Include="UIsingleton.cs" />

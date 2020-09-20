@@ -38,7 +38,7 @@ namespace XLGraphicsUI.Elements
 		public void OverrideValue(float value) {
 			//slider.value = value;
 			slider.SetValueWithoutNotify(value);
-			SetValueText(value);
+			SetValueText(slider.value); // use slider.value instead of value because it is clamped
 		}
 	}
 }

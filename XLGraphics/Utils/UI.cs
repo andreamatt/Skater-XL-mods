@@ -87,9 +87,6 @@ namespace XLGraphics.Utils
 				var go = GameObject.Instantiate(Main.presetObjectAsset, presetsListContent.transform);
 				var presetUI = go.GetComponent<XLPreset>();
 				preset.presetUI = presetUI;
-				//var rect = presetUI.GetComponent<RectTransform>().rect;
-				//presetUI.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, presetUIheight);
-				//presetUI.GetComponent<RectTransform>().ForceUpdateRectTransforms();
 
 				presetUI.presetNameLabel.text = preset.name;
 				var isOn = PresetManager.Instance.currentPresetOrder.IsEnabled(preset.name);
@@ -123,7 +120,8 @@ namespace XLGraphics.Utils
 		public void AddBaseListeners() {
 			// presets editing
 			var menu = XLGraphicsMenu.Instance;
-			menu.savePresetButton.onClick.AddListener(new UnityAction(() => {
+
+			var savePreset = new UnityAction(() => {
 				var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
 				var text = inputField.text;
 				if (text != PresetManager.Instance.selectedPreset.name) {
@@ -132,7 +130,8 @@ namespace XLGraphics.Utils
 				PresetManager.Instance.SavePreset(PresetManager.Instance.selectedPreset);
 				RebuildPresetList(false);
 				XLGraphicsMenu.Instance.presetsContent.SetActive(true);
-			}));
+			});
+			menu.savePresetButton.onClick.AddListener(savePreset);
 
 			// removed rename preset button
 			//menu.renamePresetButton.onClick.AddListener(new UnityAction(() => {

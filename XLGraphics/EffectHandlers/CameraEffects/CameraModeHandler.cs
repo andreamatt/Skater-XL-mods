@@ -39,7 +39,7 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 				SkateCameraUI.Instance.gameObject
 			};
 
-			// deactivate all
+			// deactivate everything
 			modesUIs.ForEach(go => go.SetActive(false));
 			ReplayFovUI.Instance.gameObject.SetActive(false);
 			CameraModeUI.Instance.gameObject.SetActive(false);

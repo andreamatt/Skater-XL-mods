@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LensDistortion
+  m_Controller: {fileID: 9100000, guid: baea937a36e475b488b415c8bf471dcd, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d5406f48662d92f409de455961125535, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d5406f48662d92f409de455961125535, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5e4784f7655e84647bb9a6f12eb690d6, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 85776f1c346e60a47a220d86cb377f98, type: 2}
