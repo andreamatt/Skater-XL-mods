@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace XLGraphicsUI
@@ -21,5 +22,6 @@ namespace XLGraphicsUI
 		//public Button renamePresetButton;
 		public Button savePresetButton;
 		public Button newPresetButton;
+		public EventSystem eventSystem;
 	}
 }

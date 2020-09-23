@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XLGraphics.Presets;
 using XLGraphicsUI;
@@ -55,7 +56,7 @@ namespace XLGraphics.Utils
 				RemoveTestPresets();
 			}
 			PopulatePresetsList();
-			DisableNavigation();
+			//DisableNavigation();
 
 			menu.basicContent.SetActive(false);
 			menu.presetsContent.SetActive(false);
@@ -201,9 +202,12 @@ namespace XLGraphics.Utils
 			AddPresetListeners();
 		}
 
-		public bool IsFocusedInput() {
-			var inputField = XLGraphicsMenu.Instance.renamePresetInputField.gameObject;
-			return inputField.activeSelf && inputField.GetComponent<TMP_InputField>().isFocused;
-		}
+		//public bool IsFocusedInput() {
+		//	var eventSystem = XLGraphicsMenu.Instance.gameObject.GetComponent<EventSystem>();
+		//	eventSystem.isFocused
+
+		//	var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
+		//	return inputField.gameObject.activeSelf && inputField.isFocused;
+		//}
 	}
 }

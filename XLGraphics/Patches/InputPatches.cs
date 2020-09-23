@@ -14,21 +14,21 @@ using XLGraphicsUI.Elements.CameraUI;
 
 namespace XLGraphics.Patches
 {
-	[HarmonyPatch(typeof(Input), "GetKeyDown", typeof(KeyCode))]
-	static class InputKeyDownPatch
-	{
-		static void Postfix(ref bool __result) {
-			if (XLGraphicsMenu.Instance.isActiveAndEnabled && UI.Instance.IsFocusedInput()) __result = false;
-		}
-	}
+	//[HarmonyPatch(typeof(Input), "GetKeyDown", typeof(KeyCode))]
+	//static class InputKeyDownPatch
+	//{
+	//	static void Postfix(ref bool __result) {
+	//		if (XLGraphicsMenu.Instance.isActiveAndEnabled && UI.Instance.IsFocusedInput()) __result = false;
+	//	}
+	//}
 
-	[HarmonyPatch(typeof(Input), "GetKeyUp", typeof(KeyCode))]
-	static class InputKeyUpPatch
-	{
-		static void Postfix(ref bool __result) {
-			if (XLGraphicsMenu.Instance.isActiveAndEnabled && UI.Instance.IsFocusedInput()) __result = false;
-		}
-	}
+	//[HarmonyPatch(typeof(Input), "GetKeyUp", typeof(KeyCode))]
+	//static class InputKeyUpPatch
+	//{
+	//	static void Postfix(ref bool __result) {
+	//		if (XLGraphicsMenu.Instance.isActiveAndEnabled && UI.Instance.IsFocusedInput()) __result = false;
+	//	}
+	//}
 
 	[HarmonyPatch(typeof(ReplayCameraController), "InputCameraFOV")]
 	static class ReplayCameraController_InputCameraFOV_Patch

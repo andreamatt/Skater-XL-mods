@@ -16,6 +16,8 @@ using XLGraphics.EffectHandlers.SettingsEffects;
 using XLGraphics.Presets;
 using XLGraphics.Utils;
 using XLGraphicsUI;
+using UnityEngine.EventSystems;
+using XLGraphicsUI.Elements;
 
 namespace XLGraphics
 {
@@ -100,16 +102,15 @@ namespace XLGraphics
 		public void Update() {
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
 			if (keyUp) {
-				var menu = XLGraphicsMenu.Instance;
-				if (isOpen) {
-					menu.gameObject.SetActive(false);
+				if (isOpen && !XLInputField.anyFocused) {
+					XLGraphicsMenu.Instance.gameObject.SetActive(false);
 					PresetManager.Instance.SaveAllPresets();
 					Main.settings.Save();
 
 					Cursor.visible = false;
 				}
 				else {
-					menu.gameObject.SetActive(true);
+					XLGraphicsMenu.Instance.gameObject.SetActive(true);
 					Cursor.lockState = CursorLockMode.None;
 				}
 				isOpen = !isOpen;

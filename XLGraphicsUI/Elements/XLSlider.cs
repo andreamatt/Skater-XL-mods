@@ -14,16 +14,23 @@ namespace XLGraphicsUI.Elements
 	{
 		public Slider slider;
 		public TMP_Text valueText;
+		public TMP_InputField inputField;
 
 		[HideInInspector]
 		public event UnityAction<float> onValueChange = v => { };
 
 		public void Awake() {
-			UnityAction<float> action = v => {
+			slider.onValueChanged.AddListener(new UnityAction<float>(v => {
 				onValueChange.Invoke(v);
 				SetValueText(v);
-			};
-			slider.onValueChanged.AddListener(action);
+			}));
+
+			inputField.onEndEdit.AddListener(new UnityAction<string>(s => {
+				float v;
+				if (float.TryParse(s, out v)) {
+					slider.value = v;
+				}
+			}));
 		}
 
 		private void SetValueText(float v) {
