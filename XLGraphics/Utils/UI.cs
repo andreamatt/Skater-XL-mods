@@ -134,11 +134,6 @@ namespace XLGraphics.Utils
 			});
 			menu.savePresetButton.onClick.AddListener(savePreset);
 
-			// removed rename preset button
-			//menu.renamePresetButton.onClick.AddListener(new UnityAction(() => {
-			//	PresetManager.Instance.RenamePreset();
-			//}));
-
 			// new preset
 			menu.newPresetButton.onClick.AddListener(new UnityAction(() => {
 				// create new preset with name
@@ -146,6 +141,18 @@ namespace XLGraphics.Utils
 
 				// edit it
 				OnEditPreset(PresetManager.Instance.selectedPreset);
+			}));
+
+			menu.confirmDeleteButton.onClick.AddListener(new UnityAction(() => {
+				PresetManager.Instance.DeletePreset(PresetManager.Instance.presetToDelete);
+				PresetManager.Instance.presetToDelete = null;
+				menu.confirmDeletePanel.SetActive(false);
+				RebuildPresetList(true);
+			}));
+
+			menu.cancelDeleteButton.onClick.AddListener(new UnityAction(() => {
+				PresetManager.Instance.presetToDelete = null;
+				menu.confirmDeletePanel.SetActive(false);
 			}));
 
 			// when replay state changes
@@ -169,8 +176,8 @@ namespace XLGraphics.Utils
 				preset.presetUI.presetToggle.onValueChanged.AddListener(toggleChange);
 
 				UnityAction deleteClick = () => {
-					PresetManager.Instance.DeletePreset(preset);
-					RebuildPresetList(true);
+					XLGraphicsMenu.Instance.confirmDeletePanel.SetActive(true);
+					PresetManager.Instance.presetToDelete = preset;
 				};
 				preset.presetUI.presetDeleteButton.onClick.AddListener(deleteClick);
 

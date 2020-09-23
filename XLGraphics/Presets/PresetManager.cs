@@ -30,6 +30,7 @@ namespace XLGraphics.Presets
 		public List<Preset> presets;
 		public PresetSelection currentPresetOrder => XLGraphics.Instance.IsReplayActive() ? Main.settings.replay_presetOrder : Main.settings.presetOrder;
 		public Preset selectedPreset;
+		public Preset presetToDelete;
 		public const string default_name = "DefaultPreset";
 		public Volume overriderVolume;  // required for custom DoF behaviour and other scripted effects
 		private GameObject volumesParent;

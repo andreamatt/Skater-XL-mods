@@ -18,10 +18,13 @@ namespace XLGraphicsUI
 		public GameObject cameraContent;
 		public GameObject presetsListContent;
 		public GameObject editPresetPanel;
+		public GameObject confirmDeletePanel;
 		public TMP_InputField renamePresetInputField;
 		//public Button renamePresetButton;
 		public Button savePresetButton;
 		public Button newPresetButton;
+		public Button confirmDeleteButton;
+		public Button cancelDeleteButton;
 		public EventSystem eventSystem;
 	}
 }
