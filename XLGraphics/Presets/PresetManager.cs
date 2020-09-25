@@ -193,7 +193,6 @@ namespace XLGraphics.Presets
 			preset.liftGammaGainData.OverrideValues(preset);
 			preset.motionBlurData.OverrideValues(preset);
 			preset.paniniProjectionData.OverrideValues(preset);
-			preset.physicalCameraData.OverrideValues(preset);
 			preset.shadowsMidtonesHighlightsData.OverrideValues(preset);
 			preset.splitToningData.OverrideValues(preset);
 			preset.toneMappingData.OverrideValues(preset);
@@ -248,7 +247,6 @@ namespace XLGraphics.Presets
 			p.liftGammaGainData = LiftGammaGainData.FromPreset(p);
 			p.motionBlurData = MotionBlurData.FromPreset(p);
 			p.paniniProjectionData = PaniniProjectionData.FromPreset(p);
-			p.physicalCameraData = PhysicalCameraData.FromPreset(p);
 			p.shadowsMidtonesHighlightsData = ShadowsMidtonesHighlightsData.FromPreset(p);
 			p.splitToningData = SplitToningData.FromPreset(p);
 			p.toneMappingData = ToneMappingData.FromPreset(p);

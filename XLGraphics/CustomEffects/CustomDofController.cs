@@ -72,11 +72,11 @@ namespace XLGraphics.CustomEffects
 				var camera = CustomCameraController.Instance.mainCamera;
 				//camera. = 100;
 				if (customFocusMode == FocusMode.Player) {
-					dof.focusMode.value = UnityEngine.Rendering.HighDefinition.DepthOfFieldMode.UsePhysicalCamera;
+					dof.focusMode.value = DepthOfFieldMode.UsePhysicalCamera;
 					dof.focusDistance.value = Vector3.Distance(player_pos, camera.transform.position);
 				}
 				else if (customFocusMode == FocusMode.Skate) {
-					dof.focusMode.value = UnityEngine.Rendering.HighDefinition.DepthOfFieldMode.UsePhysicalCamera;
+					dof.focusMode.value = DepthOfFieldMode.UsePhysicalCamera;
 					dof.focusDistance.value = Vector3.Distance(player_pos, camera.transform.position);
 				}
 			}

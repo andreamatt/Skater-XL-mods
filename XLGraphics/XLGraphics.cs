@@ -46,6 +46,7 @@ namespace XLGraphics
 			gameObject.AddComponent<CustomCameraController>();
 			gameObject.AddComponent<CustomDofController>();
 			gameObject.AddComponent<CustomLightController>();
+			gameObject.AddComponent<CustomPhysicalCameraController>();
 
 			PresetManager.Instance.LoadPresets();
 
@@ -70,6 +71,7 @@ namespace XLGraphics
 				new LensDistortionHandler(),
 				new LightHandler(),
 				new MotionBlurHandler(),
+				new PhysicalCameraHandler(),
 				new VignetteHandler()
 			};
 

@@ -30,9 +30,10 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 					PresetManager.Instance.selectedPreset.depthOfField.focusMode.value = DepthOfFieldMode.Manual;
 				}
 				else {
-					// should not matter since it gets overwritten
 					PresetManager.Instance.selectedPreset.depthOfField.focusMode.value = DepthOfFieldMode.Off;
 				}
+				UpdateActiveSliders((FocusMode)v);
+				// other focusModes use dofmode.off but it gets set in customdofcontroller updatedofmode
 				//CustomDofController.Instance.UpdateDofMode();
 			}));
 			dofUI.focusDistance.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.focusDistance.value = v;
@@ -51,11 +52,32 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 			dofUI.nearFocusEnd.OverrideValue(dof.nearFocusEnd.value);
 			dofUI.farFocusStart.OverrideValue(dof.farFocusStart.value);
 			dofUI.farFocusEnd.OverrideValue(dof.farFocusEnd.value);
+
+			UpdateActiveSliders(preset.focusMode);
+		}
+
+		private void UpdateActiveSliders(FocusMode focusMode) {
+			dofUI.focusDistance.gameObject.SetActive(false);
+			dofUI.nearFocusStart.gameObject.SetActive(false);
+			dofUI.nearFocusEnd.gameObject.SetActive(false);
+			dofUI.farFocusStart.gameObject.SetActive(false);
+			dofUI.farFocusEnd.gameObject.SetActive(false);
+
+			if (focusMode == FocusMode.Manual) {
+				dofUI.nearFocusStart.gameObject.SetActive(true);
+				dofUI.nearFocusEnd.gameObject.SetActive(true);
+				dofUI.farFocusStart.gameObject.SetActive(true);
+				dofUI.farFocusEnd.gameObject.SetActive(true);
+			}
+			else if (focusMode == FocusMode.PhysicalCamera) {
+				dofUI.focusDistance.gameObject.SetActive(true);
+			}
 		}
 	}
 
 	public enum FocusMode
 	{
+		Off,
 		PhysicalCamera,
 		Player,
 		Skate,

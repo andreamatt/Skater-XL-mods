@@ -84,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomEffects\CustomPhysicalCameraController.cs" />
     <Compile Include="EffectHandlers\CameraEffects\CameraModeHandler.cs" />
     <Compile Include="CustomEffects\CustomCameraController.cs" />
     <Compile Include="EffectHandlers\CameraEffects\FollowCameraHandler.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="CustomEffects\CustomDofController.cs" />
     <Compile Include="EffectHandlers\PresetEffects\FovOverrideHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\LightHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\PhysicalCameraHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\VignetteHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\MotionBlurHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\LensDistortionHandler.cs" />

@@ -82,10 +82,9 @@ namespace XLGraphics.Presets
 		public WhiteBalance whiteBalance;
 		public WhiteBalanceData whiteBalanceData = new WhiteBalanceData();
 
-		public PhysicalCameraData physicalCameraData = new PhysicalCameraData();
-
 		// Data only fields (no need to save/load from an effect)
 		public LightData lightData = new LightData();
 		public FovOverrideData fovOverrideData = new FovOverrideData();
+		public PhysicalCameraData physicalCameraData = new PhysicalCameraData();
 	}
 }
