@@ -19,11 +19,11 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 			ldUI = LensDistortionUI.Instance;
 
 			// add listeners
-			ldUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.lensDistortion.active = v));
-			ldUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.lensDistortion.intensity.value = v;
-			ldUI.xMultiplier.onValueChange += v => PresetManager.Instance.selectedPreset.lensDistortion.xMultiplier.value = v;
-			ldUI.yMultiplier.onValueChange += v => PresetManager.Instance.selectedPreset.lensDistortion.yMultiplier.value = v;
-			ldUI.scale.onValueChange += v => PresetManager.Instance.selectedPreset.lensDistortion.scale.value = v;
+			ldUI.toggle.onValueChanged += v => PresetManager.Instance.selectedPreset.lensDistortion.active = v;
+			ldUI.intensity.onValueChanged += v => PresetManager.Instance.selectedPreset.lensDistortion.intensity.value = v;
+			ldUI.xMultiplier.onValueChanged += v => PresetManager.Instance.selectedPreset.lensDistortion.xMultiplier.value = v;
+			ldUI.yMultiplier.onValueChanged += v => PresetManager.Instance.selectedPreset.lensDistortion.yMultiplier.value = v;
+			ldUI.scale.onValueChanged += v => PresetManager.Instance.selectedPreset.lensDistortion.scale.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

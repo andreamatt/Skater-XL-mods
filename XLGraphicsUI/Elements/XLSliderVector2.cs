@@ -18,18 +18,25 @@ namespace XLGraphicsUI.Elements
 		//public TMP_Text valueTextY;
 		public XLSlider sliderX;
 		public XLSlider sliderY;
+		public bool interactable {
+			get => sliderX.interactable;
+			set {
+				sliderX.interactable = value;
+				sliderY.interactable = value;
+			}
+		}
 
 		[HideInInspector]
-		public event UnityAction<Vector2> onValueChange = v => { };
+		public event UnityAction<Vector2> onValueChanged = v => { };
 
 		public void Awake() {
 			UnityAction<float> action = v => {
 				var vec = new Vector2(sliderX.slider.value, sliderY.slider.value);
-				onValueChange.Invoke(vec);
+				onValueChanged.Invoke(vec);
 				SetValueText(vec);
 			};
-			sliderX.onValueChange += action;
-			sliderY.onValueChange += action;
+			sliderX.onValueChanged += action;
+			sliderY.onValueChanged += action;
 		}
 
 		private void SetValueText(Vector2 v) {

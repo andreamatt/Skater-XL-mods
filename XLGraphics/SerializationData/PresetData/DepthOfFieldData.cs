@@ -27,7 +27,7 @@ namespace XLGraphics.SerializationData.PresetData
 		public static DepthOfFieldData FromPreset(Preset p) {
 			return new DepthOfFieldData() {
 				active = p.depthOfField.active,
-				focusMode = p.focusMode,
+				focusMode = p.focusMode, // copy from preset (aka copy from previous data)
 				focusDistance = p.depthOfField.focusDistance.value,
 				nearFocusStart = p.depthOfField.nearFocusStart.value,
 				nearFocusEnd = p.depthOfField.nearFocusEnd.value,
@@ -38,7 +38,15 @@ namespace XLGraphics.SerializationData.PresetData
 
 		public void OverrideValues(Preset p) {
 			p.depthOfField.active = active;
-			p.focusMode = focusMode;
+			if (focusMode == FocusMode.PhysicalCamera) {
+				p.depthOfField.focusMode.value = DepthOfFieldMode.UsePhysicalCamera;
+			}
+			else if (focusMode == FocusMode.Manual) {
+				p.depthOfField.focusMode.value = DepthOfFieldMode.Manual;
+			}
+			else {
+				p.depthOfField.focusMode.value = DepthOfFieldMode.Off;
+			}
 			p.depthOfField.quality.value = quality;
 			p.depthOfField.focusDistance.value = focusDistance;
 			p.depthOfField.nearFocusStart.value = nearFocusStart;

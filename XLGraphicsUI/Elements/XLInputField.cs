@@ -16,6 +16,25 @@ namespace XLGraphicsUI.Elements
 
 		public InputField inputField;
 		public TMP_InputField tmp_inputField;
+		public bool interactable {
+			get {
+				if (inputField != null) {
+					return inputField.interactable;
+				}
+				else {
+					return tmp_inputField.interactable;
+				}
+			}
+			set {
+				if (inputField != null) {
+					inputField.interactable = value;
+				}
+				else {
+					tmp_inputField.interactable = value;
+				}
+			}
+		}
+
 		private bool isFocused {
 			get {
 				if (!this.isActiveAndEnabled) {

@@ -15,13 +15,20 @@ namespace XLGraphicsUI.Elements
 		public Slider slider;
 		public TMP_Text valueText;
 		public TMP_InputField inputField;
+		public bool interactable {
+			get => slider.interactable;
+			set {
+				slider.interactable = value;
+				inputField.interactable = value;
+			}
+		}
 
 		[HideInInspector]
-		public event UnityAction<float> onValueChange = v => { };
+		public event UnityAction<float> onValueChanged = v => { };
 
 		public void Awake() {
 			slider.onValueChanged.AddListener(new UnityAction<float>(v => {
-				onValueChange.Invoke(v);
+				onValueChanged.Invoke(v);
 				SetValueText(v);
 			}));
 

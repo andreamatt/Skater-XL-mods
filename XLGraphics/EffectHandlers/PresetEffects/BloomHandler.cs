@@ -22,10 +22,10 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 			bloomUI = BloomUI.Instance;
 
 			// add listeners
-			bloomUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.bloom.active = v));
-			bloomUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.bloom.intensity.value = v;
-			bloomUI.scatter.onValueChange += v => PresetManager.Instance.selectedPreset.bloom.scatter.value = v;
-			bloomUI.threshold.onValueChange += v => PresetManager.Instance.selectedPreset.bloom.threshold.value = v;
+			bloomUI.toggle.onValueChanged += v => PresetManager.Instance.selectedPreset.bloom.active = v;
+			bloomUI.intensity.onValueChanged += v => PresetManager.Instance.selectedPreset.bloom.intensity.value = v;
+			bloomUI.scatter.onValueChanged += v => PresetManager.Instance.selectedPreset.bloom.scatter.value = v;
+			bloomUI.threshold.onValueChanged += v => PresetManager.Instance.selectedPreset.bloom.threshold.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

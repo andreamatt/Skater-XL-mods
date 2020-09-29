@@ -64,6 +64,7 @@ namespace XLGraphics
 			};
 
 			presetEffectHandlers = new List<PresetEffectHandler> {
+				new AmbientOcclusionHandler(),
 				new BloomHandler(),
 				new ChromaticAberrationHandler(),
 				new DepthOfFieldHandler(),

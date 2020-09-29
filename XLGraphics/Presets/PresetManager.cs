@@ -141,6 +141,7 @@ namespace XLGraphics.Presets
 
 			// add volume components
 			preset.bloom = profile.Add<Bloom>();
+			preset.ambientOcclusion = profile.Add<AmbientOcclusion>();
 			preset.channelMixer = profile.Add<ChannelMixer>();
 			preset.chromaticAberration = profile.Add<ChromaticAberration>();
 			preset.colorAdjustments = profile.Add<ColorAdjustments>();
@@ -163,6 +164,7 @@ namespace XLGraphics.Presets
 			exposure.active = false;
 
 			// set all overrides
+			preset.ambientOcclusion.SetAllOverridesTo(true);
 			preset.bloom.SetAllOverridesTo(true);
 			preset.channelMixer.SetAllOverridesTo(true);
 			preset.chromaticAberration.SetAllOverridesTo(true);
@@ -182,6 +184,7 @@ namespace XLGraphics.Presets
 		}
 
 		private void ReadPresetData(Preset preset) {
+			preset.ambientOcclusionData.OverrideValues(preset);
 			preset.bloomData.OverrideValues(preset);
 			preset.channelMixerData.OverrideValues(preset);
 			preset.chromaticAberrationData.OverrideValues(preset);
@@ -236,6 +239,7 @@ namespace XLGraphics.Presets
 
 		public void SavePreset(Preset p) {
 			// serialize data
+			p.ambientOcclusionData = AmbientOcclusionData.FromPreset(p);
 			p.bloomData = BloomData.FromPreset(p);
 			p.channelMixerData = ChannelMixerData.FromPreset(p);
 			p.chromaticAberrationData = ChromaticAberrationData.FromPreset(p);

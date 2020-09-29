@@ -18,10 +18,10 @@ namespace XLGraphics.EffectHandlers.SettingsEffects
 			ppUI.toggle.SetIsOnWithoutNotify(Main.settings.settingsData.ENABLE_POST);
 			PresetManager.Instance.SetActivePostProcessing(Main.settings.settingsData.ENABLE_POST);
 
-			ppUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(value => {
+			ppUI.toggle.onValueChanged += value => {
 				Main.settings.settingsData.ENABLE_POST = value;
 				PresetManager.Instance.SetActivePostProcessing(value);
-			}));
+			};
 		}
 	}
 }

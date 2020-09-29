@@ -20,8 +20,8 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 			dofUI = DepthOfFieldUI.Instance;
 
 			// add listeners
-			dofUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.depthOfField.active = v));
-			dofUI.focusMode.onValueChanged.AddListener(new UnityAction<int>(v => {
+			dofUI.toggle.onValueChanged += v => PresetManager.Instance.selectedPreset.depthOfField.active = v;
+			dofUI.focusMode.onValueChanged.AddListener(v => {
 				PresetManager.Instance.selectedPreset.focusMode = (FocusMode)v;
 				if (v == (int)FocusMode.PhysicalCamera) {
 					PresetManager.Instance.selectedPreset.depthOfField.focusMode.value = DepthOfFieldMode.UsePhysicalCamera;
@@ -35,12 +35,12 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 				UpdateActiveSliders((FocusMode)v);
 				// other focusModes use dofmode.off but it gets set in customdofcontroller updatedofmode
 				//CustomDofController.Instance.UpdateDofMode();
-			}));
-			dofUI.focusDistance.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.focusDistance.value = v;
-			dofUI.nearFocusStart.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusStart.value = v;
-			dofUI.nearFocusEnd.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusEnd.value = v;
-			dofUI.farFocusStart.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusStart.value = v;
-			dofUI.farFocusEnd.onValueChange += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusEnd.value = v;
+			});
+			dofUI.focusDistance.onValueChanged += v => PresetManager.Instance.selectedPreset.depthOfField.focusDistance.value = v;
+			dofUI.nearFocusStart.onValueChanged += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusStart.value = v;
+			dofUI.nearFocusEnd.onValueChanged += v => PresetManager.Instance.selectedPreset.depthOfField.nearFocusEnd.value = v;
+			dofUI.farFocusStart.onValueChanged += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusStart.value = v;
+			dofUI.farFocusEnd.onValueChanged += v => PresetManager.Instance.selectedPreset.depthOfField.farFocusEnd.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

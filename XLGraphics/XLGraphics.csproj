@@ -93,6 +93,7 @@
     <Compile Include="EffectHandlers\CameraEffects\ReplayFovHandler.cs" />
     <Compile Include="EffectHandlers\CameraEffects\SkateCameraHandler.cs" />
     <Compile Include="CustomEffects\CustomLightController.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\AmbientOcclusionHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\BloomHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\ChromaticAberrationHandler.cs" />
     <Compile Include="EffectHandlers\EffectHandler.cs" />
@@ -116,7 +117,9 @@
     <Compile Include="Patches\KeyFramePatches.cs" />
     <Compile Include="Patches\LevelManagerPatches.cs" />
     <Compile Include="Presets\Preset.cs" />
+    <Compile Include="Quality.cs" />
     <Compile Include="SerializationData\CameraData.cs" />
+    <Compile Include="SerializationData\PresetData\AmbientOcclusionData.cs" />
     <Compile Include="SerializationData\PresetData\BloomData.cs" />
     <Compile Include="SerializationData\PresetData\ColorAdjustementsData.cs" />
     <Compile Include="SerializationData\PresetData\ChannelMixerData.cs" />

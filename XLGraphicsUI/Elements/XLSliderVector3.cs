@@ -21,19 +21,27 @@ namespace XLGraphicsUI.Elements
 		public XLSlider sliderX;
 		public XLSlider sliderY;
 		public XLSlider sliderZ;
+		public bool interactable {
+			get => sliderX.interactable;
+			set {
+				sliderX.interactable = value;
+				sliderY.interactable = value;
+				sliderZ.interactable = value;
+			}
+		}
 
 		[HideInInspector]
-		public event UnityAction<Vector3> onValueChange = v => { };
+		public event UnityAction<Vector3> onValueChanged = v => { };
 
 		public void Awake() {
 			UnityAction<float> action = v => {
 				var vec = new Vector3(sliderX.slider.value, sliderY.slider.value, sliderZ.slider.value);
-				onValueChange.Invoke(vec);
+				onValueChanged.Invoke(vec);
 				SetValueText(vec);
 			};
-			sliderX.onValueChange += action;
-			sliderY.onValueChange += action;
-			sliderZ.onValueChange += action;
+			sliderX.onValueChanged += action;
+			sliderY.onValueChanged += action;
+			sliderZ.onValueChanged += action;
 		}
 
 		private void SetValueText(Vector3 v) {

@@ -17,7 +17,7 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 			rfUI.fov.OverrideValue(fov);
 			CustomCameraController.Instance.replay_fov = fov;
 
-			rfUI.fov.onValueChange += v => {
+			rfUI.fov.onValueChanged += v => {
 				CustomCameraController.Instance.replay_fov = Main.settings.cameraData.REPLAY_FOV = v;
 			};
 		}

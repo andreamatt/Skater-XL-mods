@@ -13,8 +13,16 @@ namespace XLGraphicsUI.Elements
 	{
 		public Button buttonOn;
 		public Button buttonOff;
+		public bool interactable {
+			get => buttonOff.interactable || buttonOn.interactable;
+			set {
+				buttonOff.interactable = value;
+				buttonOn.interactable = value;
+			}
+		}
 
-		public Toggle.ToggleEvent onValueChanged = new Toggle.ToggleEvent();
+		[HideInInspector]
+		public event UnityAction<bool> onValueChanged = v => { };
 
 		public void Start() {
 			buttonOn.onClick.AddListener(new UnityAction(() => SetStatus(false)));

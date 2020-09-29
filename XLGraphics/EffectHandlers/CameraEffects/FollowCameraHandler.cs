@@ -30,12 +30,12 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 			fcUI.shift.OverrideValue(ccc.follow_shift);
 			fcUI.auto_switch.SetIsOnWithoutNotify(ccc.follow_auto_switch);
 
-			fcUI.fov.onValueChange += v => ccc.follow_fov = Main.settings.cameraData.FOLLOW_FOV = v;
-			fcUI.react.onValueChange += v => ccc.follow_react = Main.settings.cameraData.FOLLOW_REACT = v;
-			fcUI.react_rot.onValueChange += v => ccc.follow_react_rot = Main.settings.cameraData.FOLLOW_REACT_ROT = v;
-			fcUI.clip.onValueChange += v => ccc.follow_clip = Main.settings.cameraData.FOLLOW_CLIP = v;
-			fcUI.shift.onValueChange += v => ccc.follow_shift = Main.settings.cameraData.FOLLOW_SHIFT = v;
-			fcUI.auto_switch.onValueChanged.AddListener(new UnityAction<bool>(v => ccc.follow_auto_switch = Main.settings.cameraData.FOLLOW_AUTO_SWITCH = v));
+			fcUI.fov.onValueChanged += v => ccc.follow_fov = Main.settings.cameraData.FOLLOW_FOV = v;
+			fcUI.react.onValueChanged += v => ccc.follow_react = Main.settings.cameraData.FOLLOW_REACT = v;
+			fcUI.react_rot.onValueChanged += v => ccc.follow_react_rot = Main.settings.cameraData.FOLLOW_REACT_ROT = v;
+			fcUI.clip.onValueChanged += v => ccc.follow_clip = Main.settings.cameraData.FOLLOW_CLIP = v;
+			fcUI.shift.onValueChanged += v => ccc.follow_shift = Main.settings.cameraData.FOLLOW_SHIFT = v;
+			fcUI.auto_switch.onValueChanged += v => ccc.follow_auto_switch = Main.settings.cameraData.FOLLOW_AUTO_SWITCH = v;
 		}
 	}
 }

@@ -19,21 +19,21 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 		public override void ConnectUI() {
 			pcUI = PhysicalCameraUI.Instance;
 
-			pcUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.physicalCameraData.active = v));
-			pcUI.usePhysicalProperties.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.physicalCameraData.usePhysicalProperties = v));
-			pcUI.sensorType.onValueChanged.AddListener(new UnityAction<int>(v => {
+			pcUI.toggle.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.active = v;
+			pcUI.usePhysicalProperties.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.usePhysicalProperties = v;
+			pcUI.sensorType.onValueChanged.AddListener(v => {
 				var type = (SensorType)v;
 				PresetManager.Instance.selectedPreset.physicalCameraData.sensorType = type;
 				UpdateActiveSliders(type);
-			}));
-			pcUI.sensorSize.onValueChange += v => PresetManager.Instance.selectedPreset.physicalCameraData.sensorSize = v;
-			pcUI.iso.onValueChange += v => PresetManager.Instance.selectedPreset.physicalCameraData.iso = (int)v;
-			pcUI.shutterSpeed.onValueChange += v => PresetManager.Instance.selectedPreset.physicalCameraData.shutterSpeed = v;
-			pcUI.gateFit.onValueChanged.AddListener(new UnityAction<int>(v => PresetManager.Instance.selectedPreset.physicalCameraData.gateFit = (GateFitMode)v));
-			pcUI.focalLength.onValueChange += v => PresetManager.Instance.selectedPreset.physicalCameraData.focalLength = v;
-			pcUI.aperture.onValueChange += v => PresetManager.Instance.selectedPreset.physicalCameraData.aperture = v;
-			pcUI.bladeCount.onValueChange += v => PresetManager.Instance.selectedPreset.physicalCameraData.bladeCount = (int)v;
-			pcUI.anamorphism.onValueChange += v => PresetManager.Instance.selectedPreset.physicalCameraData.anamorphism = v;
+			});
+			pcUI.sensorSize.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.sensorSize = v;
+			pcUI.iso.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.iso = (int)v;
+			pcUI.shutterSpeed.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.shutterSpeed = v;
+			pcUI.gateFit.onValueChanged.AddListener(v => PresetManager.Instance.selectedPreset.physicalCameraData.gateFit = (GateFitMode)v);
+			pcUI.focalLength.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.focalLength = v;
+			pcUI.aperture.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.aperture = v;
+			pcUI.bladeCount.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.bladeCount = (int)v;
+			pcUI.anamorphism.onValueChanged += v => PresetManager.Instance.selectedPreset.physicalCameraData.anamorphism = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

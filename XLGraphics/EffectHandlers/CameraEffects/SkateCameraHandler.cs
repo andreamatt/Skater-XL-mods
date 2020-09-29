@@ -26,11 +26,11 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 			scUI.clip.OverrideValue(ccc.skate_clip);
 			scUI.shift.OverrideValue(ccc.skate_shift);
 
-			scUI.fov.onValueChange += v => ccc.skate_fov = Main.settings.cameraData.SKATE_FOV = v;
-			scUI.react.onValueChange += v => ccc.skate_react = Main.settings.cameraData.SKATE_REACT = v;
-			scUI.react_rot.onValueChange += v => ccc.skate_react_rot = Main.settings.cameraData.SKATE_REACT_ROT = v;
-			scUI.clip.onValueChange += v => ccc.skate_clip = Main.settings.cameraData.SKATE_CLIP = v;
-			scUI.shift.onValueChange += v => ccc.skate_shift = Main.settings.cameraData.SKATE_SHIFT = v;
+			scUI.fov.onValueChanged += v => ccc.skate_fov = Main.settings.cameraData.SKATE_FOV = v;
+			scUI.react.onValueChanged += v => ccc.skate_react = Main.settings.cameraData.SKATE_REACT = v;
+			scUI.react_rot.onValueChanged += v => ccc.skate_react_rot = Main.settings.cameraData.SKATE_REACT_ROT = v;
+			scUI.clip.onValueChanged += v => ccc.skate_clip = Main.settings.cameraData.SKATE_CLIP = v;
+			scUI.shift.onValueChanged += v => ccc.skate_shift = Main.settings.cameraData.SKATE_SHIFT = v;
 		}
 	}
 }

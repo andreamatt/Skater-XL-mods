@@ -14,8 +14,8 @@ namespace XLGraphics.CustomEffects
 	public class CustomDofController : MonoBehaviour
 	{
 		public static CustomDofController Instance { get; private set; }
-		private bool useCustomFocus = false;
-		private FocusMode customFocusMode = FocusMode.Player;
+		private FocusMode? customFocusMode = null;
+		private bool useCustomFocus => customFocusMode == FocusMode.Skate || customFocusMode == FocusMode.Player;
 		private Transform replay_skater;
 		private Transform replay_skateboard;
 		private DepthOfField dof;
@@ -31,15 +31,10 @@ namespace XLGraphics.CustomEffects
 			var presets = PresetManager.Instance.presets;
 			var presetsWithActiveDof = presets.Where(p => p.enabled && p.depthOfField.active).ToList();
 			if (presetsWithActiveDof.Count == 0) {
-				useCustomFocus = false;
-				return;
-			}
-			customFocusMode = presetsWithActiveDof.First().focusMode;
-			if (customFocusMode == FocusMode.Skate || customFocusMode == FocusMode.Player) {
-				useCustomFocus = true;
+				customFocusMode = null;
 			}
 			else {
-				useCustomFocus = false;
+				customFocusMode = presetsWithActiveDof.First().focusMode;
 			}
 		}
 
@@ -51,7 +46,7 @@ namespace XLGraphics.CustomEffects
 
 			if (XLGraphics.Instance.IsReplayActive()) {
 				if (replay_skater == null) {
-					GetReplaySkater();
+					GetReplaySkaterAndBoard();
 				}
 				player_pos = replay_skater.position;
 				skate_pos = replay_skateboard.position;
@@ -64,25 +59,23 @@ namespace XLGraphics.CustomEffects
 			if (dof == null) {
 				dof = PresetManager.Instance.overriderVolume.profile.Add<DepthOfField>();
 				dof.SetAllOverridesTo(true);
+				dof.focusMode.value = DepthOfFieldMode.UsePhysicalCamera;
 			}
 
 			// activate DoF override only when using custom focus
 			dof.active = useCustomFocus;
 			if (useCustomFocus) {
 				var camera = CustomCameraController.Instance.mainCamera;
-				//camera. = 100;
 				if (customFocusMode == FocusMode.Player) {
-					dof.focusMode.value = DepthOfFieldMode.UsePhysicalCamera;
 					dof.focusDistance.value = Vector3.Distance(player_pos, camera.transform.position);
 				}
 				else if (customFocusMode == FocusMode.Skate) {
-					dof.focusMode.value = DepthOfFieldMode.UsePhysicalCamera;
-					dof.focusDistance.value = Vector3.Distance(player_pos, camera.transform.position);
+					dof.focusDistance.value = Vector3.Distance(skate_pos, camera.transform.position);
 				}
 			}
 		}
 
-		public void GetReplaySkater() {
+		public void GetReplaySkaterAndBoard() {
 			var playback_root = GameObject.Find("Playback Skater Root");
 			if (playback_root != null) {
 				for (int i = 0; i < playback_root.transform.childCount; i++) {

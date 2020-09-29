@@ -20,7 +20,7 @@ namespace XLGraphics.EffectHandlers.SettingsEffects
 			rdUI.slider.OverrideValue(Main.settings.settingsData.RENDER_DISTANCE);
 
 			// add listeners
-			rdUI.slider.onValueChange += value => {
+			rdUI.slider.onValueChanged += value => {
 				camera.farClipPlane = Main.settings.settingsData.RENDER_DISTANCE = value;
 			};
 		}

@@ -19,11 +19,11 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 			vignUI = VignetteUI.Instance;
 
 			// add listeners
-			vignUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.vignette.active = v));
-			vignUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.vignette.intensity.value = v;
-			vignUI.smoothness.onValueChange += v => PresetManager.Instance.selectedPreset.vignette.smoothness.value = v;
-			vignUI.roundness.onValueChange += v => PresetManager.Instance.selectedPreset.vignette.roundness.value = v;
-			vignUI.rounded.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.vignette.rounded.value = v));
+			vignUI.toggle.onValueChanged += v => PresetManager.Instance.selectedPreset.vignette.active = v;
+			vignUI.intensity.onValueChanged += v => PresetManager.Instance.selectedPreset.vignette.intensity.value = v;
+			vignUI.smoothness.onValueChanged += v => PresetManager.Instance.selectedPreset.vignette.smoothness.value = v;
+			vignUI.roundness.onValueChanged += v => PresetManager.Instance.selectedPreset.vignette.roundness.value = v;
+			vignUI.rounded.onValueChanged += v => PresetManager.Instance.selectedPreset.vignette.rounded.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {

@@ -33,6 +33,9 @@ namespace XLGraphics.Presets
 		public XLPreset presetUI;
 
 		[JsonIgnore]
+		public AmbientOcclusion ambientOcclusion;
+		public AmbientOcclusionData ambientOcclusionData = new AmbientOcclusionData();
+		[JsonIgnore]
 		public Bloom bloom;
 		public BloomData bloomData = new BloomData();
 		[JsonIgnore]
@@ -49,7 +52,8 @@ namespace XLGraphics.Presets
 		public ColorCurvesData colorCurvesData = new ColorCurvesData();
 		[JsonIgnore]
 		public DepthOfField depthOfField;
-		public FocusMode focusMode;
+		[JsonIgnore]
+		public FocusMode focusMode { get => depthOfFieldData.focusMode; set => depthOfFieldData.focusMode = value; }
 		public DepthOfFieldData depthOfFieldData = new DepthOfFieldData();
 		[JsonIgnore]
 		public FilmGrain filmGrain;

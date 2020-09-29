@@ -24,10 +24,10 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 			ncUI.react_rot.OverrideValue(ccc.normal_react_rot);
 			ncUI.clip.OverrideValue(ccc.normal_clip);
 
-			ncUI.fov.onValueChange += v => ccc.normal_fov = Main.settings.cameraData.NORMAL_FOV = v;
-			ncUI.react.onValueChange += v => ccc.normal_react = Main.settings.cameraData.NORMAL_REACT = v;
-			ncUI.react_rot.onValueChange += v => ccc.normal_react_rot = Main.settings.cameraData.NORMAL_REACT_ROT = v;
-			ncUI.clip.onValueChange += v => ccc.normal_clip = Main.settings.cameraData.NORMAL_CLIP = v;
+			ncUI.fov.onValueChanged += v => ccc.normal_fov = Main.settings.cameraData.NORMAL_FOV = v;
+			ncUI.react.onValueChanged += v => ccc.normal_react = Main.settings.cameraData.NORMAL_REACT = v;
+			ncUI.react_rot.onValueChanged += v => ccc.normal_react_rot = Main.settings.cameraData.NORMAL_REACT_ROT = v;
+			ncUI.clip.onValueChanged += v => ccc.normal_clip = Main.settings.cameraData.NORMAL_CLIP = v;
 		}
 	}
 }

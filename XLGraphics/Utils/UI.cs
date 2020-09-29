@@ -169,29 +169,25 @@ namespace XLGraphics.Utils
 				UnityAction editClick = () => OnEditPreset(preset);
 				preset.presetUI.presetEditButton.onClick.AddListener(editClick);
 
-				UnityAction<bool> toggleChange = value => {
+				preset.presetUI.presetToggle.onValueChanged += value => {
 					PresetManager.Instance.currentPresetOrder.SetEnabled(preset.name, value);
 					preset.enabled = value;
 				};
-				preset.presetUI.presetToggle.onValueChanged.AddListener(toggleChange);
 
-				UnityAction deleteClick = () => {
+				preset.presetUI.presetDeleteButton.onClick.AddListener(() => {
 					XLGraphicsMenu.Instance.confirmDeletePanel.SetActive(true);
 					PresetManager.Instance.presetToDelete = preset;
-				};
-				preset.presetUI.presetDeleteButton.onClick.AddListener(deleteClick);
+				});
 
-				UnityAction upClick = () => {
+				preset.presetUI.presetUpButton.onClick.AddListener(() => {
 					PresetManager.Instance.UpgradePriority(preset);
 					RebuildPresetList(true);
-				};
-				preset.presetUI.presetUpButton.onClick.AddListener(upClick);
+				});
 
-				UnityAction downClick = () => {
+				preset.presetUI.presetDownButton.onClick.AddListener(() => {
 					PresetManager.Instance.DowngradePriority(preset);
 					RebuildPresetList(true);
-				};
-				preset.presetUI.presetDownButton.onClick.AddListener(downClick);
+				});
 			}
 		}
 

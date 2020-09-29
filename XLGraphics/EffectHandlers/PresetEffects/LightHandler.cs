@@ -17,12 +17,12 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 			lightUI = LightUI.Instance;
 
 			// add listeners
-			lightUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.lightData.active = v));
-			lightUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.lightData.intensity = v;
-			lightUI.range.onValueChange += v => PresetManager.Instance.selectedPreset.lightData.range = v;
-			lightUI.angle.onValueChange += v => PresetManager.Instance.selectedPreset.lightData.angle = v;
+			lightUI.toggle.onValueChanged += v => PresetManager.Instance.selectedPreset.lightData.active = v;
+			lightUI.intensity.onValueChanged += v => PresetManager.Instance.selectedPreset.lightData.intensity = v;
+			lightUI.range.onValueChanged += v => PresetManager.Instance.selectedPreset.lightData.range = v;
+			lightUI.angle.onValueChanged += v => PresetManager.Instance.selectedPreset.lightData.angle = v;
 			// color..
-			lightUI.position.onValueChange += v => PresetManager.Instance.selectedPreset.lightData.position = v;
+			lightUI.position.onValueChanged += v => PresetManager.Instance.selectedPreset.lightData.position = v;
 			// cookie..
 		}
 

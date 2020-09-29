@@ -19,14 +19,14 @@ namespace XLGraphics.EffectHandlers.PresetEffects
 			mbUI = MotionBlurUI.Instance;
 
 			// add listeners
-			mbUI.toggle.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.motionBlur.active = v));
-			mbUI.intensity.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.intensity.value = v;
-			mbUI.sampleCount.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.sampleCount = (int)v;
-			mbUI.maximumVelocity.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.maximumVelocity.value = v;
-			mbUI.minimumVelocity.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.minimumVelocity.value = v;
-			mbUI.depthComparisonExtent.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.depthComparisonExtent.value = v;
-			mbUI.cameraRotationVelocityClamp.onValueChange += v => PresetManager.Instance.selectedPreset.motionBlur.cameraRotationVelocityClamp.value = v;
-			mbUI.cameraMotionBlur.onValueChanged.AddListener(new UnityAction<bool>(v => PresetManager.Instance.selectedPreset.motionBlur.cameraMotionBlur.value = v));
+			mbUI.toggle.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.active = v;
+			mbUI.intensity.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.intensity.value = v;
+			mbUI.sampleCount.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.sampleCount = (int)v;
+			mbUI.maximumVelocity.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.maximumVelocity.value = v;
+			mbUI.minimumVelocity.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.minimumVelocity.value = v;
+			mbUI.depthComparisonExtent.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.depthComparisonExtent.value = v;
+			mbUI.cameraRotationVelocityClamp.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.cameraRotationVelocityClamp.value = v;
+			mbUI.cameraMotionBlur.onValueChanged += v => PresetManager.Instance.selectedPreset.motionBlur.cameraMotionBlur.value = v;
 		}
 
 		public override void OnChangeSelectedPreset(Preset preset) {
