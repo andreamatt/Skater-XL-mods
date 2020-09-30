@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,15 +28,22 @@ namespace XLGraphicsUI.Elements
 		public event UnityAction<float> onValueChanged = v => { };
 
 		public void Awake() {
+			if (slider.wholeNumbers) {
+				inputField.contentType = TMP_InputField.ContentType.IntegerNumber;
+			}
+
 			slider.onValueChanged.AddListener(new UnityAction<float>(v => {
 				onValueChanged.Invoke(v);
 				SetValueText(v);
 			}));
 
 			inputField.onEndEdit.AddListener(new UnityAction<string>(s => {
-				float v;
-				if (float.TryParse(s, out v)) {
+				try {
+					var v = float.Parse(s, CultureInfo.InvariantCulture);
 					slider.value = v;
+				}
+				catch (Exception) {
+					// nothing
 				}
 			}));
 		}
@@ -45,7 +53,7 @@ namespace XLGraphicsUI.Elements
 				valueText.text = $"{(int)v}";
 			}
 			else {
-				valueText.text = $"{v:N}";
+				valueText.text = $"{v.ToString(CultureInfo.InvariantCulture)}";
 			}
 		}
 
