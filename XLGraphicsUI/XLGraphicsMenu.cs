@@ -16,6 +16,7 @@ namespace XLGraphicsUI
 		public GameObject basicContent;
 		public GameObject presetsContent;
 		public GameObject cameraContent;
+		public GameObject presetList;
 		public GameObject presetsListContent;
 		public GameObject editPresetPanel;
 		public GameObject confirmDeletePanel;

@@ -43,12 +43,14 @@ namespace XLGraphics.Utils
 			var pcActive = menu.presetsContent.activeSelf;
 			var ccActive = menu.cameraContent.activeSelf;
 			var eppActive = menu.editPresetPanel.activeSelf;
+			var plActive = menu.presetList.activeSelf;
 
 			// activate and deactivate
 			menu.basicContent.SetActive(true);
 			menu.presetsContent.SetActive(true);
 			menu.cameraContent.SetActive(true);
 			menu.editPresetPanel.SetActive(true);
+			menu.presetList.SetActive(true);
 
 			presetsListContent = Main.menu.presetsListContent;
 			if (firstBuild) {
@@ -68,6 +70,7 @@ namespace XLGraphics.Utils
 				if (pcActive) menu.presetsContent.SetActive(true);
 				if (ccActive) menu.cameraContent.SetActive(true);
 				if (eppActive) menu.editPresetPanel.SetActive(true);
+				if (plActive) menu.presetList.SetActive(true);
 			}
 		}
 
@@ -109,7 +112,7 @@ namespace XLGraphics.Utils
 			foreach (var eH in XLGraphics.Instance.presetEffectHandlers) {
 				eH.OnChangeSelectedPreset(preset);
 			}
-			XLGraphicsMenu.Instance.presetsContent.SetActive(false);
+			XLGraphicsMenu.Instance.presetList.SetActive(false);
 			XLGraphicsMenu.Instance.editPresetPanel.SetActive(true);
 
 			var inputField = XLGraphicsMenu.Instance.renamePresetInputField;
@@ -129,8 +132,9 @@ namespace XLGraphics.Utils
 					PresetManager.Instance.RenamePreset();
 				}
 				PresetManager.Instance.SavePreset(PresetManager.Instance.selectedPreset);
-				RebuildPresetList(false);
-				XLGraphicsMenu.Instance.presetsContent.SetActive(true);
+				RebuildPresetList(true);
+				XLGraphicsMenu.Instance.editPresetPanel.SetActive(false);
+				XLGraphicsMenu.Instance.presetList.SetActive(true);
 			});
 			menu.savePresetButton.onClick.AddListener(savePreset);
 

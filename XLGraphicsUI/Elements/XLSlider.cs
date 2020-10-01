@@ -53,7 +53,7 @@ namespace XLGraphicsUI.Elements
 				valueText.text = $"{(int)v}";
 			}
 			else {
-				valueText.text = $"{v.ToString(CultureInfo.InvariantCulture)}";
+				valueText.text = $"{v.ToString("0.00", CultureInfo.InvariantCulture)}";
 			}
 		}
 
