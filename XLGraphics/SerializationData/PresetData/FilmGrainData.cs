@@ -10,10 +10,10 @@ namespace XLGraphics.SerializationData.PresetData
 {
 	public class FilmGrainData
 	{
-		public bool active;
-		public float intensity;
-		public float response;
-		public FilmGrainLookup type;
+		public bool active = false;
+		public float intensity = 0.5f;
+		public float response = 0.2f;
+		public FilmGrainLookup type = FilmGrainLookup.Medium2;
 
 		public static FilmGrainData FromPreset(Preset p) {
 			return new FilmGrainData() {
