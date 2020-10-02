@@ -97,6 +97,7 @@ namespace XLGraphics
 			}
 
 			XLGraphicsMenu.Instance.basicContent.SetActive(true);
+			XLGraphicsMenu.Instance.presetList.SetActive(true);
 
 			XLGraphicsMenu.Instance.gameObject.SetActive(false);
 

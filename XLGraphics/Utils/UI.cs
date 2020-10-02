@@ -60,18 +60,19 @@ namespace XLGraphics.Utils
 			PopulatePresetsList();
 			//DisableNavigation();
 
-			menu.basicContent.SetActive(false);
-			menu.presetsContent.SetActive(false);
-			menu.cameraContent.SetActive(false);
-			menu.editPresetPanel.SetActive(false);
+			menu.basicContent.SetActive(keepActive && bcActive);
+			menu.presetsContent.SetActive(keepActive && pcActive);
+			menu.cameraContent.SetActive(keepActive && ccActive);
+			menu.editPresetPanel.SetActive(keepActive && eppActive);
+			menu.presetList.SetActive(keepActive && plActive);
 
-			if (keepActive) {
-				if (bcActive) menu.basicContent.SetActive(true);
-				if (pcActive) menu.presetsContent.SetActive(true);
-				if (ccActive) menu.cameraContent.SetActive(true);
-				if (eppActive) menu.editPresetPanel.SetActive(true);
-				if (plActive) menu.presetList.SetActive(true);
-			}
+			//if (keepActive) {
+			//	if (bcActive) menu.basicContent.SetActive(true);
+			//	if (pcActive) menu.presetsContent.SetActive(true);
+			//	if (ccActive) menu.cameraContent.SetActive(true);
+			//	if (eppActive) menu.editPresetPanel.SetActive(true);
+			//	if (plActive) menu.presetList.SetActive(true);
+			//}
 		}
 
 		private void RemoveTestPresets() {
