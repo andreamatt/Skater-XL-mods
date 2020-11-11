@@ -51,4 +51,16 @@ namespace SoundMod.Patches
 			return false;
 		}
 	}
+	
+	[HarmonyPatch(typeof(DeckSounds), "DoOllie")]
+	static class DeckSounds_DoOllie_Patch
+	{
+		static bool Prefix(DeckSounds __instance, float scoop) {	
+			if (PlayerController.Instance.boardController.isSliding) {
+				PlayerController.Instance.boardController.isSliding = false;
+				return false;
+			}
+			return true;
+		}
+	}
 }
