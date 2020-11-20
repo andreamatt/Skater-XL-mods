@@ -63,4 +63,13 @@ namespace SoundMod.Patches
 			return true;
 		}
 	}
+	
+	[HarmonyPatch(typeof(EventManager), "ExitGrind")]
+    	static class EventManager_ExitGrind_Patch
+    	{
+		static void Postfix()
+		{
+	    		PlayerController.Instance.boardController.isSliding = false; // Force it for sliding out without popping.
+		}
+    	}
 }
