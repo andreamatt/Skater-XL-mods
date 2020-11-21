@@ -86,7 +86,7 @@ namespace XLGraphics.CustomEffects
 			var pos = PlayerController.Instance.skaterController.skaterTransform.position;
 			pos.y = (pos.y + PlayerController.Instance.boardController.boardTransform.position.y) / 2;
 			if (tra == null) {
-				Logger.Log("Null transform in follow");
+				Main.Logger.Log("Null transform in follow");
 				tra = new GameObject().transform;
 			}
 			tra.position = pos;
@@ -166,22 +166,14 @@ namespace XLGraphics.CustomEffects
 		}
 
 		public void FixedUpdate() {
-			if (XLGraphics.Instance.currentGameStateName == "GearSelectionState") {
-				// do nothing (default camera behaviour?)
-			}
-			else if (XLGraphics.Instance.IsReplayActive()) {
-				// Normal camera values
-				mainCamera.nearClipPlane = 0.01f;
-				mainCamera.fieldOfView = override_fov ? override_fov_value : replay_fov;
-				last_is_replay = true;
-			}
-			else {
+			if (XLGraphics.Instance.currentGameStateName == "PlayState") {
 				if (last_is_replay == true) {
 					// Save the new replay_fov, since it can be modified without opening the mod
 					// The only other way of saving is when the mod is open
 					Main.Save();
 				}
 				last_is_replay = false;
+
 				switch (cameraMode) {
 					case CameraMode.Follow:
 						follow();
@@ -197,17 +189,23 @@ namespace XLGraphics.CustomEffects
 						break;
 				}
 			}
+			else if (XLGraphics.Instance.currentGameStateName == "ReplayState") {
+				// Normal camera values
+				mainCamera.nearClipPlane = 0.01f;
+				mainCamera.fieldOfView = override_fov ? override_fov_value : replay_fov;
+				last_is_replay = true;
+			}
 		}
 
 		public void LateUpdate() {
 			var currentStateName = XLGraphics.Instance.currentGameStateName;
-			if (!XLGraphics.Instance.IsReplayActive() && currentStateName != "GearSelectionState" && currentStateName != "PinMovementState") {
+			if (currentStateName == "PlayState") {
 				if (cameraMode == CameraMode.POV) {
 					pov();
 				}
-			}
 
-			UpdateOverrideFov();
+				UpdateOverrideFov();
+			}
 		}
 
 		private void UpdateOverrideFov() {

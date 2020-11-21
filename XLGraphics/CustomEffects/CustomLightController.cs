@@ -59,7 +59,7 @@ namespace XLGraphics.CustomEffects
 			light.spotAngle = LIGHT_ANGLE;
 			light.cookie = LIGHT_COOKIE == null ? null : Cookies[LIGHT_COOKIE];
 
-			Logger.Log("Light started");
+			Main.Logger.Log("Light started");
 		}
 
 		private void GetCookies() {

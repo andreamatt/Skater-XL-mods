@@ -37,7 +37,7 @@ namespace XLGraphics
 					}
 				}
 				catch (Exception e) {
-					Logger.Log($"Can't save {filepath}. ex: {e}");
+					Main.Logger.Log($"Can't save {filepath}. ex: {e}");
 				}
 			});
 		}
@@ -57,11 +57,11 @@ namespace XLGraphics
 					}
 				}
 				catch (Exception e) {
-					Logger.Log($"Can't read {filepath}. ex: {e}");
+					Main.Logger.Log($"Can't read {filepath}. ex: {e}");
 				}
 			}
 			else {
-				Logger.Log($"No settings found, using defaults");
+				Main.Logger.Log($"No settings found, using defaults");
 				settings = new Settings();
 			}
 			return settings;

@@ -12,16 +12,15 @@ namespace XLGraphics.Utils
 	{
 		static public VolumeUtils Instance { get; private set; }
 
-		public VolumeUtils() {
-			if (Instance != null) {
-				throw new Exception("Cannot have multiple instances");
-			}
-			Instance = this;
+		private VolumeUtils() { }
+
+		static public void Instantiate() {
+			Instance = new VolumeUtils();
 		}
 
 		public float GetHighestPriority() {
 			var volumes = UnityEngine.Object.FindObjectsOfType<Volume>();
-			Logger.Log($"Found {volumes.Length} volumes");
+			Main.Logger.Log($"Found {volumes.Length} volumes");
 			if (volumes.Length == 0) {
 				return 0;
 			}
