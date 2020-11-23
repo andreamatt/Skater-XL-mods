@@ -65,9 +65,10 @@ namespace XLGraphics
 
 				// instantiate menu and XLGraphics monobehaviour
 				GameObject menuGO = GameObject.Instantiate(menuObjectAsset);
-				GameObject.DontDestroyOnLoad(menuGO);
 				menu = XLGraphicsMenu.Instance;
 				xlGraphics = new GameObject().AddComponent<XLGraphics>();
+				GameObject.DontDestroyOnLoad(menuGO);
+				GameObject.DontDestroyOnLoad(xlGraphics.gameObject);
 			}
 			else {
 				// unpatch
