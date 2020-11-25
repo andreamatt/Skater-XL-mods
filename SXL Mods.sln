@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.202
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1209
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabboSettings", "BabboSettings\BabboSettings.csproj", "{28A548AB-7637-4193-8E31-E9646CBCA241}"
 EndProject
@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", 
 		References\Unity.Postprocessing.Runtime.dll = References\Unity.Postprocessing.Runtime.dll
 		References\Unity.RenderPipelines.Core.Runtime.dll = References\Unity.RenderPipelines.Core.Runtime.dll
 		References\Unity.RenderPipelines.HighDefinition.Runtime.dll = References\Unity.RenderPipelines.HighDefinition.Runtime.dll
+		References\UnityEditor.dll = References\UnityEditor.dll
 		References\UnityEngine.AudioModule.dll = References\UnityEngine.AudioModule.dll
 		References\UnityEngine.CoreModule.dll = References\UnityEngine.CoreModule.dll
 		References\UnityEngine.ImageConversionModule.dll = References\UnityEngine.ImageConversionModule.dll
@@ -43,6 +44,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLGraphicsUI", "XLGraphicsUI\XLGraphicsUI.csproj", "{D94EB69A-C1F8-44C1-86C5-0A1C2BC2E789}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLGraphics", "XLGraphics\XLGraphics.csproj", "{54F746DD-62D2-4326-B8EC-27F8F1E831C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLUnity", "XLUnity\XLUnity.csproj", "{4946006C-2FCD-4496-8F94-120AE49E0E2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +84,12 @@ Global
 		{54F746DD-62D2-4326-B8EC-27F8F1E831C2}.MyConfig|Any CPU.Build.0 = Release|Any CPU
 		{54F746DD-62D2-4326-B8EC-27F8F1E831C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54F746DD-62D2-4326-B8EC-27F8F1E831C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4946006C-2FCD-4496-8F94-120AE49E0E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4946006C-2FCD-4496-8F94-120AE49E0E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4946006C-2FCD-4496-8F94-120AE49E0E2B}.MyConfig|Any CPU.ActiveCfg = Release|Any CPU
+		{4946006C-2FCD-4496-8F94-120AE49E0E2B}.MyConfig|Any CPU.Build.0 = Release|Any CPU
+		{4946006C-2FCD-4496-8F94-120AE49E0E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4946006C-2FCD-4496-8F94-120AE49E0E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
