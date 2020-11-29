@@ -18,11 +18,10 @@ namespace XLGraphics.Utils
 	{
 		static public UI Instance { get; private set; }
 
-		public UI() {
-			if (Instance != null) {
-				throw new Exception("Cannot have multiple instances");
-			}
-			Instance = this;
+		private UI() { }
+
+		static public void Instantiate() {
+			Instance = new UI();
 		}
 
 		private GameObject presetsListContent;
@@ -65,14 +64,6 @@ namespace XLGraphics.Utils
 			menu.cameraContent.SetActive(keepActive && ccActive);
 			menu.editPresetPanel.SetActive(keepActive && eppActive);
 			menu.presetList.SetActive(keepActive && plActive);
-
-			//if (keepActive) {
-			//	if (bcActive) menu.basicContent.SetActive(true);
-			//	if (pcActive) menu.presetsContent.SetActive(true);
-			//	if (ccActive) menu.cameraContent.SetActive(true);
-			//	if (eppActive) menu.editPresetPanel.SetActive(true);
-			//	if (plActive) menu.presetList.SetActive(true);
-			//}
 		}
 
 		private void RemoveTestPresets() {
@@ -85,7 +76,6 @@ namespace XLGraphics.Utils
 		public void PopulatePresetsList() {
 			// get presets in sorted order
 			var presets = PresetManager.Instance.presets;
-			var rectTransform = presetsListContent.GetComponent<RectTransform>();
 
 			for (int i = 0; i < presets.Count; i++) {
 				var preset = presets[i];
@@ -161,7 +151,7 @@ namespace XLGraphics.Utils
 			}));
 
 			// when replay state changes
-			XLGraphics.Instance.onReplayStateChange += () => {
+			XLGraphics.Instance.OnReplayStateChange += () => {
 				PresetManager.Instance.SetActives();
 				PresetManager.Instance.SetPriorities();
 				RebuildPresetList(true);

@@ -30,19 +30,26 @@ namespace XLGraphics
 		public static XLGraphics Instance { get; private set; }
 		public string currentGameStateName;
 		private bool isOpen = false;
+		private bool last_IsReplayActive = false;
+		public event Action OnReplayStateChange = () => { };
+
+		public void Awake() {
+			if (Instance != null) {
+				throw new Exception("Instance of XLGraphics not null on Awake");
+			}
+			Instance = this;
+		}
 
 		public void Start() {
-			Logger.Log("Start of XLGraphics");
-			//Screen.fullScreenMode = FullScreenMode.Windowed;
-			Instance = this;
+			Main.Logger.Log("Start of XLGraphics");
 
 			// load settings
 			Main.settings = Settings.Load();
 
 			// initialize components
-			new VolumeUtils();
-			new UI();
-			new PresetManager();
+			PresetManager.Instantiate();
+			UI.Instantiate();
+			VolumeUtils.Instantiate();
 			gameObject.AddComponent<CustomCameraController>();
 			gameObject.AddComponent<CustomDofController>();
 			gameObject.AddComponent<CustomLightController>();
@@ -98,13 +105,13 @@ namespace XLGraphics
 
 			XLGraphicsMenu.Instance.basicContent.SetActive(true);
 			XLGraphicsMenu.Instance.presetList.SetActive(true);
-
 			XLGraphicsMenu.Instance.gameObject.SetActive(false);
 
-			Logger.Log("End of XLGraphics");
+			Main.Logger.Log("End of XLGraphics");
 		}
 
 		public void Update() {
+			Cursor.lockState = CursorLockMode.None;
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
 			if (keyUp) {
 				if (isOpen && !XLInputField.anyFocused) {
@@ -116,7 +123,6 @@ namespace XLGraphics
 				}
 				else {
 					XLGraphicsMenu.Instance.gameObject.SetActive(true);
-					Cursor.lockState = CursorLockMode.None;
 				}
 				isOpen = !isOpen;
 			}
@@ -130,18 +136,24 @@ namespace XLGraphics
 			if (newGameStateName != currentGameStateName) {
 				currentGameStateName = newGameStateName;
 				//Main.Save(); WHY SAVING???
+				Main.Logger.Log("State: " + currentGameStateName);
 			}
 		}
 
-		private bool last_IsReplayActive = false;
-		public event Action onReplayStateChange = () => { };
 		public bool IsReplayActive() {
 			var active = currentGameStateName == "ReplayState";
 			if (active != last_IsReplayActive) {
 				last_IsReplayActive = active;
-				onReplayStateChange.Invoke();
+				OnReplayStateChange.Invoke();
 			}
 			return active;
+		}
+
+		public void OnDestroy() {
+			foreach (var preset in PresetManager.Instance.presets) {
+				DestroyImmediate(preset.volume.gameObject);
+			}
+			DestroyImmediate(PresetManager.Instance.overriderVolume.gameObject);
 		}
 	}
 }

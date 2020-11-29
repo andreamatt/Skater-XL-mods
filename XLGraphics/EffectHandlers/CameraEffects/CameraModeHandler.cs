@@ -25,7 +25,7 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 				SetRelativeTab(v, XLGraphics.Instance.IsReplayActive());
 			}));
 
-			XLGraphics.Instance.onReplayStateChange += () => {
+			XLGraphics.Instance.OnReplayStateChange += () => {
 				SetRelativeTab((int)CustomCameraController.Instance.cameraMode, XLGraphics.Instance.IsReplayActive());
 			};
 		}
