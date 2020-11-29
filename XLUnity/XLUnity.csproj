@@ -4,21 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0DB054B1-32D4-4857-AE41-93538D84FB53}</ProjectGuid>
+    <ProjectGuid>{4946006C-2FCD-4496-8F94-120AE49E0E2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoundMod</RootNamespace>
-    <AssemblyName>SoundMod</AssemblyName>
+    <RootNamespace>XLUnity</RootNamespace>
+    <AssemblyName>XLUnity</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Skater XL\Mods\SoundMod\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,31 +25,24 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>D:\Steam\steamapps\common\Skater XL\Mods\SoundMod\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\References\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\References\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>..\References\UnityEngine.AudioModule.dll</HintPath>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\References\UnityEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\References\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
@@ -61,9 +53,8 @@
       <HintPath>..\References\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\References\UnityEngine.PhysicsModule.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>..\References\UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\References\UnityEngine.UI.dll</HintPath>
@@ -73,32 +64,14 @@
       <HintPath>..\References\UnityEngine.UIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>..\References\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityModManager">
-      <HintPath>..\References\UnityModManager.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logger.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="Patches\DeckSounds.cs" />
+    <Compile Include="Components\LevelSoundManager.cs" />
+    <Compile Include="Editor\MaterialSoundTagCollectionEditor.cs" />
+    <Compile Include="MaterialTagItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="SoundMod.cs" />
+    <Compile Include="ScriptableObjects\MaterialSoundTagCollection.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
-    <None Include="Resources\Info.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XLUnity\XLUnity.csproj">
-      <Project>{4946006c-2fcd-4496-8f94-120ae49e0e2b}</Project>
-      <Name>XLUnity</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
