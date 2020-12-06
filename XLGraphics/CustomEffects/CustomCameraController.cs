@@ -206,6 +206,9 @@ namespace XLGraphics.CustomEffects
 
 				UpdateOverrideFov();
 			}
+			else if (currentStateName == "ReplayState") {
+				UpdateOverrideFov();
+			}
 		}
 
 		private void UpdateOverrideFov() {
