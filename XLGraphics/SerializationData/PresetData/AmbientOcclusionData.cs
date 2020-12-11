@@ -27,8 +27,8 @@ namespace XLGraphics.SerializationData.PresetData
 			return new AmbientOcclusionData() {
 				active = p.ambientOcclusion.active,
 				intensity = p.ambientOcclusion.intensity.value,
-				directLightingStrength = p.ambientOcclusion.intensity.value,
-				radius = p.ambientOcclusion.intensity.value,
+				directLightingStrength = p.ambientOcclusion.directLightingStrength.value,
+				radius = p.ambientOcclusion.radius.value,
 				quality = (Quality)p.ambientOcclusion.quality.value,
 				maximumRadius = p.ambientOcclusion.maximumRadiusInPixels,
 				fullResolution = p.ambientOcclusion.fullResolution,
@@ -41,8 +41,8 @@ namespace XLGraphics.SerializationData.PresetData
 		public void OverrideValues(Preset p) {
 			p.ambientOcclusion.active = active;
 			p.ambientOcclusion.intensity.value = intensity;
-			p.ambientOcclusion.intensity.value = directLightingStrength;
-			p.ambientOcclusion.intensity.value = radius;
+			p.ambientOcclusion.directLightingStrength.value = directLightingStrength;
+			p.ambientOcclusion.radius.value = radius;
 			p.ambientOcclusion.quality.value = (int)quality;
 			p.ambientOcclusion.maximumRadiusInPixels = maximumRadius;
 			p.ambientOcclusion.fullResolution = fullResolution;

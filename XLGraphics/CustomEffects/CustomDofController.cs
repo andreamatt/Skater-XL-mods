@@ -79,14 +79,14 @@ namespace XLGraphics.CustomEffects
 			var playback_root = GameObject.Find("Playback Skater Root");
 			if (playback_root != null) {
 				for (int i = 0; i < playback_root.transform.childCount; i++) {
-					Logger.Log($"Playback_root child: {playback_root.transform.GetChild(i).name}");
+					Main.Logger.Log($"Playback_root child: {playback_root.transform.GetChild(i).name}");
 					var child = playback_root.transform.GetChild(i);
 					if (child.name == "NewSkater") replay_skater = child;
 					else if (child.name == "Skateboard") replay_skateboard = child;
 				}
 			}
 			else {
-				Logger.Log("Playback_root not found");
+				Main.Logger.Log("Playback_root not found");
 			}
 		}
 	}

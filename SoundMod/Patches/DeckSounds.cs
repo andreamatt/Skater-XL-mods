@@ -61,13 +61,13 @@ namespace SoundMod.Patches
 	}
 	
 	[HarmonyPatch(typeof(EventManager), "ExitGrind")]
-    static class EventManager_ExitGrind_Patch
-    {
-		static void Postfix()
-		{
-	    		PlayerController.Instance.boardController.isSliding = false; // Force it for sliding out without popping.
-		}
-    }
+  static class EventManager_ExitGrind_Patch
+  {
+      static void Postfix()
+      {
+          PlayerController.Instance.boardController.isSliding = false; // Force it for sliding out without popping.
+      }
+  }
 
 	[HarmonyPatch(typeof(DeckSounds), "SetRollingVolFromRPS")]
 	static class DeckSounds_SetRollingVolFromRPS_Patch

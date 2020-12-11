@@ -52,5 +52,9 @@ namespace XLGraphicsUI.Elements
 		public void Start() {
 			textFields.Add(this);
 		}
+
+		public void OnDestroy() {
+			textFields.Remove(this);
+		}
 	}
 }

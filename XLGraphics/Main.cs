@@ -12,39 +12,43 @@ using XLGraphicsUI;
 
 namespace XLGraphics
 {
-#if DEBUG
 	[EnableReloading]
-#endif
 	public static class Main
 	{
 		public static bool enabled;
 		public static Harmony harmony;
-		public static string modId = "UItest";
 		public static XLGraphics xlGraphics;
 		public static XLGraphicsMenu menu;
 		public static AssetBundle uiBundle;
 		public static GameObject presetObjectAsset;
+		public static GameObject menuObjectAsset;
 		public static UnityModManager.ModEntry modEntry;
 		public static Settings settings;
 
 		static bool Load(UnityModManager.ModEntry modEntry) {
-
 			Main.modEntry = modEntry;
+			Main.Logger.Log("Load");
 			modEntry.OnToggle = OnToggle;
-#if DEBUG
 			modEntry.OnUnload = Unload;
-#endif
 			//modEntry.OnSaveGUI = OnSave;
+
+			// load assets
+			uiBundle = AssetBundle.LoadFromFile(modEntry.Path + "graphicsmenuassetbundle");
+			menuObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Menu.prefab");
+			presetObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/PresetObject.prefab");
 
 			return true;
 		}
 
 		static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
-			Main.modEntry = modEntry;
-			if (enabled == value) return true;
+			Main.Logger.Log("OnToggle " + value.ToString());
+			if (enabled == value) {
+				return true;
+			}
+
 			enabled = value;
 
-			if (enabled) {
+			if (value) {
 				// disable if xlshredmenu is detected
 				var mod = UnityModManager.FindMod("blendermf.XLShredMenu");
 				if (mod != null) {
@@ -55,29 +59,26 @@ namespace XLGraphics
 
 				// create harmony instance
 				harmony = new Harmony(modEntry.Info.Id);
+
+				// patch
 				harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-				// load menu asset
-				uiBundle = AssetBundle.LoadFromFile(modEntry.Path + "graphicsmenuassetbundle");
-				GameObject newMenuObject = GameObject.Instantiate(uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Menu.prefab"));
-
-				presetObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/PresetObject.prefab");
-
-				GameObject.DontDestroyOnLoad(newMenuObject);
+				// instantiate menu and XLGraphics monobehaviour
+				GameObject menuGO = GameObject.Instantiate(menuObjectAsset);
 				menu = XLGraphicsMenu.Instance;
-
 				xlGraphics = new GameObject().AddComponent<XLGraphics>();
+				GameObject.DontDestroyOnLoad(menuGO);
 				GameObject.DontDestroyOnLoad(xlGraphics.gameObject);
 			}
 			else {
+				// unpatch
 				harmony.UnpatchAll(harmony.Id);
+
+				// destroy menu and XLGraphics monobehaviour
 				GameObject.DestroyImmediate(menu.gameObject);
 				GameObject.DestroyImmediate(xlGraphics.gameObject);
-				uiBundle.Unload(true);
-				uiBundle = null;
-				xlGraphics = null;
 			}
-			Logger.Log("Loaded");
+			Main.Logger.Log("Loaded");
 			return true;
 		}
 
@@ -88,12 +89,15 @@ namespace XLGraphics
 		public static void Save() {
 			settings.Save();
 		}
-#if DEBUG
+
 		static bool Unload(UnityModManager.ModEntry modEntry) {
-			//harmony.UnpatchAll(harmony.Id);
+			Main.Logger.Log("Unload");
+
+			uiBundle.Unload(true);
 
 			return true;
 		}
-#endif
+
+		public static UnityModManager.ModEntry.ModLogger Logger => modEntry.Logger;
 	}
 }

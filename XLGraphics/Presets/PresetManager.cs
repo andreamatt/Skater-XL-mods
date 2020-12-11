@@ -20,11 +20,10 @@ namespace XLGraphics.Presets
 	{
 		static public PresetManager Instance { get; private set; }
 
-		public PresetManager() {
-			if (Instance != null) {
-				throw new Exception("Cannot have multiple instances");
-			}
-			Instance = this;
+		private PresetManager() { }
+
+		static public void Instantiate() {
+			Instance = new PresetManager();
 		}
 
 		public List<Preset> presets;
@@ -51,7 +50,7 @@ namespace XLGraphics.Presets
 
 					// if deserialize fails, delete the file
 					if (preset == null) {
-						Logger.Log($"Failed deserializing preset with path: {filePath}");
+						Main.Logger.Log($"Failed deserializing preset with path: {filePath}");
 						// maybe dont delete the file?
 						continue;
 					}
@@ -60,7 +59,7 @@ namespace XLGraphics.Presets
 					var match = Regex.Match(filePath, @".*\\(.*).preset.json");
 					preset.name = match.Groups[1].Value;
 					if (match.Groups.Count != 2) {
-						Logger.Log($"Failed matching preset name with regex. File: {filePath}");
+						Main.Logger.Log($"Failed matching preset name with regex. File: {filePath}");
 						continue;
 					}
 					presets.Add(preset);
@@ -73,26 +72,12 @@ namespace XLGraphics.Presets
 					if (!presetOrder.Names.Contains(preset.name)) {
 						presetOrder.Add(preset.name, false);
 					}
-					Logger.Log("preset: " + preset.name + " loaded");
+					Main.Logger.Log("preset: " + preset.name + " loaded");
 				}
 				catch (Exception e) {
-					Logger.Log($"ex: {e}");
+					Main.Logger.Log($"ex: {e}");
 				}
 			}
-
-
-			// if there are no presets, add the default one
-			//if (presets.Count == 0) {
-			//	var default_preset = new Preset(default_name);
-			//	SavePreset(default_preset);
-			//	presets.Add(default_preset);
-			//	if (!Main.settings.presetOrder.Names.Contains(default_preset.name)) {
-			//		Main.settings.presetOrder.Add(default_preset.name, false);
-			//	}
-			//	if (!Main.settings.replay_presetOrder.Names.Contains(default_preset.name)) {
-			//		Main.settings.replay_presetOrder.Add(default_preset.name, false);
-			//	}
-			//}
 
 			// remove presets that were not found
 			foreach (var name in Main.settings.presetOrder.Names) {
@@ -215,7 +200,7 @@ namespace XLGraphics.Presets
 			overriderVolume.priority = float.MinValue;
 
 			var highestPrior = VolumeUtils.Instance.GetHighestPriority();
-			Logger.Log("highest prio is: " + highestPrior);
+			Main.Logger.Log("highest prio is: " + highestPrior);
 
 			// set priorities based on presetOrder
 			var orderNames = currentPresetOrder.Names;
@@ -267,7 +252,7 @@ namespace XLGraphics.Presets
 				}
 			}
 			catch (Exception) {
-				Logger.Log($"Can't save {filepath}{p.name} preset");
+				Main.Logger.Log($"Can't save {filepath}{p.name} preset");
 			}
 		}
 
