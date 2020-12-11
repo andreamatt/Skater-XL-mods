@@ -1,9 +1,5 @@
 using HarmonyLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace SoundMod.Patches
@@ -26,18 +22,18 @@ namespace SoundMod.Patches
 
 				var PlayRandomMethod = deckSoundsTraverse.Method("PlayRandomOneShotFromArray", new Type[] { typeof(AudioClip[]), typeof(AudioSource), typeof(float) });
 				switch (PlayerController.Instance.GetSurfaceTag(PlayerController.Instance.boardController.GetSurfaceTagString())) {
-					case PlayerController.SurfaceTags.None:
-					case PlayerController.SurfaceTags.Concrete:
-					case PlayerController.SurfaceTags.Brick:
+					case SkaterXL.Core.SurfaceTags.None:
+					case SkaterXL.Core.SurfaceTags.Concrete:
+					case SkaterXL.Core.SurfaceTags.Brick:
 						PlayRandomMethod.GetValue(__instance.boardImpacts, __instance.deckSource, vol);
 						break;
-					case PlayerController.SurfaceTags.Tarmac:
+					case SkaterXL.Core.SurfaceTags.Tarmac:
 						PlayRandomMethod.GetValue(__instance.boardTarmacImpacts, __instance.deckSource, vol);
 						break;
-					case PlayerController.SurfaceTags.Wood:
+					case SkaterXL.Core.SurfaceTags.Wood:
 						PlayRandomMethod.GetValue(__instance.boardWoodImpacts, __instance.deckSource, vol);
 						break;
-					case PlayerController.SurfaceTags.Grass:
+					case SkaterXL.Core.SurfaceTags.Grass:
 						PlayRandomMethod.GetValue(__instance.boardGrassImpacts, __instance.deckSource, vol);
 						break;
 				}
@@ -76,7 +72,7 @@ namespace SoundMod.Patches
 	[HarmonyPatch(typeof(DeckSounds), "SetRollingVolFromRPS")]
 	static class DeckSounds_SetRollingVolFromRPS_Patch
 	{
-		static bool Prefix(ref PlayerController.SurfaceTags _surfaceTag, ref float rps)
+		static bool Prefix(ref SkaterXL.Core.SurfaceTags _surfaceTag, ref float rps)
 		{
 			LevelSoundManager lvlManager = GameObject.FindObjectOfType<LevelSoundManager>();  // Always grab the first component
 			if (!lvlManager) return true;  // Continue to original function, collection does not exist.
@@ -112,7 +108,7 @@ namespace SoundMod.Patches
 					{
 						// Get the surface tag from the scriptable object by material
 						int tag = lvlManager.tagCollection.GetSurfaceTagByMaterial(meshRenderer.sharedMaterials[i]);
-						_surfaceTag = tag == 0 ? _surfaceTag : (PlayerController.SurfaceTags)tag;
+						_surfaceTag = tag == 0 ? _surfaceTag : (SkaterXL.Core.SurfaceTags)tag;
 						return true;
 					}
 				}
