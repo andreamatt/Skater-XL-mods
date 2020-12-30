@@ -27,5 +27,8 @@ namespace XLGraphicsUI
 		public Button confirmDeleteButton;
 		public Button cancelDeleteButton;
 		public EventSystem eventSystem;
+
+		// overlay images
+		public GameObject imgContainer;
 	}
 }

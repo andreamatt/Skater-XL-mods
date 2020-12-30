@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -106,8 +109,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>echo "Copying $(ProjectName)"
-start XCOPY /Y /R "$(TargetPath)" "D:\Programming\SXL mods\Skater XL\Mods\XLGraphics\$(ProjectName).dll*"
-echo "Copied $(ProjectName)"</PostBuildEvent>
+    <PostBuildEvent>echo "$(ProjectName) post-build"
+start /B /W ..\..\PostBuild.bat
+echo "Finished $(ProjectName) post-build"</PostBuildEvent>
   </PropertyGroup>
 </Project>

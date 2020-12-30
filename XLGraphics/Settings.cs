@@ -5,10 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
-using UnityModManagerNet;
 using XLGraphics.Presets;
 using XLGraphics.SerializationData;
 

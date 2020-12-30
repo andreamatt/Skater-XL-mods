@@ -1,1 +1,0 @@
-COPY HERE EVERYTHING THAT IS INSIDE Skater XL/SkaterXL_Data/Managed
