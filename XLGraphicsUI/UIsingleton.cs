@@ -13,7 +13,7 @@ namespace XLGraphicsUI
 
 		public void Awake() {
 			if (Instance != null) {
-				throw new Exception("Instance not null on Awake");
+				throw new Exception($"Instance of {this.GetType().FullName} not null on Awake");
 			}
 			Instance = (T)this;
 		}

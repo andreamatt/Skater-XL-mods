@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using UnityEngine.UI;
 using XLGraphics.Presets;
 using XLGraphicsUI;
 using XLGraphicsUI.Elements;
+using XLGraphicsUI.Elements.SettingsUI;
 
 namespace XLGraphics.Utils
 {
@@ -55,6 +57,7 @@ namespace XLGraphics.Utils
 			if (firstBuild) {
 				firstBuild = false;
 				RemoveTestPresets();
+				RemoveTestImgNames();
 			}
 			PopulatePresetsList();
 			//DisableNavigation();
@@ -70,6 +73,13 @@ namespace XLGraphics.Utils
 			var presetUIs = presetsListContent.GetComponentsInChildren<XLPreset>();
 			foreach (var presetUI in presetUIs) {
 				GameObject.DestroyImmediate(presetUI.gameObject);
+			}
+		}
+
+		private void RemoveTestImgNames(){
+			var imgUIs = Main.menu.imgNameListContent.GetComponentsInChildren<OverlayImgName>();
+			foreach (var imgUI in imgUIs) {
+				GameObject.DestroyImmediate(imgUI.gameObject);
 			}
 		}
 

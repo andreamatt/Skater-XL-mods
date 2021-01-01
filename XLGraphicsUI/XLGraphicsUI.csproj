@@ -90,6 +90,7 @@
     <Compile Include="Elements\EffectsUI\WhiteBalanceUI.cs" />
     <Compile Include="Elements\SettingsUI\AntiAliasingUI.cs" />
     <Compile Include="Elements\SettingsUI\FullScreenUI.cs" />
+    <Compile Include="Elements\SettingsUI\OverlayImgName.cs" />
     <Compile Include="Elements\SettingsUI\PostProcessingUI.cs" />
     <Compile Include="Elements\SettingsUI\RenderDistanceUI.cs" />
     <Compile Include="Elements\SettingsUI\VSyncUI.cs" />
@@ -110,7 +111,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "$(ProjectName) post-build"
-start /B /W ..\..\PostBuild.bat
+start /b /w ..\..\PostBuild.bat
 echo "Finished $(ProjectName) post-build"</PostBuildEvent>
   </PropertyGroup>
 </Project>

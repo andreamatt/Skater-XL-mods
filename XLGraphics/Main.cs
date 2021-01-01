@@ -21,6 +21,8 @@ namespace XLGraphics
 		public static XLGraphicsMenu menu;
 		public static AssetBundle uiBundle;
 		public static GameObject presetObjectAsset;
+		public static GameObject imgNameObjectAsset;
+		public static GameObject overlayImageObjectAsset;
 		public static GameObject menuObjectAsset;
 		public static UnityModManager.ModEntry modEntry;
 		public static Settings settings;
@@ -36,6 +38,8 @@ namespace XLGraphics
 			uiBundle = AssetBundle.LoadFromFile(modEntry.Path + "graphicsmenuassetbundle");
 			menuObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Menu.prefab");
 			presetObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/PresetObject.prefab");
+			imgNameObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/ImgNameToggle.prefab");
+			overlayImageObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/OverlayImage.prefab");
 
 			return true;
 		}

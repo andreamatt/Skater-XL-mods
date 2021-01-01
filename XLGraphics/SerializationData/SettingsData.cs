@@ -15,6 +15,7 @@ namespace XLGraphics.SerializationData
 		public int VSYNC = 1;
 		public FullScreenMode SCREEN_MODE = FullScreenMode.Windowed;
 		public float RENDER_DISTANCE = 1000;
+		public List<string> activeOverlays = new List<string>();
 
 		// AA
 		public HDAdditionalCameraData.AntialiasingMode AA_MODE = HDAdditionalCameraData.AntialiasingMode.SubpixelMorphologicalAntiAliasing;

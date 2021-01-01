@@ -13,6 +13,7 @@ namespace XLGraphicsUI
 	public class XLGraphicsMenu : UIsingleton<XLGraphicsMenu>
 	{
 		//public GameObject tabPanel;
+		public GameObject main;
 		public GameObject basicContent;
 		public GameObject presetsContent;
 		public GameObject cameraContent;
@@ -30,5 +31,6 @@ namespace XLGraphicsUI
 
 		// overlay images
 		public GameObject imgContainer;
+		public GameObject imgNameListContent;
 	}
 }

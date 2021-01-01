@@ -110,6 +110,7 @@
     <Compile Include="EffectHandlers\PresetEffects\LensDistortionHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\DepthOfFieldHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffectHandler.cs" />
+    <Compile Include="EffectHandlers\SettingsEffects\OverlaysHandler.cs" />
     <Compile Include="EffectHandlers\SettingsEffects\PostProcessingHandler.cs" />
     <Compile Include="EffectHandlers\SettingsEffects\RenderDistanceHandler.cs" />
     <Compile Include="EffectHandlers\SettingsEffects\VSyncHandler.cs" />

@@ -67,7 +67,8 @@ namespace XLGraphics
 				new VSyncHandler(),
 				new FullScreenHandler(),
 				new AntiAliasingHandler(),
-				new RenderDistanceHandler()
+				new RenderDistanceHandler(),
+				new OverlaysHandler()
 			};
 
 			presetEffectHandlers = new List<PresetEffectHandler> {
@@ -105,7 +106,7 @@ namespace XLGraphics
 
 			XLGraphicsMenu.Instance.basicContent.SetActive(true);
 			XLGraphicsMenu.Instance.presetList.SetActive(true);
-			XLGraphicsMenu.Instance.gameObject.SetActive(false);
+			XLGraphicsMenu.Instance.main.SetActive(false);
 
 			Main.Logger.Log("End of XLGraphics");
 		}
@@ -115,14 +116,14 @@ namespace XLGraphics
 			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
 			if (keyUp) {
 				if (isOpen && !XLInputField.anyFocused) {
-					XLGraphicsMenu.Instance.gameObject.SetActive(false);
+					XLGraphicsMenu.Instance.main.SetActive(false);
 					PresetManager.Instance.SaveAllPresets();
 					Main.settings.Save();
 
 					Cursor.visible = false;
 				}
 				else {
-					XLGraphicsMenu.Instance.gameObject.SetActive(true);
+					XLGraphicsMenu.Instance.main.SetActive(true);
 				}
 				isOpen = !isOpen;
 			}
