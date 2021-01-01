@@ -81,6 +81,7 @@ namespace XLGraphics
 				new LensDistortionHandler(),
 				new LightHandler(),
 				new MotionBlurHandler(),
+				new PaniniProjectionHandler(),
 				new PhysicalCameraHandler(),
 				new VignetteHandler()
 			};

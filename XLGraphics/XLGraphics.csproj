@@ -97,6 +97,7 @@
     <Compile Include="EffectHandlers\CameraEffects\SkateCameraHandler.cs" />
     <Compile Include="CustomEffects\CustomLightController.cs" />
     <Compile Include="EffectHandlers\PresetEffects\AmbientOcclusionHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\PaniniProjectionHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\FilmGrainHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\BloomHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\ChromaticAberrationHandler.cs" />
