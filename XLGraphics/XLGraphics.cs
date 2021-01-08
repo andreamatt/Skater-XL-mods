@@ -83,6 +83,7 @@ namespace XLGraphics
 				new MotionBlurHandler(),
 				new PaniniProjectionHandler(),
 				new PhysicalCameraHandler(),
+				new ToneMappingHandler(),
 				new VignetteHandler()
 			};
 
