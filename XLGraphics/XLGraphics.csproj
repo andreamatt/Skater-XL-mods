@@ -107,6 +107,7 @@
     <Compile Include="EffectHandlers\PresetEffects\FovOverrideHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\LightHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\PhysicalCameraHandler.cs" />
+    <Compile Include="EffectHandlers\PresetEffects\WhiteBalanceHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\VignetteHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\MotionBlurHandler.cs" />
     <Compile Include="EffectHandlers\PresetEffects\LensDistortionHandler.cs" />

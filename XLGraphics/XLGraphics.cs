@@ -84,7 +84,8 @@ namespace XLGraphics
 				new PaniniProjectionHandler(),
 				new PhysicalCameraHandler(),
 				new ToneMappingHandler(),
-				new VignetteHandler()
+				new VignetteHandler(),
+				new WhiteBalanceHandler()
 			};
 
 			cameraEffectHandlers = new List<EffectHandler> {
