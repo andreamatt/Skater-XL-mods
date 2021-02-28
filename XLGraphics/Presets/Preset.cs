@@ -46,7 +46,7 @@ namespace XLGraphics.Presets
 		public ChromaticAberrationData chromaticAberrationData = new ChromaticAberrationData();
 		[JsonIgnore]
 		public ColorAdjustments colorAdjustments;
-		public ColorAdjustementsData colorAdjustementsData = new ColorAdjustementsData();
+		public ColorAdjustementsData colorAdjustmentsData = new ColorAdjustementsData();
 		[JsonIgnore]
 		public ColorCurves colorCurves;
 		public ColorCurvesData colorCurvesData = new ColorCurvesData();

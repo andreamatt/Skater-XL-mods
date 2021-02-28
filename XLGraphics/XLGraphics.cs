@@ -75,6 +75,7 @@ namespace XLGraphics
 				new AmbientOcclusionHandler(),
 				new BloomHandler(),
 				new ChromaticAberrationHandler(),
+				new ColorAdjustmentsHandler(),
 				new DepthOfFieldHandler(),
 				new FilmGrainHandler(),
 				new FovOverrideHandler(),

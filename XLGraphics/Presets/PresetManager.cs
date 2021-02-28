@@ -173,7 +173,7 @@ namespace XLGraphics.Presets
 			preset.bloomData.OverrideValues(preset);
 			preset.channelMixerData.OverrideValues(preset);
 			preset.chromaticAberrationData.OverrideValues(preset);
-			preset.colorAdjustementsData.OverrideValues(preset);
+			preset.colorAdjustmentsData.OverrideValues(preset);
 			preset.colorCurvesData.OverrideValues(preset);
 			preset.depthOfFieldData.OverrideValues(preset);
 			preset.filmGrainData.OverrideValues(preset);
@@ -228,7 +228,7 @@ namespace XLGraphics.Presets
 			p.bloomData = BloomData.FromPreset(p);
 			p.channelMixerData = ChannelMixerData.FromPreset(p);
 			p.chromaticAberrationData = ChromaticAberrationData.FromPreset(p);
-			p.colorAdjustementsData = ColorAdjustementsData.FromPreset(p);
+			p.colorAdjustmentsData = ColorAdjustementsData.FromPreset(p);
 			p.colorCurvesData = ColorCurvesData.FromPreset(p);
 			p.depthOfFieldData = DepthOfFieldData.FromPreset(p);
 			p.filmGrainData = FilmGrainData.FromPreset(p);

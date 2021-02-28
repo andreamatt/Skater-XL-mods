@@ -14,7 +14,8 @@ namespace XLGraphicsUI.Elements.EffectsUI
 		//public GameObject container;
 		public XLSlider postExposure;
 		public XLSlider contrast;
-		//public SerializableColor colorFilter;
+		public XLSliderVector3 colorFilter;
+		public XLSlider colorFilterIntensity;
 		public XLSlider hueShift;
 		public XLSlider saturation;
 	}
