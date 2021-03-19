@@ -35,11 +35,16 @@ namespace XLGraphics
 			//modEntry.OnSaveGUI = OnSave;
 
 			// load assets
-			uiBundle = AssetBundle.LoadFromFile(modEntry.Path + "graphicsmenuassetbundle");
-			menuObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Menu.prefab");
-			presetObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/PresetObject.prefab");
-			imgNameObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/ImgNameToggle.prefab");
-			overlayImageObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/OverlayImage.prefab");
+			using (var stream = new FileStream(modEntry.Path + "graphicsmenuassetbundle", FileMode.Open, FileAccess.Read)) {
+				uiBundle = AssetBundle.LoadFromStream(stream);
+
+				menuObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/Menu.prefab");
+				presetObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/PresetObject.prefab");
+				imgNameObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/ImgNameToggle.prefab");
+				overlayImageObjectAsset = uiBundle.LoadAsset<GameObject>("Assets/Prefabs/OverlayImage.prefab");
+
+				uiBundle.Unload(false); // free the file stream without deleting objectAssets
+			}
 
 			return true;
 		}
@@ -97,7 +102,7 @@ namespace XLGraphics
 		static bool Unload(UnityModManager.ModEntry modEntry) {
 			Main.Logger.Log("Unload");
 
-			uiBundle.Unload(true);
+			//uiBundle.Unload(true); // no need to unload: assets will simply be replaced on the new load
 
 			return true;
 		}

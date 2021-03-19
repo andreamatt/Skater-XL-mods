@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+using XLGraphics.EffectHandlers.SettingsEffects;
 
 namespace XLGraphics.SerializationData
 {
@@ -16,6 +17,8 @@ namespace XLGraphics.SerializationData
 		public FullScreenMode SCREEN_MODE = FullScreenMode.Windowed;
 		public float RENDER_DISTANCE = 1000;
 		public List<string> activeOverlays = new List<string>();
+		public RefreshLessResolution gameplayResolution = new RefreshLessResolution(Screen.currentResolution);
+		public RefreshLessResolution replayResolution = new RefreshLessResolution(Screen.currentResolution);
 
 		// AA
 		public HDAdditionalCameraData.AntialiasingMode AA_MODE = HDAdditionalCameraData.AntialiasingMode.SubpixelMorphologicalAntiAliasing;

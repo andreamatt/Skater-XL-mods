@@ -68,6 +68,7 @@ namespace XLGraphics
 				new FullScreenHandler(),
 				new AntiAliasingHandler(),
 				new RenderDistanceHandler(),
+				new ResolutionHandler(),
 				new OverlaysHandler()
 			};
 

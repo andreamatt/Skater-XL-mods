@@ -88,6 +88,7 @@
     <Compile Include="Elements\EffectsUI\ToneMappingUI.cs" />
     <Compile Include="Elements\EffectsUI\VignetteUI.cs" />
     <Compile Include="Elements\EffectsUI\WhiteBalanceUI.cs" />
+    <Compile Include="Elements\SettingsUI\ResuolutionUI.cs" />
     <Compile Include="Elements\SettingsUI\AntiAliasingUI.cs" />
     <Compile Include="Elements\SettingsUI\FullScreenUI.cs" />
     <Compile Include="Elements\SettingsUI\OverlayImgName.cs" />
