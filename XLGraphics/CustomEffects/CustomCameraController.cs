@@ -1,3 +1,4 @@
+using Cinemachine;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,11 @@ namespace XLGraphics.CustomEffects
 		public void Start() {
 			old_pos = new Vector3();
 			old_rot = new Quaternion();
-			tra = new GameObject().transform;
+			tra = new GameObject("Transform for customcameracontroller").transform;
 			headIK = FindObjectOfType<HeadIK>();
 			actualCam = PlayerController.Instance.cameraController._actualCam;
 			cameraControllerTraverse = Traverse.Create(PlayerController.Instance.cameraController).Field<bool>("_right");
+			follow_auto_side_right = SettingsManager.Instance.SelectedStance == SkaterXL.Core.Stance.Regular;
 		}
 
 		private Camera _mainCamera;
@@ -39,6 +41,17 @@ namespace XLGraphics.CustomEffects
 				return _mainCamera;
 			}
 		}
+
+		private CinemachineVirtualCamera _replayCamera;
+		public CinemachineVirtualCamera replayCamera {
+			get {
+				if (_replayCamera == null) {
+					_replayCamera = ReplayEditor.ReplayEditorController.Instance.cameraController.VirtualCamera;
+				}
+				return _replayCamera;
+			}
+		}
+
 		private bool last_is_replay = false;
 		private Vector3 old_pos { get; set; }
 		private Quaternion old_rot { get; set; }
@@ -46,7 +59,7 @@ namespace XLGraphics.CustomEffects
 		private HeadIK headIK { get; set; }
 		private Transform actualCam { get; set; }
 		private Traverse<bool> cameraControllerTraverse { get; set; }
-		private bool follow_auto_side_right = SettingsManager.Instance.stance == SettingsManager.Stance.Regular;
+		private bool follow_auto_side_right;
 
 		public Transform replay_skater;
 		public Transform replay_skateboard;
@@ -191,8 +204,8 @@ namespace XLGraphics.CustomEffects
 			}
 			else if (XLGraphics.Instance.currentGameStateName == "ReplayState") {
 				// Normal camera values
-				mainCamera.nearClipPlane = 0.01f;
-				mainCamera.fieldOfView = override_fov ? override_fov_value : replay_fov;
+				replayCamera.m_Lens.NearClipPlane = 0.01f;
+				replayCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : replay_fov;
 				last_is_replay = true;
 			}
 		}
