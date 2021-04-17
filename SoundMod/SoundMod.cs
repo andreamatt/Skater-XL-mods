@@ -104,6 +104,10 @@ namespace SoundMod
 			deckSounds.GenerateInitialEvents();
 
 			Logger.Log("Sounds loaded");
+
+			Traverse.Create(SoundManager.Instance).Method("UpdateAudioClipDictionaries").GetValue();
+
+			Logger.Log("Sounds applied");
 		}
 
 		private void LoadSounds(ref AudioClip[] audioClips, string pattern) {

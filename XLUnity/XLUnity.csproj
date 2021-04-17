@@ -39,7 +39,6 @@
     <Reference Include="System.Xml.Serialization" />
     <Reference Include="UnityEditor">
       <HintPath>..\References\UnityEditor.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\References\UnityEngine.dll</HintPath>

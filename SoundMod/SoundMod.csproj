@@ -34,8 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\References\0Harmony.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\References\UnityModManager\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
@@ -81,8 +80,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityModManager">
-      <HintPath>..\References\UnityModManager.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\References\UnityModManager\UnityModManager.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

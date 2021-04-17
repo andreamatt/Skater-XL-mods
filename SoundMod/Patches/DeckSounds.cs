@@ -74,6 +74,7 @@ namespace SoundMod.Patches
 	{
 		static bool Prefix(ref SkaterXL.Core.SurfaceTags _surfaceTag, ref float rps)
 		{
+
 			LevelSoundManager lvlManager = GameObject.FindObjectOfType<LevelSoundManager>();  // Always grab the first component
 			if (!lvlManager) return true;  // Continue to original function, collection does not exist.
 
