@@ -108,6 +108,7 @@ namespace XLGraphics.Presets
 			// prepare the overrider volume
 			overriderVolume = VolumeUtils.Instance.CreateVolume(0);
 			overriderVolume.profile = ScriptableObject.CreateInstance<VolumeProfile>();
+			overriderVolume.name = "Overrider volume";
 			overriderVolume.transform.SetParent(volumesParent.transform);
 
 			SetPriorities();

@@ -33,6 +33,8 @@ namespace XLGraphics
 		private bool last_IsReplayActive = false;
 		public event Action OnReplayStateChange = () => { };
 
+		private bool initialized = false;
+
 		public void Awake() {
 			if (Instance != null) {
 				throw new Exception("Instance of XLGraphics not null on Awake");
@@ -41,6 +43,45 @@ namespace XLGraphics
 		}
 
 		public void Start() {
+		}
+
+		public void Update() {
+			if (!initialized) {
+				Initialize();
+				initialized = true;
+			}
+
+			Cursor.lockState = CursorLockMode.None;
+			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
+			if (keyUp) {
+				if (isOpen && !XLInputField.anyFocused) {
+					XLGraphicsMenu.Instance.main.SetActive(false);
+					PresetManager.Instance.SaveAllPresets();
+					Main.settings.Save();
+
+					Cursor.visible = false;
+				}
+				else {
+					XLGraphicsMenu.Instance.main.SetActive(true);
+				}
+				isOpen = !isOpen;
+			}
+
+			if (isOpen) {
+				Cursor.visible = true;
+			}
+
+			// if the map changed, needs to find/create new effects
+			var newGameStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
+			if (newGameStateName != currentGameStateName) {
+				currentGameStateName = newGameStateName;
+				//Main.Save(); WHY SAVING???
+				Main.Logger.Log("State: " + currentGameStateName);
+			}
+
+		}
+
+		private void Initialize() {
 			Main.Logger.Log("Start of XLGraphics");
 
 			// load settings
@@ -114,36 +155,6 @@ namespace XLGraphics
 			XLGraphicsMenu.Instance.main.SetActive(false);
 
 			Main.Logger.Log("End of XLGraphics");
-		}
-
-		public void Update() {
-			Cursor.lockState = CursorLockMode.None;
-			bool keyUp = Input.GetKeyUp(KeyCode.Backspace);
-			if (keyUp) {
-				if (isOpen && !XLInputField.anyFocused) {
-					XLGraphicsMenu.Instance.main.SetActive(false);
-					PresetManager.Instance.SaveAllPresets();
-					Main.settings.Save();
-
-					Cursor.visible = false;
-				}
-				else {
-					XLGraphicsMenu.Instance.main.SetActive(true);
-				}
-				isOpen = !isOpen;
-			}
-
-			if (isOpen) {
-				Cursor.visible = true;
-			}
-
-			// if the map changed, needs to find/create new effects
-			var newGameStateName = GameStateMachine.Instance.CurrentState.GetType().Name;
-			if (newGameStateName != currentGameStateName) {
-				currentGameStateName = newGameStateName;
-				//Main.Save(); WHY SAVING???
-				Main.Logger.Log("State: " + currentGameStateName);
-			}
 		}
 
 		public bool IsReplayActive() {
