@@ -11,7 +11,7 @@ namespace XLGraphics.SerializationData
 	public class CameraData
 	{
 		// Camera
-		public CameraMode CAMERA_MODE = CameraMode.Normal;
+		public XLCameraMode CAMERA_MODE = XLCameraMode.Normal;
 
 		public float REPLAY_FOV = 60;
 

@@ -21,7 +21,7 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 			CustomCameraController.Instance.cameraMode = mode;
 
 			cmUI.mode.onValueChanged.AddListener(new UnityAction<int>(v => {
-				CustomCameraController.Instance.cameraMode = Main.settings.cameraData.CAMERA_MODE = (CameraMode)v;
+				CustomCameraController.Instance.cameraMode = Main.settings.cameraData.CAMERA_MODE = (XLCameraMode)v;
 				SetRelativeTab(v, XLGraphics.Instance.IsReplayActive());
 			}));
 
@@ -54,7 +54,7 @@ namespace XLGraphics.EffectHandlers.CameraEffects
 		}
 	}
 
-	public enum CameraMode
+	public enum XLCameraMode
 	{   // in alphabetical order
 		Follow,
 		Normal,

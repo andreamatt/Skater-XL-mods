@@ -65,7 +65,7 @@ namespace XLGraphics.CustomEffects
 		public Transform replay_skater;
 		public Transform replay_skateboard;
 
-		public CameraMode cameraMode = CameraMode.Normal;
+		public XLCameraMode cameraMode = XLCameraMode.Normal;
 		public Vector3 follow_shift = new Vector3();
 		public Vector3 pov_shift = new Vector3();
 		private Vector3 low_shift = new Vector3(0.6f, -0.2f, -0.9f);
@@ -189,16 +189,16 @@ namespace XLGraphics.CustomEffects
 				last_is_replay = false;
 
 				switch (cameraMode) {
-					case CameraMode.Follow:
+					case XLCameraMode.Follow:
 						follow();
 						break;
-					case CameraMode.Normal:
+					case XLCameraMode.Normal:
 						normal();
 						break;
-					case CameraMode.POV:
+					case XLCameraMode.POV:
 						//pov(); doesn't work on fixedUpdate, probably because of animations
 						break;
-					case CameraMode.Skate:
+					case XLCameraMode.Skate:
 						skate_pov();
 						break;
 				}
@@ -214,7 +214,7 @@ namespace XLGraphics.CustomEffects
 		public void LateUpdate() {
 			var currentStateName = XLGraphics.Instance.currentGameStateName;
 			if (currentStateName == "PlayState") {
-				if (cameraMode == CameraMode.POV) {
+				if (cameraMode == XLCameraMode.POV) {
 					pov();
 				}
 

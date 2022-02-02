@@ -42,6 +42,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="BFSUtilities">
+      <HintPath>..\References\BFSUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="Cinemachine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Cinemachine.dll</HintPath>
