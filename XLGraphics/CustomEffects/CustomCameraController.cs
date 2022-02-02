@@ -32,13 +32,14 @@ namespace XLGraphics.CustomEffects
 			follow_auto_side_right = SettingsManager.Instance.SelectedStance == SkaterXL.Core.Stance.Regular;
 		}
 
-		private Camera _mainCamera;
-		public Camera mainCamera {
-			get {
-				if (_mainCamera == null) {
-					_mainCamera = Camera.main;
-				}
-				return _mainCamera;
+		private CinemachineVirtualCamera _mainCamera;
+		public CinemachineVirtualCamera mainCamera {
+			get
+            {
+                if (this._mainCamera == null) {
+                    this._mainCamera = PlayerController.Instance.cameraController._actualCam.GetComponent<CinemachineVirtualCamera>();
+                }
+                return this._mainCamera;
 			}
 		}
 
@@ -94,8 +95,8 @@ namespace XLGraphics.CustomEffects
 		public float skate_clip = 0.01f;
 
 		private void follow() {
-			mainCamera.nearClipPlane = follow_clip;
-			mainCamera.fieldOfView = override_fov ? override_fov_value : follow_fov;
+			mainCamera.m_Lens.NearClipPlane = follow_clip;
+			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : follow_fov;
 			var pos = PlayerController.Instance.skaterController.skaterTransform.position;
 			pos.y = (pos.y + PlayerController.Instance.boardController.boardTransform.position.y) / 2;
 			if (tra == null) {
@@ -149,8 +150,8 @@ namespace XLGraphics.CustomEffects
 		}
 
 		private void pov() {
-			mainCamera.nearClipPlane = pov_clip;
-			mainCamera.fieldOfView = override_fov ? override_fov_value : pov_fov;
+			mainCamera.m_Lens.NearClipPlane = pov_clip;
+			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : pov_fov;
 			actualCam.position = headIK.head.position;
 			actualCam.rotation = headIK.head.rotation * Quaternion.Euler(pov_rot_shift);
 			actualCam.position = actualCam.TransformPoint(pov_shift);
@@ -159,8 +160,8 @@ namespace XLGraphics.CustomEffects
 		}
 
 		private void skate_pov() {
-			mainCamera.nearClipPlane = skate_clip;
-			mainCamera.fieldOfView = override_fov ? override_fov_value : skate_fov;
+			mainCamera.m_Lens.NearClipPlane = skate_clip;
+			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : skate_fov;
 			actualCam.position = PlayerController.Instance.boardController.boardTransform.position;
 			actualCam.rotation = PlayerController.Instance.boardController.boardTransform.rotation;
 			actualCam.position = actualCam.TransformPoint(skate_shift);
@@ -169,8 +170,8 @@ namespace XLGraphics.CustomEffects
 		}
 
 		private void normal() {
-			mainCamera.nearClipPlane = normal_clip;
-			mainCamera.fieldOfView = override_fov ? override_fov_value : normal_fov;
+			mainCamera.m_Lens.NearClipPlane = normal_clip;
+			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : normal_fov;
 
 			if (actualCam != null) {
 				old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, normal_react);
