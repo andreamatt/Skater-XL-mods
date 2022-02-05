@@ -94,7 +94,7 @@ namespace XLGraphics
 			gameObject.AddComponent<CustomCameraController>();
 			gameObject.AddComponent<CustomDofController>();
 			gameObject.AddComponent<CustomLightController>();
-			gameObject.AddComponent<CustomPhysicalCameraController>();
+			//gameObject.AddComponent<CustomPhysicalCameraController>();
 
 			PresetManager.Instance.LoadPresets();
 
@@ -125,7 +125,7 @@ namespace XLGraphics
 				new LightHandler(),
 				new MotionBlurHandler(),
 				new PaniniProjectionHandler(),
-				new PhysicalCameraHandler(),
+				//new PhysicalCameraHandler(),
 				new ToneMappingHandler(),
 				new VignetteHandler(),
 				new WhiteBalanceHandler()

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using XLGraphics.CustomEffects;
 using XLGraphics.Utils;
 using XLGraphicsUI.Elements.SettingsUI;
 
@@ -15,13 +16,13 @@ namespace XLGraphics.EffectHandlers.SettingsEffects
 			var rdUI = RenderDistanceUI.Instance;
 
 			// init UI values
-			var camera = Camera.main;
-			camera.farClipPlane = Main.settings.settingsData.RENDER_DISTANCE;
+			var camera = CustomCameraController.Instance.mainCamera;
+			camera.m_Lens.FarClipPlane = Main.settings.settingsData.RENDER_DISTANCE;
 			rdUI.slider.OverrideValue(Main.settings.settingsData.RENDER_DISTANCE);
 
 			// add listeners
 			rdUI.slider.onValueChanged += value => {
-				camera.farClipPlane = Main.settings.settingsData.RENDER_DISTANCE = value;
+				camera.m_Lens.FarClipPlane = Main.settings.settingsData.RENDER_DISTANCE = value;
 			};
 		}
 	}
