@@ -17,24 +17,21 @@ namespace SoundMod
 			var soundTraverse = Traverse.Create(sound);
 
 			clipForName = soundTraverse.Field("clipForName").GetValue<Dictionary<string, AudioClip>>();
-			if (clipForName != null) {
-				Logger.Log("clipforname instance is not null");
-				Load();
-			}
+			if (clipForName != null) Load();
+			else Logger.Log("clipForName instance is null");
 		}
 
+		int loaded_sounds = 0;
 		private void Load() {
 			if (clipForName == null) {
-				Logger.Log("clipforname instance is null");
+				Logger.Log("clipForName instance is null");
 				return;
 			}
 
-			var deckSounds = SoundManager.Instance.deckSounds;
+			loaded_sounds = 0;
+			Logger.Log("Loading sounds...");
 
-			// disable low pass filters
-			SoundManager.Instance.deckSounds.mainListenerFilter.enabled = false;
-			SoundManager.Instance.deckSounds.wheelRollingLoopLowFilter.enabled = false;
-			SoundManager.Instance.deckSounds.wheelRollingLoopHighFilter.enabled = false;
+			var deckSounds = SoundManager.Instance.deckSounds;			
 
 			// get new rolling sounds
 			LoadSound(ref deckSounds.rollingSoundSlow, "rolling_sound_slow.wav");
@@ -103,11 +100,11 @@ namespace SoundMod
 			LoadSounds(ref deckSounds.rollingTarmacLoop, "rolling_tarmac_loop*.wav");
 			deckSounds.GenerateInitialEvents();
 
-			Logger.Log("Sounds loaded");
+			Logger.Log($"{loaded_sounds} sounds loaded");
 
 			Traverse.Create(SoundManager.Instance).Method("UpdateAudioClipDictionaries").GetValue();
 
-			Logger.Log("Sounds applied");
+			Logger.Log($"{loaded_sounds} sounds applied");
 		}
 
 		private void LoadSounds(ref AudioClip[] audioClips, string pattern) {
@@ -122,6 +119,7 @@ namespace SoundMod
 				clipForName[clip.name] = clip;
 
 				audioClipList.Add(clip);
+				loaded_sounds++;
 			}
 
 			if (audioClipList.Count > 0) {
@@ -145,6 +143,7 @@ namespace SoundMod
 				clipForName[clip.name] = clip;
 
 				audioClip = clip;
+				loaded_sounds++;
 			}
 			else {
 				Logger.Log("No " + name + " found");
