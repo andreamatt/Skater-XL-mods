@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
 using ReplayEditor;
-using SoundMod.Patches;
 using System.Text.RegularExpressions;
 
 namespace SoundMod
@@ -35,6 +34,11 @@ namespace SoundMod
 			}
 
 			var deckSounds = SoundManager.Instance.deckSounds;
+
+			// disable low pass filters
+			SoundManager.Instance.deckSounds.mainListenerFilter.enabled = false;
+			SoundManager.Instance.deckSounds.wheelRollingLoopLowFilter.enabled = false;
+			SoundManager.Instance.deckSounds.wheelRollingLoopHighFilter.enabled = false;
 
 			// get new rolling sounds
 			LoadSound(ref deckSounds.rollingSoundSlow, "rolling_sound_slow.wav");
@@ -116,17 +120,12 @@ namespace SoundMod
 
 			List<AudioClip> audioClipList = new List<AudioClip>();
 			foreach (var filePath in filePaths) {
-				//Logger.Log("Getting " + filePath);
 				var clip = GetClip(filePath);
 				clip.name = filePath;
-				//Logger.Log("got " + filePath);
 
 				clipForName[clip.name] = clip;
-				//clipForName.Add(clip.name, clip);
-				//Logger.Log("added " + filePath);
 
 				audioClipList.Add(clip);
-				//Logger.Log("added " + filePath);
 			}
 
 			if (audioClipList.Count > 0) {
@@ -146,11 +145,8 @@ namespace SoundMod
 			var path = $"{Main.modEntry.Path}/Sounds/{name}";
 			if (File.Exists(path)) {
 				var clip = GetClip(path);
-				//Logger.Log("got " + name + "clipname:" + clip.name);
 				clip.name = name;
 				clipForName[clip.name] = clip;
-				//clipForName.Add(clip.name, clip);
-				//Logger.Log("added " + name);
 
 				audioClip = clip;
 			}
@@ -161,7 +157,7 @@ namespace SoundMod
 
 		private AudioClip GetClip(string path) {
 			WWW audioLoader = new WWW(path);
-			while (!audioLoader.isDone) System.Threading.Thread.Sleep(10);
+			while (!audioLoader.isDone) System.Threading.Thread.Sleep(1);
 			return audioLoader.GetAudioClip();
 		}
 	}
