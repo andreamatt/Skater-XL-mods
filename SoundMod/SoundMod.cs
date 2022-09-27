@@ -1,12 +1,8 @@
 using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using UnityEngine;
-using UnityEngine.Networking;
 using System.Linq;
-using ReplayEditor;
 using System.Text.RegularExpressions;
 
 namespace SoundMod
