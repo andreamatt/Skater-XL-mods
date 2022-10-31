@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
+using UnityModManagerNet;
 
 namespace SoundMod
 {
@@ -28,10 +29,17 @@ namespace SoundMod
 				return;
 			}
 
+			if (!Directory.Exists($"{Main.modEntry.Path}/Sounds")) {
+				Directory.CreateDirectory($"{Main.modEntry.Path}/Sounds");
+				UnityModManager.Logger.Log($"Created folder {Main.modEntry.Path}/Sounds");
+			}
+
 			loaded_sounds = 0;
 			Logger.Log("Loading sounds...");
 
-			var deckSounds = SoundManager.Instance.deckSounds;			
+			var deckSounds = SoundManager.Instance.deckSounds;
+			var ragdollSounds = SoundManager.Instance.ragdollSounds;
+			var uiSounds = UISounds.Instance;
 
 			// get new rolling sounds
 			LoadSound(ref deckSounds.rollingSoundSlow, "rolling_sound_slow.wav");
@@ -98,6 +106,29 @@ namespace SoundMod
 			LoadSounds(ref deckSounds.rollingBrickLoop, "rolling_brick_loop*.wav");
 			LoadSounds(ref deckSounds.rollingWoodLoop, "rolling_wood_loop*.wav");
 			LoadSounds(ref deckSounds.rollingTarmacLoop, "rolling_tarmac_loop*.wav");
+
+			if (!Directory.Exists($"{Main.modEntry.Path}/Sounds/Ragdoll")) {
+				Directory.CreateDirectory($"{Main.modEntry.Path}/Sounds/Ragdoll");
+				UnityModManager.Logger.Log($"Created folder {Main.modEntry.Path}/Sounds/Ragdoll");
+			}
+			LoadSounds(ref ragdollSounds.ragdoll_body, "Ragdoll/ragdoll_body*.wav");
+			LoadSounds(ref ragdollSounds.ragdoll_legs_drag, "Ragdoll/ragdoll_legs_drag*.wav");
+			LoadSounds(ref ragdollSounds.ragdoll_legs_hit, "Ragdoll/ragdoll_legs_hit*.wav");
+			LoadSounds(ref ragdollSounds.ragdoll_metal, "Ragdoll/ragdoll_metal*.wav");
+			LoadSounds(ref ragdollSounds.ragdoll_arms, "Ragdoll/ragdoll_arms*.wav");
+
+			if (!Directory.Exists($"{Main.modEntry.Path}/Sounds/UI")) {
+				Directory.CreateDirectory($"{Main.modEntry.Path}/Sounds/UI");
+				UnityModManager.Logger.Log($"Created folder {Main.modEntry.Path}/Sounds/UI");
+			}
+			LoadSounds(ref uiSounds.ui_enter_menu, "UI/ui_enter_menu*.wav");
+			LoadSounds(ref uiSounds.ui_select_major, "UI/ui_select_major*.wav");
+			LoadSounds(ref uiSounds.ui_select_minor, "UI/ui_select_minor*.wav");
+			LoadSounds(ref uiSounds.ui_selection_change, "UI/ui_selection_change*.wav");
+			LoadSounds(ref uiSounds.ui_back_exit, "UI/ui_back_exit*.wav");
+			LoadSounds(ref uiSounds.MatchedTrickSounds, "UI/matched_trick_sound*.wav");
+			LoadSounds(ref uiSounds.FailedTrickSounds, "UI/failed_trick_sound*.wav");
+
 			deckSounds.GenerateInitialEvents();
 
 			Logger.Log($"{loaded_sounds} sounds loaded");
