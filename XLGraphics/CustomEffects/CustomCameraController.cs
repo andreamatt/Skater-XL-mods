@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityModManagerNet;
 using XLGraphics.EffectHandlers.CameraEffects;
 using XLGraphics.Presets;
 
@@ -28,7 +29,6 @@ namespace XLGraphics.CustomEffects
 			tra = new GameObject("Transform for customcameracontroller").transform;
 			head = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.Head;
 			actualCam = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.cameraController.actualCamera;
-			cameraControllerTraverse = Traverse.Create(PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.cameraController).Field<bool>("_right");
 			follow_auto_side_right = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.settings.stance == SkaterXL.Core.Stance.Regular;			
 		}
 
@@ -59,7 +59,6 @@ namespace XLGraphics.CustomEffects
 		private Transform tra { get; set; }
 		private Transform head { get; set; }
 		private Transform actualCam { get; set; }
-		private Traverse<bool> cameraControllerTraverse { get; set; }
 		private bool follow_auto_side_right;
 
 		public Transform replay_skater;
@@ -105,7 +104,6 @@ namespace XLGraphics.CustomEffects
 			}
 			tra.position = pos;
 			tra.rotation = actualCam.rotation;
-			follow_shift.x = Math.Abs(follow_shift.x);
 			Vector3 true_shift = follow_shift;
 
 			if (follow_auto_switch) {
@@ -133,7 +131,7 @@ namespace XLGraphics.CustomEffects
 				}
 			}
 			else {
-				if (!cameraControllerTraverse.Value) {
+				if (!PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.playerData.camera.Right) {
 					true_shift.x *= -1;
 				}
 			}
