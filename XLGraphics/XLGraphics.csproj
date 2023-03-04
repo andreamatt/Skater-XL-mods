@@ -60,6 +60,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\SkaterXL.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SkaterXL.Gameplay">
+      <HintPath>..\References\SkaterXL.Gameplay.dll</HintPath>
+    </Reference>
+    <Reference Include="SkaterXL.Replay">
+      <HintPath>..\References\SkaterXL.Replay.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

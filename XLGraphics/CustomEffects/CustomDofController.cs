@@ -52,8 +52,8 @@ namespace XLGraphics.CustomEffects
 				skate_pos = replay_skateboard.position;
 			}
 			else {
-				player_pos = PlayerController.Instance.skaterController.skaterTransform.position;
-				skate_pos = PlayerController.Instance.boardController.boardTransform.position;
+				player_pos = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.skaterRoot.position;
+				skate_pos = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position;
 			}
 
 			if (dof == null) {

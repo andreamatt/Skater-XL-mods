@@ -37,7 +37,7 @@ namespace XLGraphics.Patches
 		static bool Prefix(ReplayCameraController __instance) {
 			// update the value only if the slider is enabled
 			if (!CustomCameraController.Instance.override_fov) {
-				float num = -PlayerController.Instance.inputController.player.GetAxis(20);
+				float num = -PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis(20);
 				if ((double)Mathf.Abs(num) > 0.01) {
 					CinemachineVirtualCamera virtualCamera = __instance.VirtualCamera;
 					var new_fov = CustomCameraController.Instance.replay_fov + num * __instance.FOVChangeSpeed * Time.unscaledDeltaTime;
