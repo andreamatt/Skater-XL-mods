@@ -26,10 +26,10 @@ namespace XLGraphics.CustomEffects
 			old_pos = new Vector3();
 			old_rot = new Quaternion();
 			tra = new GameObject("Transform for customcameracontroller").transform;
-			headIK = FindObjectOfType<HeadIK>();
-			actualCam = PlayerController.Instance.cameraController._actualCam;
-			cameraControllerTraverse = Traverse.Create(PlayerController.Instance.cameraController).Field<bool>("_right");
-			follow_auto_side_right = SettingsManager.Instance.SelectedStance == SkaterXL.Core.Stance.Regular;
+			head = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.Head;
+			actualCam = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.cameraController.actualCamera;
+			cameraControllerTraverse = Traverse.Create(PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.cameraController).Field<bool>("_right");
+			follow_auto_side_right = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.settings.stance == SkaterXL.Core.Stance.Regular;			
 		}
 
 		private CinemachineVirtualCamera _mainCamera;
@@ -37,7 +37,7 @@ namespace XLGraphics.CustomEffects
 			get
             {
                 if (this._mainCamera == null) {
-                    this._mainCamera = PlayerController.Instance.cameraController._actualCam.GetComponent<CinemachineVirtualCamera>();
+                    this._mainCamera =PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.cameraController.actualCamera.GetComponent<CinemachineVirtualCamera>();
                 }
                 return this._mainCamera;
 			}
@@ -57,7 +57,7 @@ namespace XLGraphics.CustomEffects
 		private Vector3 old_pos { get; set; }
 		private Quaternion old_rot { get; set; }
 		private Transform tra { get; set; }
-		private HeadIK headIK { get; set; }
+		private Transform head { get; set; }
 		private Transform actualCam { get; set; }
 		private Traverse<bool> cameraControllerTraverse { get; set; }
 		private bool follow_auto_side_right;
@@ -97,8 +97,8 @@ namespace XLGraphics.CustomEffects
 		private void follow() {
 			mainCamera.m_Lens.NearClipPlane = follow_clip;
 			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : follow_fov;
-			var pos = PlayerController.Instance.skaterController.skaterTransform.position;
-			pos.y = (pos.y + PlayerController.Instance.boardController.boardTransform.position.y) / 2;
+			var pos = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.skaterRoot.position;
+			pos.y = (pos.y + PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position.y) / 2;
 			if (tra == null) {
 				Main.Logger.Log("Null transform in follow");
 				tra = new GameObject().transform;
@@ -109,21 +109,21 @@ namespace XLGraphics.CustomEffects
 			Vector3 true_shift = follow_shift;
 
 			if (follow_auto_switch) {
-				if (PlayerController.Instance.IsSwitch) {
-					if (PlayerController.Instance.inputController.player.GetAxis("DPadX") < 0f) {
+				if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.playerData.IsSwitch) {
+					if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") < 0f) {
 						follow_auto_side_right = true;
 					}
-					else if (PlayerController.Instance.inputController.player.GetAxis("DPadX") > 0f) {
+					else if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") > 0f) {
 						follow_auto_side_right = false;
 					}
 					// change side if in switch
 					true_shift.x *= -1;
 				}
 				else {
-					if (PlayerController.Instance.inputController.player.GetAxis("DPadX") < 0f) {
+					if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") < 0f) {
 						follow_auto_side_right = false;
 					}
-					else if (PlayerController.Instance.inputController.player.GetAxis("DPadX") > 0f) {
+					else if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") > 0f) {
 						follow_auto_side_right = true;
 					}
 				}
@@ -143,7 +143,7 @@ namespace XLGraphics.CustomEffects
 
 			// if too low, high up a bit
 			pos = tra.position;
-			pos.y = Mathf.Max(tra.position.y, PlayerController.Instance.boardController.boardTransform.position.y + 0.2f);
+			pos.y = Mathf.Max(tra.position.y, PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position.y + 0.2f);
 
 			old_pos = actualCam.position = Vector3.Lerp(old_pos, pos, follow_react);
 			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, follow_react_rot);
@@ -152,8 +152,8 @@ namespace XLGraphics.CustomEffects
 		private void pov() {
 			mainCamera.m_Lens.NearClipPlane = pov_clip;
 			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : pov_fov;
-			actualCam.position = headIK.head.position;
-			actualCam.rotation = headIK.head.rotation * Quaternion.Euler(pov_rot_shift);
+			actualCam.position = head.position;
+			actualCam.rotation = head.rotation * Quaternion.Euler(pov_rot_shift);
 			actualCam.position = actualCam.TransformPoint(pov_shift);
 			old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, pov_react);
 			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, pov_react_rot);
@@ -162,8 +162,8 @@ namespace XLGraphics.CustomEffects
 		private void skate_pov() {
 			mainCamera.m_Lens.NearClipPlane = skate_clip;
 			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : skate_fov;
-			actualCam.position = PlayerController.Instance.boardController.boardTransform.position;
-			actualCam.rotation = PlayerController.Instance.boardController.boardTransform.rotation;
+			actualCam.position = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position;
+			actualCam.rotation = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.rotation;
 			actualCam.position = actualCam.TransformPoint(skate_shift);
 			old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, skate_react);
 			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, skate_react_rot);
