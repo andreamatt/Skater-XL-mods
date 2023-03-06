@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityModManagerNet;
 using XLGraphics.EffectHandlers.CameraEffects;
 using XLGraphics.Presets;
+using GameManagement;
 
 namespace XLGraphics.CustomEffects
 {
@@ -27,9 +28,9 @@ namespace XLGraphics.CustomEffects
 			old_pos = new Vector3();
 			old_rot = new Quaternion();
 			tra = new GameObject("Transform for customcameracontroller").transform;
-			head = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.Head;
-			actualCam = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.cameraController.actualCamera;
-			follow_auto_side_right = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.settings.stance == SkaterXL.Core.Stance.Regular;			
+			head = GameStateMachine.Instance.MainPlayer.gameplay.transformReference.Head;
+			actualCam = GameStateMachine.Instance.MainPlayer.gameplay.cameraController.actualCamera;
+			follow_auto_side_right = GameStateMachine.Instance.MainPlayer.gameplay.settings.stance == SkaterXL.Core.Stance.Regular;			
 		}
 
 		private CinemachineVirtualCamera _mainCamera;
@@ -37,7 +38,7 @@ namespace XLGraphics.CustomEffects
 			get
             {
                 if (this._mainCamera == null) {
-                    this._mainCamera =PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.cameraController.actualCamera.GetComponent<CinemachineVirtualCamera>();
+                    this._mainCamera = GameStateMachine.Instance.MainPlayer.gameplay.cameraController.actualCamera.GetComponent<CinemachineVirtualCamera>();
                 }
                 return this._mainCamera;
 			}
@@ -96,8 +97,8 @@ namespace XLGraphics.CustomEffects
 		private void follow() {
 			mainCamera.m_Lens.NearClipPlane = follow_clip;
 			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : follow_fov;
-			var pos = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.skaterRoot.position;
-			pos.y = (pos.y + PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position.y) / 2;
+			var pos = GameStateMachine.Instance.MainPlayer.gameplay.transformReference.skaterRoot.position;
+			pos.y = (pos.y + GameStateMachine.Instance.MainPlayer.gameplay.transformReference.boardTransform.position.y) / 2;
 			if (tra == null) {
 				Main.Logger.Log("Null transform in follow");
 				tra = new GameObject().transform;
@@ -107,21 +108,21 @@ namespace XLGraphics.CustomEffects
 			Vector3 true_shift = follow_shift;
 
 			if (follow_auto_switch) {
-				if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.playerData.IsSwitch) {
-					if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") < 0f) {
+				if (GameStateMachine.Instance.MainPlayer.gameplay.playerData.IsSwitch) {
+					if (GameStateMachine.Instance.MainPlayer.gameplay.inputController.rewiredPlayer.GetAxis("DPadX") < 0f) {
 						follow_auto_side_right = true;
 					}
-					else if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") > 0f) {
+					else if (GameStateMachine.Instance.MainPlayer.gameplay.inputController.rewiredPlayer.GetAxis("DPadX") > 0f) {
 						follow_auto_side_right = false;
 					}
 					// change side if in switch
 					true_shift.x *= -1;
 				}
 				else {
-					if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") < 0f) {
+					if (GameStateMachine.Instance.MainPlayer.gameplay.inputController.rewiredPlayer.GetAxis("DPadX") < 0f) {
 						follow_auto_side_right = false;
 					}
-					else if (PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.inputController.rewiredPlayer.GetAxis("DPadX") > 0f) {
+					else if (GameStateMachine.Instance.MainPlayer.gameplay.inputController.rewiredPlayer.GetAxis("DPadX") > 0f) {
 						follow_auto_side_right = true;
 					}
 				}
@@ -131,7 +132,7 @@ namespace XLGraphics.CustomEffects
 				}
 			}
 			else {
-				if (!PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.playerData.camera.Right) {
+				if (!GameStateMachine.Instance.MainPlayer.gameplay.playerData.camera.Right) {
 					true_shift.x *= -1;
 				}
 			}
@@ -141,7 +142,7 @@ namespace XLGraphics.CustomEffects
 
 			// if too low, high up a bit
 			pos = tra.position;
-			pos.y = Mathf.Max(tra.position.y, PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position.y + 0.2f);
+			pos.y = Mathf.Max(tra.position.y, GameStateMachine.Instance.MainPlayer.gameplay.transformReference.boardTransform.position.y + 0.2f);
 
 			old_pos = actualCam.position = Vector3.Lerp(old_pos, pos, follow_react);
 			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, follow_react_rot);
@@ -160,8 +161,8 @@ namespace XLGraphics.CustomEffects
 		private void skate_pov() {
 			mainCamera.m_Lens.NearClipPlane = skate_clip;
 			mainCamera.m_Lens.FieldOfView = override_fov ? override_fov_value : skate_fov;
-			actualCam.position = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position;
-			actualCam.rotation = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.rotation;
+			actualCam.position = GameStateMachine.Instance.MainPlayer.gameplay.transformReference.boardTransform.position;
+			actualCam.rotation = GameStateMachine.Instance.MainPlayer.gameplay.transformReference.boardTransform.rotation;
 			actualCam.position = actualCam.TransformPoint(skate_shift);
 			old_pos = actualCam.position = Vector3.Lerp(old_pos, actualCam.position, skate_react);
 			old_rot = actualCam.rotation = Quaternion.Lerp(old_rot, actualCam.rotation, skate_react_rot);
