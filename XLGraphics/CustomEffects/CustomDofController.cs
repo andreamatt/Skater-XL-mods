@@ -1,3 +1,4 @@
+using GameManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,8 +53,8 @@ namespace XLGraphics.CustomEffects
 				skate_pos = replay_skateboard.position;
 			}
 			else {
-				player_pos = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.skaterRoot.position;
-				skate_pos = PlayerController.Instances[PlayerController.Instances.Count - 1].gameplay.transformReference.boardTransform.position;
+				player_pos = GameStateMachine.Instance.MainPlayer.gameplay.transformReference.skaterRoot.position;
+				skate_pos = GameStateMachine.Instance.MainPlayer.gameplay.transformReference.boardTransform.position;
 			}
 
 			if (dof == null) {
