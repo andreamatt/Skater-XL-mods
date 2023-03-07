@@ -4,50 +4,58 @@ using System.Reflection;
 using UnityEngine;
 using UnityModManagerNet;
 
-namespace SoundMod
+namespace XLSoundMod
 {
-	static class Main
+	public class Main
 	{
-		public static bool enabled;
-		public static Settings settings;
-		public static Harmony harmony;
-		public static SoundMod soundMod;
-		public static string modId = "SoundMod";
+		public static Settings Settings;
 		public static UnityModManager.ModEntry modEntry;
 
-		static bool Load(UnityModManager.ModEntry modEntry) {
+		private static GameObject XLSoundModGO;
+		public static SoundMod SoundMod;
 
+		public static bool enabled;
+
+		private static bool Load(UnityModManager.ModEntry modEntry)
+		{
+			Settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
+			modEntry.OnSaveGUI = new Action<UnityModManager.ModEntry>(OnSaveGUI);
+			modEntry.OnToggle = new Func<UnityModManager.ModEntry, bool, bool>(OnToggle);
 			Main.modEntry = modEntry;
-			settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
-			modEntry.OnToggle = OnToggle;
 			return true;
 		}
 
-		static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
-			Main.modEntry = modEntry;
-			if (enabled == value) return true;
+		private static void OnSaveGUI(UnityModManager.ModEntry modEntry)
+		{
+			Settings.Save(modEntry);
+		}
+
+		private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
+		{
+			if (value == enabled)
+			{
+				return true;
+			}
+
 			enabled = value;
 
-			if (enabled) {
-				// disable if xlshredmenu is detected
-				var mod = UnityModManager.FindMod("blendermf.XLShredMenu");
-				if (mod != null) {
-					modEntry.CustomRequirements = $"Mod {mod.Info.DisplayName} incompatible";
-					enabled = false;
-					return false;
-				}
+			if (enabled)
+			{
+				XLSoundModGO = new GameObject("XLSoundMod");
+				SoundMod = XLSoundModGO.AddComponent<SoundMod>();
 
-				harmony = new Harmony(modEntry.Info.Id);
-				harmony.PatchAll(Assembly.GetExecutingAssembly());
-				soundMod = new GameObject().AddComponent<SoundMod>();
-				GameObject.DontDestroyOnLoad(soundMod.gameObject);
+				UnityEngine.Object.DontDestroyOnLoad(XLSoundModGO);
 			}
-			else {
-				harmony.UnpatchAll(harmony.Id);
-				GameObject.Destroy(soundMod.gameObject);
-				soundMod = null;
+			else
+			{
+				UnityEngine.Object.Destroy(XLSoundModGO);
 			}
 			return true;
+		}
+
+		public static void Log(object message)
+		{
+			UnityModManager.Logger.Log(message.ToString());
 		}
 	}
 }
