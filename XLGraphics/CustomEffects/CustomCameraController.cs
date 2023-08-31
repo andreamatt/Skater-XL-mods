@@ -178,6 +178,12 @@ namespace XLGraphics.CustomEffects
 			}
 		}
 
+		void ApplyPlayerData() {
+			GameStateMachine.Instance.MainPlayer.gameplay.playerData.camera.ActualCamLocalPosition = actualCam.localPosition;
+			GameStateMachine.Instance.MainPlayer.gameplay.playerData.camera.ActualCamLocalRotation = actualCam.localRotation;
+			GameStateMachine.Instance.MainPlayer.gameplay.cameraController.ApplyData(GameStateMachine.Instance.MainPlayer.gameplay.playerData, true);
+		}
+
 		public void FixedUpdate() {
 			if (XLGraphics.Instance.currentGameStateName == "PlayState") {
 				if (last_is_replay == true) {
@@ -201,6 +207,8 @@ namespace XLGraphics.CustomEffects
 						skate_pov();
 						break;
 				}
+
+				ApplyPlayerData();
 			}
 			else if (XLGraphics.Instance.currentGameStateName == "ReplayState") {
 				// Normal camera values
