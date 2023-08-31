@@ -1,3 +1,4 @@
+using GameManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.HighDefinition;
+using UnityModManagerNet;
 using XLGraphics.Utils;
 using XLGraphicsUI.Elements.SettingsUI;
 
@@ -16,7 +18,7 @@ namespace XLGraphics.EffectHandlers.SettingsEffects
 		private HDAdditionalCameraData cameraData;
 
 		public override void ConnectUI() {
-			cameraData = Camera.main.GetComponent<HDAdditionalCameraData>();
+			cameraData = GameStateMachine.Instance.MainPlayer.gameplay.transform.parent.parent.Find("Main Camera").GetComponent<HDAdditionalCameraData>();
 
 			var aaUI = AntiAliasingUI.Instance;
 
